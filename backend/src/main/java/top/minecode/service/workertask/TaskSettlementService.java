@@ -280,8 +280,6 @@ public class TaskSettlementService {
         requesterInfoDao.updateAccount(requesterEmail, taskPO.getTotalDollars()
                 - taskPO.getActualDollars(), RequesterAccountLogPO.ChangeType.PAY_BACK);
 
-
-        // test
         taskPO.setTaskState(TaskState.FINISHED);
 
         // 保存在上述过程中发生了变更的po
