@@ -1,0 +1,17 @@
+# 忽略.idea目录
+.idea/
+
+
+# 忽略out下文件
+out/
+
+# 忽略target下文件
+target/
+
+#忽略lib信息
+.idea/libraries/
+
+# 忽略所有字节码
+*.class
+
+*.iml
