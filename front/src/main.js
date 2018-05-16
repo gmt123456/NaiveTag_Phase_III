@@ -5,7 +5,11 @@ import App from './App'
 import router from './router'
 import 'element-ui/lib/theme-chalk/index.css';
 import ElementUI from 'element-ui';
+import echarts from 'echarts';
+import WorkerMain from './components/worker/workerMain.vue'
+import WorkerHome from './components/worker/workerHome.vue'
 
+Vue.prototype.$echarts = echarts;
 Vue.use(ElementUI);
 Vue.config.productionTip = false
 
@@ -13,6 +17,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
-  components: { App },
-  template: '<App/>'
+  render: h => h(WorkerMain)
+  // components: { App },
+  // template: '<App/>'
 })
