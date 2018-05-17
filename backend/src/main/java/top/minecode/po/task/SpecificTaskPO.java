@@ -1,7 +1,10 @@
 package top.minecode.po.task;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import top.minecode.domain.task.TaskType;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
@@ -11,18 +14,25 @@ import java.util.List;
  *
  * @author iznauy
  */
+@Entity
 public class SpecificTaskPO implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     private TaskType taskType;
 
     private String taskDescription;
 
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = String.class)
+    @Fetch(FetchMode.SUBSELECT)
     private List<String> labels;
 
     private double dollars;
 
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = Integer.class)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Integer> subTasks;
 
     public int getId() {
@@ -71,5 +81,17 @@ public class SpecificTaskPO implements Serializable {
 
     public void setSubTasks(List<Integer> subTasks) {
         this.subTasks = subTasks;
+    }
+
+    @Override
+    public String toString() {
+        return "SpecificTaskPO{" +
+                "id=" + id +
+                ", taskType=" + taskType +
+                ", taskDescription='" + taskDescription + '\'' +
+                ", labels=" + labels.size() +
+                ", dollars=" + dollars +
+                ", subTasks=" + subTasks.size() +
+                '}';
     }
 }

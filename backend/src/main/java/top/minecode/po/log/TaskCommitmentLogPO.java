@@ -1,12 +1,10 @@
 package top.minecode.po.log;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * Created on 2018/5/17.
@@ -27,7 +25,8 @@ public class TaskCommitmentLogPO implements Serializable{
 
     private int subTaskId;
 
-    private LocalDateTime commitTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date commitTime;
 
     public int getId() {
         return id;
@@ -61,11 +60,11 @@ public class TaskCommitmentLogPO implements Serializable{
         this.subTaskId = subTaskId;
     }
 
-    public LocalDateTime getCommitTime() {
+    public Date getCommitTime() {
         return commitTime;
     }
 
-    public void setCommitTime(LocalDateTime commitTime) {
+    public void setCommitTime(Date commitTime) {
         this.commitTime = commitTime;
     }
 }

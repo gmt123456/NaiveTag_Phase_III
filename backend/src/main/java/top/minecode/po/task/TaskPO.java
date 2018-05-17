@@ -1,5 +1,7 @@
 package top.minecode.po.task;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import top.minecode.domain.task.TaskState;
 import top.minecode.domain.task.TaskTag;
 import top.minecode.domain.task.TaskType;
@@ -7,8 +9,7 @@ import top.minecode.domain.user.worker.Division;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -40,18 +41,20 @@ public class TaskPO implements Serializable {
 
     private double adRate;
 
-    private LocalDate beginDate;
+    private Date beginDate;
 
-    private LocalDate endDate;
+    private Date endDate;
 
-    private LocalDateTime settleTime;
+    private Date settleTime;
 
     private TaskState taskState;
 
     @ElementCollection(fetch = FetchType.EAGER, targetClass = TaskTag.class)
+    @Fetch(FetchMode.SUBSELECT)
     private List<TaskTag> taskTags;
 
     @ElementCollection(fetch = FetchType.EAGER, targetClass = Integer.class)
+    @Fetch(FetchMode.SUBSELECT)
     private Map<TaskType, Integer> specificTasks;
 
     private String resultFilePath; // nullable
@@ -59,6 +62,7 @@ public class TaskPO implements Serializable {
     private int picNum;
 
     @ElementCollection(fetch = FetchType.EAGER, targetClass = Integer.class)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Integer> participators;
 
     public int getId() {
@@ -133,27 +137,27 @@ public class TaskPO implements Serializable {
         this.adRate = adRate;
     }
 
-    public LocalDate getBeginDate() {
+    public Date getBeginDate() {
         return beginDate;
     }
 
-    public void setBeginDate(LocalDate beginDate) {
+    public void setBeginDate(Date beginDate) {
         this.beginDate = beginDate;
     }
 
-    public LocalDate getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
-    public LocalDateTime getSettleTime() {
+    public Date getSettleTime() {
         return settleTime;
     }
 
-    public void setSettleTime(LocalDateTime settleTime) {
+    public void setSettleTime(Date settleTime) {
         this.settleTime = settleTime;
     }
 

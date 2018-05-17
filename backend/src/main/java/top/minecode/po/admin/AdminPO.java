@@ -1,14 +1,21 @@
 package top.minecode.po.admin;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import top.minecode.dao.utils.HibernateUtils;
+import top.minecode.domain.task.TaskType;
+import top.minecode.domain.user.UserType;
 import top.minecode.domain.user.admin.AdminAuthority;
+import top.minecode.po.log.LoginLogPO;
+import top.minecode.po.task.SpecificTaskPO;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.*;
 
 /**
  * Created on 2018/5/16.
@@ -61,17 +68,38 @@ public class AdminPO implements Serializable {
     }
 
     public static void main(String[] args) {
-        AdminPO adminPO = new AdminPO("iznauy", "iznauy", AdminAuthority.GENERAL);
+//        SpecificTaskPO task = new SpecificTaskPO();
+//        task.setTaskType(TaskType.t_100);
+//        task.setTaskDescription("23333");
+//        task.setDollars(666);
+//        List<String> labels = new ArrayList<>();
+//        labels.add("OK");
+//        labels.add("Mi Fans");
+//        task.setLabels(labels);
+//        List<Integer> subTasks = new ArrayList<>();
+//        subTasks.add(3);
+//        subTasks.add(2);
+//        task.setSubTasks(subTasks);
+//        Session session = HibernateUtils.getCurrentSession();
+//        try {
+//            session.getTransaction().begin();
+//            session.persist(task);
+//            session.flush();
+//            session.getTransaction().commit();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            HibernateUtils.closeSession();
+//        }
+//        session = HibernateUtils.getCurrentSession();
         Session session = HibernateUtils.getCurrentSession();
         try {
             session.getTransaction().begin();
-            session.persist(adminPO);
-            session.flush();
-            session.getTransaction().commit();
+            Query query = session.createQuery("from " + SpecificTaskPO.class.getName());
+            List<SpecificTaskPO> list = query.list();
+            System.out.println(list.get(0));
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            HibernateUtils.closeSession();
         }
     }
 
