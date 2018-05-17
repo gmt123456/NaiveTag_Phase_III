@@ -17,6 +17,8 @@
         <property name="hibernate.id.new_generator_mappings">false</property>
         <property name="hbm2ddl.auto">update</property>
 
+        <mapping class="top.minecode.po.admin.AdminPO" />
+
     </session-factory>
 
 

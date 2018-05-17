@@ -1,5 +1,9 @@
 package top.minecode.po.log;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -9,8 +13,11 @@ import java.time.LocalDate;
  *
  * @author iznauy
  */
+@Entity
 public class TaskAccomplishmentLogPO implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     private int taskId;

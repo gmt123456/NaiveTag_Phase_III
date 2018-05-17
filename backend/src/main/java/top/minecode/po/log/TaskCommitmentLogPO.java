@@ -1,22 +1,21 @@
 package top.minecode.po.log;
 
-import top.minecode.domain.user.UserType;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
- * Created on 2018/5/16.
+ * Created on 2018/5/17.
  * Description:
  *
  * @author iznauy
  */
 @Entity
-public class LoginLogPO implements Serializable {
+public class TaskCommitmentLogPO implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,9 +23,11 @@ public class LoginLogPO implements Serializable {
 
     private String userEmail;
 
-    private LocalDateTime time;
+    private int taskId;
 
-    private UserType userType;
+    private int subTaskId;
+
+    private LocalDateTime commitTime;
 
     public int getId() {
         return id;
@@ -44,19 +45,27 @@ public class LoginLogPO implements Serializable {
         this.userEmail = userEmail;
     }
 
-    public LocalDateTime getTime() {
-        return time;
+    public int getTaskId() {
+        return taskId;
     }
 
-    public void setTime(LocalDateTime time) {
-        this.time = time;
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
     }
 
-    public UserType getUserType() {
-        return userType;
+    public int getSubTaskId() {
+        return subTaskId;
     }
 
-    public void setUserType(UserType userType) {
-        this.userType = userType;
+    public void setSubTaskId(int subTaskId) {
+        this.subTaskId = subTaskId;
+    }
+
+    public LocalDateTime getCommitTime() {
+        return commitTime;
+    }
+
+    public void setCommitTime(LocalDateTime commitTime) {
+        this.commitTime = commitTime;
     }
 }

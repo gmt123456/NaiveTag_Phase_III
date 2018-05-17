@@ -1,5 +1,7 @@
 package top.minecode.po.requester;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -9,8 +11,10 @@ import java.time.LocalDateTime;
  *
  * @author iznauy
  */
+@Entity
 public class RequesterPO implements Serializable {
 
+    @Id
     private String email;
 
     private String name;

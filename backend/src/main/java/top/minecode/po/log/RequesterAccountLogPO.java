@@ -1,5 +1,6 @@
 package top.minecode.po.log;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -9,8 +10,11 @@ import java.time.LocalDateTime;
  *
  * @author iznauy
  */
+@Entity
 public class RequesterAccountLogPO implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     private String userEmail;
@@ -21,6 +25,7 @@ public class RequesterAccountLogPO implements Serializable {
 
     private LocalDateTime time;
 
+    @Enumerated(EnumType.STRING)
     private RequesterAccountChangeType type;
 
     public RequesterAccountChangeType getType() {

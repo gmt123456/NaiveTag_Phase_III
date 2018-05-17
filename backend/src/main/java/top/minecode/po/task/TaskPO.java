@@ -5,6 +5,7 @@ import top.minecode.domain.task.TaskTag;
 import top.minecode.domain.task.TaskType;
 import top.minecode.domain.user.worker.Division;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,8 +18,10 @@ import java.util.Map;
  *
  * @author iznauy
  */
+@Entity
 public class TaskPO implements Serializable {
 
+    @Id
     private int id;
 
     private String taskName;
@@ -45,14 +48,17 @@ public class TaskPO implements Serializable {
 
     private TaskState taskState;
 
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = TaskTag.class)
     private List<TaskTag> taskTags;
 
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = Integer.class)
     private Map<TaskType, Integer> specificTasks;
 
     private String resultFilePath; // nullable
 
     private int picNum;
 
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = Integer.class)
     private List<Integer> participators;
 
     public int getId() {

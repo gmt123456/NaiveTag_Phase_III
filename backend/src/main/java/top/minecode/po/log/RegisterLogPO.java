@@ -2,6 +2,7 @@ package top.minecode.po.log;
 
 import top.minecode.domain.user.UserType;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -11,14 +12,18 @@ import java.time.LocalDate;
  *
  * @author iznauy
  */
+@Entity
 public class RegisterLogPO implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     private String userEmail;
 
     private LocalDate registerDate;
 
+    @Enumerated(EnumType.STRING)
     private UserType userType;
 
     public int getId() {
