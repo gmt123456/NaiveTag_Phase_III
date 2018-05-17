@@ -67,40 +67,4 @@ public class AdminPO implements Serializable {
         this.authority = authority;
     }
 
-    public static void main(String[] args) {
-//        SpecificTaskPO task = new SpecificTaskPO();
-//        task.setTaskType(TaskType.t_100);
-//        task.setTaskDescription("23333");
-//        task.setDollars(666);
-//        List<String> labels = new ArrayList<>();
-//        labels.add("OK");
-//        labels.add("Mi Fans");
-//        task.setLabels(labels);
-//        List<Integer> subTasks = new ArrayList<>();
-//        subTasks.add(3);
-//        subTasks.add(2);
-//        task.setSubTasks(subTasks);
-//        Session session = HibernateUtils.getCurrentSession();
-//        try {
-//            session.getTransaction().begin();
-//            session.persist(task);
-//            session.flush();
-//            session.getTransaction().commit();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            HibernateUtils.closeSession();
-//        }
-//        session = HibernateUtils.getCurrentSession();
-        Session session = HibernateUtils.getCurrentSession();
-        try {
-            session.getTransaction().begin();
-            Query query = session.createQuery("from " + SpecificTaskPO.class.getName());
-            List<SpecificTaskPO> list = query.list();
-            System.out.println(list.get(0));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 }

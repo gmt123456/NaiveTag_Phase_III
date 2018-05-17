@@ -41,12 +41,16 @@ public class TaskPO implements Serializable {
 
     private double adRate;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date beginDate;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date settleTime;
 
+    @Enumerated(EnumType.STRING)
     private TaskState taskState;
 
     @ElementCollection(fetch = FetchType.EAGER, targetClass = TaskTag.class)

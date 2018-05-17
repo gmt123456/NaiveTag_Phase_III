@@ -1,5 +1,9 @@
 package top.minecode.po.worker;
 
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.List;
 
@@ -9,14 +13,17 @@ import java.util.List;
  *
  * @author iznauy
  */
+@Entity
 public class OnGoingTaskParticipationPO implements Serializable{
 
+    @Id
     private int id;
 
     private String userEmail;
 
     private int taskId;
 
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = Integer.class)
     private List<Integer> participatedSubTaskResultIds; // 参加的下属任务
 
     public int getId() {

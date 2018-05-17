@@ -1,7 +1,11 @@
 package top.minecode.po.worker;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -10,8 +14,11 @@ import java.util.List;
  *
  * @author iznauy
  */
+@Entity
 public class WorkerPO implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String email;
 
     private String password;
@@ -22,12 +29,17 @@ public class WorkerPO implements Serializable {
 
     private double dollars;
 
-    private LocalDateTime joinTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date joinTime;
 
     private String avatar;
 
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = Integer.class)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Integer> onGoingTaskParticipation;
 
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = Integer.class)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Integer> finishedTaskParticipation;
 
     public String getEmail() {
@@ -70,11 +82,11 @@ public class WorkerPO implements Serializable {
         this.dollars = dollars;
     }
 
-    public LocalDateTime getJoinTime() {
+    public Date getJoinTime() {
         return joinTime;
     }
 
-    public void setJoinTime(LocalDateTime joinTime) {
+    public void setJoinTime(Date joinTime) {
         this.joinTime = joinTime;
     }
 
