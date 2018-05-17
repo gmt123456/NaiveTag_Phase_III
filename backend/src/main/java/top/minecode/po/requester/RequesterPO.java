@@ -17,7 +17,7 @@ public class RequesterPO implements Serializable {
 
     private String password;
 
-    private double dollar;
+    private double dollars;
 
     private LocalDateTime joinTime;
 
@@ -47,12 +47,12 @@ public class RequesterPO implements Serializable {
         this.password = password;
     }
 
-    public double getDollar() {
-        return dollar;
+    public double getDollars() {
+        return dollars;
     }
 
-    public void setDollar(double dollar) {
-        this.dollar = dollar;
+    public void setDollars(double dollars) {
+        this.dollars = dollars;
     }
 
     public LocalDateTime getJoinTime() {
