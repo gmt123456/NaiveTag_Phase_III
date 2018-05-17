@@ -1,8 +1,11 @@
 package top.minecode.po.task;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import top.minecode.domain.task.SubTaskState;
 import top.minecode.domain.task.TaskType;
 
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -11,16 +14,23 @@ import java.util.List;
  *
  * @author iznauy
  */
+@Entity
 public class SubTaskPO {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     private TaskType taskType;
 
     private String taskDescription;
 
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = String.class)
+    @Fetch(FetchMode.SUBSELECT)
     private List<String> picList;
 
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = Integer.class)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Integer> currentDoingWorkerIds;
 
     private SubTaskState subTaskState;

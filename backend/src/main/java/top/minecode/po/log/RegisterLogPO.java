@@ -5,6 +5,7 @@ import top.minecode.domain.user.UserType;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 
 /**
  * Created on 2018/5/17.
@@ -21,7 +22,8 @@ public class RegisterLogPO implements Serializable {
 
     private String userEmail;
 
-    private LocalDate registerDate;
+    @Temporal(TemporalType.DATE)
+    private Date registerDate;
 
     @Enumerated(EnumType.STRING)
     private UserType userType;
@@ -42,11 +44,11 @@ public class RegisterLogPO implements Serializable {
         this.userEmail = userEmail;
     }
 
-    public LocalDate getRegisterDate() {
+    public Date getRegisterDate() {
         return registerDate;
     }
 
-    public void setRegisterDate(LocalDate registerDate) {
+    public void setRegisterDate(Date registerDate) {
         this.registerDate = registerDate;
     }
 

@@ -18,6 +18,8 @@
         <property name="hbm2ddl.auto">update</property>
 
         <mapping class="top.minecode.po.admin.AdminPO" />
+        <mapping class="top.minecode.po.log.LoginLogPO" />
+        <mapping class="top.minecode.po.task.SpecificTaskPO" />
 
     </session-factory>
 

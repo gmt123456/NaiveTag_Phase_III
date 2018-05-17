@@ -2,8 +2,11 @@ package top.minecode.po.requester;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * Created on 2018/5/16.
@@ -23,7 +26,8 @@ public class RequesterPO implements Serializable {
 
     private double dollars;
 
-    private LocalDateTime joinTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date joinTime;
 
     private String avatar;
 
@@ -59,11 +63,11 @@ public class RequesterPO implements Serializable {
         this.dollars = dollars;
     }
 
-    public LocalDateTime getJoinTime() {
+    public Date getJoinTime() {
         return joinTime;
     }
 
-    public void setJoinTime(LocalDateTime joinTime) {
+    public void setJoinTime(Date joinTime) {
         this.joinTime = joinTime;
     }
 

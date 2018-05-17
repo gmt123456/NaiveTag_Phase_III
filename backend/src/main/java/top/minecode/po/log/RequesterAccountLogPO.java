@@ -3,6 +3,7 @@ package top.minecode.po.log;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * Created on 2018/5/17.
@@ -23,7 +24,8 @@ public class RequesterAccountLogPO implements Serializable {
 
     private double balance;
 
-    private LocalDateTime time;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date time;
 
     @Enumerated(EnumType.STRING)
     private RequesterAccountChangeType type;
@@ -68,11 +70,11 @@ public class RequesterAccountLogPO implements Serializable {
         this.balance = balance;
     }
 
-    public LocalDateTime getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(LocalDateTime time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 

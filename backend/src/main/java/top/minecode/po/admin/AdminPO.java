@@ -1,14 +1,21 @@
 package top.minecode.po.admin;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import top.minecode.dao.utils.HibernateUtils;
+import top.minecode.domain.task.TaskType;
+import top.minecode.domain.user.UserType;
 import top.minecode.domain.user.admin.AdminAuthority;
+import top.minecode.po.log.LoginLogPO;
+import top.minecode.po.task.SpecificTaskPO;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.*;
 
 /**
  * Created on 2018/5/16.
@@ -58,21 +65,6 @@ public class AdminPO implements Serializable {
 
     public void setAuthority(AdminAuthority authority) {
         this.authority = authority;
-    }
-
-    public static void main(String[] args) {
-        AdminPO adminPO = new AdminPO("iznauy", "iznauy", AdminAuthority.GENERAL);
-        Session session = HibernateUtils.getCurrentSession();
-        try {
-            session.getTransaction().begin();
-            session.persist(adminPO);
-            session.flush();
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            HibernateUtils.closeSession();
-        }
     }
 
 }

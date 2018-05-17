@@ -2,12 +2,9 @@ package top.minecode.po.log;
 
 import top.minecode.domain.user.UserType;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * Created on 2018/5/16.
@@ -24,9 +21,28 @@ public class LoginLogPO implements Serializable {
 
     private String userEmail;
 
-    private LocalDateTime time;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date loginTime;
 
     private UserType userType;
+
+    public LoginLogPO() {
+
+    }
+
+    public LoginLogPO(String userEmail, Date loginTime, UserType userType) {
+        this.userEmail = userEmail;
+        this.loginTime = loginTime;
+        this.userType = userType;
+    }
+
+    public Date getLoginTime() {
+        return loginTime;
+    }
+
+    public void setLoginTime(Date loginTime) {
+        this.loginTime = loginTime;
+    }
 
     public int getId() {
         return id;
@@ -44,13 +60,6 @@ public class LoginLogPO implements Serializable {
         this.userEmail = userEmail;
     }
 
-    public LocalDateTime getTime() {
-        return time;
-    }
-
-    public void setTime(LocalDateTime time) {
-        this.time = time;
-    }
 
     public UserType getUserType() {
         return userType;

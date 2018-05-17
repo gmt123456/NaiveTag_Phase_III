@@ -1,5 +1,6 @@
 package top.minecode.po.worker;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
@@ -9,15 +10,19 @@ import java.util.List;
  *
  * @author iznauy
  */
+@Entity
 public class FinishedTaskParticipationPO implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     private String userEmail;
 
     private int taskId;
 
-    private List<SubTaskParticipationPO> participatedSubTaskResults; // 参加的下属任务
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<Integer> participatedSubTaskResults; // 参加的下属任务
 
     private double earnedDollars;
 
@@ -47,12 +52,12 @@ public class FinishedTaskParticipationPO implements Serializable {
         this.taskId = taskId;
     }
 
-    public List<SubTaskParticipationPO> getParticipatedSubTaskResults() {
+    public List<Integer> getParticipatedSubTaskResults() {
         return participatedSubTaskResults;
     }
 
-    public void setParticipatedSubTaskResults(List<SubTaskParticipationPO> participatedSubTaskResults) {
-        this.participatedSubTaskResults = participatedSubTaskResults;
+    public void setParticipatedSubTaskResults(List<Integer> participatedSubTaskResultIds) {
+        this.participatedSubTaskResults = participatedSubTaskResultIds;
     }
 
     public double getEarnedDollars() {

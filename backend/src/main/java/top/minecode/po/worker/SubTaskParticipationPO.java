@@ -1,10 +1,14 @@
 package top.minecode.po.worker;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import top.minecode.domain.task.SubTaskParticipationState;
 import top.minecode.domain.task.TaskType;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -14,25 +18,33 @@ import java.util.Map;
  *
  * @author iznauy
  */
+@Entity
 public class SubTaskParticipationPO implements Serializable {
 
+    @Id
     private int id;
 
     private int taskId;
 
     private int subTaskId;
 
+    @Enumerated(EnumType.STRING)
     private TaskType subTaskType;
 
     private int tagResultsId;
 
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = String.class)
+    @Fetch(FetchMode.SUBSELECT)
     private List<String> unfinishedPic;
 
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = String.class)
+    @Fetch(FetchMode.SUBSELECT)
     private Map<String, String> tags;
 
     private SubTaskParticipationState state;
 
-    private LocalDate expiredDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date expiredDate;
 
     public List<String> getUnfinishedPic() {
         return unfinishedPic;
@@ -50,11 +62,11 @@ public class SubTaskParticipationPO implements Serializable {
         this.tags = tags;
     }
 
-    public LocalDate getExpiredDate() {
+    public Date getExpiredDate() {
         return expiredDate;
     }
 
-    public void setExpiredDate(LocalDate expiredDate) {
+    public void setExpiredDate(Date expiredDate) {
         this.expiredDate = expiredDate;
     }
 
