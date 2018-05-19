@@ -13,11 +13,10 @@ Vue.prototype.$echarts = echarts;
 Vue.use(ElementUI);
 Vue.config.productionTip = false
 
-/* eslint-disable no-new */
+
 new Vue({
   el: '#app',
   router,
-  render: h => h(WorkerMain)
-  // components: { App },
-  // template: '<App/>'
+  render: h => h(App)
+
 })
