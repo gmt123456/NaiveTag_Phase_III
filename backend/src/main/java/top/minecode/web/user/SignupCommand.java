@@ -1,5 +1,7 @@
 package top.minecode.web.user;
 
+import top.minecode.domain.user.UserType;
+
 /**
  * Created on 2018/5/17.
  * Description:
@@ -10,6 +12,7 @@ public class SignupCommand {
     private String name;
     private String email;
     private String password;
+    private String userType;
 
     public String getName() {
         return name;
@@ -33,5 +36,9 @@ public class SignupCommand {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getUserType() {
+        return userType;
     }
 }

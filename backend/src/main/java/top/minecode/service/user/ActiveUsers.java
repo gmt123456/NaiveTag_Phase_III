@@ -9,9 +9,9 @@ import top.minecode.dao.user.UserDao;
 import top.minecode.domain.user.User;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -26,7 +26,7 @@ public class ActiveUsers implements ActiveUserService {
     private static final int HASH_TIMES = 2;
     private static final String SALT = "1926";
 
-    private Map<String, ActiveUser> tokenUserMap = new HashMap<>();
+    private static ConcurrentHashMap<String, ActiveUser> tokenUserMap = new ConcurrentHashMap<>();
     private UserDao userDao;
 
     @Autowired
@@ -82,8 +82,10 @@ public class ActiveUsers implements ActiveUserService {
         // Scan the token user map and delete users whose time
         // exceed the EXPIRE_TIME
         LocalDateTime now = LocalDateTime.now();
-        tokenUserMap = tokenUserMap.entrySet().stream().filter(e -> e.getValue().isActive(now))
+        Map<String, ActiveUser> newMap = tokenUserMap.entrySet().stream().filter(e -> e.getValue().isActive(now))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        tokenUserMap.clear();
+        tokenUserMap.putAll(newMap);
     }
 
     /**
