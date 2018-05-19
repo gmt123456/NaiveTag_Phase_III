@@ -7,7 +7,6 @@ import 'element-ui/lib/theme-chalk/index.css';
 import ElementUI from 'element-ui';
 import echarts from 'echarts';
 import WorkerMain from './components/worker/workerMain.vue'
-import WorkerHome from './components/worker/workerHome.vue'
 
 Vue.prototype.$echarts = echarts;
 Vue.use(ElementUI);
