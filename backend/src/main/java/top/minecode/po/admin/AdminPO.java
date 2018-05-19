@@ -1,21 +1,12 @@
 package top.minecode.po.admin;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
-import top.minecode.dao.utils.HibernateUtils;
-import top.minecode.domain.task.TaskType;
-import top.minecode.domain.user.UserType;
 import top.minecode.domain.user.admin.AdminAuthority;
-import top.minecode.po.log.LoginLogPO;
-import top.minecode.po.task.SpecificTaskPO;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.*;
 
 /**
  * Created on 2018/5/16.

@@ -1,7 +1,5 @@
 package top.minecode.web.user;
 
-import top.minecode.domain.user.UserType;
-
 /**
  * Created on 2018/5/17.
  * Description:

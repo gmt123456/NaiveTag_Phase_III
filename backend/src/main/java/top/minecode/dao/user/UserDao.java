@@ -1,6 +1,5 @@
 package top.minecode.dao.user;
 
-import org.springframework.stereotype.Repository;
 import top.minecode.domain.user.User;
 
 import java.util.Date;

@@ -1,11 +1,9 @@
 package top.minecode.service.workerInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import top.minecode.dao.worker.WorkerInfoDao;
-import top.minecode.domain.user.worker.Worker;
 import top.minecode.domain.user.worker.WorkerInfoEditResponse;
 import top.minecode.po.worker.WorkerPO;
 

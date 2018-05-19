@@ -8,13 +8,11 @@ import top.minecode.dao.worker.RankDao;
 import top.minecode.dao.worker.WorkerInfoDao;
 import top.minecode.domain.DateAndValue;
 import top.minecode.domain.user.worker.Rank;
-import top.minecode.domain.user.worker.Worker;
 import top.minecode.domain.user.worker.WorkerBasicInfo;
 import top.minecode.domain.user.worker.WorkerRecentActivity;
 import top.minecode.po.log.LoginLogPO;
 import top.minecode.po.worker.WorkerPO;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
