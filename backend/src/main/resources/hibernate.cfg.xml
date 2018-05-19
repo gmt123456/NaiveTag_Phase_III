@@ -10,9 +10,9 @@
         <property name="connection.url">
             <![CDATA[jdbc:mysql://localhost:3306/naivetag?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8]]>
         </property>
-        <property name="connection.email">root</property>
+        <property name="connection.username">root</property>
         <property name="connection.password">iznauy.top</property>
-        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="dialect">org.hibernate.dialect.MySQL57InnoDBDialect</property>
         <property name="show_sql">false</property>
         <property name="hibernate.id.new_generator_mappings">false</property>
         <property name="hbm2ddl.auto">update</property>

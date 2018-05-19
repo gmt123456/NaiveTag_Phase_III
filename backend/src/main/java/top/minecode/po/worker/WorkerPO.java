@@ -18,7 +18,6 @@ import java.util.List;
 public class WorkerPO implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private String email;
 
     private String password;

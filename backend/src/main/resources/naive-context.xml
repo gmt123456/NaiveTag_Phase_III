@@ -13,6 +13,7 @@
     <context:component-scan base-package="top.minecode.dao.user"/>
     <context:component-scan base-package="top.minecode.web.common"/>
     <context:component-scan base-package="top.minecode.service.user"/>
+    <context:component-scan base-package="top.minecode.dao.worker"/>
     <!--<context:component-scan base-package="top.minecode.dao.statistic"/>
     <context:component-scan base-package="top.minecode.dao.task"/>
 
