@@ -26,10 +26,6 @@ public abstract class BaseController {
         this.activeUserService = activeUserService;
     }
 
-    protected String addUser(String userEmail) {
-        return activeUserService.addUser(userEmail);
-    }
-
     protected String getUserEmail(HttpServletRequest request) {
         return activeUserService.getUserMail(request.getParameter(TOKEN));
     }
