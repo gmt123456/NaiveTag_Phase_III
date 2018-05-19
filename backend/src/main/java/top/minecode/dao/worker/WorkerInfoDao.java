@@ -14,4 +14,6 @@ public interface WorkerInfoDao {
 
     WorkerPO getWorkerPOByEmail(String email);
 
+    boolean addWorker(WorkerPO worker);
+
 }
