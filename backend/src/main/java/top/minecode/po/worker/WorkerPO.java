@@ -18,7 +18,6 @@ import java.util.List;
 public class WorkerPO implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private String email;
 
     private String password;
@@ -41,6 +40,15 @@ public class WorkerPO implements Serializable {
     @ElementCollection(fetch = FetchType.EAGER, targetClass = Integer.class)
     @Fetch(FetchMode.SUBSELECT)
     private List<Integer> finishedTaskParticipation;
+
+    public WorkerPO() {}
+
+    public WorkerPO(String email, String password, String name, Date joinTime) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.joinTime = joinTime;
+    }
 
     public String getEmail() {
         return email;

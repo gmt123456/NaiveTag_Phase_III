@@ -4,7 +4,6 @@ import top.minecode.domain.user.UserType;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -27,6 +26,12 @@ public class RegisterLogPO implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private UserType userType;
+
+    public RegisterLogPO(String userEmail, Date registerDate, UserType userType) {
+        this.userEmail = userEmail;
+        this.registerDate = registerDate;
+        this.userType = userType;
+    }
 
     public int getId() {
         return id;

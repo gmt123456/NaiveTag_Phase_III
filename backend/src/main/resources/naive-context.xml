@@ -9,13 +9,18 @@
 
 
     <!-- 扫描类包，将标注Spring注解的类自动转化Bean，同时完成Bean的注入 -->
-    <!--
+
     <context:component-scan base-package="top.minecode.dao.user"/>
-    <context:component-scan base-package="top.minecode.dao.statistic"/>
+    <context:component-scan base-package="top.minecode.web.common"/>
+    <context:component-scan base-package="top.minecode.service.user"/>
+    <context:component-scan base-package="top.minecode.dao.worker"/>
+    <context:component-scan base-package="top.minecode.dao.log"/>
+    <context:component-scan base-package="top.minecode.web.user"/>
+    <!--<context:component-scan base-package="top.minecode.dao.statistic"/>
     <context:component-scan base-package="top.minecode.dao.task"/>
 
     <context:component-scan base-package="top.minecode.service.statistic"/>
-    <context:component-scan base-package="top.minecode.service.user"/>
+
     <context:component-scan base-package="top.minecode.service.taskdelivery"/>
     <context:component-scan base-package="top.minecode.service.taskexecute"/>
     <context:component-scan base-package="top.minecode.service.taskmanage"/>
@@ -23,7 +28,7 @@
     <context:component-scan base-package="top.minecode.web.common"/>
     <context:component-scan base-package="top.minecode.web.statistic"/>
     <context:component-scan base-package="top.minecode.web.task"/>
-    <context:component-scan base-package="top.minecode.web.user"/>
+
 
     -->
 

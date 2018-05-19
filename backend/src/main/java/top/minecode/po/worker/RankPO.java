@@ -15,6 +15,10 @@ public class RankPO {
     @Id
     private String userEmail;
 
+    private String userName;
+
+    private double score;
+
     private int rank;
 
     public String getUserEmail() {
@@ -31,5 +35,21 @@ public class RankPO {
 
     public void setRank(int rank) {
         this.rank = rank;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
     }
 }

@@ -14,10 +14,9 @@ public abstract class User {
 
     protected String email;
 
-    protected String password;
+    protected String name;
 
     protected double dollars;
-
 
     protected Date joinTime;
 
@@ -26,11 +25,11 @@ public abstract class User {
     public User() {
     }
 
-    public User(UserType userType, String email, String password,
+    public User(UserType userType, String email, String name,
                 double dollars, Date joinTime, String avatar) {
         this.userType = userType;
         this.email = email;
-        this.password = password;
+        this.name = name;
         this.dollars = dollars;
         this.joinTime = joinTime;
         this.avatar = avatar;
@@ -52,12 +51,12 @@ public abstract class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getName() {
+        return name;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public double getDollars() {
