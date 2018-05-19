@@ -23,6 +23,7 @@ public class UserInfoController extends BaseController {
     @RequestMapping(value = "main")
     @ResponseBody
     public String getBasicInfo(HttpServletRequest request) {
+
         return null;
     }
 

@@ -27,7 +27,7 @@ public class WorkerTaskBasicController extends BaseController{
         return null;
     }
 
-    @RequestMapping(value = "/task/myparticipation")
+    @RequestMapping(value = "/task/myParticipation")
     @ResponseBody
     public String getMyParticipation(HttpServletRequest request, int taskId, String taskState) {
         return null;
