@@ -109,4 +109,21 @@ public class CommonOperation<T> {
         return ts;
     }
 
+    public List<T> executeSQL(String sql) {
+        List<T> ts = null;
+        Session session = HibernateUtils.getCurrentSession();
+        try {
+            session.getTransaction().begin();
+            Query query = session.createQuery(sql);
+            ts = query.list();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            HibernateUtils.closeSession();
+        }
+        return ts;
+    }
+
 }

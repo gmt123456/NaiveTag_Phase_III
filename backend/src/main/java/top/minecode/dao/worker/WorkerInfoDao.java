@@ -1,7 +1,12 @@
 package top.minecode.dao.worker;
 
 import org.springframework.stereotype.Service;
+import top.minecode.dao.utils.CommonOperation;
+import top.minecode.domain.user.worker.Worker;
 import top.minecode.po.worker.WorkerPO;
+
+import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created on 2018/5/19.
@@ -10,10 +15,35 @@ import top.minecode.po.worker.WorkerPO;
  * @author iznauy
  */
 @Service
-public interface WorkerInfoDao {
+public class WorkerInfoDao {
 
-    WorkerPO getWorkerPOByEmail(String email);
+    private CommonOperation<WorkerPO> workerPOHelper = new CommonOperation<>(WorkerPO.class.getName());
 
-    boolean addWorker(WorkerPO worker);
+
+    public WorkerPO getWorkerPOByEmail(String email) {
+        return workerPOHelper.getBySingleField("email", email);
+    }
+
+
+    public boolean addWorker(WorkerPO worker) {
+        return workerPOHelper.add(worker);
+    }
+
+//    public static void main(String[] args) {
+//        WorkerPO workerPO = new WorkerPO();
+//        workerPO.setEmail("zy05160516@126.com");
+//        workerPO.setJoinTime(Calendar.getInstance().getTime());
+//        workerPO.setPassword("iznauy.top");
+//        workerPO.setDollars(0.0);
+//        workerPO.setOnGoingTaskParticipation(new ArrayList<>());
+//        workerPO.setAvatar("iznuay");
+//        workerPO.setName("ziyuan");
+//        WorkerInfoDao infoDao = new WorkerInfoDaoImpl();
+//        infoDao.addWorker(workerPO);
+//    }
+
+    public boolean updateWorkPO(WorkerPO workerPO) {
+        return workerPOHelper.update(workerPO);
+    }
 
 }
