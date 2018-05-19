@@ -31,11 +31,9 @@ public class SubTaskParticipationPO implements Serializable {
     @Enumerated(EnumType.STRING)
     private TaskType subTaskType;
 
-    private int tagResultsId;
+    private String cover;
 
-    @ElementCollection(fetch = FetchType.EAGER, targetClass = String.class)
-    @Fetch(FetchMode.SUBSELECT)
-    private List<String> unfinishedPic;
+    private int picAmount;
 
     @ElementCollection(fetch = FetchType.EAGER, targetClass = String.class)
     @Fetch(FetchMode.SUBSELECT)
@@ -46,12 +44,31 @@ public class SubTaskParticipationPO implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date expiredDate;
 
-    public List<String> getUnfinishedPic() {
-        return unfinishedPic;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date commitDate;
+
+    public Date getCommitDate() {
+        return commitDate;
     }
 
-    public void setUnfinishedPic(List<String> unfinishedPic) {
-        this.unfinishedPic = unfinishedPic;
+    public void setCommitDate(Date commitDate) {
+        this.commitDate = commitDate;
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
+
+    public int getPicAmount() {
+        return picAmount;
+    }
+
+    public void setPicAmount(int picAmount) {
+        this.picAmount = picAmount;
     }
 
     public Map<String, String> getTags() {
@@ -110,11 +127,4 @@ public class SubTaskParticipationPO implements Serializable {
         this.subTaskType = subTaskType;
     }
 
-    public int getTagResultsId() {
-        return tagResultsId;
-    }
-
-    public void setTagResultsId(int tagResultsId) {
-        this.tagResultsId = tagResultsId;
-    }
 }

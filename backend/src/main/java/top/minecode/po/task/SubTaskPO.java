@@ -35,6 +35,16 @@ public class SubTaskPO {
 
     private SubTaskState subTaskState;
 
+    private String cover;
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
+
     public int getId() {
         return id;
     }
