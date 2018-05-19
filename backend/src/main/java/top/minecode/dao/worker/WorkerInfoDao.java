@@ -2,7 +2,12 @@ package top.minecode.dao.worker;
 
 import org.springframework.stereotype.Service;
 import top.minecode.dao.utils.CommonOperation;
+import top.minecode.dao.utils.HibernateUtils;
+import top.minecode.po.worker.FinishedTaskParticipationPO;
+import top.minecode.po.worker.OnGoingTaskParticipationPO;
 import top.minecode.po.worker.WorkerPO;
+
+import java.util.List;
 
 /**
  * Created on 2018/5/19.
@@ -25,21 +30,18 @@ public class WorkerInfoDao {
         return workerPOHelper.add(worker);
     }
 
-//    public static void main(String[] args) {
-//        WorkerPO workerPO = new WorkerPO();
-//        workerPO.setEmail("zy05160516@126.com");
-//        workerPO.setJoinTime(Calendar.getInstance().getTime());
-//        workerPO.setPassword("iznauy.top");
-//        workerPO.setDollars(0.0);
-//        workerPO.setOnGoingTaskParticipation(new ArrayList<>());
-//        workerPO.setAvatar("iznuay");
-//        workerPO.setName("ziyuan");
-//        WorkerInfoDao infoDao = new WorkerInfoDaoImpl();
-//        infoDao.addWorker(workerPO);
-//    }
-
     public boolean updateWorkPO(WorkerPO workerPO) {
         return workerPOHelper.update(workerPO);
+    }
+
+    public List<FinishedTaskParticipationPO> getFinishedTasks(String email) {
+        WorkerPO worker = getWorkerPOByEmail(email);
+        List<Integer> finishedParticipation = worker.getFinishedTaskParticipation();
+        String hql = "from " + OnGoingTaskParticipationPO.class.getName() + " t where t.id in (: ids)";
+        List<FinishedTaskParticipationPO> results = HibernateUtils.getCurrentSession().createQuery(hql)
+                .setParameterList("ids", finishedParticipation).list();
+        HibernateUtils.closeSession();
+        return results;
     }
 
 }

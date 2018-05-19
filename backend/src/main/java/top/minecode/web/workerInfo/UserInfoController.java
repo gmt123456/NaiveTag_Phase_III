@@ -61,13 +61,15 @@ public class UserInfoController extends BaseController {
     @RequestMapping(value = "finished")
     @ResponseBody
     public String getFinishedTasks(HttpServletRequest request) {
-        return null;
+        String email = getUserEmail(request);
+        return WebConfig.getGson().toJson(workerInfoService.getFinishedTasks(email));
     }
 
     @RequestMapping(value = "doing")
     @ResponseBody
     public String getOnGoingTasks(HttpServletRequest request) {
-        return null;
+        String email = getUserEmail(request);
+        return WebConfig.getGson().toJson(workerInfoService.getOngoingTasks(email));
     }
 
 }

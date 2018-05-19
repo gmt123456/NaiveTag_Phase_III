@@ -7,6 +7,8 @@ import top.minecode.dao.log.WorkerLogDao;
 import top.minecode.dao.worker.RankDao;
 import top.minecode.dao.worker.WorkerInfoDao;
 import top.minecode.domain.DateAndValue;
+import top.minecode.domain.task.FinishedTask;
+import top.minecode.domain.task.Task;
 import top.minecode.domain.user.worker.Rank;
 import top.minecode.domain.user.worker.Worker;
 import top.minecode.domain.user.worker.WorkerBasicInfo;
@@ -16,6 +18,7 @@ import top.minecode.po.log.LoginLogPO;
 import top.minecode.po.log.TaskCommitmentLogPO;
 import top.minecode.po.log.WorkerAccountLogPO;
 import top.minecode.po.log.WorkerScoreChangeLogPO;
+import top.minecode.po.worker.FinishedTaskParticipationPO;
 import top.minecode.po.worker.WorkerPO;
 
 import java.util.*;
@@ -164,4 +167,15 @@ public class WorkerInfoService {
     public WorkerRecentActivity getRecentActivity(String email) {
         return new WorkerRecentActivity(getDollarChanges(email), getScoreChanges(email), getActivity(email));
     }
+
+
+    public List<FinishedTask> getFinishedTasks(String email) {
+        List<FinishedTaskParticipationPO> rawParticipation = workerInfoDao.getFinishedTasks(email);
+
+    }
+
+    public List<Task> getOngoingTasks(String email) {
+        return null;
+    }
+
 }
