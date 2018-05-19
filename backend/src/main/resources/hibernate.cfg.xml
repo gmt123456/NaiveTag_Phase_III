@@ -34,6 +34,7 @@
         <mapping class="top.minecode.po.log.WorkerAccountLogPO" />
         <mapping class="top.minecode.po.log.WorkerSearchLogPO" />
         <mapping class="top.minecode.po.log.WorkerViewLogPO" />
+        <mapping class="top.minecode.po.log.WorkerScoreChangeLogPO" />
 
         <mapping class="top.minecode.po.worker.WorkerPO" />
         <mapping class="top.minecode.po.worker.RankPO" />
