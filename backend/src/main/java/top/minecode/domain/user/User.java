@@ -18,7 +18,6 @@ public abstract class User {
 
     protected double dollars;
 
-
     protected Date joinTime;
 
     protected String avatar;

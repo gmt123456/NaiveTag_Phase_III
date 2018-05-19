@@ -1,5 +1,8 @@
 package top.minecode.web.common;
 
+import org.apache.shiro.crypto.hash.Md5Hash;
+import top.minecode.domain.user.User;
+
 /**
  * Created on 2018/5/17.
  * Description:
@@ -7,15 +10,17 @@ package top.minecode.web.common;
  * @author iznauy
  */
 public abstract class BaseController {
-    private static final int EXPIRE_TIME = 30;
 
-    protected void addUser(String userEmail) {
-        // Generate token
-        String token = ""; // TODO: 2018/5/17 generate token here
-        ActiveUsers.addUser(userEmail, token);
+
+    protected String addUser(String userEmail) {
+        return ActiveUsers.INSTANCE.addUser(userEmail);
     }
 
     protected String getUserEmail(String token) {
-        return ActiveUsers.getUser(token);
+        return ActiveUsers.INSTANCE.getUserMail(token);
+    }
+
+    protected User getUser(String token) {
+        return ActiveUsers.INSTANCE.getUser(token);
     }
 }
