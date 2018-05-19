@@ -18,9 +18,9 @@ public class Worker extends User {
     public Worker() {
     }
 
-    public Worker(String email, String password,
+    public Worker(String email, String name,
                   double dollars, Date joinTime, String avatar, double score) {
-        super(UserType.WORKER, email, password, dollars, joinTime, avatar);
+        super(UserType.WORKER, email, name, dollars, joinTime, avatar);
         this.score = score;
     }
 
