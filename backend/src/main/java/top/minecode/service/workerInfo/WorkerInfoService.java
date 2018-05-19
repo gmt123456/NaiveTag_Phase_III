@@ -11,13 +11,14 @@ import top.minecode.domain.user.worker.Rank;
 import top.minecode.domain.user.worker.Worker;
 import top.minecode.domain.user.worker.WorkerBasicInfo;
 import top.minecode.domain.user.worker.WorkerRecentActivity;
+import top.minecode.domain.utils.Pair;
 import top.minecode.po.log.LoginLogPO;
+import top.minecode.po.log.TaskCommitmentLogPO;
+import top.minecode.po.log.WorkerAccountLogPO;
+import top.minecode.po.log.WorkerScoreChangeLogPO;
 import top.minecode.po.worker.WorkerPO;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
  *
  * @author iznauy
  */
-@Service("workerInfoService")
+@Service
 public class WorkerInfoService {
 
     private WorkerInfoDao workerInfoDao;
@@ -87,16 +88,77 @@ public class WorkerInfoService {
                 lastVisit, rank, workerPO.getJoinTime(), workerPO.getDollars(), workerPO.getScore());
     }
 
+    private static boolean isSameDay(Date date1, Date date2) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date1);
+        int year1 = calendar.get(Calendar.YEAR);
+        int day1 = calendar.get(Calendar.DAY_OF_YEAR);
+
+        calendar.setTime(date2);
+        int year2 = calendar.get(Calendar.YEAR);
+        int day2 = calendar.get(Calendar.DAY_OF_YEAR);
+
+        return year1 == year2 && day1 == day2;
+    }
+
     private List<DateAndValue> getDollarChanges(String email) {
-        return null;
+        List<WorkerAccountLogPO> accountLogs = workerLogDao.getAccountLogByEmail(email);
+        List<DateAndValue> target = new ArrayList<>();
+        for (WorkerAccountLogPO accountLog: accountLogs) {
+            Date current = accountLog.getTime();
+            boolean find = false;
+            for (DateAndValue aTarget : target) {
+                if (isSameDay(current, aTarget.getDate())) {
+                    aTarget.addValue(accountLog.getDollars());
+                    find = true;
+                    break;
+                }
+            }
+            if (!find)
+                target.add(new DateAndValue(current, accountLog.getDollars()));
+        }
+        return target;
     }
 
     private List<DateAndValue> getScoreChanges(String email) {
-        return null;
+        List<WorkerScoreChangeLogPO> scoreLogs = workerLogDao.getScoreChangeLogByEmail(email);
+        List<DateAndValue> target = new ArrayList<>();
+        for (WorkerScoreChangeLogPO changeLog: scoreLogs) {
+            Date current = changeLog.getTime();
+            boolean find = false;
+            for (DateAndValue pair: target) {
+                if (isSameDay(current, pair.getDate())) {
+                    if (current.after(pair.getDate())) {
+                        pair.setValue(pair.getValue());
+                        pair.setDate(current);
+                    }
+                    find = true;
+                    break;
+                }
+            }
+            if (!find)
+                target.add(new DateAndValue(current, changeLog.getCurrentScore()));
+        }
+        return target;
     }
 
     private List<DateAndValue> getActivity(String email) {
-        return null;
+        List<TaskCommitmentLogPO> commitLogs = workerLogDao.getTaskCommitmentByEmail(email);
+        List<DateAndValue> target = new ArrayList<>();
+        for (TaskCommitmentLogPO commitLog: commitLogs) {
+            Date current = commitLog.getCommitTime();
+            boolean find = false;
+            for (DateAndValue pair: target) {
+                if (isSameDay(current, commitLog.getCommitTime())) {
+                    find = true;
+                    pair.addValue(1);
+                    break;
+                }
+            }
+            if (!find)
+                target.add(new DateAndValue(current, 1));
+        }
+        return target;
     }
 
     public WorkerRecentActivity getRecentActivity(String email) {

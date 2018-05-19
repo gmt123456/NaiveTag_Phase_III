@@ -1,5 +1,7 @@
 package top.minecode.domain;
 
+import java.util.Date;
+
 /**
  * Created on 2018/5/19.
  * Description:
@@ -8,20 +10,32 @@ package top.minecode.domain;
  */
 public class DateAndValue {
 
-    private String date;
+    private Date date;
 
     private double value;
 
-    public DateAndValue(String date, double value) {
+    public DateAndValue(Date date, double value) {
         this.date = date;
         this.value = value;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
     public double getValue() {
         return value;
+    }
+
+    public void addValue(double append) {
+        value += append;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }
