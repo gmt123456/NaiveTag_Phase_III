@@ -35,21 +35,12 @@ public class ActiveUsers implements ActiveUserService {
         this.userDao = userDao;
     }
 
-    /**
-     * Get user's email by token
-     * @param token user's token
-     * @return user's email if this user is still active now, null otherwise
-     */
+    @Override
     public String getUserMail(String token) {
         return Optional.ofNullable(tokenUserMap.get(token).email).orElse(null);
     }
 
-    /**
-     * This method should be invoked when a user try to login.
-     * It will generate a token for the user.
-     * @param userEmail user's email
-     * @return token for the user
-     */
+    @Override
     public String addUser(String userEmail) {
         // Check whether the user already have a token
         Optional<Map.Entry<String, ActiveUser>> record = tokenUserMap.entrySet()
@@ -58,11 +49,12 @@ public class ActiveUsers implements ActiveUserService {
         return record.map(Map.Entry::getKey).orElse(addNewUser(userEmail));
     }
 
-    /**
-     * Get a <tt>User</tt> object by token
-     * @param token user's token
-     * @return <tt>User</tt> if the token is valid, null otherwise
-     */
+    @Override
+    public void logoutUser(String token) {
+        tokenUserMap.remove(token);
+    }
+
+    @Override
     public User getUser(String token) {
         ActiveUser user = tokenUserMap.get(token);
         if (user == null) {

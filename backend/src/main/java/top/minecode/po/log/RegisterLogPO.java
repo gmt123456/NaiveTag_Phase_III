@@ -28,6 +28,12 @@ public class RegisterLogPO implements Serializable {
     @Enumerated(EnumType.STRING)
     private UserType userType;
 
+    public RegisterLogPO(String userEmail, Date registerDate, UserType userType) {
+        this.userEmail = userEmail;
+        this.registerDate = registerDate;
+        this.userType = userType;
+    }
+
     public int getId() {
         return id;
     }
