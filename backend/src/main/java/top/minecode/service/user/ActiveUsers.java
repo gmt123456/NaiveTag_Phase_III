@@ -1,10 +1,10 @@
-package top.minecode.web.common;
+package top.minecode.service.user;
 
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import top.minecode.dao.user.UserDao;
 import top.minecode.domain.user.User;
 
@@ -19,9 +19,8 @@ import java.util.stream.Collectors;
  * Description:
  * @author iznauy
  */
-@Component
-enum ActiveUsers {
-    INSTANCE;
+@Service("activeUsers")
+public class ActiveUsers implements ActiveUserService {
 
     private static final long EXPIRE_TIME = 30;
     private static final int HASH_TIMES = 2;
@@ -36,11 +35,22 @@ enum ActiveUsers {
         this.userDao = userDao;
     }
 
-    String getUserMail(String token) {
+    /**
+     * Get user's email by token
+     * @param token user's token
+     * @return user's email if this user is still active now, null otherwise
+     */
+    public String getUserMail(String token) {
         return Optional.ofNullable(tokenUserMap.get(token).email).orElse(null);
     }
 
-    String addUser(String userEmail) {
+    /**
+     * This method should be invoked when a user try to login.
+     * It will generate a token for the user.
+     * @param userEmail user's email
+     * @return token for the user
+     */
+    public String addUser(String userEmail) {
         // Check whether the user already have a token
         Optional<Map.Entry<String, ActiveUser>> record = tokenUserMap.entrySet()
                 .stream().filter(e -> e.getValue().email.equals(userEmail)).findFirst();
@@ -48,7 +58,12 @@ enum ActiveUsers {
         return record.map(Map.Entry::getKey).orElse(addNewUser(userEmail));
     }
 
-    User getUser(String token) {
+    /**
+     * Get a <tt>User</tt> object by token
+     * @param token user's token
+     * @return <tt>User</tt> if the token is valid, null otherwise
+     */
+    public User getUser(String token) {
         ActiveUser user = tokenUserMap.get(token);
         if (user == null) {
             return null;
@@ -59,6 +74,9 @@ enum ActiveUsers {
         return userDao.getUser(user.email);
     }
 
+    /**
+     * Refresh the <tt>tokenUserMap</tt> per minutes
+     */
     @Scheduled(cron = "0 0/1 * * * ?")
     private void refresh() {
         // Scan the token user map and delete users whose time
@@ -68,6 +86,11 @@ enum ActiveUsers {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
+    /**
+     * Generate a token for user and add him to the <tt>tokenUserMap</tt>
+     * @param userEmail user's email
+     * @return user's token
+     */
     private String addNewUser(String userEmail) {
         String token = new Md5Hash(userEmail, SALT, HASH_TIMES).toString();
         tokenUserMap.put(token, new ActiveUser(userEmail, LocalDateTime.now().plusMinutes(EXPIRE_TIME)));
@@ -87,6 +110,9 @@ enum ActiveUsers {
             return now.isBefore(expirationTime);
         }
 
+        /**
+         * Plus user's valid time with 30 minutes
+         */
         private void updateTime() {
             expirationTime = expirationTime.plusMinutes(EXPIRE_TIME);
         }

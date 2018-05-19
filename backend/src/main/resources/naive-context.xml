@@ -12,11 +12,12 @@
 
     <context:component-scan base-package="top.minecode.dao.user"/>
     <context:component-scan base-package="top.minecode.web.common"/>
+    <context:component-scan base-package="top.minecode.service.user"/>
     <!--<context:component-scan base-package="top.minecode.dao.statistic"/>
     <context:component-scan base-package="top.minecode.dao.task"/>
 
     <context:component-scan base-package="top.minecode.service.statistic"/>
-    <context:component-scan base-package="top.minecode.service.user"/>
+
     <context:component-scan base-package="top.minecode.service.taskdelivery"/>
     <context:component-scan base-package="top.minecode.service.taskexecute"/>
     <context:component-scan base-package="top.minecode.service.taskmanage"/>

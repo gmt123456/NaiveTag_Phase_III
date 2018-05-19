@@ -8,7 +8,6 @@ import top.minecode.domain.user.User;
  * Description:
  * @author Liao
  */
-@Repository
 public interface UserDao {
     User getUser(String email);
 }
