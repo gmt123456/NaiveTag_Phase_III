@@ -28,4 +28,6 @@ public interface UserAuthenticationService {
      * @param token user's token
      */
     void logout(String token);
+
+    String verifyEmail(String email);
 }

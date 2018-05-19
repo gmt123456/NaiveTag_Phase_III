@@ -30,4 +30,10 @@ public interface ActiveUserService {
      * @return user's token
      */
     String addUser(String userEmail);
+
+    /**
+     * Remove the token-email pair from records
+     * @param token user's token
+     */
+    void logoutUser(String token);
 }

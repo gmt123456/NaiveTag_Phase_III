@@ -26,9 +26,7 @@ public class LoginLogPO implements Serializable {
 
     private UserType userType;
 
-    public LoginLogPO() {
-
-    }
+    public LoginLogPO() {}
 
     public LoginLogPO(String userEmail, Date loginTime, UserType userType) {
         this.userEmail = userEmail;

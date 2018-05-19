@@ -19,6 +19,10 @@ public class CommonOperation<T> {
         this.className = className;
     }
 
+    public CommonOperation(Class<T> clazz) {
+        this.className = clazz.getSimpleName();
+    }
+
     public List<T> getAll() {
         Session session = HibernateUtils.getCurrentSession();
         List<T> jrs = null;

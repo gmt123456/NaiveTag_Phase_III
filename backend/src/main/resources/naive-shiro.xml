@@ -5,14 +5,27 @@
 
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 
-    <bean id="workerRealm" class="top.minecode.dao.utils.WorkerRealm"/>
-    <bean id="requesterRealm" class="top.minecode.dao.utils.RequesterRealm"/>
+    <bean id="emailRealm" class="top.minecode.dao.utils.EmailRealm">
+        <property name="credentialsMatcher" ref="credentialMatcher"/>
+    </bean>
+
+    <bean id="credentialMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+        <property name="hashAlgorithmName" value="MD5"/>
+        <property name="hashIterations" value="3"/>
+    </bean>
 
     <bean id="authenticator" class="org.apache.shiro.authc.pam.ModularRealmAuthenticator">
         <property name="realms">
             <list>
-                <ref bean="workerRealm"/>
-                <ref bean="requesterRealm"/>
+                <ref bean="emailRealm"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="authorizer" class="org.apache.shiro.authz.ModularRealmAuthorizer">
+        <property name="realms">
+            <list>
+                <ref bean="emailRealm"/>
             </list>
         </property>
     </bean>

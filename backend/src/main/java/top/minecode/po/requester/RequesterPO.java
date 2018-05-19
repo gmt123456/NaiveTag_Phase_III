@@ -5,7 +5,6 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -30,6 +29,15 @@ public class RequesterPO implements Serializable {
     private Date joinTime;
 
     private String avatar;
+
+    public RequesterPO() {}
+
+    public RequesterPO(String email, String name, String password, Date joinTime) {
+        this.email = email;
+        this.name = name;
+        this.password = password;
+        this.joinTime = joinTime;
+    }
 
     public String getEmail() {
         return email;

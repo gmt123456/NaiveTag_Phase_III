@@ -30,7 +30,7 @@ public abstract class BaseController {
         return activeUserService.getUserMail(request.getParameter(TOKEN));
     }
 
-    protected User getUser(HttpServletRequest request, String token) {
+    protected User getUser(HttpServletRequest request) {
         return activeUserService.getUser(request.getParameter(TOKEN));
     }
 }
