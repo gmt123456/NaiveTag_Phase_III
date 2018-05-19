@@ -20,12 +20,12 @@ public class WorkerSearchLogPO implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    private String key;
+    private String searchKey;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private TaskType taskType;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private TaskTag taskTag;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -41,12 +41,12 @@ public class WorkerSearchLogPO implements Serializable {
         this.id = id;
     }
 
-    public String getKey() {
-        return key;
+    public String getSearchKey() {
+        return searchKey;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setSearchKey(String searchKey) {
+        this.searchKey = searchKey;
     }
 
     public TaskType getTaskType() {

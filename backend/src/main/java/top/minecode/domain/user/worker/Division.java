@@ -8,6 +8,24 @@ package top.minecode.domain.user.worker;
  */
 public enum Division {
 
+    Novice,
+    Contributor,
+    Expert,
+    Master,
+    GrandMaster;
 
+    public static Division convert(double score) {
+        if (score < 1000) {
+            return Novice;
+        } else if (score < 1500) {
+            return Contributor;
+        } else if (score < 2000) {
+            return Expert;
+        } else if (score < 3000) {
+            return Master;
+        } else {
+            return GrandMaster;
+        }
+    }
 
 }

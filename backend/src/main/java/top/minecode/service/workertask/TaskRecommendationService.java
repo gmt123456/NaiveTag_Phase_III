@@ -14,9 +14,14 @@ import java.util.List;
  * @author iznauy
  */
 @Service
-public interface TaskRecommendationService {
+public class TaskRecommendationService {
 
-    List<Task> getTaskRecommendations(String email, TaskType taskType,
-                                      String taskTag, RankType rankType, int begin, int step);
+    public List<Task> getTaskRecommendations(String email, TaskType taskType,
+                                             String taskTag, RankType rankType, int begin, int step) {
+        return null;
+    }
 
+    private List<Task> getTaskRecommendations(String email, TaskType taskType, String taskTag, RankType rankType) {
+        return null;
+    }
 }
