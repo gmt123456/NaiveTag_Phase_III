@@ -16,8 +16,8 @@ public class Requester extends User {
     public Requester() {
     }
 
-    public Requester(String email, String password,
+    public Requester(String email, String name,
                      double dollars, Date joinTime, String avatar) {
-        super(UserType.REQUESTER, email, password, dollars, joinTime, avatar);
+        super(UserType.REQUESTER, email, name, dollars, joinTime, avatar);
     }
 }

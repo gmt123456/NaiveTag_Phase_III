@@ -1,8 +1,12 @@
-package top.minecode.web.worker;
+package top.minecode.web.workerInfo;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import top.minecode.web.common.BaseController;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 @RequestMapping(value = "/worker/userInfo")
-public class UserInfoController {
+public class UserInfoController extends BaseController {
 
     @RequestMapping(value = "main")
     @ResponseBody
@@ -34,5 +38,22 @@ public class UserInfoController {
         return null;
     }
 
+    @RequestMapping(value = "rank")
+    @ResponseBody
+    public String getRankTable(HttpServletRequest request) {
+        return null;
+    }
+
+    @RequestMapping(value = "finished")
+    @ResponseBody
+    public String getFinishedTasks(HttpServletRequest request) {
+        return null;
+    }
+
+    @RequestMapping(value = "doing")
+    @ResponseBody
+    public String getOnGoingTasks(HttpServletRequest request) {
+        return null;
+    }
 
 }
