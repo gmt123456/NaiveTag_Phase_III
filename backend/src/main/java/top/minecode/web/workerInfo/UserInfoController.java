@@ -38,15 +38,6 @@ public class UserInfoController extends BaseController {
         return null;
     }
 
-    @RequestMapping(value = "edit", method = RequestMethod.POST)
-    @ResponseBody
-    public String editUserInfo(HttpServletRequest request, @RequestParam(required = false) MultipartFile avatar,
-                               @RequestParam(required = false) String userName,
-                               @RequestParam(required = false) String oldPassword,
-                               @RequestParam(required = false) String newPassword) {
-        return null;
-    }
-
     @RequestMapping(value = "rank")
     @ResponseBody
     public String getRankTable(HttpServletRequest request) {
