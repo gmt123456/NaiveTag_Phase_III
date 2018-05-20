@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import top.minecode.dao.log.WorkerLogDao;
 import top.minecode.dao.worker.RankDao;
 import top.minecode.dao.worker.WorkerInfoDao;
+import top.minecode.dao.workertask.TaskDao;
 import top.minecode.domain.DateAndValue;
 import top.minecode.domain.task.FinishedTask;
 import top.minecode.domain.task.Task;
@@ -18,7 +19,9 @@ import top.minecode.po.log.LoginLogPO;
 import top.minecode.po.log.TaskCommitmentLogPO;
 import top.minecode.po.log.WorkerAccountLogPO;
 import top.minecode.po.log.WorkerScoreChangeLogPO;
+import top.minecode.po.task.TaskPO;
 import top.minecode.po.worker.FinishedTaskParticipationPO;
+import top.minecode.po.worker.OnGoingTaskParticipationPO;
 import top.minecode.po.worker.WorkerPO;
 
 import java.util.*;
@@ -38,6 +41,17 @@ public class WorkerInfoService {
     private RankDao rankDao;
 
     private WorkerLogDao workerLogDao;
+
+    private TaskDao taskDao;
+
+    public TaskDao getTaskDao() {
+        return taskDao;
+    }
+
+    @Autowired
+    public void setTaskDao(TaskDao taskDao) {
+        this.taskDao = taskDao;
+    }
 
     public WorkerLogDao getWorkerLogDao() {
         return workerLogDao;
@@ -145,25 +159,6 @@ public class WorkerInfoService {
         return target;
     }
 
-//    private List<DateAndValue> getActivity(String email) {
-//        List<TaskCommitmentLogPO> commitLogs = workerLogDao.getTaskCommitmentByEmail(email);
-//        List<DateAndValue> target = new ArrayList<>();
-//        for (TaskCommitmentLogPO commitLog: commitLogs) {
-//            Date current = commitLog.getCommitTime();
-//            boolean find = false;
-//            for (DateAndValue pair: target) {
-//                if (isSameDay(current, commitLog.getCommitTime())) {
-//                    find = true;
-//                    pair.addValue(1);
-//                    break;
-//                }
-//            }
-//            if (!find)
-//                target.add(new DateAndValue(current, 1));
-//        }
-//        return target;
-//    }
-
     private static boolean isLeapYear(int year) {
         return year % 400 == 0 || (year % 100 != 0 && year % 4 == 0);
     }
@@ -215,11 +210,24 @@ public class WorkerInfoService {
 
     public List<FinishedTask> getFinishedTasks(String email) {
         List<FinishedTaskParticipationPO> rawParticipation = workerInfoDao.getFinishedTasks(email);
-        return null;
+        Map<Integer, FinishedTaskParticipationPO> idToParticipation = rawParticipation.stream()
+                .collect(Collectors.toMap(FinishedTaskParticipationPO::getTaskId, e -> e));
+        List<Integer> taskIds = new ArrayList<>(idToParticipation.keySet());
+        List<TaskPO> rawTasks = taskDao.getTasksByIds(taskIds);
+        List<FinishedTask> results = new ArrayList<>();
+        for (TaskPO po: rawTasks) {
+            FinishedTaskParticipationPO finishedTaskParticipation = idToParticipation.get(po.getId());
+            results.add(FinishedTask.fromPO(po, finishedTaskParticipation));
+        }
+        return results;
     }
 
     public List<Task> getOngoingTasks(String email) {
-        return null;
+        List<OnGoingTaskParticipationPO> onGoingTaskParticipation = workerInfoDao.getOnGoingTasks(email);
+        List<Integer> taskIds = onGoingTaskParticipation.stream().map(OnGoingTaskParticipationPO::getTaskId)
+                .collect(Collectors.toList());
+        List<TaskPO> rawTasks = taskDao.getTasksByIds(taskIds);
+        return rawTasks.stream().map(Task::fromPO).collect(Collectors.toList());
     }
 
 }

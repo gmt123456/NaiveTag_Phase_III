@@ -29,6 +29,8 @@ public class TaskPO implements Serializable {
 
     private String backgroundImage;
 
+    private String taskDescription;
+
     private String readme;
 
     private String ownerEmail;
@@ -68,6 +70,14 @@ public class TaskPO implements Serializable {
     @ElementCollection(fetch = FetchType.EAGER, targetClass = Integer.class)
     @Fetch(FetchMode.SUBSELECT)
     private List<Integer> participators;
+
+    public String getTaskDescription() {
+        return taskDescription;
+    }
+
+    public void setTaskDescription(String taskDescription) {
+        this.taskDescription = taskDescription;
+    }
 
     public int getId() {
         return id;

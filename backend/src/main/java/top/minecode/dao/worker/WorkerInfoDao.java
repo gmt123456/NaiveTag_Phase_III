@@ -20,6 +20,12 @@ public class WorkerInfoDao {
 
     private CommonOperation<WorkerPO> workerPOHelper = new CommonOperation<>(WorkerPO.class.getName());
 
+    private CommonOperation<FinishedTaskParticipationPO> finishParticipationHelper =
+            new CommonOperation<>(FinishedTaskParticipationPO.class.getName());
+
+    private CommonOperation<OnGoingTaskParticipationPO> onGoingTaskParticipationHelper =
+            new CommonOperation<>(OnGoingTaskParticipationPO.class.getName());
+
 
     public WorkerPO getWorkerPOByEmail(String email) {
         return workerPOHelper.getBySingleField("email", email);
@@ -37,11 +43,13 @@ public class WorkerInfoDao {
     public List<FinishedTaskParticipationPO> getFinishedTasks(String email) {
         WorkerPO worker = getWorkerPOByEmail(email);
         List<Integer> finishedParticipation = worker.getFinishedTaskParticipation();
-        String hql = "from " + OnGoingTaskParticipationPO.class.getName() + " t where t.id in (: ids)";
-        List<FinishedTaskParticipationPO> results = HibernateUtils.getCurrentSession().createQuery(hql)
-                .setParameterList("ids", finishedParticipation).list();
-        HibernateUtils.closeSession();
-        return results;
+        return finishParticipationHelper.getValuesInSpecificSet(finishedParticipation, "id");
+    }
+
+    public List<OnGoingTaskParticipationPO> getOnGoingTasks(String email) {
+        WorkerPO worker = getWorkerPOByEmail(email);
+        List<Integer> onGoingParticipation = worker.getOnGoingTaskParticipation();
+        return onGoingTaskParticipationHelper.getValuesInSpecificSet(onGoingParticipation, "id");
     }
 
 }

@@ -130,4 +130,23 @@ public class CommonOperation<T> {
         return ts;
     }
 
+    public <V> List<T> getValuesInSpecificSet(List<V> set, String fieldName) {
+        Session session = HibernateUtils.getCurrentSession();
+        List<T> ts = null;
+        try {
+            session.getTransaction().begin();
+            String hql = "from " + className + " t where t." + fieldName + " in (:se)";
+            Query query = session.createQuery(hql);
+            query.setParameterList("se", set);
+            ts = query.list();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            HibernateUtils.closeSession();
+        }
+        return ts;
+    }
+
 }

@@ -1,5 +1,9 @@
 package top.minecode.domain.task;
 
+import top.minecode.po.task.TaskPO;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -27,8 +31,33 @@ public class Task {
 
     private double totalDollars;
 
+    public Task(Task task) {
+        this.name = task.name;
+        this.taskId = task.taskId;
+        this.taskDescription = task.taskDescription;
+        this.taskCover = task.taskCover;
+        this.taskTags = task.taskTags;
+        this.taskTypes = task.taskTypes;
+        this.endDate = task.endDate;
+        this.totalDollars = task.totalDollars;
+    }
+
+    public static Task fromPO(TaskPO po) {
+        String name = po.getTaskName();
+        int taskId = po.getId();
+        String description = po.getTaskDescription();
+        String taskCover = po.getBackgroundImage();
+        List<TaskTag> taskTags = po.getTaskTags();
+        Date endDate = po.getEndDate();
+        List<TaskType> taskTypes = new ArrayList<>(po.getSpecificTasks().keySet());
+        double totalDollars = po.getTotalDollars();
+        return new Task(name, taskId, description, taskCover, taskTypes, endDate, taskTags, totalDollars);
+    }
+
     public Task() {
     }
+
+
 
     public Task(String name, int taskId, String taskDescription,
                 String taskCover, List<TaskType> taskTypes, Date endDate,
@@ -106,4 +135,6 @@ public class Task {
     public void setTotalDollars(double totalDollars) {
         this.totalDollars = totalDollars;
     }
+
+
 }

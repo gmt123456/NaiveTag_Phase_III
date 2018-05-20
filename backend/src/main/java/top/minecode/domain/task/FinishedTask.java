@@ -1,5 +1,8 @@
 package top.minecode.domain.task;
 
+import top.minecode.po.task.TaskPO;
+import top.minecode.po.worker.FinishedTaskParticipationPO;
+
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +18,20 @@ public class FinishedTask extends Task {
 
     private double earnedDollars;
 
+    public static FinishedTask fromPO(TaskPO po, FinishedTaskParticipationPO participation) {
+        Task task = Task.fromPO(po);
+        double changeOfScore = participation.getScoreChange();
+        double earnedDollars = participation.getEarnedDollars();
+        return new FinishedTask(task, changeOfScore, earnedDollars);
+    }
+
     public FinishedTask() {
+    }
+
+    private FinishedTask(Task task, double changeOfScore, double earnedDollars) {
+        super(task);
+        this.changeOfScore = changeOfScore;
+        this.earnedDollars = earnedDollars;
     }
 
     public FinishedTask(String name, int taskId, String taskDescription, String taskCover,

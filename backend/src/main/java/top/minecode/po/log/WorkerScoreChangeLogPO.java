@@ -19,7 +19,7 @@ public class WorkerScoreChangeLogPO implements Serializable {
 
     private String userEmail;
 
-    private double change;
+    private double currentChange;
 
     private double currentScore;
 
@@ -42,12 +42,12 @@ public class WorkerScoreChangeLogPO implements Serializable {
         this.userEmail = userEmail;
     }
 
-    public double getChange() {
-        return change;
+    public double getCurrentChange() {
+        return currentChange;
     }
 
-    public void setChange(double change) {
-        this.change = change;
+    public void setCurrentChange(double change) {
+        this.currentChange = change;
     }
 
     public double getCurrentScore() {
