@@ -145,24 +145,68 @@ public class WorkerInfoService {
         return target;
     }
 
+//    private List<DateAndValue> getActivity(String email) {
+//        List<TaskCommitmentLogPO> commitLogs = workerLogDao.getTaskCommitmentByEmail(email);
+//        List<DateAndValue> target = new ArrayList<>();
+//        for (TaskCommitmentLogPO commitLog: commitLogs) {
+//            Date current = commitLog.getCommitTime();
+//            boolean find = false;
+//            for (DateAndValue pair: target) {
+//                if (isSameDay(current, commitLog.getCommitTime())) {
+//                    find = true;
+//                    pair.addValue(1);
+//                    break;
+//                }
+//            }
+//            if (!find)
+//                target.add(new DateAndValue(current, 1));
+//        }
+//        return target;
+//    }
+
+    private static boolean isLeapYear(int year) {
+        return year % 400 == 0 || (year % 100 != 0 && year % 4 == 0);
+    }
+
+    private static int getDaysInMonth(int year, int month) {
+        switch (month) {
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12:
+                return 31;
+            case 2:
+                return isLeapYear(year) ? 29 : 28;
+            default:
+                return 30;
+        }
+    }
+
     private List<DateAndValue> getActivity(String email) {
+        List<DateAndValue> results = new ArrayList<>();
         List<TaskCommitmentLogPO> commitLogs = workerLogDao.getTaskCommitmentByEmail(email);
-        List<DateAndValue> target = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        for (int i = 0; i < 12; i++) {
+            calendar.set(Calendar.MONTH, i);
+            int days = getDaysInMonth(calendar.get(Calendar.YEAR), i + 1);
+            for (int j = 1; j <= days; j++) {
+                calendar.set(Calendar.DAY_OF_MONTH, j);
+                results.add(new DateAndValue(calendar.getTime(), 0));
+            }
+        }
         for (TaskCommitmentLogPO commitLog: commitLogs) {
             Date current = commitLog.getCommitTime();
-            boolean find = false;
-            for (DateAndValue pair: target) {
-                if (isSameDay(current, commitLog.getCommitTime())) {
-                    find = true;
-                    pair.addValue(1);
-                    break;
-                }
-            }
-            if (!find)
-                target.add(new DateAndValue(current, 1));
+            calendar.setTime(current);
+            int pos = calendar.get(Calendar.DAY_OF_YEAR) - 1;
+            results.get(pos).addValue(1);
         }
-        return target;
+        return results;
     }
+
 
     public WorkerRecentActivity getRecentActivity(String email) {
         return new WorkerRecentActivity(getDollarChanges(email), getScoreChanges(email), getActivity(email));
@@ -171,7 +215,7 @@ public class WorkerInfoService {
 
     public List<FinishedTask> getFinishedTasks(String email) {
         List<FinishedTaskParticipationPO> rawParticipation = workerInfoDao.getFinishedTasks(email);
-
+        return null;
     }
 
     public List<Task> getOngoingTasks(String email) {
