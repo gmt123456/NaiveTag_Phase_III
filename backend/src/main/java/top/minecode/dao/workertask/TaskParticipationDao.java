@@ -16,8 +16,8 @@ public class TaskParticipationDao {
     private CommonOperation<OnGoingTaskParticipationPO> onGoingTaskParticipationHelper =
             new CommonOperation<OnGoingTaskParticipationPO>(OnGoingTaskParticipationPO.class.getName());
 
-    public boolean addOnGoingTaskParticipation(OnGoingTaskParticipationPO po) {
-        return onGoingTaskParticipationHelper.add(po);
+    public void addOnGoingTaskParticipation(OnGoingTaskParticipationPO po) {
+        onGoingTaskParticipationHelper.add(po);
     }
 
 }
