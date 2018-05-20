@@ -67,9 +67,9 @@ public class TaskPO implements Serializable {
 
     private int picNum;
 
-    @ElementCollection(fetch = FetchType.EAGER, targetClass = Integer.class)
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = String.class)
     @Fetch(FetchMode.SUBSELECT)
-    private List<Integer> participators;
+    private List<String> participators;
 
     public String getTaskDescription() {
         return taskDescription;
@@ -215,11 +215,11 @@ public class TaskPO implements Serializable {
         this.picNum = picNum;
     }
 
-    public List<Integer> getParticipators() {
+    public List<String> getParticipators() {
         return participators;
     }
 
-    public void setParticipators(List<Integer> participators) {
+    public void setParticipators(List<String> participators) {
         this.participators = participators;
     }
 }

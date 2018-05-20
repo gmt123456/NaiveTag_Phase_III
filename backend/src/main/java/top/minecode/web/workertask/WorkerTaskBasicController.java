@@ -1,8 +1,14 @@
 package top.minecode.web.workertask;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import top.minecode.domain.task.SubTaskState;
+import top.minecode.domain.task.TaskState;
+import top.minecode.domain.task.TaskType;
+import top.minecode.service.workertask.WorkerTaskBasicService;
 import top.minecode.web.common.BaseController;
+import top.minecode.web.common.WebConfig;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,22 +21,38 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/worker")
 public class WorkerTaskBasicController extends BaseController{
 
+    private WorkerTaskBasicService basicService;
+
+    public WorkerTaskBasicService getBasicService() {
+        return basicService;
+    }
+
+    @Autowired
+    public void setBasicService(WorkerTaskBasicService basicService) {
+        this.basicService = basicService;
+    }
+
     @RequestMapping("/join")
     @ResponseBody
     public String joinTask(HttpServletRequest request, int taskId) {
-        return null;
+        String email = getUserEmail(request);
+        return WebConfig.getGson().toJson(basicService.joinTask(email, taskId));
     }
 
     @RequestMapping(value = "/task/subTaskSet")
     @ResponseBody
     public String getSubTaskSet(HttpServletRequest request, int taskId, int taskType) {
-        return null;
+        String email = getUserEmail(request);
+        TaskType type = TaskType.convert(taskType);
+        return WebConfig.getGson().toJson(basicService.getAllSubTasks(email, taskId, type));
     }
 
     @RequestMapping(value = "/task/myParticipation")
     @ResponseBody
-    public String getMyParticipation(HttpServletRequest request, int taskId, String taskState) {
-        return null;
+    public String getMyParticipation(HttpServletRequest request, int taskId, int subTaskState) {
+        String email = getUserEmail(request);
+        SubTaskState state = SubTaskState.convert(subTaskState);
+        return WebConfig.getGson().toJson(basicService.getWorkerParticipation(email, taskId, state));
     }
 
 }

@@ -26,4 +26,7 @@ public class TaskDao {
         return taskHelper.getValuesInSpecificSet(ids, "id");
     }
 
+    public boolean persist(TaskPO taskPO) {
+        return taskHelper.update(taskPO);
+    }
 }

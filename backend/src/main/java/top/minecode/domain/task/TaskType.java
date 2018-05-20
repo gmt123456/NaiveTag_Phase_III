@@ -14,5 +14,29 @@ public enum TaskType {
     t_300,
     t_301,
     t_400,
-    t_401
+    t_401;
+
+    public static TaskType convert(int type) {
+        switch (type) {
+            case 100:
+                return t_100;
+            case 101:
+                return t_101;
+            case 200:
+                return t_200;
+            case 201:
+                return t_201;
+            case 300:
+                return t_300;
+            case 301:
+                return t_301;
+            case 400:
+                return t_400;
+            case 401:
+                return t_401;
+            default:
+                return null;
+        }
+    }
+
 }

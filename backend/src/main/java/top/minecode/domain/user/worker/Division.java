@@ -28,4 +28,25 @@ public enum Division {
         }
     }
 
+    private static int toInt(Division division) {
+        switch (division) {
+            case Expert:
+                return 2000;
+            case Master:
+                return 3000;
+            case Novice:
+                return 1000;
+            case Contributor:
+                return 1500;
+            case GrandMaster:
+                return 6000;
+            default:
+                return 0;
+        }
+    }
+
+    public static int difference(Division division1, Division division2) {
+        return Division.toInt(division1) - Division.toInt(division2);
+    }
+
 }

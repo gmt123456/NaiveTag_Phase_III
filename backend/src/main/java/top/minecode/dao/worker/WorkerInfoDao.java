@@ -52,4 +52,8 @@ public class WorkerInfoDao {
         return onGoingTaskParticipationHelper.getValuesInSpecificSet(onGoingParticipation, "id");
     }
 
+    public boolean persistWorker(WorkerPO worker) {
+        return workerPOHelper.update(worker);
+    }
+
 }
