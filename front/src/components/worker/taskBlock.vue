@@ -1,0 +1,81 @@
+<template>
+    <div>
+        <el-card :body-style="{ padding: '0px' }" style="margin-bottom: 10px;margin-top: 10px;">
+            <el-container>
+                <el-aside style="width: 120px;background-color: transparent;">
+                    <img :src="taskCover" width="90px" height="auto" style="margin: 10px;padding-left: 10px;overflow: hidden;">
+                </el-aside>
+                <el-main style="background-color: transparent;">
+                    <div style="font-weight: 800;font-size: 15px;">{{name}}</div>
+                    <div style="color: #717478;font-size: 13px;">{{taskDescription}}</div>
+                    <div style="text-align: left;">
+                        <span v-for="(item,index) in taskType" style="color: dodgerblue;font-size: 13px;">{{getTaskNameByID(item)}}{{(index === taskType.length-1)? "":",\ "}}</span>
+                        <div class="center">
+                            <span style="color: #bfbfbf;font-size: 13px;padding-right: 5px;">end at {{endDate}} ·</span>
+                            <img src="../../../static/sale-fill.png" width="15px" style="padding-right: 3px;"/>
+                            <span v-for="(theme,index) in taskTag" style="color: #bfbfbf;font-size: 13px;padding-right: 2px;">{{theme}}{{(index === taskTag.length-1)? "":","}}</span>
+                        </div>
+                    </div>
+
+                </el-main>
+                <el-aside style="width: 120px;background-color: transparent;">
+                    <div style="margin-top: 30px;">
+                        <img src="../../../static/dollar.png" width="15px"/>
+                        <span style="font-weight: 600;color: #47494d">{{earnedDollors.toFixed(2)}}</span>
+                    </div>
+                    <div>
+                        <img src="../../../static/favorite.png" width="15px"/>
+                        <span style="color: #47494d;">{{changeOfScore}}</span>
+                    </div>
+                </el-aside>
+            </el-container>
+        </el-card>
+    </div>
+</template>
+
+<script>
+    import {getTaskName} from "../../api/taskTypeName";
+
+    export default {
+		props:{
+			"name": String, // 任务名
+			"taskId": Number, // 任务ID
+			"taskDescription": String, // 任务描述
+			"taskCover": String, // 一个url，表示任务的封面，以固定的尺寸显示！
+			"earnedDollors": Number, // 2位小数，表示挣来的钱数
+			"changeOfScore": Number, // 做的这个任务引起的积分变化，可正可负
+			"taskType": Array, // 这个一级任务中包含的任务的类型
+			"endDate": String, // 任务截止的时间
+			"taskTag": Array, // 任务的一些标签信息，就是任务的主题
+        },
+		name: "taskBlock",
+
+        data(){
+			return {
+
+            }
+        },
+
+        methods: {
+			getTaskNameByID(taskID){
+				let name = getTaskName(taskID)
+				return name[0] + "-" + name[1];
+            }
+        },
+	}
+</script>
+
+<style scoped>
+    .task-block{
+        cursor: pointer;
+    }
+    .task-block :hover{
+        border: dotted 1px;
+    }
+
+    .center {
+        display:flex;
+        /*justify-content:center;*/
+        align-items:center;
+    }
+</style>

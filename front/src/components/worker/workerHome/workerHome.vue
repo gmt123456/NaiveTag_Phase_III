@@ -1,23 +1,33 @@
 <template>
     <div id="workerHome">
-        <div id="calendar" :style="{width: '100%', height: '200px'}"></div>
-        <div style="height: 300px;"></div>
-        <div id="dollarChanges" :style="{width: '100%', height: '300px'}"></div>
+
+        <el-card style="height: 180px;width: 100%;">
+            <div id="calendar" :style="{width: '100%', height: '200px', top: '-30px'}"></div>
+        </el-card>
+        <el-card style="width: 100%;margin-top: 10px;">
+            <div id="dollarChanges" :style="{width: '100%', height: '280px'}"></div>
+        </el-card>
+        <el-card style="width: 100%;margin-top: 10px;">
+            <div id="scoreChanges" :style="{width: '100%', height: '380px'}"></div>
+        </el-card>
         <div style="height: 20px;"></div>
-        <div id="scoreChanges" :style="{width: '100%', height: '400px'}"></div>
+
     </div>
 </template>
 
 <script>
+
+	import {workerChanges} from "../../../api/workerInfo";
+
     export default {
 
         data () {
             return {
             	//后端传过来的数据要先用getDataList转换位数组格式
             	userChanges:{
-		            "dollarChanges": [["2000-06-05",116],["2000-06-06",129],["2000-06-07",135],["2000-06-08",86],["2000-06-09",73],["2000-06-10",85],["2000-06-11",73],["2000-06-12",68],["2000-06-13",92],["2000-06-14",130],["2000-06-16",139],["2000-06-17",115],["2000-06-18",111],["2000-06-20",206],["2000-06-21",137],["2000-06-22",128],["2000-06-23",85],["2000-06-24",94],["2000-06-25",71],["2000-06-26",106],["2000-06-27",84],["2000-06-28",93],["2000-06-29",85],["2000-06-30",73],["2000-07-01",83],["2000-07-02",125],["2000-07-03",107],["2000-07-04",82],["2000-07-05",44],["2000-07-06",72],["2000-07-07",106],["2000-07-08",107],["2000-07-09",66],["2000-07-10",91],["2000-07-11",92],["2000-07-12",113],["2000-07-13",107],["2000-07-14",131],["2000-07-15",111],["2000-07-16",64],["2000-07-17",69],["2000-07-18",88],["2000-07-19",77],["2000-07-20",83],["2000-07-21",111],["2000-07-22",57],["2000-07-23",55],["2000-07-24",60]],
-		            "scoreChanges": [["2000-06-05",56],["2000-06-06",31.8],["2000-06-07",88],["2000-06-08",10],["2000-06-09",73],["2000-06-10",85],["2000-06-11",73],["2000-06-12",68],["2000-06-13",92],["2000-06-14",130],["2000-06-16",139],["2000-06-17",115],["2000-06-18",111],["2000-06-19",309],["2000-06-20",206],["2000-06-21",137],["2000-06-22",128],["2000-06-23",85],["2000-06-24",94],["2000-06-25",71],["2000-06-26",106],["2000-06-27",84],["2000-06-28",93],["2000-06-29",85],["2000-06-30",73],["2000-07-01",83],["2000-07-02",125],["2000-07-03",107],["2000-07-04",82],["2000-07-05",44],["2000-07-06",72],["2000-07-07",106],["2000-07-08",107],["2000-07-09",66],["2000-07-10",91],["2000-07-11",92],["2000-07-12",113],["2000-07-13",107],["2000-07-14",131],["2000-07-15",111],["2000-07-16",64],["2000-07-17",69],["2000-07-18",88],["2000-07-19",77],["2000-07-20",83],["2000-07-21",111],["2000-07-22",57],["2000-07-23",55],["2000-07-24",60]],
-		            "Activity": this.getVirtulData(2018), // 365个数字，表示活跃度，瑞年要不要考虑回头再议，反正2018年不是瑞年
+		            "dollarChanges": [],
+                    "scoreChanges": [],
+                    "Activity": [], // 365个数字，表示活跃度，瑞年要不要考虑回头再议，反正2018年不是瑞年
                 },
 
                 optionChanges : {
@@ -106,6 +116,10 @@
             }
         },
 
+        created(){
+        	this.getChangesData();
+        },
+
         mounted(){
             this.drawCalendar();
             this.drawDollarChanges();
@@ -113,18 +127,15 @@
         },
 
         methods: {
-            getVirtulData(year) {
-                let date = + this.$echarts.number.parseDate(year + '-01-01');
-                let end = + this.$echarts.number.parseDate(year + '-12-31');
-                let dayTime = 3600 * 24 * 1000;
-                let data = [];
-                for (let time = date; time <= end; time += dayTime) {
-                    data.push([
-                        this.$echarts.format.formatTime('yyyy-MM-dd', time),
-                        Math.random()*200
-                    ]);
-                }
-                return data;
+
+        	getChangesData(){
+		        let that = this;
+		        workerChanges(res => {
+			        that.userChanges = res;
+			        that.userChanges.Activity = that.getDataList(that.userChanges.Activity);
+			        that.userChanges.dollarChanges = that.getDataList(that.userChanges.dollarChanges);
+			        that.userChanges.scoreChanges = that.getDataList(that.userChanges.scoreChanges);
+		        });
             },
 
             //将后端传过来的dataInfo转化成图表可以接受的data

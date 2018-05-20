@@ -2,7 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '../components/index/Login.vue'
 import SignUp from '../components/index/SignUp.vue'
-import workerHome from '../components/worker/workerHome.vue'
+import WorkerHome from '../components/worker/workerHome/workerHome.vue'
+import WorkerMain from '../components/worker/workerMain.vue'
+import WorkerUnfinish from '../components/worker/workerHome/workerUnfinish.vue'
+import WorkerFinish from '../components/worker/workerHome/workerFinish.vue'
 import Index from '../components/index/Index.vue'
 import RequesterIndex from '../components/requester/RequesterIndex.vue'
 import RequesterHome from '../components/requester/Home.vue'
@@ -14,7 +17,12 @@ export default new Router({
 
   routes: [
     {
-      path: '/home', component: workerHome
+	    path: '/worker', component: WorkerMain,
+	    children: [
+		    {path: 'home', component: WorkerHome},
+		    {path: 'unfinish', component: WorkerUnfinish},
+		    {path: 'finish', component: WorkerFinish}
+	    ]
     },
     {path: '/', component: Index},
     {

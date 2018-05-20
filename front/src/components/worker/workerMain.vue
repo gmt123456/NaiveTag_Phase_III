@@ -10,7 +10,7 @@
 
                     <el-aside width="170px" height="170px" style="background-color: #D3DCE6;">
                         <transition name="fade">
-                            <div v-if="isEditing" @click="changePicVisible = true" style="font-size: 14px;color: white;width: 170px;height: 170px;z-index: 1;position: absolute;background-color:rgba(0,0,0,0.2);text-align: center;cursor: pointer;">
+                            <div v-if="isEditing" @click="changePicStart" style="font-size: 14px;color: white;width: 170px;height: 170px;z-index: 1;position: absolute;background-color:rgba(0,0,0,0.2);text-align: center;cursor: pointer;">
                                 <div style="padding-top: 66px;">Change your</div>
                                 <div>profile photo</div>
                             </div>
@@ -46,25 +46,25 @@
                     </el-main>
 
                     <el-aside width="150px" height="170px" style="float: right;">
-                        <img src="static/data.png" width="15px" style="padding-top: 34px;">
+                        <img src="../../../static/data.png" width="15px" style="padding-top: 34px;">
                         <span> {{userInfo.rank}}</span>
                         <span style="color: darkgrey;font-size: 13px;">rank</span>
                         <p></p>
-                        <img src="static/dollar.png" width="15px">
+                        <img src="../../../static/dollar.png" width="15px">
                         <span> {{userInfo.dollars}}</span>
                         <span style="color: darkgrey;font-size: 13px;">dollars</span>
                         <p></p>
-                        <img src="static/favorite.png" width="15px">
+                        <img src="../../../static/favorite.png" width="15px">
                         <span> {{userInfo.score}}</span>
                         <span style="color: darkgrey;font-size: 13px;">score</span>
                     </el-aside>
 
                     <el-aside width="150px" class="left-border">
-                        <img v-if="this.userInfo.division === 'Contributor'" src="static/grade/contributor.png" width="148px" height="auto">
-                        <img v-if="this.userInfo.division === 'Novice'" src="static/grade/novice.png" width="148px" height="auto">
-                        <img v-if="this.userInfo.division === 'Expert'" src="static/grade/expert.png" width="148px" height="auto">
-                        <img v-if="this.userInfo.division === 'Master'" src="static/grade/master.png" width="148px" height="auto">
-                        <img v-if="this.userInfo.division === 'Grandmaster'" src="static/grade/grandmaster.png" width="148px" height="auto">
+                        <img v-if="this.userInfo.division === 'Contributor'" src="../../../static/grade/contributor.png" width="148px" height="auto">
+                        <img v-if="this.userInfo.division === 'Novice'" src="../../../static/grade/novice.png" width="148px" height="auto">
+                        <img v-if="this.userInfo.division === 'Expert'" src="../../../static/grade/expert.png" width="148px" height="auto">
+                        <img v-if="this.userInfo.division === 'Master'" src="../../../static/grade/master.png" width="148px" height="auto">
+                        <img v-if="this.userInfo.division === 'Grandmaster'" src="../../../static/grade/grandmaster.png" width="148px" height="auto">
                     </el-aside>
 
                 </el-container>
@@ -79,9 +79,9 @@
 
                 <el-menu :default-active="$route.path" mode="horizontal" :router="true"
                          style="height: 50px;position: relative;top: -10px;">
-                    <el-menu-item index="/home" style="height: 50px;">Home</el-menu-item>
-                    <el-menu-item index="/unfinish" style="height: 50px;">Unfinish</el-menu-item>
-                    <el-menu-item index="/finish" style="height: 50px;">Finish</el-menu-item>
+                    <el-menu-item index="/worker/home" style="height: 50px;">Home</el-menu-item>
+                    <el-menu-item index="/worker/unfinish" style="height: 50px;">Unfinish</el-menu-item>
+                    <el-menu-item index="/worker/finish" style="height: 50px;">Finish</el-menu-item>
                     <el-button v-if="!isEditing" type="primary" style="float: right;height: 40px;width: 150px;margin-top: 10px;" @click="editHandle">Edit Profile</el-button>
                     <el-button v-if="isEditing" type="success" style="float: right;height: 40px;width: 150px;margin-top: 10px;" @click="submitForm('userInfo')">Save Profile</el-button>
                 </el-menu>
@@ -89,12 +89,13 @@
             </div>
         </div></el-col>
 
-        <div style="width: 100%;text-align: center;background-color: #f6f9fa;">
-            <div style="width: 900px;min-height: 740px;margin: auto;background-color: #fbfbfb;border: lightgray solid 1px;border-radius: 5px;">
-                <router-view></router-view>
+        <el-col>
+            <div style="width: 100%;background-color: #f6f9fa;">
+                <div style="width: 900px;min-height: 740px;margin: auto;">
+                    <router-view></router-view>
+                </div>
             </div>
-        </div>
-
+        </el-col>
 
         <el-dialog
                 title="change password"
@@ -124,7 +125,7 @@
                 :visible.sync="changePicVisible"
                 width="900px">
             <div>
-                <change-pic :img="this.userInfo.avaster"></change-pic>
+                <change-pic :imageSrc=userInfo.avaster ref="changePic" v-on:save-res="savePic"></change-pic>
             </div>
             <span slot="footer">
                 <el-button size="medium" @click="changePicVisible = false">cancel</el-button>
@@ -138,6 +139,9 @@
 <script>
 
     import changePic from './workerPic.vue';
+    import {workerInfo} from "../../api/workerInfo";
+    import {workerEditPassword} from "../../api/workerInfo";
+    import {workerEditUserName} from "../../api/workerInfo";
 
     export default {
         data() {
@@ -168,15 +172,15 @@
 	            changePicVisible: false,
 	            isEditing: false,
                 userInfo: {
-                    "avaster": "static/1.png", // url
-                    "userName": "Junda",
-                    "email": "123456@qq.com",
-                    "lastVisit": "last seen in the past day",
-                    "rank": 8048000,
-                    "joint": "joined a minute ago",
-                    "dollars": 6.66,
-                    "division": "Expert", //(可能的取值：Novice, Contributor, Expert, Master, Grandmaster)
-                    "score": 88.9,
+                    "avaster": "", // url
+                    "userName": "",
+                    "email": "",
+                    "lastVisit": "",
+                    "rank": 0,
+                    "joint": "",
+                    "dollars": 0,
+                    "division": "Novice", //(可能的取值：Novice, Contributor, Expert, Master, Grandmaster)
+                    "score": 0,
                 },
                 password: {
 	            	oldPassword: "",
@@ -186,12 +190,8 @@
 	            rules: {
 		            userName: [
 			            { required: true, message: '请输入你的名字', trigger: ['blur', 'change'] },
-			            { min: 3, max: 12, message: '长度在 3 到 12 个字符', trigger: 'blur' }
+			            { min: 3, max: 12, message: '长度在 3 到 12 个字符', trigger: ['blur', 'change'] }
 		            ],
-                    email: [
-	                    { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-	                    { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
-                    ],
 
 	            },
 	            rulesPassword: {
@@ -212,34 +212,61 @@
 
         methods: {
 
+        	editFail(){
+		        this.$message.error('修改失败！(；′⌒`)');
+	        },
+            editSuccess(){
+	            this.$message({
+		            message: '修改成功ψ(｀∇´)ψ',
+		            type: 'success'
+	            });
+            },
+
+        	getUserInfo(){
+        		let that = this;
+		        workerInfo(res => {
+			        that.userInfo = res;
+		        });
+            },
+
+	        changePicStart(){
+		        this.changePicVisible = true;
+		        // this.$refs.changePic.startPic();
+	        },
+
         	//提交图片进行的处理
 	        submitPic(){
-		        this.changePicVisible = false;
+		        this.$refs.changePic.savePic();
+            },
+
+            savePic(res){
+	            if(res.state === "success"){
+		            this.getUserInfo();
+		            this.editSuccess();
+		            this.changePicVisible = false;
+		            this.isEditing = false;
+	            }else{
+		            this.editFail();
+	            }
             },
 
 	        editHandle(){
 	        	this.isEditing = true;
             },
 
-	        getVirtulData(year) {
-		        let date = + this.$echarts.number.parseDate(year + '-01-01');
-		        let end = + this.$echarts.number.parseDate(year + '-12-31');
-		        let dayTime = 3600 * 24 * 1000;
-		        let data = [];
-		        for (let time = date; time <= end; time += dayTime) {
-			        data.push([
-				        this.$echarts.format.formatTime('yyyy-MM-dd', time),
-				        Math.random()*200
-			        ]);
-		        }
-		        return data;
-	        },
-
 	        submitForm(formName) {
+		        let that = this;
 		        this.$refs[formName].validate((valid) => {
 			        if (valid) {
-
-				        this.isEditing = false;
+				        workerEditUserName(that.userInfo.userName, result => {
+				        	if(result.state === "success"){
+						        that.editSuccess();
+                            }else{
+				        		that.editFail();
+					        }
+					        that.isEditing = false;
+					        that.getUserInfo();
+                        });
 			        } else {
 				        console.log('error submit!!');
 				        return false;
@@ -248,10 +275,20 @@
 	        },
 
 	        submitPassword(formName) {
+		        let that = this;
 		        this.$refs[formName].validate((valid) => {
 			        if (valid) {
-				        alert('submit!');
-				        this.dialogVisible = false;
+				        workerEditPassword(that.password.oldPassword, that.password.newPassword, result => {
+				        	if(result.state === "success"){
+						        that.editSuccess();
+						        that.dialogVisible = false;
+                            }else if(result.state === "invalid password"){
+				        		that.$message.error("密码错误！(；′⌒`)");
+                            }else{
+				        		that.editFail();
+                            }
+					        that.getUserInfo();
+                        });
 			        } else {
 				        console.log('error submit!!');
 				        return false;
@@ -261,6 +298,15 @@
 
 
         },
+
+        created: function() {
+	        this.getUserInfo();
+        },
+
+	    watch: {
+		    // 如果路由有变化，会再次执行该方法
+		    '$route': 'getUserInfo'
+	    },
 
         components:{
 	        changePic
@@ -284,7 +330,7 @@
     }
 
     .fade-enter-active, .fade-leave-active {
-        transition: all 1s;
+        transition: all 400ms;
     }
     .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
         opacity: 0;
