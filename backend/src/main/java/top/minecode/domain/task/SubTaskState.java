@@ -1,28 +1,14 @@
 package top.minecode.domain.task;
 
 /**
- * Created on 2018/5/16.
+ * Created on 2018/5/21.
  * Description:
  *
  * @author iznauy
  */
 public enum SubTaskState {
 
-    DOING,
-    EXPIRED,
-    FINISHED;
-
-    public static SubTaskState convert(int subTaskState) {
-        switch (subTaskState) {
-            case 0:
-                return DOING;
-            case 1:
-                return EXPIRED;
-            case 2:
-                return FINISHED;
-            default:
-                return null;
-        }
-    }
+    COMMON,
+    LOCKED;
 
 }

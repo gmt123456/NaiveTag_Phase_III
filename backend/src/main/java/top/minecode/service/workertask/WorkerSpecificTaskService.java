@@ -5,9 +5,7 @@ import org.springframework.stereotype.Service;
 import top.minecode.dao.worker.WorkerInfoDao;
 import top.minecode.dao.workertask.TaskDao;
 import top.minecode.dao.workertask.TaskParticipationDao;
-import top.minecode.domain.task.Task;
-import top.minecode.domain.task.TaskSpecification;
-import top.minecode.domain.task.TaskState;
+import top.minecode.domain.task.*;
 import top.minecode.domain.user.worker.Division;
 import top.minecode.domain.user.worker.Worker;
 import top.minecode.po.task.TaskPO;
@@ -90,6 +88,12 @@ public class WorkerSpecificTaskService {
         return new TaskSpecification(Task.fromPO(taskPO), state, accepted,
                 requiredDivision, taskBackground, canAccept,
                 earnedDollars, scoreChange);
+    }
+
+
+    public SubTaskAcceptResponse acceptSubTask(String email, int taskId, int subTaskId, TaskType taskType) {
+        
+        return null;
     }
 
 }

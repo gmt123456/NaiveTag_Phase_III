@@ -9,7 +9,6 @@ import top.minecode.dao.workertask.TaskDao;
 import top.minecode.dao.workertask.TaskParticipationDao;
 import top.minecode.domain.task.*;
 import top.minecode.domain.user.worker.Division;
-import top.minecode.domain.user.worker.Worker;
 import top.minecode.po.task.SpecificTaskPO;
 import top.minecode.po.task.TaskPO;
 import top.minecode.po.worker.FinishedTaskParticipationPO;
@@ -149,11 +148,12 @@ public class WorkerTaskBasicService {
             }
         }
 
-        return subTaskDao.getSubTasksByIdList(viewableTasksIds).stream().map(e -> SubTask.fromPO(e, taskId))
+        return subTaskDao.getSubTasksByIdList(viewableTasksIds).stream()
+                .filter(e -> e.getSubTaskState() == SubTaskState.COMMON).map(e -> SubTask.fromPO(e, taskId))
                 .collect(Collectors.toList());
     }
 
-    public List<SubTaskParticipation> getWorkerParticipation(String email, int taskId, SubTaskState subTaskState) {
+    public List<SubTaskParticipation> getWorkerParticipation(String email, int taskId, SubTaskParticipationState subTaskPartcipationState) {
         TaskPO taskPO = taskDao.getTaskById(taskId);
         List<Integer> subTaskParticipation = null;
         if (taskPO.getTaskState() == TaskState.ON_GOING) {
@@ -187,6 +187,7 @@ public class WorkerTaskBasicService {
         return subTaskDao.getSubTaskParticipationByIds(subTaskParticipation).stream().map(SubTaskParticipation::fromPO)
                 .collect(Collectors.toList());
     }
+
 
 
 }

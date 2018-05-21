@@ -29,10 +29,6 @@ public class SubTaskPO {
     @Fetch(FetchMode.SUBSELECT)
     private List<String> picList;
 
-    @ElementCollection(fetch = FetchType.EAGER, targetClass = String.class)
-    @Fetch(FetchMode.SUBSELECT)
-    private List<String> currentDoingWorkerEmails;
-
     private SubTaskState subTaskState;
 
     private String cover;
@@ -75,14 +71,6 @@ public class SubTaskPO {
 
     public void setPicList(List<String> picList) {
         this.picList = picList;
-    }
-
-    public List<String> getCurrentDoingWorkerEmails() {
-        return currentDoingWorkerEmails;
-    }
-
-    public void setCurrentDoingWorkerEmails(List<String> currentDoingWorkerEmails) {
-        this.currentDoingWorkerEmails = currentDoingWorkerEmails;
     }
 
     public SubTaskState getSubTaskState() {

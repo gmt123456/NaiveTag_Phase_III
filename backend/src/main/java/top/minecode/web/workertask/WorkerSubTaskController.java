@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import top.minecode.domain.task.TaskType;
 import top.minecode.service.workertask.WorkerSpecificTaskService;
 import top.minecode.web.common.BaseController;
 import top.minecode.web.common.WebConfig;
@@ -48,7 +49,9 @@ public class WorkerSubTaskController extends BaseController {
     @RequestMapping(value = "/subTask/accept")
     @ResponseBody
     public String acceptSubTask(HttpServletRequest request, int taskId, int taskType, int subTaskId) {
-        return null;
+        String email = getUserEmail(request);
+        return WebConfig.getGson().toJson(specificTaskService
+                .acceptSubTask(email, taskId, subTaskId, TaskType.convert(taskType)));
     }
 
     @RequestMapping(value = "/subTask/commit")
