@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 import top.minecode.dao.utils.CommonOperation;
 import top.minecode.po.worker.FinishedTaskParticipationPO;
 import top.minecode.po.worker.OnGoingTaskParticipationPO;
+import top.minecode.po.worker.SubTaskParticipationPO;
 
 /**
  * Created on 2018/5/20.
@@ -31,5 +32,10 @@ public class TaskParticipationDao {
     public FinishedTaskParticipationPO getFinishedTaskParticipation(int id) {
         return finishedTaskParticipationHelper.getBySingleField("id", id);
     }
+
+    public void updateOnGoingTaskParticipation(OnGoingTaskParticipationPO po) {
+        onGoingTaskParticipationHelper.update(po);
+    }
+
 
 }

@@ -31,4 +31,17 @@ public class SubTaskDao {
         return subTaskParticipationHelper.getValuesInSpecificSet(ids, "id");
     }
 
+    public void addSubTaskParticipation(SubTaskParticipationPO participationPO) {
+        subTaskParticipationHelper.add(participationPO);
+    }
+
+    public void updateSubTaskParticipation(SubTaskParticipationPO participationPO) {
+        subTaskParticipationHelper.update(participationPO);
+    }
+
+    public SubTaskPO getSubTaskById(int id) {
+        return subTaskHelper.getBySingleField("id", id);
+    }
+
+
 }
