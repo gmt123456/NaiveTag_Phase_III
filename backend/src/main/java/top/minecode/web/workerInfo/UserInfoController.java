@@ -41,7 +41,8 @@ public class UserInfoController extends BaseController {
     @RequestMapping(value = "recent")
     @ResponseBody
     public String getRecentInfo(HttpServletRequest request) {
-        return null;
+        String email = getUserEmail(request);
+        return WebConfig.getGson().toJson(workerInfoService.getRecentActivity(email));
     }
 
     @RequestMapping(value = "avatar")
