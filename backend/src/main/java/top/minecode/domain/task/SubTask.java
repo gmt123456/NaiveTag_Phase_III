@@ -1,5 +1,7 @@
 package top.minecode.domain.task;
 
+import top.minecode.po.task.SubTaskPO;
+
 /**
  * Created on 2018/5/20.
  * Description:
@@ -54,4 +56,9 @@ public class SubTask {
     public void setCover(String cover) {
         this.cover = cover;
     }
+
+    public static SubTask fromPO(SubTaskPO subTaskPO, int taskId) {
+        return new SubTask(taskId, subTaskPO.getId(), subTaskPO.getPicList().size(), subTaskPO.getCover());
+    }
+
 }
