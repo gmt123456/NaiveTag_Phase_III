@@ -11,16 +11,25 @@ import top.minecode.domain.task.TaskInfo;
  * @author iznauy
  */
 @Service
-public interface TagService {
+public class TagService {
 
-    void save(String userEmail, int taskId, int subTaskId, int taskType, String url, TagResult tagResult);
+    public void save(String userEmail, int taskId, int subTaskId, int taskType, String url, TagResult tagResult) {
 
-    String next(int taskId, int subTaskId, int taskType, String url);
+    }
 
-    String previous(int taskId, int subTaskId, int taskType, String url);
+    public String next(int taskId, int subTaskId, int taskType, String url) {
+        return null;
+    }
 
-    String getLabelInformation(String userEmail, int taskId, int subTaskId, int taskType, String url);
+    public String previous(int taskId, int subTaskId, int taskType, String url) {
+        return null;
+    }
 
-    TaskInfo getTaskInformation(int taskId, int subTaskId);
+    public String getLabelInformation(String userEmail, int taskId, int subTaskId, int taskType, String url) {
+        return null;
+    }
 
+    public TaskInfo getTaskInformation(int taskId, int subTaskId) {
+        return null;
+    }
 }

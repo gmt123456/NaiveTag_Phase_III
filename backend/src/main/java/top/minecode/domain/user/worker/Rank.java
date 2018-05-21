@@ -17,10 +17,13 @@ public class Rank implements Comparable<Rank> {
 
     private Division division;
 
-    public Rank(String userName, double score, Division division) {
+    private String avatar;
+
+    public Rank(String userName, double score, Division division, String avatar) {
         this.userName = userName;
         this.score = score;
         this.division = division;
+        this.avatar = avatar;
     }
 
     public String getUserName() {
@@ -47,13 +50,21 @@ public class Rank implements Comparable<Rank> {
         this.division = division;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     @Override
     public int compareTo(@NotNull Rank o) {
         return score < o.score ? -1: 1;
     }
 
     public static Rank convert(RankPO rankPO) {
-        return new Rank(rankPO.getUserName(), rankPO.getScore(), Division.convert(rankPO.getScore()));
+        return new Rank(rankPO.getUserName(), rankPO.getScore(), Division.convert(rankPO.getScore()), rankPO.getAvatar());
     }
 
 }
