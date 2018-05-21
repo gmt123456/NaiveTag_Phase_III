@@ -2,7 +2,6 @@ package top.minecode.dao.worker;
 
 import org.springframework.stereotype.Service;
 import top.minecode.dao.utils.CommonOperation;
-import top.minecode.dao.utils.HibernateUtils;
 import top.minecode.po.worker.FinishedTaskParticipationPO;
 import top.minecode.po.worker.OnGoingTaskParticipationPO;
 import top.minecode.po.worker.WorkerPO;

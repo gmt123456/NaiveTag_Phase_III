@@ -3,7 +3,6 @@ package top.minecode.web.workertask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import top.minecode.domain.task.SubTaskParticipation;
 import top.minecode.domain.task.SubTaskParticipationState;
 import top.minecode.domain.task.TaskType;
 import top.minecode.service.workertask.WorkerTaskBasicService;
