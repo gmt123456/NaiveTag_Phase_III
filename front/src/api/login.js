@@ -1,25 +1,26 @@
-
 import {getUrl} from "./tool";
 
-export function login(username, password, callback) {
-    validateMock(username,password,callback)
+export function login(email, password, userType, callback) {
+  validateMock(email, password,userType, callback)
 }
 
-function validateFromServer(username, password,callback) {
-   $.post(getUrl('login.html'),{
-       username:username,
-       password:password
-   },function (result) {
-       callback(JSON.parse(result))
-   })
+function validateFromServer(email, password, userType, callback) {
+  $.post(getUrl('login.html'), {
+    email: email,
+    password: password,
+    userType: userType
+  }, function (result) {
+    callback(JSON.parse(result))
+  })
 }
 
-function validateMock(username, password,callback) {
-    let res;
-    if (username === '')
-        res={"result": "success", "userType": "worker"};
-    else
-        res={"result": "success", "userType": "requester"};
+function validateMock(username, password, userType, callback) {
+  let res;
+  res = {
+    "message": null,
+    "status": "success",
+    "token": "asdasdasdas",
+  };
 
-    callback(res);
+  callback(res);
 }
