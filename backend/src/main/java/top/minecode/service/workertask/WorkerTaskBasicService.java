@@ -3,11 +3,13 @@ package top.minecode.service.workertask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.minecode.dao.worker.WorkerInfoDao;
+import top.minecode.dao.workertask.SpecificTaskDao;
 import top.minecode.dao.workertask.TaskDao;
 import top.minecode.dao.workertask.TaskParticipationDao;
 import top.minecode.domain.task.*;
 import top.minecode.domain.user.worker.Division;
 import top.minecode.domain.user.worker.Worker;
+import top.minecode.po.task.SpecificTaskPO;
 import top.minecode.po.task.TaskPO;
 import top.minecode.po.worker.OnGoingTaskParticipationPO;
 import top.minecode.po.worker.WorkerPO;
@@ -29,6 +31,17 @@ public class WorkerTaskBasicService {
     private TaskDao taskDao;
 
     private TaskParticipationDao participationDao;
+
+    private SpecificTaskDao specificTaskDao;
+
+    public SpecificTaskDao getSpecificTaskDao() {
+        return specificTaskDao;
+    }
+
+    @Autowired
+    public void setSpecificTaskDao(SpecificTaskDao specificTaskDao) {
+        this.specificTaskDao = specificTaskDao;
+    }
 
     public TaskParticipationDao getParticipationDao() {
         return participationDao;
@@ -97,6 +110,11 @@ public class WorkerTaskBasicService {
     }
 
     public List<SubTask> getAllSubTasks(String email, int taskId, TaskType taskType) {
+        TaskPO taskPO = taskDao.getTaskById(taskId);
+        int specificTaskId = taskPO.getSpecificTasks().get(taskType);
+        SpecificTaskPO specificTaskPO = specificTaskDao.getSpecificTaskById(specificTaskId);
+        List<Integer> subTasksIds = specificTaskPO.getSubTasks(); // 获取到子任务的全部id
+        
         return null;
     }
 
