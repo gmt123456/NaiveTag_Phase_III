@@ -6,13 +6,13 @@ package top.minecode.domain.task;
  *
  * @author iznauy
  */
-public enum SubTaskState {
+public enum SubTaskParticipationState {
 
     DOING,
     EXPIRED,
     FINISHED;
 
-    public static SubTaskState convert(int subTaskState) {
+    public static SubTaskParticipationState convert(int subTaskState) {
         switch (subTaskState) {
             case 0:
                 return DOING;
