@@ -31,6 +31,14 @@ public class SubTaskPO {
 
     private SubTaskState subTaskState;
 
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = String.class)
+    @Fetch(FetchMode.SUBSELECT)
+    private List<String> currentDoingWorkers;
+
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = String.class)
+    @Fetch(FetchMode.SUBSELECT)
+    private List<String> finishedWorkers;
+
     private String cover;
 
     public String getCover() {
@@ -79,5 +87,21 @@ public class SubTaskPO {
 
     public void setSubTaskState(SubTaskState subTaskState) {
         this.subTaskState = subTaskState;
+    }
+
+    public List<String> getCurrentDoingWorkers() {
+        return currentDoingWorkers;
+    }
+
+    public void setCurrentDoingWorkers(List<String> currentDoingWorkers) {
+        this.currentDoingWorkers = currentDoingWorkers;
+    }
+
+    public List<String> getFinishedWorkers() {
+        return finishedWorkers;
+    }
+
+    public void setFinishedWorkers(List<String> finishedWorkers) {
+        this.finishedWorkers = finishedWorkers;
     }
 }

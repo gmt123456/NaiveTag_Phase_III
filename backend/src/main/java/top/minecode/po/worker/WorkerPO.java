@@ -123,29 +123,5 @@ public class WorkerPO implements Serializable {
     public void setFinishedTaskParticipation(List<Integer> finishedTaskParticipation) {
         this.finishedTaskParticipation = finishedTaskParticipation;
     }
-
-    public static void main(String[] args) {
-        List<String> emails = new ArrayList<>();
-        emails.add("zy05160516@126.com");
-        emails.add("zy05160515@126.com");
-        String hql = "from " + WorkerPO.class.getName() + " t where t.email in (:emails)";
-        List<WorkerPO> workers = HibernateUtils.getCurrentSession().createQuery(hql)
-                .setParameterList("emails", emails).list();
-        System.out.println(workers);
-    }
-
-    @Override
-    public String toString() {
-        return "WorkerPO{" +
-                "email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", Score=" + Score +
-                ", dollars=" + dollars +
-                ", joinTime=" + joinTime +
-                ", avatar='" + avatar + '\'' +
-                ", onGoingTaskParticipation=" + onGoingTaskParticipation +
-                ", finishedTaskParticipation=" + finishedTaskParticipation +
-                '}';
-    }
+    
 }

@@ -41,5 +41,8 @@ public class SubTaskDao {
         return subTaskHelper.getBySingleField("id", id);
     }
 
+    public void updateSubTask(SubTaskPO po) {
+        subTaskHelper.update(po);
+    }
 
 }

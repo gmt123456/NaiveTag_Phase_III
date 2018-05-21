@@ -26,6 +26,8 @@ public class SubTaskParticipationPO implements Serializable {
 
     private int subTaskId;
 
+    private String email;
+
     @Enumerated(EnumType.STRING)
     private TaskType subTaskType;
 
@@ -125,4 +127,11 @@ public class SubTaskParticipationPO implements Serializable {
         this.subTaskType = subTaskType;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

@@ -15,9 +15,7 @@ import top.minecode.po.worker.OnGoingTaskParticipationPO;
 import top.minecode.po.worker.SubTaskParticipationPO;
 import top.minecode.po.worker.WorkerPO;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created on 2018/5/21.
@@ -120,7 +118,6 @@ public class WorkerSpecificTaskService {
             return new SubTaskAcceptResponse(false, SubTaskAcceptResponse.UN_KNOWN);
 
 
-
         List<OnGoingTaskParticipationPO> participation = workerInfoDao.getOnGoingTasks(email);
 
         OnGoingTaskParticipationPO partPO = null;
@@ -140,6 +137,7 @@ public class WorkerSpecificTaskService {
         participationPO.setCover(subTaskPO.getCover());
         participationPO.setPicAmount(subTaskPO.getPicList().size());
         participationPO.setState(SubTaskParticipationState.DOING);
+        participationPO.setEmail(email);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
@@ -153,7 +151,52 @@ public class WorkerSpecificTaskService {
         Integer newId = participationPO.getId(); // 增加ID
         partPO.getParticipatedSubTaskResultIds().add(newId);
         participationDao.updateOnGoingTaskParticipation(partPO);
+
+        subTaskPO.getCurrentDoingWorkers().add(email);
+
+        if (subTaskPO.getCurrentDoingWorkers().size() + subTaskPO.getFinishedWorkers().size() == 3)
+            subTaskPO.setSubTaskState(SubTaskState.LOCKED);
+
+        subTaskDao.updateSubTask(subTaskPO);
+
         return new SubTaskAcceptResponse(true,null);
+    }
+
+    public SubTaskDetail getSubTaskDetail(String email, int taskId, int subTaskId, TaskType taskType) {
+        SubTaskPO subTaskPO = subTaskDao.getSubTaskById(subTaskId);
+        TaskPO taskPO = taskDao.getTaskById(taskId);
+
+        String taskName = taskPO.getTaskName();
+        String taskDescription = subTaskPO.getTaskDescription();
+
+        SubTaskDetail subTaskDetail = null;
+        if (subTaskPO.getFinishedWorkers().stream().anyMatch(e -> e.equals(email))) {
+            // 接过的任务
+            SubTaskParticipationState taskState = SubTaskParticipationState.DOING;
+            List<String> allPics = subTaskPO.getPicList();
+            List<String> unFinishedPics = new ArrayList<>();
+
+            SubTaskParticipationPO subTaskParticipation = participationDao
+                    .getWorkerSubTaskParticipation(email, taskId, subTaskId);
+
+            Set<String> finishedPicsSet = subTaskParticipation.getTags().keySet();
+            for (String path: allPics) {
+                if (!finishedPicsSet.contains(path)) {
+                    unFinishedPics.add(path);
+                }
+            }
+            List<String> finishedPics = new ArrayList<>(finishedPicsSet);
+
+            subTaskDetail = new AcceptedSubTask(taskId, subTaskId, taskState, taskName, taskType, taskDescription,
+                    finishedPics, unFinishedPics, subTaskParticipation.getExpiredDate());
+
+        } else {
+            SubTaskParticipationState taskState = SubTaskParticipationState.UN_PART;
+            subTaskDetail = new UnAcceptedSubTask(taskId, subTaskId, taskState, taskName, taskType, taskDescription,
+                    subTaskPO.getPicList());
+
+        }
+        return subTaskDetail;
     }
 
 }

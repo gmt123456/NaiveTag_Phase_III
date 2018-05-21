@@ -8,6 +8,7 @@ package top.minecode.domain.task;
  */
 public enum SubTaskParticipationState {
 
+    UN_PART,
     DOING,
     EXPIRED,
     FINISHED;

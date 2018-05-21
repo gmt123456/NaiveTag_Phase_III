@@ -153,7 +153,7 @@ public class WorkerTaskBasicService {
                 .collect(Collectors.toList());
     }
 
-    public List<SubTaskParticipation> getWorkerParticipation(String email, int taskId, SubTaskParticipationState subTaskPartcipationState) {
+    public List<SubTaskParticipation> getWorkerParticipation(String email, int taskId, SubTaskParticipationState subTaskParticipationState) {
         TaskPO taskPO = taskDao.getTaskById(taskId);
         List<Integer> subTaskParticipation = null;
         if (taskPO.getTaskState() == TaskState.ON_GOING) {
@@ -184,7 +184,8 @@ public class WorkerTaskBasicService {
 
         // 上面是拿取所有子任务参与的id
 
-        return subTaskDao.getSubTaskParticipationByIds(subTaskParticipation).stream().map(SubTaskParticipation::fromPO)
+        return subTaskDao.getSubTaskParticipationByIds(subTaskParticipation).stream()
+                .filter(e -> e.getState() == subTaskParticipationState).map(SubTaskParticipation::fromPO)
                 .collect(Collectors.toList());
     }
 
