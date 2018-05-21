@@ -12,11 +12,14 @@ import top.minecode.domain.user.worker.Division;
 import top.minecode.domain.user.worker.Worker;
 import top.minecode.po.task.SpecificTaskPO;
 import top.minecode.po.task.TaskPO;
+import top.minecode.po.worker.FinishedTaskParticipationPO;
 import top.minecode.po.worker.OnGoingTaskParticipationPO;
+import top.minecode.po.worker.SubTaskParticipationPO;
 import top.minecode.po.worker.WorkerPO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -127,12 +130,62 @@ public class WorkerTaskBasicService {
         int specificTaskId = taskPO.getSpecificTasks().get(taskType);
         SpecificTaskPO specificTaskPO = specificTaskDao.getSpecificTaskById(specificTaskId);
         List<Integer> subTasksIds = specificTaskPO.getSubTasks(); // 获取到子任务的全部id
-        return subTaskDao.getSubTasksByIdList(subTasksIds).stream().map(e -> SubTask.fromPO(e, taskId))
+
+        List<Integer> viewableTasksIds = new ArrayList<>();
+
+        // 去掉他已经接过/完成的任务
+        List<OnGoingTaskParticipationPO> onGoingTaskParticipation = workerInfoDao.getOnGoingTasks(email);
+        for (OnGoingTaskParticipationPO po: onGoingTaskParticipation) {
+            if (po.getTaskId() == taskId) {
+                List<Integer> subTaskParticipation = po.getParticipatedSubTaskResultIds();
+                List<SubTaskParticipationPO> participation = subTaskDao.getSubTaskParticipationByIds(subTaskParticipation);
+                Set<Integer> participatedSubTasks = participation.stream()
+                        .map(SubTaskParticipationPO::getSubTaskId).collect(Collectors.toSet());
+                for (Integer id: subTasksIds) {
+                    if (!participatedSubTasks.contains(id))
+                        viewableTasksIds.add(id);
+                }
+                break;
+            }
+        }
+
+        return subTaskDao.getSubTasksByIdList(viewableTasksIds).stream().map(e -> SubTask.fromPO(e, taskId))
                 .collect(Collectors.toList());
     }
 
     public List<SubTaskParticipation> getWorkerParticipation(String email, int taskId, SubTaskState subTaskState) {
-        return null;
+        TaskPO taskPO = taskDao.getTaskById(taskId);
+        List<Integer> subTaskParticipation = null;
+        if (taskPO.getTaskState() == TaskState.ON_GOING) {
+            List<OnGoingTaskParticipationPO> onGoingTaskParticipation = workerInfoDao.getOnGoingTasks(email);
+            OnGoingTaskParticipationPO participationPO = null;
+            for (OnGoingTaskParticipationPO po: onGoingTaskParticipation)
+                if (po.getTaskId() == taskId) {
+                    participationPO = po;
+                    break;
+                }
+            if (participationPO == null)
+                return null;
+
+            subTaskParticipation = participationPO.getParticipatedSubTaskResultIds();
+        } else if (taskPO.getTaskState() == TaskState.FINISHED) {
+            List<FinishedTaskParticipationPO> finishedTaskParticipation = workerInfoDao.getFinishedTasks(email);
+            FinishedTaskParticipationPO participationPO = null;
+            for(FinishedTaskParticipationPO po: finishedTaskParticipation)
+                if (po.getTaskId() == taskId) {
+                    participationPO = po;
+                    break;
+                }
+            if (participationPO == null)
+                return null;
+        }
+        if (subTaskParticipation == null)
+            return null;
+
+        // 上面是拿取所有子任务参与的id
+
+        return subTaskDao.getSubTaskParticipationByIds(subTaskParticipation).stream().map(SubTaskParticipation::fromPO)
+                .collect(Collectors.toList());
     }
 
 
