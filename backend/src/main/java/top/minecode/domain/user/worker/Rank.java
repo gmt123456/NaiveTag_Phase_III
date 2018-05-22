@@ -19,7 +19,7 @@ public class Rank implements Comparable<Rank> {
 
     private String avatar;
 
-    public Rank(String userName, double score, Division division, String avatar) {
+    private Rank(String userName, double score, Division division, String avatar) {
         this.userName = userName;
         this.score = score;
         this.division = division;
