@@ -4,9 +4,11 @@ import javafx.embed.swt.SWTFXUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.minecode.dao.tag.TagDao;
+import top.minecode.dao.utils.DaoConfig;
 import top.minecode.dao.workertask.SpecificTaskDao;
 import top.minecode.dao.workertask.SubTaskDao;
 import top.minecode.dao.workertask.TaskDao;
+import top.minecode.dao.workertask.TaskParticipationDao;
 import top.minecode.domain.tag.SwitchPicResponse;
 import top.minecode.domain.tag.TagResult;
 import top.minecode.domain.task.TaskInfo;
@@ -14,8 +16,10 @@ import top.minecode.domain.task.TaskType;
 import top.minecode.po.task.SpecificTaskPO;
 import top.minecode.po.task.SubTaskPO;
 import top.minecode.po.task.TaskPO;
+import top.minecode.po.worker.SubTaskParticipationPO;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created on 2018/5/19.
@@ -26,7 +30,7 @@ import java.util.List;
 @Service
 public class TagService {
 
-    private TagDao tagDao;
+    private TaskParticipationDao participationDao;
 
     private SubTaskDao subTaskDao;
 
@@ -52,13 +56,12 @@ public class TagService {
         this.taskDao = taskDao;
     }
 
-    public TagDao getTagDao() {
-        return tagDao;
+    public TaskParticipationDao getParticipationDao() {
+        return participationDao;
     }
 
-    @Autowired
-    public void setTagDao(TagDao tagDao) {
-        this.tagDao = tagDao;
+    public void setParticipationDao(TaskParticipationDao participationDao) {
+        this.participationDao = participationDao;
     }
 
     public SubTaskDao getSubTaskDao() {
@@ -71,7 +74,12 @@ public class TagService {
     }
 
     public void save(String userEmail, int taskId, int subTaskId, TaskType taskType, String url, TagResult tagResult) {
-        tagDao.saveTagResult(userEmail, taskId, subTaskId, url, tagResult);
+        SubTaskParticipationPO participationPO =
+                participationDao.getWorkerSubTaskParticipation(userEmail, taskId, subTaskId);
+        if (participationPO != null) {
+            participationPO.getTags().put(url, DaoConfig.getGson().toJson(tagResult, TagResult.class));
+            participationDao.updateSubTaskParticipation(participationPO);
+        }
     }
 
     public SwitchPicResponse next(int taskId, int subTaskId, TaskType taskType, String url) { // 这儿的taskId, taskType是不需要的，但是不排除未来不需要
@@ -107,7 +115,17 @@ public class TagService {
     }
 
     public TagResult getLabelInformation(String userEmail, int taskId, int subTaskId, TaskType taskType, String url) {
-        return tagDao.getTagResult(userEmail, taskId, subTaskId, url);
+        SubTaskParticipationPO participationPO =
+                participationDao.getWorkerSubTaskParticipation(userEmail, taskId, subTaskId);
+        if (participationPO != null) {
+            Map<String, String> url2Tag = participationPO.getTags();
+            if (!url2Tag.keySet().contains(url))
+                return null;
+            else {
+                return DaoConfig.getGson().fromJson(url2Tag.get(url), TagResult.class);
+            }
+        }
+        return null;
     }
 
     public TaskInfo getTaskInformation(int taskId, TaskType taskType) {
