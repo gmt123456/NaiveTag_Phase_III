@@ -23,12 +23,12 @@
                         <div v-if="earnedDollors">
                             <img src="../../../static/dollar.png" width="15px"/>
                             <span style="font-weight: 600;color: #47494d">{{earnedDollors.toFixed(2)}}</span>
-                            <!--<span style="color: #bfbfbf;font-size: 13px;">earned dollars</span>-->
+                            <span style="color: #bfbfbf;font-size: 13px;">earned</span>
                         </div>
                         <div v-if="totalDollars">
                             <img src="../../../static/dollar.png" width="15px"/>
                             <span style="font-weight: 600;color: #47494d;">{{totalDollars}}</span>
-                            <!--<span style="color: #bfbfbf;font-size: 13px;">total dollars</span>-->
+                            <span style="color: #bfbfbf;font-size: 13px;">total</span>
                         </div>
                         <div v-if="changeOfScore">
                             <img src="../../../static/favorite.png" width="15px"/>

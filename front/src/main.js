@@ -6,12 +6,15 @@ import router from './router'
 import 'element-ui/lib/theme-chalk/index.css';
 import ElementUI from 'element-ui';
 import echarts from 'echarts';
-import WorkerMain from './components/worker/workerMain.vue'
+import jQuery from 'jquery';
+import WorkerRank from './components/worker/workerHome/workerRank.vue'
 
 Vue.prototype.$echarts = echarts;
 Vue.use(ElementUI);
 Vue.config.productionTip = false
 
+window.$ = jQuery;
+window.jQuery = jQuery;
 
 new Vue({
   el: '#app',
