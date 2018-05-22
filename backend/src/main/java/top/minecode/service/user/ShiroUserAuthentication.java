@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import top.minecode.dao.log.AuthenticationLogDao;
 import top.minecode.dao.user.UserDao;
 import top.minecode.domain.user.UserType;
+import top.minecode.service.util.Encryptor;
 import top.minecode.web.user.LoginCommand;
 import top.minecode.web.user.SignupCommand;
 
@@ -33,6 +34,7 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
     private static final String ERROR_MESSAGE = "Invalid username or password";
 
     private Authenticator authenticator;
+    private Encryptor encryptor;
     private ActiveUserService activeUserService;
     private UserDao userDao;
     private AuthenticationLogDao authenticationLogDao;
@@ -58,6 +60,11 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
         this.authenticationLogDao = authenticationLogDao;
     }
 
+    @Autowired
+    public void setEncryptor(Encryptor encryptor) {
+        this.encryptor = encryptor;
+    }
+
     @Override
     public String login(LoginCommand loginCommand) {
         String email = loginCommand.getEmail();
@@ -67,7 +74,7 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
         System.out.println("password: " + password);
         System.out.println(token.toString());
         try {
-//            authenticator.authenticate(token);
+            authenticator.authenticate(token);
             String webToken = activeUserService.addUser(email);
 
             // Add login record to database
@@ -82,9 +89,9 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
     @Override
     public String signup(SignupCommand signupCommand) {
         String email = signupCommand.getEmail();
-        String password = signupCommand.getPassword();
         String name = signupCommand.getName();
         UserType userType = UserType.valueOf(signupCommand.getUserType().toUpperCase());
+        String password = encryptor.encrypt(signupCommand);  // Encrypted password
 
         // Add this user to database
         Date joinTime = new Date();
