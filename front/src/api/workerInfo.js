@@ -2,25 +2,25 @@ import {getUrl} from "./tool";
 
 
 export function workerInfo(callback) {
-	workerInfoMock(callback);
+	getWorkerInfoFromServer(callback);
 }
 export function workerChanges(callback) {
-	workerChangesMock(callback);
+	getWorkerChangesFromServer(callback);
 }
 export function workerEditUserName(userName, callback) {
-	workerEditUserNameMock(userName, callback);
+	editUserNameFromServer(userName, callback);
 }
 export function workerEditAvatar(avatar, callback) {
-	workerEditAvatarMock(avatar, callback);
+	editAvatarFromServer(avatar, callback);
 }
 export function workerEditPassword(oldPassword, newPassword, callback) {
-	workerEditPasswordMock(oldPassword, newPassword, callback);
+	editPasswordFromServer(oldPassword, newPassword, callback);
 }
 export function workerUnfinish(callback) {
-	workerUnfinishMock(callback);
+	getUnfinishFromServer(callback);
 }
 export function workerFinish(callback) {
-	workerFinishMock(callback);
+	getFinishFromServer(callback);
 }
 
 function getWorkerInfoFromServer(callback) {
@@ -73,6 +73,24 @@ function editPasswordFromServer(oldPassword, newPassword, callback) {
 		token: localStorage.token,
 		oldPassword: oldPassword,
 		newPassword: newPassword,
+	}, function (res) {
+		callback(JSON.parse(res));
+	});
+}
+function getUnfinishFromServer(callback) {
+	let url = 'worker/userInfo/doing.html';
+
+	$.get(getUrl(url), {
+		token: localStorage.token
+	}, function (res) {
+		callback(JSON.parse(res));
+	});
+}
+function getFinishFromServer(callback) {
+	let url = 'worker/userInfo/finished.html';
+
+	$.get(getUrl(url), {
+		token: localStorage.token
 	}, function (res) {
 		callback(JSON.parse(res));
 	});
