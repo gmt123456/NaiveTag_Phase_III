@@ -27,7 +27,7 @@
             	userChanges:{
 		            "dollarChanges": [],
                     "scoreChanges": [],
-                    "Activity": [], // 365个数字，表示活跃度，瑞年要不要考虑回头再议，反正2018年不是瑞年
+                    "activity": [], // 365个数字，表示活跃度，瑞年要不要考虑回头再议，反正2018年不是瑞年
                 },
 
                 optionChanges : {
@@ -132,7 +132,7 @@
 		        let that = this;
 		        workerChanges(res => {
 			        that.userChanges = res;
-			        that.userChanges.Activity = that.getDataList(that.userChanges.Activity);
+			        that.userChanges.activity = that.getDataList(that.userChanges.activity);
 			        that.userChanges.dollarChanges = that.getDataList(that.userChanges.dollarChanges);
 			        that.userChanges.scoreChanges = that.getDataList(that.userChanges.scoreChanges);
 		        });
@@ -179,7 +179,7 @@
 
             drawCalendar(){
                 let calendar = this.$echarts.init(document.getElementById('calendar'));
-                this.optionCalendar.series[1].data = this.userChanges.Activity;
+                this.optionCalendar.series[1].data = this.userChanges.activity;
                 this.optionCalendar.visualMap.max = this.getMax(this.optionCalendar.series[1].data);
                 calendar.setOption(this.optionCalendar);
             },
