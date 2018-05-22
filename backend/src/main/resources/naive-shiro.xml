@@ -22,11 +22,7 @@
         </property>
     </bean>
 
-    <bean id="authorizer" class="org.apache.shiro.authz.ModularRealmAuthorizer">
-        <property name="realms">
-            <list>
-                <ref bean="emailRealm"/>
-            </list>
-        </property>
+    <bean id="encryptor" class="top.minecode.service.util.MD5Encryptor">
+        <property name="iteration" value="3"/>
     </bean>
 </beans>

@@ -12,6 +12,10 @@ public class SignupCommand {
     private String password;
     private String userType;
 
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
     public String getName() {
         return name;
     }

@@ -2,15 +2,15 @@ import {getUrl} from "./tool";
 
 
 export function signUp(signUpForm,callback) {
-    mock(signUpForm,callback);
+    signUpFromSever(signUpForm,callback);
 }
 
 function signUpFromSever(signUpForm,callback) {
   let url;
   if (signUpForm.userType === 'worker') {
-    url = 'join/worker.html'
+    url = 'signup.html'
   } else {
-    url = 'join/requester.html'
+    url = 'signup.html'
   }
 
   console.log(signUpForm);
@@ -18,7 +18,8 @@ function signUpFromSever(signUpForm,callback) {
     username: signUpForm.username,
     password: signUpForm.password,
     name: signUpForm.nickname,
-    email: signUpForm.email
+    email: signUpForm.email,
+    userType: signUpForm.userType
   },function (res) {
     callback(JSON.parse(res));
   });
