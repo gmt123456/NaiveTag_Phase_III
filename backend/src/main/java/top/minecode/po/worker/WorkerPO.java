@@ -2,11 +2,9 @@ package top.minecode.po.worker;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import top.minecode.dao.utils.HibernateUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 

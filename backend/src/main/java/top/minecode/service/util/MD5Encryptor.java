@@ -1,7 +1,6 @@
 package top.minecode.service.util;
 
 import org.apache.shiro.crypto.hash.Md5Hash;
-import org.springframework.stereotype.Component;
 import top.minecode.web.user.SignupCommand;
 
 /**

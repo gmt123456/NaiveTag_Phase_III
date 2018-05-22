@@ -2,7 +2,6 @@ package top.minecode.dao.worker;
 
 import org.springframework.stereotype.Repository;
 import top.minecode.dao.utils.CommonOperation;
-import top.minecode.domain.user.worker.Rank;
 import top.minecode.po.worker.RankPO;
 
 import java.util.List;

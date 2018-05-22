@@ -1,9 +1,7 @@
 package top.minecode.service.tag;
 
-import javafx.embed.swt.SWTFXUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import top.minecode.dao.tag.TagDao;
 import top.minecode.dao.utils.DaoConfig;
 import top.minecode.dao.workertask.SpecificTaskDao;
 import top.minecode.dao.workertask.SubTaskDao;

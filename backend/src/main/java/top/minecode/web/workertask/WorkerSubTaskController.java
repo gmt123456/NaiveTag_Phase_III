@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import top.minecode.domain.task.*;
-import top.minecode.domain.utils.Pair;
 import top.minecode.service.workertask.WorkerSpecificTaskService;
 import top.minecode.web.common.BaseController;
 import top.minecode.web.common.WebConfig;

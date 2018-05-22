@@ -1,7 +1,6 @@
 package top.minecode.service.workerInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import top.minecode.dao.log.WorkerLogDao;
 import top.minecode.dao.worker.RankDao;

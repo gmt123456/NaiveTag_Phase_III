@@ -1,7 +1,5 @@
 package top.minecode.domain.task;
 
-import top.minecode.po.worker.SubTaskParticipationPO;
-
 /**
  * Created on 2018/5/21.
  * Description:
