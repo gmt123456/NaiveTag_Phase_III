@@ -10,23 +10,23 @@ import java.util.List;
  */
 public class TaskInfo {
 
-    private int taskType;
+    private TaskType taskType;
 
     private String description;
 
     private List<String> classes;
 
-    public TaskInfo(int taskType, String description, List<String> classes) {
+    public TaskInfo(TaskType taskType, String description, List<String> classes) {
         this.taskType = taskType;
         this.description = description;
         this.classes = classes;
     }
 
-    public int getTaskType() {
+    public TaskType getTaskType() {
         return taskType;
     }
 
-    public void setTaskType(int taskType) {
+    public void setTaskType(TaskType taskType) {
         this.taskType = taskType;
     }
 
