@@ -3,6 +3,7 @@ package top.minecode.dao.utils;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -131,6 +132,8 @@ public class CommonOperation<T> {
     }
 
     public <V> List<T> getValuesInSpecificSet(List<V> set, String fieldName) {
+        if (set.size() == 0)
+            return new ArrayList<>();
         Session session = HibernateUtils.getCurrentSession();
         List<T> ts = null;
         try {

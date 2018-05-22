@@ -16,7 +16,7 @@ import java.util.List;
 @Repository
 public class RankDao {
 
-    private CommonOperation<RankPO> rankHelper = new CommonOperation<>(Rank.class.getName());
+    private CommonOperation<RankPO> rankHelper = new CommonOperation<>(RankPO.class.getName());
 
     public List<RankPO> getRanks() {
         String sql = "select t from " + RankPO.class.getName() + " t where t.rank < 20";
@@ -26,5 +26,6 @@ public class RankDao {
     public int getRankByEmail(String email) {
         return rankHelper.getBySingleField("userEmail", email).getRank();
     }
+
 
 }
