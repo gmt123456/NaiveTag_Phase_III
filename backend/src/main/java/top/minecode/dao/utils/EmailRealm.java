@@ -23,7 +23,6 @@ public class EmailRealm extends AuthenticatingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String email = (String) authenticationToken.getPrincipal();
 
-        System.out.println(email);
         // Find worker or requester with the email passed
         WorkerPO target = workerOperation.getBySingleField("email", email);
         if (target != null) {
