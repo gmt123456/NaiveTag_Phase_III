@@ -49,7 +49,7 @@
 
 </template>
 <script>
-	import {workerEditAvaster} from "../../api/workerInfo";
+	import {workerEditAvatar} from "../../api/workerInfo";
 	import vueCropper from 'vue-cropper'
 
 	export default {
@@ -90,7 +90,7 @@
 				let that = this;
 				this.$refs.cropper.getCropData((data) => {
 					that.picUrl = data;
-					workerEditAvaster(data, res => {
+					workerEditAvatar(data, res => {
 						that.$emit('save-res', res);
 					});
 				})

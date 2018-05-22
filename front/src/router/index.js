@@ -6,6 +6,7 @@ import WorkerHome from '../components/worker/workerHome/workerHome.vue'
 import WorkerMain from '../components/worker/workerMain.vue'
 import WorkerUnfinish from '../components/worker/workerHome/workerUnfinish.vue'
 import WorkerFinish from '../components/worker/workerHome/workerFinish.vue'
+import WorkerRank from '../components/worker/workerHome/workerRank.vue'
 import Index from '../components/index/Index.vue'
 import RequesterIndex from '../components/requester/RequesterIndex.vue'
 import RequesterHome from '../components/requester/Home.vue'
@@ -21,7 +22,8 @@ export default new Router({
 	    children: [
 		    {path: 'home', component: WorkerHome},
 		    {path: 'unfinish', component: WorkerUnfinish},
-		    {path: 'finish', component: WorkerFinish}
+		    {path: 'finish', component: WorkerFinish},
+		    {path: 'rank', component: WorkerRank}
 	    ]
     },
     {path: '/', component: Index},

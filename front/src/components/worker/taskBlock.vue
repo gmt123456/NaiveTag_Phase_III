@@ -18,14 +18,22 @@
                     </div>
 
                 </el-main>
-                <el-aside style="width: 120px;background-color: transparent;">
+                <el-aside style="width: 150px;background-color: transparent;">
                     <div style="margin-top: 30px;">
-                        <img src="../../../static/dollar.png" width="15px"/>
-                        <span style="font-weight: 600;color: #47494d">{{earnedDollors.toFixed(2)}}</span>
-                    </div>
-                    <div>
-                        <img src="../../../static/favorite.png" width="15px"/>
-                        <span style="color: #47494d;">{{changeOfScore}}</span>
+                        <div v-if="earnedDollors">
+                            <img src="../../../static/dollar.png" width="15px"/>
+                            <span style="font-weight: 600;color: #47494d">{{earnedDollors.toFixed(2)}}</span>
+                            <!--<span style="color: #bfbfbf;font-size: 13px;">earned dollars</span>-->
+                        </div>
+                        <div v-if="totalDollars">
+                            <img src="../../../static/dollar.png" width="15px"/>
+                            <span style="font-weight: 600;color: #47494d;">{{totalDollars}}</span>
+                            <!--<span style="color: #bfbfbf;font-size: 13px;">total dollars</span>-->
+                        </div>
+                        <div v-if="changeOfScore">
+                            <img src="../../../static/favorite.png" width="15px"/>
+                            <span style="color: #47494d;">{{changeOfScore}}</span>
+                        </div>
                     </div>
                 </el-aside>
             </el-container>
@@ -47,7 +55,9 @@
 			"taskType": Array, // 这个一级任务中包含的任务的类型
 			"endDate": String, // 任务截止的时间
 			"taskTag": Array, // 任务的一些标签信息，就是任务的主题
-        },
+
+			"totalDollars": Number
+		},
 		name: "taskBlock",
 
         data(){

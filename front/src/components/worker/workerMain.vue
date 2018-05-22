@@ -15,7 +15,7 @@
                                 <div>profile photo</div>
                             </div>
                         </transition>
-                        <img :src="userInfo.avaster" width="170px" height="170px">
+                        <img :src="userInfo.avatar" width="170px" height="170px">
                     </el-aside>
 
                     <el-main>
@@ -82,6 +82,7 @@
                     <el-menu-item index="/worker/home" style="height: 50px;">Home</el-menu-item>
                     <el-menu-item index="/worker/unfinish" style="height: 50px;">Unfinish</el-menu-item>
                     <el-menu-item index="/worker/finish" style="height: 50px;">Finish</el-menu-item>
+                    <el-menu-item index="/worker/rank" style="height: 50px;">Rank</el-menu-item>
                     <el-button v-if="!isEditing" type="primary" style="float: right;height: 40px;width: 150px;margin-top: 10px;" @click="editHandle">Edit Profile</el-button>
                     <el-button v-if="isEditing" type="success" style="float: right;height: 40px;width: 150px;margin-top: 10px;" @click="submitForm('userInfo')">Save Profile</el-button>
                 </el-menu>
@@ -125,7 +126,7 @@
                 :visible.sync="changePicVisible"
                 width="900px">
             <div>
-                <change-pic :imageSrc=userInfo.avaster ref="changePic" v-on:save-res="savePic"></change-pic>
+                <change-pic :imageSrc=userInfo.avatar ref="changePic" v-on:save-res="savePic"></change-pic>
             </div>
             <span slot="footer">
                 <el-button size="medium" @click="changePicVisible = false">cancel</el-button>
@@ -171,8 +172,9 @@
 	            dialogVisible: false,
 	            changePicVisible: false,
 	            isEditing: false,
+                name: "",
                 userInfo: {
-                    "avaster": "", // url
+                    "avatar": "", // url
                     "userName": "",
                     "email": "",
                     "lastVisit": "",
@@ -251,6 +253,7 @@
             },
 
 	        editHandle(){
+        		this.name = this.userInfo.userName;
 	        	this.isEditing = true;
             },
 
@@ -258,15 +261,17 @@
 		        let that = this;
 		        this.$refs[formName].validate((valid) => {
 			        if (valid) {
-				        workerEditUserName(that.userInfo.userName, result => {
-				        	if(result.state === "success"){
-						        that.editSuccess();
-                            }else{
-				        		that.editFail();
-					        }
-					        that.isEditing = false;
-					        that.getUserInfo();
-                        });
+			        	if(!(that.userInfo.userName === that.name)){
+					        workerEditUserName(that.userInfo.userName, result => {
+						        if(result.state === "success"){
+							        that.editSuccess();
+						        }else{
+							        that.editFail();
+						        }
+						        that.getUserInfo();
+					        });
+                        }
+				        that.isEditing = false;
 			        } else {
 				        console.log('error submit!!');
 				        return false;
