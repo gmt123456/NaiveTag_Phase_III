@@ -12,6 +12,12 @@
        http://www.springframework.org/schema/task/spring-task-3.0.xsd
        http://www.springframework.org/schema/mvc
        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <context:component-scan base-package="top.minecode.web.user" />
+    <context:component-scan base-package="top.minecode.web.workertask" />
+    <context:component-scan base-package="top.minecode.web.workerInfo" />
+    <context:component-scan base-package="top.minecode.web.tag" />
+
     <!-- 扫描web包，应用Spring的注解 -->
     <!--
     <context:component-scan base-package="top.minecode.web.user"/>
