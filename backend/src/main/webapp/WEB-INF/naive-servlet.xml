@@ -50,5 +50,12 @@
     </bean>
 
     <task:annotation-driven />
-    
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="top.minecode.web.common.CommonInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 </beans>

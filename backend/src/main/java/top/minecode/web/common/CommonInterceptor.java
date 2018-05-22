@@ -18,7 +18,7 @@ public class CommonInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
         httpServletResponse.setHeader("Access-Control-Allow-Methods", "*");
-        httpServletResponse.setHeader("Access-Control-Allow-Headers", "http://127.0.0.1:8010");
+        httpServletResponse.setHeader("Access-Control-Allow-Headers", "http://127.0.0.1:8080");
         httpServletResponse.setHeader("Access-Control-Allow-Credentials","true"); //是否允许浏览器携带用户身份信息（cookie）
         return true;
     }

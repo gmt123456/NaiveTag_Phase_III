@@ -43,9 +43,10 @@
     <bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
           p:defaultEncoding="UTF-8"/>
-
+<!--
     <bean id="sessionFactory"
           class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
           p:configLocation="classpath: hibernate.cfg.xml" />
 
+-->
 </beans>

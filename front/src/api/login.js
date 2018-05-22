@@ -5,7 +5,7 @@ export function login(email, password, userType, callback) {
 }
 
 function validateFromServer(email, password, userType, callback) {
-  $.post(getUrl('login.html'), {
+  $.get(getUrl('login.html'), {
     email: email,
     password: password,
     userType: userType

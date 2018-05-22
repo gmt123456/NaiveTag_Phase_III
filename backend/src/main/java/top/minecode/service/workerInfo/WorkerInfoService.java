@@ -65,7 +65,6 @@ public class WorkerInfoService {
     }
 
     @Autowired
-    @Qualifier("workInfoDao")
     public void setWorkerInfoDao(WorkerInfoDao workerInfoDao) {
         this.workerInfoDao = workerInfoDao;
     }

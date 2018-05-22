@@ -22,12 +22,13 @@ public class UserDaoImpl implements UserDao {
 
     private static final Logger log = LoggerFactory.getLogger(UserDaoImpl.class);
 
-    private CommonOperation<WorkerPO> workerOperation = new CommonOperation<>(WorkerPO.class);
-    private CommonOperation<RequesterPO> requesterOperation = new CommonOperation<>(RequesterPO.class);
+    private CommonOperation<WorkerPO> workerOperation = new CommonOperation<>(WorkerPO.class.getName());
+    private CommonOperation<RequesterPO> requesterOperation = new CommonOperation<>(RequesterPO.class.getName());
 
     @Override
     public User getUser(String email) {
         WorkerPO workerPO = workerOperation.getBySingleField("email", email);
+
         // If the user is a worker
         if (workerPO != null) {
             return new Worker(email, workerPO.getName(), workerPO.getDollars(),

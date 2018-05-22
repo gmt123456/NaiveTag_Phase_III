@@ -53,7 +53,8 @@
     methods: {
       login: function (event) {
         var router = this.$router;
-
+        console.log(this.email);
+        console.log(this.userType);
          login(this.email, this.password, this.userType,
            res => {
              if (res.status === 'success') {

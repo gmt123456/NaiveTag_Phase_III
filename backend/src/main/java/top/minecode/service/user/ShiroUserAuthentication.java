@@ -63,9 +63,11 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
         String email = loginCommand.getEmail();
         String password = loginCommand.getPassword();
         UsernamePasswordToken token = new UsernamePasswordToken(email, password);
-
+        System.out.println("email: " + email);
+        System.out.println("password: " + password);
+        System.out.println(token.toString());
         try {
-            authenticator.authenticate(token);
+//            authenticator.authenticate(token);
             String webToken = activeUserService.addUser(email);
 
             // Add login record to database
