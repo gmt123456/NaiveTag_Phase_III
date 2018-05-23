@@ -1,5 +1,7 @@
 package top.minecode.domain.tag;
 
+import top.minecode.domain.task.TaskType;
+
 /**
  * Created on 2018/4/12.
  * Description:
@@ -9,10 +11,10 @@ package top.minecode.domain.tag;
 public class SingleSquareLabelTagResult extends SingleSquareTagResult {
 
     public SingleSquareLabelTagResult() {
-        setTagType(TagType.t_200);
+        setTagType(TaskType.t_200);
     }
 
     public SingleSquareLabelTagResult(Frame frame) {
-        super(TagType.t_200, frame);
+        super(TaskType.t_200, frame);
     }
 }

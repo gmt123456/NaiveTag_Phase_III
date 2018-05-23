@@ -1,5 +1,7 @@
 package top.minecode.domain.tag;
 
+import top.minecode.domain.task.TaskType;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +18,8 @@ public abstract class MultiSquareTagResult extends TagResult {
         frames = new ArrayList<>();
     }
 
-    public MultiSquareTagResult(TagType tagType, List<Frame> frames) {
-        super(tagType);
+    public MultiSquareTagResult(TaskType taskType, List<Frame> frames) {
+        super(taskType);
         this.frames = frames;
     }
 

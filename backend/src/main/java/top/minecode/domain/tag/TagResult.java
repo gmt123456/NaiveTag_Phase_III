@@ -1,5 +1,7 @@
 package top.minecode.domain.tag;
 
+import top.minecode.domain.task.TaskType;
+
 import java.io.Serializable;
 
 /**
@@ -9,20 +11,20 @@ import java.io.Serializable;
  */
 public abstract class TagResult implements Serializable {
 
-    private TagType tagType;
+    private TaskType tagType;
 
     public TagResult() {
     }
 
-    public TagResult(TagType tagType) {
+    public TagResult(TaskType taskType) {
         this.tagType = tagType;
     }
 
-    public TagType getTagType() {
+    public TaskType getTagType() {
         return tagType;
     }
 
-    public void setTagType(TagType tagType) {
+    public void setTagType(TaskType tagType) {
         this.tagType = tagType;
     }
 }

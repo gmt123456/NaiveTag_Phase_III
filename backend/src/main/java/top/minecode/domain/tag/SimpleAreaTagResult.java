@@ -1,5 +1,7 @@
 package top.minecode.domain.tag;
 
+import top.minecode.domain.task.TaskType;
+
 import java.util.List;
 
 /**
@@ -11,10 +13,10 @@ import java.util.List;
 public class SimpleAreaTagResult extends AreaTagResult {
 
     public SimpleAreaTagResult() {
-        setTagType(TagType.t_400);
+        setTagType(TaskType.t_400);
     }
 
     public SimpleAreaTagResult(List<Point> points) {
-        super(TagType.t_400, points);
+        super(TaskType.t_400, points);
     }
 }

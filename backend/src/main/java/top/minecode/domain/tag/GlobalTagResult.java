@@ -1,5 +1,7 @@
 package top.minecode.domain.tag;
 
+import top.minecode.domain.task.TaskType;
+
 /**
  * Created on 2018/4/2.
  * Description:
@@ -12,8 +14,8 @@ public abstract class GlobalTagResult extends TagResult {
     public GlobalTagResult() {
     }
 
-    public GlobalTagResult(TagType tagType, String label) {
-        super(tagType);
+    public GlobalTagResult(TaskType taskType, String label) {
+        super(taskType);
         this.label = label;
     }
 

@@ -1,5 +1,7 @@
 package top.minecode.domain.tag;
 
+import top.minecode.domain.task.TaskType;
+
 import java.util.List;
 
 /**
@@ -13,12 +15,12 @@ public class AreaLabelTagResult extends AreaTagResult {
     private String label;
 
     public AreaLabelTagResult() {
-        setTagType(TagType.t_401);
+        setTagType(TaskType.t_401);
     }
 
     public AreaLabelTagResult(List<Point> points,
                               String label) {
-        super(TagType.t_401, points);
+        super(TaskType.t_401, points);
         this.label = label;
     }
 

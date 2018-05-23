@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import top.minecode.domain.task.TaskType;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -20,8 +21,8 @@ public class TagSerializer implements JsonSerializer<TagResult> {
     @Override
     public JsonElement serialize(TagResult tagResult, Type type,
                                  JsonSerializationContext jsonSerializationContext) {
-        TagType tagType = tagResult.getTagType();
-        if (tagType.equals(TagType.t_200) || tagType.equals(TagType.t_201)) {
+        TaskType tagType = tagResult.getTagType();
+        if (tagType.equals(TaskType.t_200) || tagType.equals(TaskType.t_201)) {
             SingleSquareTagResult singleSquareTagResult = (SingleSquareTagResult) tagResult;
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("tagType", jsonSerializationContext.serialize(tagType));

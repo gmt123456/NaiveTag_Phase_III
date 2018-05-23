@@ -1,5 +1,7 @@
 package top.minecode.domain.tag;
 
+import top.minecode.domain.task.TaskType;
+
 /**
  * Created on 2018/4/12.
  * Description:
@@ -9,10 +11,10 @@ package top.minecode.domain.tag;
 public class GlobalAnnotationTagResult extends GlobalTagResult {
 
     public GlobalAnnotationTagResult() {
-        setTagType(TagType.t_101);
+        setTagType(TaskType.t_101);
     }
 
     public GlobalAnnotationTagResult(String label) {
-        super(TagType.t_101, label);
+        super(TaskType.t_101, label);
     }
 }

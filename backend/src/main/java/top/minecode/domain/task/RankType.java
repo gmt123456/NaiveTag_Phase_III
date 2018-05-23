@@ -9,6 +9,7 @@ package top.minecode.domain.task;
 public enum RankType {
 
     DEFAULT,
-
+    MONEY_DESCEND,
+    MONEY_ASCEND;
 
 }

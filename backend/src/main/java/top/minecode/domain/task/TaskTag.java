@@ -7,4 +7,14 @@ package top.minecode.domain.task;
  * @author iznauy
  */
 public enum TaskTag {
+
+    military,
+    nature,
+    sports,
+    humanity,
+    science,
+    politics,
+    others,
+    all;
+
 }

@@ -1,5 +1,7 @@
 package top.minecode.domain.tag;
 
+import top.minecode.domain.task.TaskType;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +18,8 @@ public abstract class AreaTagResult extends TagResult {
         this.points = new ArrayList<>();
     }
 
-    public AreaTagResult(TagType tagType, List<Point> points) {
-        super(tagType);
+    public AreaTagResult(TaskType taskType, List<Point> points) {
+        super(taskType);
         this.points = points;
     }
 

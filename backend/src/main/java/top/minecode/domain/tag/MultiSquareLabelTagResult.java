@@ -1,5 +1,7 @@
 package top.minecode.domain.tag;
 
+import top.minecode.domain.task.TaskType;
+
 import java.util.List;
 
 /**
@@ -11,10 +13,10 @@ import java.util.List;
 public class MultiSquareLabelTagResult extends MultiSquareTagResult {
 
     public MultiSquareLabelTagResult() {
-        setTagType(TagType.t_300);
+        setTagType(TaskType.t_300);
     }
 
     public MultiSquareLabelTagResult(List<Frame> frames) {
-        super(TagType.t_300, frames);
+        super(TaskType.t_300, frames);
     }
 }

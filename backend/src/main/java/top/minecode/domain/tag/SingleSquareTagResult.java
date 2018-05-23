@@ -1,5 +1,7 @@
 package top.minecode.domain.tag;
 
+import top.minecode.domain.task.TaskType;
+
 /**
  * Created on 2018/4/2.
  * Description:
@@ -12,8 +14,8 @@ public abstract class SingleSquareTagResult extends TagResult {
     public SingleSquareTagResult() {
     }
 
-    public SingleSquareTagResult(TagType tagType, Frame frame) {
-        super(tagType);
+    public SingleSquareTagResult(TaskType taskType, Frame frame) {
+        super(taskType);
         this.frame = frame;
     }
 
