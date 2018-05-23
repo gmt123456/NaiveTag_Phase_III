@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import top.minecode.domain.task.RankType;
 import top.minecode.domain.task.TaskTag;
 import top.minecode.domain.task.TaskType;
+import top.minecode.service.workertask.WorkerTaskSearchService;
 import top.minecode.web.common.BaseController;
+import top.minecode.web.common.WebConfig;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,15 +24,15 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping(value = "/worker/task")
 public class WorkerTaskSearchController extends BaseController {
 
-    private WorkerTaskSearchController controller;
+    private WorkerTaskSearchService service;
 
-    public WorkerTaskSearchController getController() {
-        return controller;
+    public WorkerTaskSearchService getService() {
+        return service;
     }
 
     @Autowired
-    public void setController(WorkerTaskSearchController controller) {
-        this.controller = controller;
+    public void setService(WorkerTaskSearchService service) {
+        this.service = service;
     }
 
     @RequestMapping("/search")
@@ -43,7 +45,8 @@ public class WorkerTaskSearchController extends BaseController {
         TaskType taskTp = TaskType.convert(taskType);
         TaskTag taskTg = TaskTag.valueOf(taskTag);
         RankType rankTp = RankType.valueOf(rankType);
-        return null;
+        return WebConfig.getGson().toJson(service
+                .searchTask(email, taskTp, taskTg, rankTp, begin, step, key, canAccept));
     }
 
 }
