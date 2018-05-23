@@ -5,12 +5,14 @@ import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.minecode.dao.requester.info.RequesterInfoDao;
+import top.minecode.domain.user.requester.AccountLog;
 import top.minecode.domain.user.requester.Requester;
 import top.minecode.domain.utils.ResultMessage;
 import top.minecode.web.requester.info.ChangeInfoCommand;
 import top.minecode.web.requester.info.PageCommand;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created on 2018/5/23.
@@ -41,12 +43,14 @@ public class RequesterInfoServiceImpl implements RequesterInfoService {
 
     @Override
     public String getAccountInfo(String email, PageCommand pageCommand) {
-        return null;
+        List<AccountLog> logs = infoDao.getAccountLogs(email, pageCommand.getPage(), pageCommand.getPageSize());
+        return gson.toJson(logs);
     }
 
     @Override
     public String recharge(String email, double dollars) {
-        return null;
+        ResultMessage resultMessage = infoDao.updateAccount(email, dollars);
+        return gson.toJson(resultMessage);
     }
 
     @Override

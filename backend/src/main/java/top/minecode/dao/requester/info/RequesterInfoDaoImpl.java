@@ -5,13 +5,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
+import top.minecode.dao.log.AccountLogDao;
 import top.minecode.dao.log.AuthenticationLogDao;
 import top.minecode.dao.utils.CommonOperation;
+import top.minecode.domain.user.requester.AccountLog;
 import top.minecode.domain.user.requester.Requester;
 import top.minecode.domain.utils.MoneyConverter;
 import top.minecode.domain.utils.SignMessageConverter;
 import top.minecode.domain.utils.ResultMessage;
 import top.minecode.po.log.LoginLogPO;
+import top.minecode.po.log.RequesterAccountLogPO;
 import top.minecode.po.requester.RequesterPO;
 import top.minecode.service.util.Encryptor;
 import top.minecode.web.requester.info.ChangeInfoCommand;
@@ -31,6 +34,7 @@ public class RequesterInfoDaoImpl implements RequesterInfoDao {
 
     private CommonOperation<RequesterPO> requesterOperation = new CommonOperation<>(RequesterPO.class);
     private AuthenticationLogDao authenticationLogDao;
+    private AccountLogDao accountLogDao;
     private Encryptor encryptor;
 
     @Autowired
@@ -41,6 +45,11 @@ public class RequesterInfoDaoImpl implements RequesterInfoDao {
     @Autowired
     public void setAuthenticationLogDao(AuthenticationLogDao authenticationLogDao) {
         this.authenticationLogDao = authenticationLogDao;
+    }
+
+    @Autowired
+    public void setAccountLogDao(AccountLogDao accountLogDao) {
+        this.accountLogDao = accountLogDao;
     }
 
     @Override
@@ -103,11 +112,16 @@ public class RequesterInfoDaoImpl implements RequesterInfoDao {
         // Add dollars in po to dollars passed in by BigDecimal
         BigDecimal oldData = new BigDecimal(po.getDollars());
         BigDecimal newData = new BigDecimal(dollars);
+        BigDecimal result = oldData.add(newData);
+        po.setDollars(result.doubleValue());
 
-        po.setDollars(oldData.add(newData).doubleValue());
+        accountLogDao.log(email, dollars, result.doubleValue(), RequesterAccountLogPO.ChangeType.RECHARGE);
+        return ResultMessage.success();
+    }
 
-
-        return null;
+    @Override
+    public List<AccountLog> getAccountLogs(String email, int page, int pageSize) {
+        return accountLogDao.getLogs(email, page, pageSize);
     }
 
     /**

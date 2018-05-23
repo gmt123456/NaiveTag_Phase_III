@@ -27,13 +27,23 @@ public class RequesterAccountLogPO implements Serializable {
     private Date time;
 
     @Enumerated(EnumType.STRING)
-    private RequesterAccountChangeType type;
+    private ChangeType type;
 
-    public RequesterAccountChangeType getType() {
+    public RequesterAccountLogPO(String userEmail, double dollars, double balance, Date time, ChangeType type) {
+        this.userEmail = userEmail;
+        this.dollars = dollars;
+        this.balance = balance;
+        this.time = time;
+        this.type = type;
+    }
+
+    public RequesterAccountLogPO() {}
+
+    public ChangeType getType() {
         return type;
     }
 
-    public void setType(RequesterAccountChangeType type) {
+    public void setType(ChangeType type) {
         this.type = type;
     }
 
@@ -77,8 +87,8 @@ public class RequesterAccountLogPO implements Serializable {
         this.time = time;
     }
 
-    public enum RequesterAccountChangeType {
-        IN, // 充值
+    public enum ChangeType {
+        RECHARGE, // 充值
         RELEASE_TASK,
         PAY_BACK, // 没用完的钱退回来
     }
