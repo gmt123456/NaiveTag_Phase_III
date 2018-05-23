@@ -17,6 +17,11 @@ public class MD5Encryptor implements Encryptor {
         return new Md5Hash(signupCommand.getPassword(), signupCommand.getEmail(), iteration).toString();
     }
 
+    @Override
+    public String encrypt(String pwd, String salt) {
+        return new Md5Hash(pwd, salt, iteration).toString();
+    }
+
     public int getIteration() {
         return iteration;
     }

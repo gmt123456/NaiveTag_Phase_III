@@ -10,4 +10,6 @@ import top.minecode.web.user.SignupCommand;
 public interface Encryptor {
 
     String encrypt(SignupCommand signupCommand);
+
+    String encrypt(String pwd, String salt);
 }

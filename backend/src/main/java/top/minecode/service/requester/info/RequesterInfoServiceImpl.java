@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.minecode.dao.requester.info.RequesterInfoDao;
 import top.minecode.domain.user.requester.Requester;
+import top.minecode.domain.utils.ResultMessage;
 import top.minecode.web.requester.info.ChangeInfoCommand;
 import top.minecode.web.requester.info.PageCommand;
+
+import java.math.BigDecimal;
 
 /**
  * Created on 2018/5/23.
@@ -48,6 +51,7 @@ public class RequesterInfoServiceImpl implements RequesterInfoService {
 
     @Override
     public String changeInfo(String email, ChangeInfoCommand changeInfoCommand) {
-        return null;
+        ResultMessage resultMessage = infoDao.updateRequesterInfo(changeInfoCommand, email);
+        return gson.toJson(resultMessage);
     }
 }
