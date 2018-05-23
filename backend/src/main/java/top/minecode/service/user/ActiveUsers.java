@@ -1,6 +1,8 @@
 package top.minecode.service.user;
 
 import org.apache.shiro.crypto.hash.Md5Hash;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -27,6 +29,8 @@ public class ActiveUsers implements ActiveUserService {
     private static final String SALT = "1926";
 
     private static ConcurrentHashMap<String, ActiveUser> tokenUserMap = new ConcurrentHashMap<>();
+    private static Logger log = LoggerFactory.getLogger(ActiveUser.class);
+
     private UserDao userDao;
 
     @Autowired
@@ -37,7 +41,14 @@ public class ActiveUsers implements ActiveUserService {
 
     @Override
     public String getUserMail(String token) {
-        return Optional.ofNullable(tokenUserMap.get(token).email).orElse(null);
+        ActiveUser user = tokenUserMap.get(token);
+        if (user == null) {
+            return null;
+        }
+
+        // update the his time
+        user.updateTime();
+        return user.email;
     }
 
     @Override
@@ -78,6 +89,7 @@ public class ActiveUsers implements ActiveUserService {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         tokenUserMap.clear();
         tokenUserMap.putAll(newMap);
+        log.info("Active user list update");
     }
 
     /**

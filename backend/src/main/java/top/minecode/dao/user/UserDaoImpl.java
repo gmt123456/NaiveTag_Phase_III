@@ -5,8 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import top.minecode.dao.utils.CommonOperation;
 import top.minecode.domain.user.User;
-import top.minecode.domain.user.requester.Requester;
-import top.minecode.domain.user.worker.Worker;
 import top.minecode.po.requester.RequesterPO;
 import top.minecode.po.worker.WorkerPO;
 
@@ -31,14 +29,14 @@ public class UserDaoImpl implements UserDao {
 
         // If the user is a worker
         if (workerPO != null) {
-            return new Worker(email, workerPO.getName(), workerPO.getDollars(),
+            return User.worker(email, workerPO.getName(), workerPO.getDollars(),
                     workerPO.getJoinTime(), workerPO.getAvatar(), workerPO.getScore());
         }
 
         // If the user is a requester
         RequesterPO requesterPO = requesterOperation.getBySingleField("email", email);
         if (requesterPO != null) {
-            return new Requester(email, requesterPO.getName(), requesterPO.getDollars(),
+            return User.requester(email, requesterPO.getName(), requesterPO.getDollars(),
                     requesterPO.getJoinTime(), requesterPO.getAvatar());
         }
 

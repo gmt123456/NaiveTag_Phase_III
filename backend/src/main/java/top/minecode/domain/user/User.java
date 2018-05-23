@@ -8,24 +8,48 @@ import java.util.Date;
  *
  * @author iznauy
  */
-public abstract class User {
+public class User {
 
-    protected UserType userType;
+    private UserType userType;
+    private String email;
+    private String name;
+    private double dollars;
+    private Date joinTime;
+    private String avatar;
+    private double score;
 
-    protected String email;
-
-    protected String name;
-
-    protected double dollars;
-
-    protected Date joinTime;
-
-    protected String avatar;
-
-    public User() {
+    /**
+     * Static factory method to create a user with requester user type
+     * @param email user's email
+     * @param name user's name
+     * @param dollars user's dollars
+     * @param joinTime user's time when sign up
+     * @param avatar path of user's avatar
+     * @return <tt>User</tt> object with the attributes passed and
+     * <tt>REQUESTER</tt> user type
+     */
+    public static User requester(String email, String name, double dollars,
+                                 Date joinTime, String avatar) {
+        return new User(UserType.REQUESTER, email, name, dollars, joinTime, avatar);
     }
 
-    public User(UserType userType, String email, String name,
+    /**
+     * Static factory method to create a user with worker user type
+     * @param email user's email
+     * @param name user's name
+     * @param dollars user's dollars
+     * @param joinTime user's time when sign up
+     * @param avatar path of user's avatar
+     * @param score worker's score
+     * @return <tt>User</tt> object with the attributes passed and
+     * <tt>WORKER</tt> user type
+     */
+    public static User worker(String email, String name, double dollars,
+                              Date joinTime, String avatar, double score) {
+        return new User(UserType.WORKER, email, name, dollars, joinTime, avatar, score);
+    }
+
+    private User(UserType userType, String email, String name,
                 double dollars, Date joinTime, String avatar) {
         this.userType = userType;
         this.email = email;
@@ -33,6 +57,16 @@ public abstract class User {
         this.dollars = dollars;
         this.joinTime = joinTime;
         this.avatar = avatar;
+    }
+
+    private User(UserType userType, String email, String name,
+                 double dollars, Date joinTime, String avatar, double score) {
+        this(userType, email, name, dollars, joinTime, avatar);
+        this.score = score;
+    }
+
+    public double getScore() {
+        return score;
     }
 
     public UserType getUserType() {

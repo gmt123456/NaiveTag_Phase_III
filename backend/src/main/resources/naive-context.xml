@@ -16,11 +16,16 @@
     <context:component-scan base-package="top.minecode.dao.worker"/>
     <context:component-scan base-package="top.minecode.dao.log"/>
     <context:component-scan base-package="top.minecode.web.user"/>
+    <context:component-scan base-package="top.minecode.web.requester.info"/>
+    <context:component-scan base-package="top.minecode.web.requester.task"/>
     <context:component-scan base-package="top.minecode.web.workerInfo" />
     <context:component-scan base-package="top.minecode.service.workerInfo" />
     <context:component-scan base-package="top.minecode.service.workertask" />
+    <context:component-scan base-package="top.minecode.service.requester.info" />
+    <context:component-scan base-package="top.minecode.service.requester.task" />
     <context:component-scan base-package="top.minecode.dao.workertask" />
     <context:component-scan base-package="top.minecode.dao.worker" />
+    <context:component-scan base-package="top.minecode.dao.requester" />
     <context:component-scan base-package="top.minecode.dao.log" />
     <context:component-scan base-package="top.minecode.dao.user" />
     <!--<context:component-scan base-package="top.minecode.dao.requester" />-->
