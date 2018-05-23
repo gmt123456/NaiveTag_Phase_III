@@ -1,5 +1,6 @@
 package top.minecode.web.common;
 
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 public abstract class BaseController {
 
     private static final String TOKEN = "token";
+    private static final Gson gson = new Gson();
     private ActiveUserService activeUserService;
 
     @Autowired
@@ -27,6 +29,7 @@ public abstract class BaseController {
     }
 
     protected String getUserEmail(HttpServletRequest request) {
+        // TODO: 2018/5/23 Consider the situation when the token is not in the active users' map
         return activeUserService.getUserMail(request.getParameter(TOKEN));
     }
 

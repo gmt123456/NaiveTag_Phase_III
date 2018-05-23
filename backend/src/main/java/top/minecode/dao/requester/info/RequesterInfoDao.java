@@ -1,5 +1,7 @@
 package top.minecode.dao.requester.info;
 
+import top.minecode.domain.user.requester.Requester;
+
 /**
  * Created on 2018/5/23.
  * Description:
@@ -7,5 +9,5 @@ package top.minecode.dao.requester.info;
  */
 public interface RequesterInfoDao {
 
-    String getRequester(String email);
+    Requester getRequester(String email);
 }

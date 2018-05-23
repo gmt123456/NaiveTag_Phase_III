@@ -7,6 +7,7 @@ import top.minecode.po.log.LoginLogPO;
 import top.minecode.po.log.RegisterLogPO;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created on 2018/5/19.
@@ -27,5 +28,14 @@ public class AuthenticationLogDaoImpl implements AuthenticationLogDao {
     @Override
     public void recordSignup(String userEmail, Date registerDate, UserType userType) {
         registerOperation.add(new RegisterLogPO(userEmail, registerDate, userType));
+    }
+
+    @Override
+    public LoginLogPO getLatestLoginRecord(String userEmail) {
+        String hql = "from LoginLogPO log where log.email=" + userEmail + " order by log.loginTime desc";
+        List<LoginLogPO> result = loginOperation.executeSQL(hql);
+        if (result.size() <= 1)
+            return null;
+        return result.get(1);
     }
 }

@@ -18,16 +18,16 @@
     <context:component-scan base-package="top.minecode.web.user"/>
     <context:component-scan base-package="top.minecode.web.requester.info"/>
     <context:component-scan base-package="top.minecode.web.requester.task"/>
-    <context:component-scan base-package="top.minecode.web.workerInfo" />
-    <context:component-scan base-package="top.minecode.service.workerInfo" />
-    <context:component-scan base-package="top.minecode.service.workertask" />
-    <context:component-scan base-package="top.minecode.service.requester.info" />
-    <context:component-scan base-package="top.minecode.service.requester.task" />
-    <context:component-scan base-package="top.minecode.dao.workertask" />
-    <context:component-scan base-package="top.minecode.dao.worker" />
-    <context:component-scan base-package="top.minecode.dao.requester" />
-    <context:component-scan base-package="top.minecode.dao.log" />
-    <context:component-scan base-package="top.minecode.dao.user" />
+    <context:component-scan base-package="top.minecode.web.workerInfo"/>
+    <context:component-scan base-package="top.minecode.service.workerInfo"/>
+    <context:component-scan base-package="top.minecode.service.workertask"/>
+    <context:component-scan base-package="top.minecode.service.requester.info"/>
+    <context:component-scan base-package="top.minecode.service.requester.task"/>
+    <context:component-scan base-package="top.minecode.dao.workertask"/>
+    <context:component-scan base-package="top.minecode.dao.worker"/>
+    <context:component-scan base-package="top.minecode.dao.requester"/>
+    <context:component-scan base-package="top.minecode.dao.log"/>
+    <context:component-scan base-package="top.minecode.dao.user"/>
     <!--<context:component-scan base-package="top.minecode.dao.requester" />-->
     <!--<context:component-scan base-package="top.minecode.dao.statistic"/>
     <context:component-scan base-package="top.minecode.dao.task"/>
@@ -48,10 +48,12 @@
     <bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
           p:defaultEncoding="UTF-8"/>
-<!--
-    <bean id="sessionFactory"
-          class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
-          p:configLocation="classpath: hibernate.cfg.xml" />
 
--->
+    <bean id="gson" class="top.minecode.dao.utils.GsonFactory" factory-method="create"/>
+    <!--
+        <bean id="sessionFactory"
+              class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
+              p:configLocation="classpath: hibernate.cfg.xml" />
+    
+    -->
 </beans>

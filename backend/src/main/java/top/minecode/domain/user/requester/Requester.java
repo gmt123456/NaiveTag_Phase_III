@@ -1,6 +1,8 @@
 package top.minecode.domain.user.requester;
 
 import top.minecode.domain.user.User;
+import top.minecode.domain.utils.MoneyConverter;
+import top.minecode.domain.utils.SignMessageConverter;
 import top.minecode.po.log.LoginLogPO;
 import top.minecode.po.requester.RequesterPO;
 
@@ -19,22 +21,12 @@ public class Requester {
     private final String dollars;
     private final String avatar;
 
-    public Requester(RequesterPO po, Date latestLoginTime) {
+    public Requester(RequesterPO po, String signMessage, String dollars) {
         name = po.getName();
         email = po.getEmail();
         avatar = po.getAvatar();
-
-        signMessage = transformSignMessage(po.getJoinTime(), latestLoginTime);
-        dollars = transferDollars(po.getDollars());
-    }
-
-    private String transformSignMessage(Date joinTime, Date latestLoginTime) {
-
-        return null;
-    }
-
-    private String transferDollars(double dollars) {
-        return null;
+        this.signMessage = signMessage;
+        this.dollars = dollars;
     }
 
     public String getName() {

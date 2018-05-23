@@ -1,6 +1,7 @@
 package top.minecode.dao.log;
 
 import top.minecode.domain.user.UserType;
+import top.minecode.po.log.LoginLogPO;
 
 import java.util.Date;
 
@@ -26,4 +27,10 @@ public interface AuthenticationLogDao {
      * @param userType user's type (worker or requester)
      */
     void recordSignup(String userEmail, Date registerDate, UserType userType);
+
+    /**
+     * Get the time the user last login
+     * @param userEmail user's email
+     */
+    LoginLogPO getLatestLoginRecord(String userEmail);
 }

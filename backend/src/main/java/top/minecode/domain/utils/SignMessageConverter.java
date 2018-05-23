@@ -1,6 +1,12 @@
 package top.minecode.domain.utils;
 
-import java.time.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.Optional;
 
@@ -53,7 +59,7 @@ public class SignMessageConverter {
      * @param signUpTime sign up time
      * @return message described sign up time
      */
-    public String convertSignUp(Date signUpTime) {
+    public String convertSignUp(@NotNull Date signUpTime) {
         LocalDateTime signup = getLocalDateTime(signUpTime);
         LocalDateTime now = LocalDateTime.now();
         Duration signupDuration = Duration.between(signup, now).abs();
@@ -69,7 +75,10 @@ public class SignMessageConverter {
      * @return message described latest login time time, or null
      * if the user sign up just now
      */
-    public String convertLogin(Date latestLoginTime) {
+    public String convertLogin(@Nullable Date latestLoginTime) {
+        if (latestLoginTime == null)
+            return null;
+
         LocalDateTime login = getLocalDateTime(latestLoginTime);
         LocalDateTime now = LocalDateTime.now();
         Duration loginDuration = Duration.between(login, now).abs();
@@ -84,8 +93,6 @@ public class SignMessageConverter {
     }
 
     private String convertDuration(Duration duration) {
-        LocalDate now = LocalDate.now();
-
         // Convert to year, month, week, day and minutes
         long[] durations = new long[5];  // Stores year, month, week, day and minutes
         durations[0] = duration.toDays() / YEAR;

@@ -56,6 +56,16 @@ public class SignMessageConverterTest {
     }
 
     @Test
+    public void testConvertLogin4() {
+        assertNull(converter.convertLogin(null));
+    }
+
+    @Test
+    public void testConvertLogin5() {
+        assertNull(converter.convertLogin(new Date()));
+    }
+
+    @Test
     public void testConvertBoth1() {
         Date oddDate = localDateToDate(LocalDateTime.now().minusYears(1));
         Date pluralDate = localDateToDate(LocalDateTime.now().minusYears(3));
@@ -64,11 +74,16 @@ public class SignMessageConverterTest {
     }
 
     @Test
-    public void testConvertSignUP() {
+    public void testConvertSignUp1() {
         Date oddDate = localDateToDate(LocalDateTime.now().minusYears(1));
         Date pluralDate = localDateToDate(LocalDateTime.now().minusYears(3));
         assertEquals(converter.convertSignUp(oddDate), "joined a year ago");
         assertEquals(converter.convertSignUp(pluralDate), "joined 3 years ago");
+    }
+
+    @Test
+    public void testConvertSignUp2() {
+        assertEquals("joined just now", converter.convertSignUp(new Date()));
     }
 
     private Date localDateToDate(LocalDateTime localDateTime) {
