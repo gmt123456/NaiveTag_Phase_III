@@ -1,5 +1,7 @@
 package top.minecode.domain.user.worker;
 
+import top.minecode.domain.utils.SignMessageConverter;
+
 import java.util.Date;
 
 /**
@@ -32,12 +34,13 @@ public class WorkerBasicInfo {
                            String email, Date lastVisit,
                            int rank, Date joint, double dollars,
                            double score) {
+        SignMessageConverter converter = new SignMessageConverter();
         this.avatar = avatar;
         this.userName = userName;
         this.email = email;
-        this.lastVisit = lastVisit.toString();
+        this.lastVisit = converter.convertLogin(lastVisit);
         this.rank = rank;
-        this.joint = joint.toString();
+        this.joint = converter.convertSignUp(joint);
         this.dollars = dollars;
         this.division = Division.convert(score);
         this.score = score;

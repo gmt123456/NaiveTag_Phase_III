@@ -26,20 +26,18 @@ public class WorkerViewLogPO {
 
     private int taskId;
 
-    @ElementCollection(fetch = FetchType.EAGER, targetClass = TaskTag.class)
-    @Fetch(FetchMode.SUBSELECT)
-    private List<TaskTag> taskTags;
-
-    @ElementCollection(fetch = FetchType.EAGER, targetClass = TaskType.class)
-    @Fetch(FetchMode.SUBSELECT)
-    private List<TaskType> taskTypes;
-
-    private double totalDollars;
-
-    private int picAmount;
-
     @Temporal(TemporalType.TIMESTAMP)
     private Date time;
+
+    public WorkerViewLogPO() {
+
+    }
+
+    public WorkerViewLogPO(String userEmail, int taskId, Date time) {
+        this.userEmail = userEmail;
+        this.taskId = taskId;
+        this.time = time;
+    }
 
     public int getId() {
         return id;
@@ -63,38 +61,6 @@ public class WorkerViewLogPO {
 
     public void setTaskId(int taskId) {
         this.taskId = taskId;
-    }
-
-    public List<TaskTag> getTaskTags() {
-        return taskTags;
-    }
-
-    public void setTaskTags(List<TaskTag> taskTags) {
-        this.taskTags = taskTags;
-    }
-
-    public List<TaskType> getTaskTypes() {
-        return taskTypes;
-    }
-
-    public void setTaskTypes(List<TaskType> taskTypes) {
-        this.taskTypes = taskTypes;
-    }
-
-    public double getTotalDollars() {
-        return totalDollars;
-    }
-
-    public void setTotalDollars(double totalDollars) {
-        this.totalDollars = totalDollars;
-    }
-
-    public int getPicAmount() {
-        return picAmount;
-    }
-
-    public void setPicAmount(int picAmount) {
-        this.picAmount = picAmount;
     }
 
     public Date getTime() {

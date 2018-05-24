@@ -1,9 +1,10 @@
 <template>
-    <div>
-        <el-card :body-style="{ padding: '0px' }" style="margin-bottom: 10px;margin-top: 10px;">
+    <div id="taskBlock" @click="jumpFirstTask">
+        <el-card class="task-block" :body-style="{ padding: '0px' }" shadow="hover" style="margin-bottom: 10px;margin-top: 10px;">
             <el-container>
-                <el-aside style="width: 120px;background-color: transparent;">
-                    <img :src="taskCover" width="90px" height="auto" style="margin: 10px;padding-left: 10px;overflow: hidden;">
+                <el-aside style="width: 120px;height: 120px;background-color: transparent;">
+                    <div v-bind:style="{width:'100%',height:'100%','background-image':'url('+taskCover+')','background-size':'cover','background-position':'50%'}"></div>
+                    <!--<img :src="taskCover" width="90px" height="auto" style="margin: 10px;padding-left: 10px;overflow: hidden;">-->
                 </el-aside>
                 <el-main style="background-color: transparent;">
                     <div style="font-weight: 800;font-size: 15px;">{{name}}</div>
@@ -27,7 +28,7 @@
                         </div>
                         <div v-if="totalDollars">
                             <img src="../../../static/dollar.png" width="15px"/>
-                            <span style="font-weight: 600;color: #47494d;">{{totalDollars}}</span>
+                            <span style="font-weight: 600;color: #47494d;">{{totalDollars.toFixed(2)}}</span>
                             <span style="color: #bfbfbf;font-size: 13px;">total</span>
                         </div>
                         <div v-if="changeOfScore">
@@ -67,6 +68,10 @@
         },
 
         methods: {
+	        jumpFirstTask(){
+	        	this.$router.push('/firstTask/overview');
+            },
+
 			getTaskNameByID(taskID){
 				let name = getTaskName(taskID)
 				return name[0] + "-" + name[1];
@@ -78,9 +83,6 @@
 <style scoped>
     .task-block{
         cursor: pointer;
-    }
-    .task-block :hover{
-        border: dotted 1px;
     }
 
     .center {

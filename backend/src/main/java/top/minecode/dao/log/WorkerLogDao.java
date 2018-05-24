@@ -2,10 +2,7 @@ package top.minecode.dao.log;
 
 import org.springframework.stereotype.Repository;
 import top.minecode.dao.utils.CommonOperation;
-import top.minecode.po.log.LoginLogPO;
-import top.minecode.po.log.TaskCommitmentLogPO;
-import top.minecode.po.log.WorkerAccountLogPO;
-import top.minecode.po.log.WorkerScoreChangeLogPO;
+import top.minecode.po.log.*;
 
 import java.util.List;
 
@@ -29,6 +26,17 @@ public class WorkerLogDao {
     private CommonOperation<WorkerScoreChangeLogPO> workerScoreLogHelper =
             new CommonOperation<>(WorkerScoreChangeLogPO.class.getName());
 
+    private CommonOperation<WorkerSearchLogPO> workerSearchLogHelper =
+            new CommonOperation<>(WorkerSearchLogPO.class);
+
+    private CommonOperation<WorkerViewLogPO> workerViewLogHelper =
+            new CommonOperation<>(WorkerViewLogPO.class.getName());
+
+    public void addViewLog(WorkerViewLogPO po) {
+        workerViewLogHelper.add(po);
+    }
+
+
     public List<LoginLogPO> getLoginLogByEmail(String email) {
         return loginLogHelper.getListBySingleField("userEmail", email);
     }
@@ -44,5 +52,10 @@ public class WorkerLogDao {
     public List<WorkerScoreChangeLogPO> getScoreChangeLogByEmail(String email) {
         return workerScoreLogHelper.getListBySingleField("userEmail", email);
     }
+
+    public void addSearchLog(WorkerSearchLogPO po) {
+        workerSearchLogHelper.add(po);
+    }
+
 
 }

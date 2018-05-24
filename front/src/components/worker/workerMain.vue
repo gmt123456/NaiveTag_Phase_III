@@ -60,11 +60,7 @@
                     </el-aside>
 
                     <el-aside width="150px" class="left-border">
-                        <img v-if="this.userInfo.division === 'Contributor'" src="../../../static/grade/contributor.png" width="148px" height="auto">
-                        <img v-if="this.userInfo.division === 'Novice'" src="../../../static/grade/novice.png" width="148px" height="auto">
-                        <img v-if="this.userInfo.division === 'Expert'" src="../../../static/grade/expert.png" width="148px" height="auto">
-                        <img v-if="this.userInfo.division === 'Master'" src="../../../static/grade/master.png" width="148px" height="auto">
-                        <img v-if="this.userInfo.division === 'Grandmaster'" src="../../../static/grade/grandmaster.png" width="148px" height="auto">
+                        <division-pic v-bind:division="this.userInfo.division" size="148px"></division-pic>
                     </el-aside>
 
                 </el-container>
@@ -140,6 +136,7 @@
 <script>
 
     import changePic from './workerPic.vue';
+    import divisionPic from './divisionPic.vue';
     import {workerInfo} from "../../api/workerInfo";
     import {workerEditPassword} from "../../api/workerInfo";
     import {workerEditUserName} from "../../api/workerInfo";
@@ -215,11 +212,11 @@
         methods: {
 
         	editFail(){
-		        this.$message.error('修改失败！(；′⌒`)');
+		        this.$message.error('change failed！(；′⌒`)');
 	        },
             editSuccess(){
 	            this.$message({
-		            message: '修改成功ψ(｀∇´)ψ',
+		            message: 'change success! ψ(｀∇´)ψ',
 		            type: 'success'
 	            });
             },
@@ -288,7 +285,7 @@
 						        that.editSuccess();
 						        that.dialogVisible = false;
                             }else if(result.state === "invalid password"){
-				        		that.$message.error("密码错误！(；′⌒`)");
+				        		that.$message.error("invalid password！ (；′⌒`)");
                             }else{
 				        		that.editFail();
                             }
@@ -314,7 +311,8 @@
 	    },
 
         components:{
-	        changePic
+	        changePic,
+	        divisionPic
         }
 
     }

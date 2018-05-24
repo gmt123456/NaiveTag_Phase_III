@@ -1,5 +1,6 @@
 package top.minecode.po.log;
 
+import top.minecode.domain.task.RankType;
 import top.minecode.domain.task.TaskTag;
 import top.minecode.domain.task.TaskType;
 
@@ -32,6 +33,30 @@ public class WorkerSearchLogPO implements Serializable {
     private Date time;
 
     private String userEmail;
+
+    @Enumerated(EnumType.ORDINAL)
+    private RankType rankType;
+
+    public WorkerSearchLogPO() {
+    }
+
+    public WorkerSearchLogPO(String searchKey, TaskType taskType, TaskTag taskTag,
+                             Date time, String userEmail, RankType rankType) {
+        this.searchKey = searchKey;
+        this.taskType = taskType;
+        this.taskTag = taskTag;
+        this.time = time;
+        this.userEmail = userEmail;
+        this.rankType = rankType;
+    }
+
+    public RankType getRankType() {
+        return rankType;
+    }
+
+    public void setRankType(RankType rankType) {
+        this.rankType = rankType;
+    }
 
     public int getId() {
         return id;

@@ -5,10 +5,10 @@
             <div id="calendar" :style="{width: '100%', height: '200px', top: '-30px'}"></div>
         </el-card>
         <el-card style="width: 100%;margin-top: 10px;">
-            <div id="dollarChanges" :style="{width: '100%', height: '280px'}"></div>
+            <div id="dollarChanges" :style="getDollarsStyle()"></div>
         </el-card>
         <el-card style="width: 100%;margin-top: 10px;">
-            <div id="scoreChanges" :style="{width: '100%', height: '380px'}"></div>
+            <div id="scoreChanges" :style="getScoreStyle()"></div>
         </el-card>
         <div style="height: 20px;"></div>
 
@@ -93,7 +93,7 @@
                         cellSize: 15,
                         itemStyle: {
                             borderWidth: 4,
-                            borderColor: '#f6f9fa'
+                            borderColor: 'white'
                         },
                         yearLabel: {show: false}
                     },
@@ -117,10 +117,10 @@
         },
 
         created(){
-        	this.getChangesData();
         },
 
         mounted(){
+	        this.getChangesData();
             this.drawCalendar();
             this.drawDollarChanges();
             this.drawScoreChanges();
@@ -128,13 +128,36 @@
 
         methods: {
 
+        	getDollarsStyle(){
+        		let data = {
+			        width: '100%',
+			        height: '280px',
+		        };
+        		if(this.userChanges.dollarChanges.length < 3){
+			        data['background'] = "url('../../../../static/background/bg_data.png') no-repeat center";
+			        data['background-size'] =  '50%';
+                }
+        		return data;
+            },
+
+            getScoreStyle(){
+	            let data = {
+		            width: '100%',
+		            height: '380px',
+	            };
+	            if(this.userChanges.scoreChanges.length < 3){
+		            data['background'] = "url('../../../../static/background/bg_data.png') no-repeat center";
+		            data['background-size'] =  '50%';
+	            }
+	            return data;
+            },
+
         	getChangesData(){
 		        let that = this;
 		        workerChanges(res => {
-			        that.userChanges = res;
-			        that.userChanges.activity = that.getDataList(that.userChanges.activity);
-			        that.userChanges.dollarChanges = that.getDataList(that.userChanges.dollarChanges);
-			        that.userChanges.scoreChanges = that.getDataList(that.userChanges.scoreChanges);
+			        that.userChanges.activity = that.getDataList(res.activity);
+			        that.userChanges.dollarChanges = that.getDataList(res.dollarChanges);
+			        that.userChanges.scoreChanges = that.getDataList(res.scoreChanges);
 		        });
             },
 

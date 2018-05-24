@@ -3,8 +3,10 @@ package top.minecode.web.workerInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import top.minecode.domain.user.worker.WorkerInfoEditResponse;
 import top.minecode.service.workerInfo.WorkerInfoEditService;
 import top.minecode.web.common.BaseController;
 import top.minecode.web.common.WebConfig;
@@ -41,9 +43,20 @@ public class UserInfoEditController extends BaseController {
 
     @RequestMapping("/editAvatar")
     @ResponseBody
-    public String editAvatar(HttpServletRequest request, MultipartFile avatar) {
+    public String editAvatar(HttpServletRequest request, @RequestParam String avatar) {
         String email = getUserEmail(request);
-        return WebConfig.getGson().toJson(service.editAvatar(email, avatar));
+        String[] tempData = avatar.split("base64,");
+        String suffix = "";
+        if ("data:image/jpeg;".equalsIgnoreCase(tempData[0])) {
+            suffix = ".jpg";
+        } else if ("data:image/x-icon;".equalsIgnoreCase(tempData[0])) {
+            suffix = ".ico";
+        } else if ("data:image/gif;".equalsIgnoreCase(tempData[0])) {
+            suffix = ".gif";
+        } else {
+            return WebConfig.getGson().toJson(new WorkerInfoEditResponse(WorkerInfoEditResponse.FAILURE));
+        }
+        return WebConfig.getGson().toJson(service.editAvatar(email, tempData[1], suffix));
     }
 
     @RequestMapping(value = "/editPassword")

@@ -2,12 +2,14 @@ package top.minecode.service.workertask;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import top.minecode.dao.log.WorkerLogDao;
 import top.minecode.dao.worker.WorkerInfoDao;
 import top.minecode.dao.workertask.SubTaskDao;
 import top.minecode.dao.workertask.TaskDao;
 import top.minecode.dao.workertask.TaskParticipationDao;
 import top.minecode.domain.task.*;
 import top.minecode.domain.user.worker.Division;
+import top.minecode.po.log.WorkerViewLogPO;
 import top.minecode.po.task.SubTaskPO;
 import top.minecode.po.task.TaskPO;
 import top.minecode.po.worker.FinishedTaskParticipationPO;
@@ -33,6 +35,17 @@ public class WorkerSpecificTaskService {
     private SubTaskDao subTaskDao;
 
     private TaskParticipationDao participationDao;
+
+    private WorkerLogDao logDao;
+
+    public WorkerLogDao getLogDao() {
+        return logDao;
+    }
+
+    @Autowired
+    public void setLogDao(WorkerLogDao logDao) {
+        this.logDao = logDao;
+    }
 
     public SubTaskDao getSubTaskDao() {
         return subTaskDao;
@@ -70,7 +83,15 @@ public class WorkerSpecificTaskService {
         this.taskDao = taskDao;
     }
 
+    private void addViewLog(String email, int taskId) {
+        WorkerViewLogPO log = new WorkerViewLogPO(email, taskId, new Date());
+        logDao.addViewLog(log);
+    }
+
     public TaskSpecification getTaskDetail(String email, int taskId) {
+
+        addViewLog(email, taskId);
+
         TaskPO taskPO = taskDao.getTaskById(taskId);
         boolean accepted = taskPO.getParticipators().stream().anyMatch(e -> e.equals(email));
         boolean canAccept = false;
@@ -98,6 +119,7 @@ public class WorkerSpecificTaskService {
                 }
             }
         }
+
 
         return new TaskSpecification(Task.fromPO(taskPO), state, accepted,
                 requiredDivision, taskBackground, canAccept,
