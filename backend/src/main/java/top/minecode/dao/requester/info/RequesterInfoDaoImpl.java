@@ -10,8 +10,7 @@ import top.minecode.dao.log.AuthenticationLogDao;
 import top.minecode.dao.utils.CommonOperation;
 import top.minecode.domain.user.requester.AccountLog;
 import top.minecode.domain.user.requester.Requester;
-import top.minecode.domain.utils.MoneyConverter;
-import top.minecode.domain.utils.SignMessageConverter;
+import top.minecode.domain.utils.TimeMessageConverter;
 import top.minecode.domain.utils.ResultMessage;
 import top.minecode.po.log.LoginLogPO;
 import top.minecode.po.log.RequesterAccountLogPO;
@@ -63,11 +62,8 @@ public class RequesterInfoDaoImpl implements RequesterInfoDao {
         // Get latest login record for this user
         LoginLogPO latestLoginLogPO = authenticationLogDao.getLatestLoginRecord(email);
 
-        SignMessageConverter signMessageConverter = new SignMessageConverter();
-        MoneyConverter moneyConverter = new MoneyConverter();
-
-        String signMsg = signMessageConverter.convertBoth(requesterPO.getJoinTime(), latestLoginLogPO.getLoginTime());
-        String dollars = moneyConverter.convert(requesterPO.getDollars());
+        String signMsg = TimeMessageConverter.convertBoth(requesterPO.getJoinTime(), latestLoginLogPO.getLoginTime());
+        double dollars = requesterPO.getDollars();
 
         return new Requester(requesterPO, signMsg, dollars);
     }

@@ -1,25 +1,33 @@
-package top.minecode.domain.user.requester;
+package top.minecode.dao.utils;
 
 import com.google.gson.Gson;
-import org.apache.shiro.authc.Authenticator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import top.minecode.domain.task.requester.TaskItem;
+import top.minecode.domain.user.requester.AccountLog;
+import top.minecode.po.task.TaskPO;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
 /**
- * Created on 2018/5/23.
+ * Created on 2018/5/24.
  * Description:
  * @author Liao
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:naive-context.xml", "classpath:naive-shiro.xml"})
-public class AccountLogTest {
+public class GsonFactoryTest {
 
     private Gson gson;
 
@@ -29,12 +37,26 @@ public class AccountLogTest {
     }
 
     @Test
-    public void test1() {
+    public void testAccountLog() {
         String date = new Date().toString();
         AccountLog accountLog =
                 new AccountLog("+$111,111.11", "RECHARGE", "$111,111.11", date);
 
         String json = gson.toJson(accountLog);
         assertEquals("[\"+$111,111.11\",\"RECHARGE\",\"$111,111.11\",\"" + date + "\"]", json);
+    }
+
+    @Test
+    public void testTaskItem() {
+        TaskPO taskPO = new TaskPO();
+        taskPO.setTotalDollars(1234213.2);
+        taskPO.setBeginDate(new Date());
+        taskPO.setParticipators(new ArrayList<>());
+        taskPO.setSpecificTasks(new HashMap<>());
+        Instant instant = Instant.now().plusSeconds(24124322343312L);
+        taskPO.setEndDate(Date.from(instant));
+        TaskItem taskItem = new TaskItem(taskPO);
+
+        System.out.println(gson.toJson(taskItem));
     }
 }

@@ -10,6 +10,7 @@ import top.minecode.domain.user.User;
 import top.minecode.service.user.ActiveUserService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.NoSuchElementException;
 
 /**
  * Created on 2018/5/17.
@@ -34,8 +35,8 @@ public abstract class BaseController {
     protected String getUserEmail(HttpServletRequest request) {
         String email = activeUserService.getUserMail(request.getParameter(TOKEN));
         if (email == null) {
-            // TODO: 2018/5/23 Consider the situation when the token is not in the active users' map
             log.info("Token is not in the cache");
+            throw new NoSuchElementException();
         }
         return email;
     }

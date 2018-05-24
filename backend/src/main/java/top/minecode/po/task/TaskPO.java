@@ -43,6 +43,8 @@ public class TaskPO implements Serializable {
 
     private double adRate;
 
+    private String cover;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date beginDate;
 
@@ -221,5 +223,13 @@ public class TaskPO implements Serializable {
 
     public void setParticipators(List<String> participators) {
         this.participators = participators;
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
     }
 }

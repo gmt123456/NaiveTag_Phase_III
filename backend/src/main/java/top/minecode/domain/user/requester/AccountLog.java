@@ -11,12 +11,12 @@ import java.lang.reflect.Type;
  */
 public class AccountLog {
 
-    private final String change;
+    private final double change;
     private final String changeType;
-    private final String balance;
+    private final double balance;
     private final String time;
 
-    public AccountLog(String change, String changeType, String balance, String time) {
+    public AccountLog(double change, String changeType, double balance, String time) {
         this.change = change;
         this.changeType = changeType;
         this.balance = balance;

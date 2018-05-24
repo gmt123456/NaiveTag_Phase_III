@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import top.minecode.dao.utils.CommonOperation;
 import top.minecode.domain.user.requester.AccountLog;
-import top.minecode.domain.utils.MoneyConverter;
 import top.minecode.po.log.RequesterAccountLogPO;
 
 import java.text.DateFormat;
@@ -27,15 +26,14 @@ public class AccountLogDaoImpl implements AccountLogDao {
 
     private static final Logger log = LoggerFactory.getLogger(AccountLogDaoImpl.class);
 
-    private MoneyConverter converter = new MoneyConverter();
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     private CommonOperation<RequesterAccountLogPO> accountOperation =
             new CommonOperation<>(RequesterAccountLogPO.class);
 
     private Function<RequesterAccountLogPO, AccountLog> function = e ->
-            new AccountLog(converter.convert(e.getDollars()), e.getType().toString(),
-                    converter.convert(e.getBalance()), dateFormat.format(e.getTime()));
+            new AccountLog(e.getDollars(), e.getType().toString(),
+                    e.getBalance(), dateFormat.format(e.getTime()));
 
     @Override
     public void log(String email, double dollars, double balance, RequesterAccountLogPO.ChangeType changeType) {

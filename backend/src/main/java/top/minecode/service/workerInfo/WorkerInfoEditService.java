@@ -4,10 +4,10 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Base64Utils;
-import org.springframework.web.multipart.MultipartFile;
 import top.minecode.dao.worker.WorkerInfoDao;
 import top.minecode.domain.user.worker.WorkerInfoEditResponse;
 import top.minecode.po.worker.WorkerPO;
+import top.minecode.service.util.Encryptor;
 import top.minecode.service.util.PathUtil;
 import top.minecode.service.util.RandomUtil;
 
@@ -24,6 +24,12 @@ import java.io.IOException;
 public class WorkerInfoEditService {
 
     private WorkerInfoDao workerInfoDao;
+    private Encryptor encryptor;
+
+    @Autowired
+    public void setEncryptor(Encryptor encryptor) {
+        this.encryptor = encryptor;
+    }
 
     public WorkerInfoDao getWorkerInfoDao() {
         return workerInfoDao;
@@ -75,7 +81,8 @@ public class WorkerInfoEditService {
 
     public WorkerInfoEditResponse editPassword(String email, String rawPassword, String newPassword) {
         WorkerPO workerPO = workerInfoDao.getWorkerPOByEmail(email);
-        if (!workerPO.getPassword().equals(rawPassword))
+        String encryptedPwd = encryptor.encrypt(rawPassword, email);
+        if (!workerPO.getPassword().equals(encryptedPwd))
             return new WorkerInfoEditResponse(WorkerInfoEditResponse.INVALID_PASSWORD);
         workerPO.setPassword(newPassword);
         String response = WorkerInfoEditResponse.SUCCESS;

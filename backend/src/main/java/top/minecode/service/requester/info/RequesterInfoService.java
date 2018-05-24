@@ -1,6 +1,5 @@
 package top.minecode.service.requester.info;
 
-import org.springframework.stereotype.Service;
 import top.minecode.web.requester.info.ChangeInfoCommand;
 import top.minecode.web.requester.info.PageCommand;
 
