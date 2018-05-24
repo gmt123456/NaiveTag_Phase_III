@@ -1,9 +1,11 @@
 package top.minecode.domain.task.requester;
 
 import top.minecode.domain.task.TaskTag;
+import top.minecode.domain.task.TaskType;
 import top.minecode.domain.user.worker.Division;
 import top.minecode.po.task.TaskPO;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,32 +14,40 @@ import java.util.List;
  * Description:
  * @author Liao
  */
-public class TaskItem {
+public class RequesterTaskDetails {
 
+    private List<TaskType> types;
+    private double process;
+    private String backgroundImage;
     private String title;
     private String description;
-    private String cover;
     private List<TaskTag> tags;
     private double dollars;
     private int participantsNum;
     private int pictureNum;
-    private int subTaskNum;
     private Division workerRequirement;
     private Date begin;
     private Date deadline;
 
-    public TaskItem(TaskPO taskPO) {
+
+    public RequesterTaskDetails(TaskPO taskPO, double process) {
+        backgroundImage = taskPO.getBackgroundImage();
         title = taskPO.getTaskName();
+        deadline = taskPO.getEndDate();
         description = taskPO.getTaskDescription();
-        cover = taskPO.getCover();
         tags = taskPO.getTaskTags();
         dollars = taskPO.getTotalDollars();
         participantsNum = taskPO.getParticipators().size();
         pictureNum = taskPO.getPicNum();
-        subTaskNum = taskPO.getSpecificTasks().size();
-        begin = taskPO.getBeginDate();
-        deadline = taskPO.getEndDate();
         workerRequirement = taskPO.getLowestDivision();
+        begin = taskPO.getBeginDate();
+
+        types = new ArrayList<>(taskPO.getSpecificTasks().keySet());
+        this.process = process;
+    }
+
+    public String getBackgroundImage() {
+        return backgroundImage;
     }
 
     public String getTitle() {
@@ -46,10 +56,6 @@ public class TaskItem {
 
     public String getDescription() {
         return description;
-    }
-
-    public String getCover() {
-        return cover;
     }
 
     public List<TaskTag> getTags() {
@@ -68,8 +74,8 @@ public class TaskItem {
         return pictureNum;
     }
 
-    public int getSubTaskNum() {
-        return subTaskNum;
+    public Division getWorkerRequirement() {
+        return workerRequirement;
     }
 
     public Date getBegin() {
@@ -80,7 +86,12 @@ public class TaskItem {
         return deadline;
     }
 
-    public Division getWorkerRequirement() {
-        return workerRequirement;
+
+    public List<TaskType> getTypes() {
+        return types;
+    }
+
+    public double getProcess() {
+        return process;
     }
 }

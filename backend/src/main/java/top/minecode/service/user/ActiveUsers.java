@@ -13,6 +13,7 @@ import top.minecode.domain.user.User;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -98,7 +99,8 @@ public class ActiveUsers implements ActiveUserService {
      * @return user's token
      */
     private String addNewUser(String userEmail) {
-        String token = new Md5Hash(userEmail, SALT, HASH_TIMES).toString();
+        Random random = new Random();
+        String token = new Md5Hash(userEmail, SALT + random.nextInt(), HASH_TIMES).toString();
         tokenUserMap.put(token, new ActiveUser(userEmail, LocalDateTime.now().plusMinutes(EXPIRE_TIME)));
         return token;
     }

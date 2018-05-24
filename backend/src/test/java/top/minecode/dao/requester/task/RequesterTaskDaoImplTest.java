@@ -25,7 +25,7 @@ public class RequesterTaskDaoImplTest {
 
     @Test
     public void test1() {
-        String hql = "select new map (p.email as pmail , sum(p.picAmount) as psum) from SubTaskParticipationPO p where p.taskId=?" +
+        String hql = "select new map (p.email as email , sum(p.picAmount) as picNum) from SubTaskParticipationPO p where p.taskId=?" +
                 " group by p.email order by sum(p.picAmount) desc";
         CommonOperation<TaskPO> operation = new CommonOperation<>(TaskPO.class);
 

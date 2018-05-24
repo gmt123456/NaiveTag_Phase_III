@@ -1,6 +1,7 @@
 package top.minecode.service.requester.task;
 
-import top.minecode.domain.task.requester.TaskItem;
+import top.minecode.domain.task.requester.RequesterTaskItem;
+import top.minecode.domain.task.requester.RequesterTaskDetails;
 import top.minecode.domain.task.requester.TaskParticipant;
 
 import java.util.List;
@@ -12,9 +13,36 @@ import java.util.List;
  */
 public interface RequesterTaskService {
 
-    List<TaskItem> getOnGoingTasks(String email);
+    /**
+     * Get requester's tasks which is still ongoing.
+     * @param email requester's email
+     * @return list of ongoing tasks
+     */
+    List<RequesterTaskItem> getOnGoingTasks(String email);
 
-    List<TaskItem> getCompletedTasks(String email);
+    /**
+     * Get requester's tasks which have been already completed.
+     * @param email requester's email
+     * @return list of completed tasks
+     */
+    List<RequesterTaskItem> getCompletedTasks(String email);
 
-    List<TaskParticipant> getParticipants(String taskId);
+    /**
+     * Get task's participants. This will return a list
+     * with item's number less than limit. And the items
+     * in the returned list are ordered by their completed
+     * pictures number.
+     * @param taskId task's id
+     * @param limit limit for how many people will be returned
+     * @return list of task participants
+     */
+    List<TaskParticipant> getParticipants(int taskId, int limit);
+
+    /**
+     * Get task details. Task details contains all information
+     * which a RequesterTaskItem have, subTask's types and tasks's process
+     * @param taskId task's id
+     * @return task's details
+     */
+    RequesterTaskDetails getTaskDetails(int taskId);
 }

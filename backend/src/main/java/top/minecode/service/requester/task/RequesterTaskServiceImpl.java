@@ -4,7 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.minecode.dao.requester.task.RequesterTaskDao;
 import top.minecode.domain.task.TaskState;
-import top.minecode.domain.task.requester.TaskItem;
+import top.minecode.domain.task.requester.RequesterTaskItem;
+import top.minecode.domain.task.requester.RequesterTaskDetails;
 import top.minecode.domain.task.requester.TaskParticipant;
 
 import java.util.List;
@@ -25,17 +26,26 @@ public class RequesterTaskServiceImpl implements RequesterTaskService {
     }
 
     @Override
-    public List<TaskItem> getOnGoingTasks(String email) {
+    public List<RequesterTaskItem> getOnGoingTasks(String email) {
         return taskDao.getTaskItems(email, TaskState.ON_GOING);
     }
 
     @Override
-    public List<TaskParticipant> getParticipants(String taskId) {
-        return null;
+    public List<TaskParticipant> getParticipants(int taskId, int limit) {
+        List<TaskParticipant> participants = taskDao.getTaskParticipants(taskId);
+        if (participants.isEmpty())
+            return participants;
+
+        return participants.subList(0, Math.min(limit, participants.size()));
     }
 
     @Override
-    public List<TaskItem> getCompletedTasks(String email) {
+    public RequesterTaskDetails getTaskDetails(int taskId) {
+        return taskDao.getTaskDetails(taskId);
+    }
+
+    @Override
+    public List<RequesterTaskItem> getCompletedTasks(String email) {
         return taskDao.getTaskItems(email, TaskState.FINISHED);
     }
 }

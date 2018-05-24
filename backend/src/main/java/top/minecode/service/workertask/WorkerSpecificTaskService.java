@@ -136,7 +136,7 @@ public class WorkerSpecificTaskService {
 
         SubTaskPO subTaskPO = subTaskDao.getSubTaskById(subTaskId);
 
-        if (subTaskPO == null || subTaskPO.getTaskType() != taskType || subTaskPO.getSubTaskState() == SubTaskState.LOCKED)
+        if (subTaskPO == null || subTaskPO.getTaskType() != taskType || subTaskPO.getSubTaskState() != SubTaskState.COMMON)
             return new SubTaskAcceptResponse(false, SubTaskAcceptResponse.UN_KNOWN);
 
 

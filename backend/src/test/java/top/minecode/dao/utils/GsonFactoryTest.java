@@ -3,17 +3,15 @@ package top.minecode.dao.utils;
 import com.google.gson.Gson;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import top.minecode.domain.task.requester.TaskItem;
+import top.minecode.domain.task.requester.RequesterTaskItem;
+import top.minecode.domain.task.requester.RequesterTaskDetails;
 import top.minecode.domain.user.requester.AccountLog;
 import top.minecode.po.task.TaskPO;
 
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -50,13 +48,35 @@ public class GsonFactoryTest {
     public void testTaskItem() {
         TaskPO taskPO = new TaskPO();
         taskPO.setTotalDollars(1234213.2);
+        taskPO.setId(1);
         taskPO.setBeginDate(new Date());
         taskPO.setParticipators(new ArrayList<>());
         taskPO.setSpecificTasks(new HashMap<>());
         Instant instant = Instant.now().plusSeconds(24124322343312L);
         taskPO.setEndDate(Date.from(instant));
-        TaskItem taskItem = new TaskItem(taskPO);
 
-        System.out.println(gson.toJson(taskItem));
+        RequesterTaskItem requesterTaskItem = new RequesterTaskItem(taskPO);
+
+        System.out.println(gson.toJson(requesterTaskItem));
+    }
+
+    @Test
+    public void testTaskDetails() {
+        RequesterTaskDetails details = new RequesterTaskDetails(getTaskPO(), 0.88);
+
+        System.out.println(gson.toJson(details));
+    }
+
+    private TaskPO getTaskPO() {
+        TaskPO taskPO = new TaskPO();
+        taskPO.setTotalDollars(1234213.2);
+        taskPO.setId(1);
+        taskPO.setBeginDate(new Date());
+        taskPO.setParticipators(new ArrayList<>());
+        taskPO.setSpecificTasks(new HashMap<>());
+        Instant instant = Instant.now().plusSeconds(12345122);
+        taskPO.setEndDate(Date.from(instant));
+
+        return taskPO;
     }
 }
