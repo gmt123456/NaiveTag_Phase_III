@@ -182,6 +182,7 @@ public class WorkerInfoService {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         for (int i = 0; i < 12; i++) {
+            calendar.set(Calendar.DAY_OF_MONTH, 1);
             calendar.set(Calendar.MONTH, i);
             int days = getDaysInMonth(calendar.get(Calendar.YEAR), i + 1);
             for (int j = 1; j <= days; j++) {

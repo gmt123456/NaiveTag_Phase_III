@@ -26,6 +26,14 @@ public class RankDao {
         return rankHelper.getBySingleField("userEmail", email).getRank();
     }
 
+    public RankPO getRankPOByEmail(String email) {
+        return rankHelper.getBySingleField("userEmail", email);
+    }
+
+    public void updateRank(RankPO rankPO) {
+        rankHelper.update(rankPO);
+    }
+
     public void addRank(RankPO rankPO) {
         rankHelper.add(rankPO);
     }
