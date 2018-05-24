@@ -45,15 +45,15 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void addWorker(String email, String pwd, String name, Date joinTime) {
-        WorkerPO workerPO = new WorkerPO(email, pwd, name, joinTime);
+    public void addWorker(String email, String pwd, String name, Date joinTime, String avatar) {
+        WorkerPO workerPO = new WorkerPO(email, pwd, name, joinTime, avatar);
         if (!workerOperation.add(workerPO))
             log.debug("worker: " + email + " fail to add to the database");
     }
 
     @Override
-    public void addRequester(String email, String pwd, String name, Date joinTime) {
-        RequesterPO requesterPO = new RequesterPO(email, pwd, name, joinTime);
+    public void addRequester(String email, String pwd, String name, Date joinTime, String avatar) {
+        RequesterPO requesterPO = new RequesterPO(email, pwd, name, joinTime, avatar);
         if (!requesterOperation.add(requesterPO))
             log.debug("requester: " + email + " fail to add to the database");
 

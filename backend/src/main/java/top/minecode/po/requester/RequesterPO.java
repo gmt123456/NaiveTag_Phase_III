@@ -32,7 +32,7 @@ public class RequesterPO implements Serializable {
 
     public RequesterPO() {}
 
-    public RequesterPO(String email, String name, String password, Date joinTime) {
+    public RequesterPO(String email, String name, String password, Date joinTime, String avatar) {
         this.email = email;
         this.name = name;
         this.password = password;

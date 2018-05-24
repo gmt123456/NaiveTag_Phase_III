@@ -46,7 +46,7 @@ public class ActiveUsers implements ActiveUserService {
             return null;
         }
 
-        // update the his time
+        // update his time
         user.updateTime();
         return user.email;
     }

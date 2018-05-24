@@ -19,7 +19,7 @@ public class User {
     private double score;
 
     /**
-     * Static factory method to create a user with requester user type
+     * Static factory method to getGson a user with requester user type
      * @param email user's email
      * @param name user's name
      * @param dollars user's dollars
@@ -34,7 +34,7 @@ public class User {
     }
 
     /**
-     * Static factory method to create a user with worker user type
+     * Static factory method to getGson a user with worker user type
      * @param email user's email
      * @param name user's name
      * @param dollars user's dollars

@@ -13,14 +13,19 @@ import top.minecode.domain.utils.TimeMessageConverter;
 public class GsonFactory {
 
     private static Gson defaultGson = new GsonBuilder().serializeNulls().create();
+    private static final Gson gson;
 
-    public static Gson create() {
+    static {
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(AccountLog.class, new AccountLog.AccountLogSerializer())
                 .registerTypeAdapter(TaskItem.class, taskItemSerializer())
                 .setPrettyPrinting()
                 .serializeNulls();
-        return builder.create();
+        gson = builder.create();
+    }
+
+    public static Gson getGson() {
+        return gson;
     }
 
     private static JsonSerializer<TaskItem> taskItemSerializer() {
@@ -33,9 +38,8 @@ public class GsonFactory {
             object.remove("dollars");
 
             // Serialize time information
-            TimeMessageConverter messageConverter = new TimeMessageConverter();
-            String timeInfo = messageConverter.convertStartTime(taskItem.getBegin()) + ", ";
-            timeInfo += messageConverter.convertDeadline(taskItem.getDeadline());
+            String timeInfo = TimeMessageConverter.convertStartTime(taskItem.getBegin()) + ", ";
+            timeInfo += TimeMessageConverter.convertDeadline(taskItem.getDeadline());
             object.addProperty("timeInfo", timeInfo);
 
             // Serialize money information

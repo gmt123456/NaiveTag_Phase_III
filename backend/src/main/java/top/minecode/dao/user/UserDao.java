@@ -27,8 +27,9 @@ public interface UserDao {
      * @param pwd user's password
      * @param name user's name(Display name)
      * @param joinTime user's signup time
+     * @param avatar
      */
-    void addWorker(String email, String pwd, String name, Date joinTime);
+    void addWorker(String email, String pwd, String name, Date joinTime, String avatar);
 
     /**
      * Add requester to the database
@@ -36,6 +37,7 @@ public interface UserDao {
      * @param pwd user's password
      * @param name user's name(Display name)
      * @param joinTime user's signup time
+     * @param avatar
      */
-    void addRequester(String email, String pwd, String name, Date joinTime);
+    void addRequester(String email, String pwd, String name, Date joinTime, String avatar);
 }

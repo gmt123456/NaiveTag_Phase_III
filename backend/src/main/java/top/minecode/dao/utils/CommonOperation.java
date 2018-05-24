@@ -131,8 +131,8 @@ public class CommonOperation<T> {
         return ts;
     }
 
-    public List executeSQL(final String sql, final Object... values) {
-        List ts = null;
+    public <R> List<R> executeSQL(final Class<R> clazz, final String sql, final Object... values) {
+        List<R> ts = null;
         Session session = HibernateUtils.getCurrentSession();
         try {
             session.getTransaction().begin();

@@ -12,4 +12,7 @@ public class PathUtil {
         return "WEB-INF/";
     }
 
+    public static String getDefaultAvatarPath() {
+        return "WEB-INF/DefaultAvatar/";
+    }
 }
