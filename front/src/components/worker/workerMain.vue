@@ -15,7 +15,7 @@
                                 <div>profile photo</div>
                             </div>
                         </transition>
-                        <img :src="userInfo.avatar" width="170px" height="170px">
+                        <img :src="getImage()" width="170px" height="170px">
                     </el-aside>
 
                     <el-main>
@@ -122,7 +122,7 @@
                 :visible.sync="changePicVisible"
                 width="900px">
             <div>
-                <change-pic :imageSrc=userInfo.avatar ref="changePic" v-on:save-res="savePic"></change-pic>
+                <change-pic :imageSrc=getImage() ref="changePic" v-on:save-res="savePic"></change-pic>
             </div>
             <span slot="footer">
                 <el-button size="medium" @click="changePicVisible = false">cancel</el-button>
@@ -137,6 +137,7 @@
 
     import changePic from './workerPic.vue';
     import divisionPic from './divisionPic.vue';
+    import {getUrl} from '../../api/tool'
     import {workerInfo} from "../../api/workerInfo";
     import {workerEditPassword} from "../../api/workerInfo";
     import {workerEditUserName} from "../../api/workerInfo";
@@ -210,6 +211,10 @@
         },
 
         methods: {
+
+          getImage(){
+            return getUrl(this.userInfo.avatar);
+          },
 
         	editFail(){
 		        this.$message.error('change failed！(；′⌒`)');

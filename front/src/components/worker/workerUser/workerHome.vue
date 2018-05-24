@@ -81,7 +81,7 @@
                 optionCalendar : {
 	                tooltip: {
 		                formatter: function (params) {
-			                return params.value[0];
+			                return 'date: ' + params.value[0]+'</br>commit: '+params.value[1];
 		                }
 	                },
                     calendar: {
@@ -120,10 +120,10 @@
         },
 
         mounted(){
-	        this.getChangesData();
-            this.drawCalendar();
-            this.drawDollarChanges();
-            this.drawScoreChanges();
+          this.$echarts.init(document.getElementById('calendar'));
+          this.$echarts.init(document.getElementById('dollarChanges'));
+          this.$echarts.init(document.getElementById('scoreChanges'));
+            this.getChangesData();
         },
 
         methods: {
@@ -155,9 +155,15 @@
         	getChangesData(){
 		        let that = this;
 		        workerChanges(res => {
+		          console.log(res.activity[0]);
 			        that.userChanges.activity = that.getDataList(res.activity);
 			        that.userChanges.dollarChanges = that.getDataList(res.dollarChanges);
 			        that.userChanges.scoreChanges = that.getDataList(res.scoreChanges);
+			        console.log(that.userChanges.activity[0]);
+
+              that.drawCalendar();
+              that.drawDollarChanges();
+              that.drawScoreChanges();
 		        });
             },
 

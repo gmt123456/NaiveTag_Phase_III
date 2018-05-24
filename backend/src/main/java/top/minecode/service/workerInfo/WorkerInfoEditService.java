@@ -4,8 +4,10 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Base64Utils;
+import top.minecode.dao.worker.RankDao;
 import top.minecode.dao.worker.WorkerInfoDao;
 import top.minecode.domain.user.worker.WorkerInfoEditResponse;
+import top.minecode.po.worker.RankPO;
 import top.minecode.po.worker.WorkerPO;
 import top.minecode.service.util.Encryptor;
 import top.minecode.service.util.PathUtil;
@@ -25,6 +27,21 @@ public class WorkerInfoEditService {
 
     private WorkerInfoDao workerInfoDao;
     private Encryptor encryptor;
+
+    private RankDao rankDao;
+
+    public RankDao getRankDao() {
+        return rankDao;
+    }
+
+    @Autowired
+    public void setRankDao(RankDao rankDao) {
+        this.rankDao = rankDao;
+    }
+
+    public Encryptor getEncryptor() {
+        return encryptor;
+    }
 
     @Autowired
     public void setEncryptor(Encryptor encryptor) {
@@ -46,6 +63,11 @@ public class WorkerInfoEditService {
         String response = WorkerInfoEditResponse.SUCCESS;
         if (!workerInfoDao.updateWorkPO(workerPO))
             response = WorkerInfoEditResponse.FAILURE;
+
+        RankPO rankPO = rankDao.getRankPOByEmail(email);
+        rankPO.setUserName(userName);
+        rankDao.updateRank(rankPO);
+
         return new WorkerInfoEditResponse(response);
     }
 
@@ -76,6 +98,12 @@ public class WorkerInfoEditService {
         String response = WorkerInfoEditResponse.SUCCESS;
         if (!workerInfoDao.updateWorkPO(workerPO))
             response = WorkerInfoEditResponse.FAILURE;
+
+        // 更新 rank表中的头像信息
+        RankPO rankPO = rankDao.getRankPOByEmail(email);
+        rankPO.setAvatar(randomName);
+        rankDao.updateRank(rankPO);
+
         return new WorkerInfoEditResponse(response);
     }
 
@@ -84,7 +112,7 @@ public class WorkerInfoEditService {
         String encryptedPwd = encryptor.encrypt(rawPassword, email);
         if (!workerPO.getPassword().equals(encryptedPwd))
             return new WorkerInfoEditResponse(WorkerInfoEditResponse.INVALID_PASSWORD);
-        workerPO.setPassword(newPassword);
+        workerPO.setPassword(encryptor.encrypt(newPassword, email));
         String response = WorkerInfoEditResponse.SUCCESS;
         if (!workerInfoDao.updateWorkPO(workerPO))
             response = WorkerInfoEditResponse.FAILURE;
