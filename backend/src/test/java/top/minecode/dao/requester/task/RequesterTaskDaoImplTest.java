@@ -29,8 +29,7 @@ public class RequesterTaskDaoImplTest {
                 " group by p.email order by sum(p.picAmount) desc";
         CommonOperation<TaskPO> operation = new CommonOperation<>(TaskPO.class);
 
-        //noinspection unchecked
-        List<Map> result = (List<Map>)operation.executeSQL(hql, 2);
+        List<Map> result = operation.executeSQL(Map.class, hql, 2);
         System.out.println(result);
     }
 }

@@ -23,6 +23,16 @@ public class RankPO {
 
     private String avatar;
 
+    public RankPO() {}
+
+    public RankPO(String userEmail, String userName, double score, String avatar) {
+        this.userEmail = userEmail;
+        this.userName = userName;
+        this.score = score;
+        this.rank = rank;
+        this.avatar = avatar;
+    }
+
     public String getAvatar() {
         return avatar;
     }

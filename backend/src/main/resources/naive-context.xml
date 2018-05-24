@@ -74,7 +74,8 @@
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
           p:defaultEncoding="UTF-8"/>
 
-    <bean id="gson" class="top.minecode.dao.utils.GsonFactory" factory-method="create"/>
+
+    <bean id="gsonFactory" class="top.minecode.dao.utils.GsonFactory" factory-method="getGson"/>
     <!--
         <bean id="sessionFactory"
               class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"

@@ -16,4 +16,7 @@ public class PathUtil {
         return rawString.substring(0, rawString.length() - 16);
     }
 
+    public static String getDefaultAvatarPath() {
+        return "WEB-INF/DefaultAvatar/";
+    }
 }

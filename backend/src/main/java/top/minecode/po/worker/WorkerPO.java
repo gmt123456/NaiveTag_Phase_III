@@ -43,7 +43,7 @@ public class WorkerPO implements Serializable {
 
     public WorkerPO() {}
 
-    public WorkerPO(String email, String password, String name, Date joinTime) {
+    public WorkerPO(String email, String password, String name, Date joinTime, String avatar) {
         this.email = email;
         this.password = password;
         this.name = name;
