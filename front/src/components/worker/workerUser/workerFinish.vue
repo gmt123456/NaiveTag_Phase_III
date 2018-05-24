@@ -1,6 +1,7 @@
 <template>
     <div id="workerFinish">
-        <task-list :taskListData = this.taskFinishData></task-list>
+        <task-list v-loading="this.isLoading"
+                   :taskListData = this.taskFinishData></task-list>
     </div>
 </template>
 
@@ -18,6 +19,7 @@
 		data(){
 			return {
 				taskFinishData: [],
+				isLoading: true,
 			}
 		},
 
@@ -26,6 +28,7 @@
 				let that = this;
 				workerFinish(res =>{
 					that.taskFinishData = res;
+					this.isLoading = false;
 				});
 			},
 		},
