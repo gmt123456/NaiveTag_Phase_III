@@ -41,7 +41,7 @@ public class UserInfoEditController extends BaseController {
         return WebConfig.getGson().toJson(service.editBasicInfo(email, userName));
     }
 
-    @RequestMapping("/editAvatar")
+    @RequestMapping("/editBasicAvatar")
     @ResponseBody
     public String editAvatar(HttpServletRequest request, @RequestParam String avatar) {
         String email = getUserEmail(request);
