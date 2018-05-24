@@ -37,16 +37,6 @@ public class GsonFactoryTest {
     }
 
     @Test
-    public void testAccountLog() {
-        String date = new Date().toString();
-        AccountLog accountLog =
-                new AccountLog("+$111,111.11", "RECHARGE", "$111,111.11", date);
-
-        String json = gson.toJson(accountLog);
-        assertEquals("[\"+$111,111.11\",\"RECHARGE\",\"$111,111.11\",\"" + date + "\"]", json);
-    }
-
-    @Test
     public void testTaskItem() {
         TaskPO taskPO = new TaskPO();
         taskPO.setTotalDollars(1234213.2);
