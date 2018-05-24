@@ -3,6 +3,7 @@ package top.minecode.service.workertask;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import top.minecode.dao.log.WorkerLogDao;
 import top.minecode.dao.worker.WorkerInfoDao;
 import top.minecode.dao.workertask.TaskSearchDao;
 import top.minecode.domain.task.RankType;
@@ -11,11 +12,13 @@ import top.minecode.domain.task.TaskTag;
 import top.minecode.domain.task.TaskType;
 import top.minecode.domain.user.worker.Division;
 import top.minecode.domain.user.worker.Rank;
+import top.minecode.po.log.WorkerSearchLogPO;
 import top.minecode.po.task.TaskPO;
 import top.minecode.po.worker.WorkerPO;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,6 +35,17 @@ public class WorkerTaskSearchService {
 
     private TaskSearchDao taskSearchDao;
 
+    private WorkerLogDao logDao;
+
+    public WorkerLogDao getLogDao() {
+        return logDao;
+    }
+
+    @Autowired
+    public void setLogDao(WorkerLogDao logDao) {
+        this.logDao = logDao;
+    }
+
     public WorkerInfoDao getWorkerInfoDao() {
         return workerInfoDao;
     }
@@ -45,12 +59,14 @@ public class WorkerTaskSearchService {
         return taskSearchDao;
     }
 
+    @Autowired
     public void setTaskSearchDao(TaskSearchDao taskSearchDao) {
         this.taskSearchDao = taskSearchDao;
     }
 
-    private void recordSearchLog(String email, TaskType taskType, TaskTag taskTag, String key) {
-        // TODO: 记录用户搜索日志，为智能化模块提供支持
+    private void recordSearchLog(String email, TaskType taskType, TaskTag taskTag, String key, RankType rankType) {
+        WorkerSearchLogPO searchLogPO = new WorkerSearchLogPO(key, taskType, taskTag, new Date(), email, rankType);
+        logDao.addSearchLog(searchLogPO);
     }
 
     public List<Task> searchTask(String email, TaskType taskType,
@@ -58,7 +74,7 @@ public class WorkerTaskSearchService {
                                  RankType rankType, int begin, int step,
                                  String key, boolean canAccept) {
 
-        recordSearchLog(email, taskType, taskTag, key); // record log
+        recordSearchLog(email, taskType, taskTag, key, rankType); // record log
 
         List<TaskPO> rawPOs = taskSearchDao.searchTasks(key);
 
