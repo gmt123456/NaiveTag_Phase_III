@@ -66,7 +66,7 @@ public class WorkerInfoEditService {
             return new WorkerInfoEditResponse(WorkerInfoEditResponse.FAILURE);
         }
 
-        workerPO.setAvatar(fileName);
+        workerPO.setAvatar(randomName);
         String response = WorkerInfoEditResponse.SUCCESS;
         if (!workerInfoDao.updateWorkPO(workerPO))
             response = WorkerInfoEditResponse.FAILURE;
