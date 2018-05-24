@@ -1,11 +1,18 @@
 package top.minecode.service.workerInfo;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.multipart.MultipartFile;
 import top.minecode.dao.worker.WorkerInfoDao;
 import top.minecode.domain.user.worker.WorkerInfoEditResponse;
 import top.minecode.po.worker.WorkerPO;
+import top.minecode.service.util.PathUtil;
+import top.minecode.service.util.RandomUtil;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created on 2018/5/19.
@@ -36,13 +43,30 @@ public class WorkerInfoEditService {
         return new WorkerInfoEditResponse(response);
     }
 
-    private String saveAvatar(MultipartFile avatar) { // TODO: 不太懂文件保存
-        return null;
-    }
+//    private String saveAvatar(String run avatar, String email) { // TODO: 不太懂文件保存
+//        email = email.replace('@', '_').replace('.', '_');
+//        return null;
+//    }
 
-    public WorkerInfoEditResponse editAvatar(String email, MultipartFile file) {
+    public WorkerInfoEditResponse editAvatar(String email, String fileData, String suffix) {
         WorkerPO workerPO = workerInfoDao.getWorkerPOByEmail(email);
-        workerPO.setAvatar(saveAvatar(file));
+
+        // 构造一个文件
+        byte[] bsPic = Base64Utils.decodeFromString(fileData);
+
+        String randomName = "avatar/" + RandomUtil.getRandomFileName() + suffix;
+
+        String fileName = PathUtil.getBasePath() + randomName;
+
+        File imageFile = new File(fileName);
+        try {
+            FileUtils.writeByteArrayToFile(imageFile, bsPic);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new WorkerInfoEditResponse(WorkerInfoEditResponse.FAILURE);
+        }
+
+        workerPO.setAvatar(fileName);
         String response = WorkerInfoEditResponse.SUCCESS;
         if (!workerInfoDao.updateWorkPO(workerPO))
             response = WorkerInfoEditResponse.FAILURE;
