@@ -5,7 +5,6 @@ import org.junit.Test;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.Date;
 
 import static org.junit.Assert.*;
@@ -15,9 +14,9 @@ import static org.junit.Assert.*;
  * Description:
  * @author Liao
  */
-public class SignMessageConverterTest {
+public class TimeMessageConverterTest {
 
-    private SignMessageConverter converter = new SignMessageConverter();
+    private TimeMessageConverter converter = new TimeMessageConverter();
 
     @Test
     public void testConvertBoth() {
@@ -84,6 +83,32 @@ public class SignMessageConverterTest {
     @Test
     public void testConvertSignUp2() {
         assertEquals("joined just now", converter.convertSignUp(new Date()));
+    }
+
+    @Test
+    public void testConvertStart() {
+        assertEquals("upload just now", converter.convertStartTime(new Date()));
+    }
+
+    @Test
+    public void testConvertStart2() {
+        Date oddDate = localDateToDate(LocalDateTime.now().minusYears(1));
+        Date pluralDate = localDateToDate(LocalDateTime.now().minusHours(3));
+        assertEquals("upload a year ago", converter.convertStartTime(oddDate));
+        assertEquals("upload 3 hours ago", converter.convertStartTime(pluralDate));
+    }
+
+    @Test
+    public void testConvertDDL1() {
+        assertEquals("less than a minute to go", converter.convertDeadline(new Date()));
+    }
+
+    @Test
+    public void testConvertDDL2() {
+        Date oddDate = localDateToDate(LocalDateTime.now().plusYears(1));
+        Date pluralDate = localDateToDate(LocalDateTime.now().plusHours(3));
+        assertEquals("one year to go", converter.convertDeadline(oddDate));
+        assertEquals("3 hours to go", converter.convertDeadline(pluralDate));
     }
 
     private Date localDateToDate(LocalDateTime localDateTime) {

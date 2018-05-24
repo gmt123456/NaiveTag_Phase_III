@@ -1,12 +1,6 @@
 package top.minecode.domain.user.requester;
 
-import top.minecode.domain.user.User;
-import top.minecode.domain.utils.MoneyConverter;
-import top.minecode.domain.utils.SignMessageConverter;
-import top.minecode.po.log.LoginLogPO;
 import top.minecode.po.requester.RequesterPO;
-
-import java.util.Date;
 
 /**
  * Created on 2018/5/23.

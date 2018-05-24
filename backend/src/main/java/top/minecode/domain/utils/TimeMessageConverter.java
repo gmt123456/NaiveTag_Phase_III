@@ -15,7 +15,7 @@ import java.util.Optional;
  * Description:
  * @author Liao
  */
-public class SignMessageConverter {
+public class TimeMessageConverter {
 
     // Fields below are just used to calculate a approximated number, so
     // don't care about it's a leap year or not
@@ -24,7 +24,7 @@ public class SignMessageConverter {
     private static final String[][] TIME_REPRESENTATION;
 
     static {
-        TIME_REPRESENTATION = new String[5][2];
+        TIME_REPRESENTATION = new String[5][4];
         // Odd number
         TIME_REPRESENTATION[0][0] = "a year ago";
         TIME_REPRESENTATION[1][0] = "one month ago";
@@ -38,6 +38,19 @@ public class SignMessageConverter {
         TIME_REPRESENTATION[2][1] = "days ago";
         TIME_REPRESENTATION[3][1] = "hours ago";
         TIME_REPRESENTATION[4][1] = "minutes ago";
+
+        // To go
+        TIME_REPRESENTATION[0][2] = "one year to go";
+        TIME_REPRESENTATION[1][2] = "one month to go";
+        TIME_REPRESENTATION[2][2] = "one day to go";
+        TIME_REPRESENTATION[3][2] = "one hour to go";
+        TIME_REPRESENTATION[4][2] = "one minute to go";
+
+        TIME_REPRESENTATION[0][3] = "years to go";
+        TIME_REPRESENTATION[1][3] = "months to go";
+        TIME_REPRESENTATION[2][3] = "days to go";
+        TIME_REPRESENTATION[3][3] = "hours to go";
+        TIME_REPRESENTATION[4][3] = "minutes to go";
     }
 
     /**
@@ -60,9 +73,7 @@ public class SignMessageConverter {
      * @return message described sign up time
      */
     public String convertSignUp(@NotNull Date signUpTime) {
-        LocalDateTime signup = getLocalDateTime(signUpTime);
-        LocalDateTime now = LocalDateTime.now();
-        Duration signupDuration = Duration.between(signup, now).abs();
+        Duration signupDuration = getDurationToNow(signUpTime);
 
         return Optional.ofNullable(convertDuration(signupDuration))
                 .map(e -> "joined " + e).orElse("joined just now");
@@ -79,36 +90,61 @@ public class SignMessageConverter {
         if (latestLoginTime == null)
             return null;
 
-        LocalDateTime login = getLocalDateTime(latestLoginTime);
-        LocalDateTime now = LocalDateTime.now();
-        Duration loginDuration = Duration.between(login, now).abs();
+        Duration loginDuration = getDurationToNow(latestLoginTime);
 
         return Optional.ofNullable(convertDuration(loginDuration)).map(e -> "last seen " + e).orElse(null);
     }
 
-    private LocalDateTime getLocalDateTime(Date date) {
-        Instant instant = date.toInstant();
-        ZoneId zoneId = ZoneId.systemDefault();
-        return instant.atZone(zoneId).toLocalDateTime();
+    public String convertStartTime(@NotNull Date startTime) {
+        Duration startToNow = getDurationToNow(startTime);
+
+        return Optional.ofNullable(convertDuration(startToNow))
+                .map(e -> "upload " + e).orElse("upload just now");
+    }
+
+    public String convertDeadline(@NotNull Date deadline) {
+        Duration nowToDeadline = getDurationToNow(deadline);
+
+        return Optional.ofNullable(convertDuration(nowToDeadline))
+                .orElse("less than a minute to go");
     }
 
     private String convertDuration(Duration duration) {
         // Convert to year, month, week, day and minutes
         long[] durations = new long[5];  // Stores year, month, week, day and minutes
-        durations[0] = duration.toDays() / YEAR;
-        durations[1] = duration.toDays() / MONTH;
-        durations[2] = duration.toDays();
-        durations[3] = duration.toHours();
-        durations[4] = duration.toMinutes();
+        durations[0] = duration.abs().toDays() / YEAR;
+        durations[1] = duration.abs().toDays() / MONTH;
+        durations[2] = duration.abs().toDays();
+        durations[3] = duration.abs().toHours();
+        durations[4] = duration.abs().toMinutes();
 
         // Convert to String representation according to odd or plural
-        for (int i = 0; i < durations.length; i++) {
-            if (durations[i] > 0) {
-                long d = durations[i];
-                return durations[i] > 1 ? d + " " + TIME_REPRESENTATION[i][1] : TIME_REPRESENTATION[i][0];
+        if (duration.isNegative()) {
+            // Convert to "to go" pattern
+            for (int i = 0; i < durations.length; i++) {
+                if (durations[i] > 0) {
+                    long d = durations[i];
+                    return durations[i] > 1 ? d + " " + TIME_REPRESENTATION[i][3] : TIME_REPRESENTATION[i][2];
+                }
+            }
+        } else {
+            for (int i = 0; i < durations.length; i++) {
+                if (durations[i] > 0) {
+                    long d = durations[i];
+                    return durations[i] > 1 ? d + " " + TIME_REPRESENTATION[i][1] : TIME_REPRESENTATION[i][0];
+                }
             }
         }
 
         return null; // If sign up just now, return null
+    }
+
+    private Duration getDurationToNow(Date target) {
+        // Convert to LocalDateTime
+        Instant instant = target.toInstant();
+        ZoneId zoneId = ZoneId.systemDefault();
+        LocalDateTime targetTime = instant.atZone(zoneId).toLocalDateTime();
+        LocalDateTime now = LocalDateTime.now();
+        return Duration.between(targetTime, now);
     }
 }
