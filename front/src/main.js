@@ -7,7 +7,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import ElementUI from 'element-ui';
 import echarts from 'echarts';
 import jQuery from 'jquery';
-import WorkerRank from './components/worker/workerHome/workerRank.vue'
+
 
 Vue.prototype.$echarts = echarts;
 Vue.use(ElementUI);
