@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import top.minecode.dao.requester.task.RequesterTaskDao;
 import top.minecode.domain.task.TaskState;
 import top.minecode.domain.task.requester.TaskItem;
+import top.minecode.domain.task.requester.TaskParticipant;
 
 import java.util.List;
 
@@ -26,6 +27,11 @@ public class RequesterTaskServiceImpl implements RequesterTaskService {
     @Override
     public List<TaskItem> getOnGoingTasks(String email) {
         return taskDao.getTaskItems(email, TaskState.ON_GOING);
+    }
+
+    @Override
+    public List<TaskParticipant> getParticipants(String taskId) {
+        return null;
     }
 
     @Override

@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class User {
 
-    private UserType userType;
+    private final UserType userType;
     private String email;
     private String name;
     private double dollars;
@@ -71,10 +71,6 @@ public class User {
 
     public UserType getUserType() {
         return userType;
-    }
-
-    public void setUserType(UserType userType) {
-        this.userType = userType;
     }
 
     public String getEmail() {

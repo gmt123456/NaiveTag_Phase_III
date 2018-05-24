@@ -60,7 +60,7 @@ public class TimeMessageConverter {
      * @param latestLoginTime time of last login
      * @return message described sign up and login
      */
-    public String convertBoth(Date joinTime, Date latestLoginTime) {
+    public static String convertBoth(Date joinTime, Date latestLoginTime) {
         String signUpMsg = convertSignUp(joinTime);
         String latestLoginMsg = convertLogin(latestLoginTime);
         return Optional.ofNullable(latestLoginMsg).map(e -> signUpMsg + ", " + e).orElse(signUpMsg);
@@ -72,7 +72,7 @@ public class TimeMessageConverter {
      * @param signUpTime sign up time
      * @return message described sign up time
      */
-    public String convertSignUp(@NotNull Date signUpTime) {
+    public static String convertSignUp(@NotNull Date signUpTime) {
         Duration signupDuration = getDurationToNow(signUpTime);
 
         return Optional.ofNullable(convertDuration(signupDuration))
@@ -86,7 +86,7 @@ public class TimeMessageConverter {
      * @return message described latest login time time, or null
      * if the user sign up just now
      */
-    public String convertLogin(@Nullable Date latestLoginTime) {
+    public static String convertLogin(@Nullable Date latestLoginTime) {
         if (latestLoginTime == null)
             return null;
 
@@ -95,21 +95,21 @@ public class TimeMessageConverter {
         return Optional.ofNullable(convertDuration(loginDuration)).map(e -> "last seen " + e).orElse(null);
     }
 
-    public String convertStartTime(@NotNull Date startTime) {
+    public static String convertStartTime(@NotNull Date startTime) {
         Duration startToNow = getDurationToNow(startTime);
 
         return Optional.ofNullable(convertDuration(startToNow))
                 .map(e -> "upload " + e).orElse("upload just now");
     }
 
-    public String convertDeadline(@NotNull Date deadline) {
+    public static String convertDeadline(@NotNull Date deadline) {
         Duration nowToDeadline = getDurationToNow(deadline);
 
         return Optional.ofNullable(convertDuration(nowToDeadline))
                 .orElse("less than a minute to go");
     }
 
-    private String convertDuration(Duration duration) {
+    private static String convertDuration(Duration duration) {
         // Convert to year, month, week, day and minutes
         long[] durations = new long[5];  // Stores year, month, week, day and minutes
         durations[0] = duration.abs().toDays() / YEAR;
@@ -139,7 +139,7 @@ public class TimeMessageConverter {
         return null; // If sign up just now, return null
     }
 
-    private Duration getDurationToNow(Date target) {
+    private static Duration getDurationToNow(Date target) {
         // Convert to LocalDateTime
         Instant instant = target.toInstant();
         ZoneId zoneId = ZoneId.systemDefault();

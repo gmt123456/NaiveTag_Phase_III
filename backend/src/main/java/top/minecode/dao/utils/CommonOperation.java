@@ -131,6 +131,28 @@ public class CommonOperation<T> {
         return ts;
     }
 
+    public List executeSQL(final String sql, final Object... values) {
+        List ts = null;
+        Session session = HibernateUtils.getCurrentSession();
+        try {
+            session.getTransaction().begin();
+            Query query = session.createQuery(sql);
+            if (values != null) {
+                for(int i = 0; i < values.length; ++i) {
+                    query.setParameter(i, values[i]);
+                }
+            }
+            ts = query.list();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            HibernateUtils.closeSession();
+        }
+        return ts;
+    }
+
     public <V> List<T> getValuesInSpecificSet(List<V> set, String fieldName) {
         if (set.size() == 0)
             return new ArrayList<>();

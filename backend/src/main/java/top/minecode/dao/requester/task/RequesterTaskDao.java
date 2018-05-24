@@ -2,6 +2,7 @@ package top.minecode.dao.requester.task;
 
 import top.minecode.domain.task.TaskState;
 import top.minecode.domain.task.requester.TaskItem;
+import top.minecode.domain.task.requester.TaskParticipant;
 
 import java.util.List;
 
@@ -13,4 +14,6 @@ import java.util.List;
 public interface RequesterTaskDao {
 
     List<TaskItem> getTaskItems(String email, TaskState state);
+
+    List<TaskParticipant> getTaskParticipants(String taskId);
 }

@@ -1,6 +1,7 @@
 package top.minecode.service.requester.task;
 
 import top.minecode.domain.task.requester.TaskItem;
+import top.minecode.domain.task.requester.TaskParticipant;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface RequesterTaskService {
     List<TaskItem> getOnGoingTasks(String email);
 
     List<TaskItem> getCompletedTasks(String email);
+
+    List<TaskParticipant> getParticipants(String taskId);
 }

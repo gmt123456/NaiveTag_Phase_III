@@ -12,10 +12,10 @@ public class Requester {
     private final String name;
     private final String email;
     private final String signMessage;
-    private final String dollars;
+    private final double dollars;
     private final String avatar;
 
-    public Requester(RequesterPO po, String signMessage, String dollars) {
+    public Requester(RequesterPO po, String signMessage, double dollars) {
         name = po.getName();
         email = po.getEmail();
         avatar = po.getAvatar();
@@ -35,7 +35,7 @@ public class Requester {
         return signMessage;
     }
 
-    public String getDollars() {
+    public double getDollars() {
         return dollars;
     }
 

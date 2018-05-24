@@ -3,7 +3,6 @@ package top.minecode.dao.utils;
 import com.google.gson.*;
 import top.minecode.domain.task.requester.TaskItem;
 import top.minecode.domain.user.requester.AccountLog;
-import top.minecode.domain.utils.MoneyConverter;
 import top.minecode.domain.utils.TimeMessageConverter;
 
 /**
@@ -40,8 +39,7 @@ public class GsonFactory {
             object.addProperty("timeInfo", timeInfo);
 
             // Serialize money information
-            MoneyConverter moneyConverter = new MoneyConverter();
-            object.addProperty("dollars", moneyConverter.convert(taskItem.getDollars()));
+            object.addProperty("dollars", taskItem.getDollars());
             return object;
         };
     }
