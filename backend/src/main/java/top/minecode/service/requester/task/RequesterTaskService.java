@@ -1,8 +1,10 @@
 package top.minecode.service.requester.task;
 
+import top.minecode.domain.task.requester.RequesterSubTaskItem;
 import top.minecode.domain.task.requester.RequesterTaskItem;
 import top.minecode.domain.task.requester.RequesterTaskDetails;
 import top.minecode.domain.task.requester.TaskParticipant;
+import top.minecode.domain.utils.ResultMessage;
 
 import java.util.List;
 
@@ -45,4 +47,12 @@ public interface RequesterTaskService {
      * @return task's details
      */
     RequesterTaskDetails getTaskDetails(int taskId);
+
+    String getReadme(int taskId);
+
+    ResultMessage editReadme(int taskId, String content);
+
+    String getResultFile(int taskId);
+
+    List<RequesterSubTaskItem> getSubTasksInfo(int taskId);
 }

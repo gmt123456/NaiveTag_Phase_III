@@ -1,6 +1,7 @@
 package top.minecode.dao.requester.task;
 
 import top.minecode.domain.task.TaskState;
+import top.minecode.domain.task.requester.RequesterSubTaskItem;
 import top.minecode.domain.task.requester.RequesterTaskItem;
 import top.minecode.domain.task.requester.RequesterTaskDetails;
 import top.minecode.domain.task.requester.TaskParticipant;
@@ -30,5 +31,13 @@ public interface RequesterTaskDao {
      */
     List<TaskParticipant> getTaskParticipants(int taskId);
 
+    List<RequesterSubTaskItem> getSubTaskItem(int taskId);
+
     RequesterTaskDetails getTaskDetails(int taskId);
+
+    String getReadme(int taskId);
+
+    boolean updateReadme(int taskId, String readme);
+
+    String getResultFilePath(int taskId);
 }

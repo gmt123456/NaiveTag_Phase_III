@@ -94,4 +94,22 @@ public class RequesterTaskDetails {
     public double getProcess() {
         return process;
     }
+
+    @Override
+    public String toString() {
+        return "RequesterTaskDetails{" +
+                "types=" + types +
+                ", process=" + process +
+                ", backgroundImage='" + backgroundImage + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", tags=" + tags +
+                ", dollars=" + dollars +
+                ", participantsNum=" + participantsNum +
+                ", pictureNum=" + pictureNum +
+                ", workerRequirement=" + workerRequirement +
+                ", begin=" + begin +
+                ", deadline=" + deadline +
+                '}';
+    }
 }

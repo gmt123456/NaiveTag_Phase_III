@@ -1,11 +1,13 @@
 package top.minecode.web.requester.task;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import top.minecode.domain.task.requester.RequesterSubTaskItem;
 import top.minecode.domain.task.requester.RequesterTaskDetails;
 import top.minecode.domain.task.requester.TaskParticipant;
 import top.minecode.service.requester.task.RequesterTaskService;
@@ -67,24 +69,28 @@ public class RequesterTaskController extends BaseController {
     @RequestMapping("readme")
     @ResponseBody
     public String getReadMe(@RequestParam("taskId") int taskId) {
-        return null;
+        return taskService.getReadme(taskId);
     }
 
     @RequestMapping("editReadMe")
     @ResponseBody
-    public String editReadMe(@RequestParam("readme") String readme) {
-        return null;
+    public String editReadMe(@RequestParam("readme") String readme, @RequestParam("taskId") int taskId) {
+        return gson.toJson(taskService.editReadme(taskId, readme));
     }
 
     @RequestMapping("download")
     @ResponseBody
     public String download(@RequestParam("taskId") int taskId) {
-        return null;
+        String filePath = taskService.getResultFile(taskId);
+        if (filePath == null)
+            return null;
+        return filePath;
     }
 
     @RequestMapping("subtask")
     @ResponseBody
     public String getSubTaskInfo(@RequestParam("taskId") int taskId) {
-        return null;
+        List<RequesterSubTaskItem> subTasks = taskService.getSubTasksInfo(taskId);
+        return gson.toJson(subTasks);
     }
 }

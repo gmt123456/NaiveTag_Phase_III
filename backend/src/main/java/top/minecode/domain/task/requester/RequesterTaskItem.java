@@ -83,4 +83,21 @@ public class RequesterTaskItem {
     public Division getWorkerRequirement() {
         return workerRequirement;
     }
+
+    @Override
+    public String toString() {
+        return "RequesterTaskItem{" +
+                "taskId=" + taskId +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", cover='" + cover + '\'' +
+                ", tags=" + tags +
+                ", dollars=" + dollars +
+                ", participantsNum=" + participantsNum +
+                ", pictureNum=" + pictureNum +
+                ", workerRequirement=" + workerRequirement +
+                ", begin=" + begin +
+                ", deadline=" + deadline +
+                '}';
+    }
 }
