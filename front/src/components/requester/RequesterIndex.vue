@@ -1,10 +1,15 @@
 <template>
-  <p>发起者主页</p>
+  <div>
+    <requester-navi></requester-navi>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
+    import RequesterNavi from "./RequesterNavi";
     export default {
-        name: "requesterIndex"
+        name: "requesterIndex",
+      components: {RequesterNavi}
     }
 </script>
 

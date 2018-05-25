@@ -7,6 +7,16 @@
 <script>
 export default {
   name: 'App',
+  created:function () {
+   $.ajaxSetup({
+     error:function(request){
+       if (request){
+          alert('@App.vue status:'+request.status);
+       }
+     }
+   })
+
+  }
 }
 </script>
 
