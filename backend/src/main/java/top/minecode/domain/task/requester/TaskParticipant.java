@@ -19,22 +19,6 @@ public class TaskParticipant {
         this.pictureNum = pictureNum;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public double getScore() {
-        return score;
-    }
-
-    public int getPictureNum() {
-        return pictureNum;
-    }
-
     @Override
     public String toString() {
         return "TaskParticipant{" +

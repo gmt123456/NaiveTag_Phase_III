@@ -80,6 +80,9 @@ public class RequesterTaskDaoImpl implements RequesterTaskDao {
                 .getValuesInSpecificSet(new ArrayList<>(specificTasksMap.values()), "id");
 
         String hql = "select t.subTaskState from SubTaskPO t where t.id in :se";
+        String participantsHql = "select new map (p.email as email , sum(p.picAmount) as picNum)" +
+                " from SubTaskParticipationPO p where p.subTaskId in :se" +
+                " group by p.email";
 
         return specificTasks.stream().map(e -> {
             List<Integer> subTasks = e.getSubTasks();
@@ -91,9 +94,16 @@ public class RequesterTaskDaoImpl implements RequesterTaskDao {
             log.info(states.toString());
             double process = getTaskProcess(states);
 
-            // Get participants number
+            // Get sub-task participants
+            //noinspection unchecked
+            List<Map> participantsPics = taskOperation.template(session ->
+                    (List<Map>) session.createQuery(participantsHql)
+                            .setParameterList("se", subTasks)
+                            .list());
+
             int participantsNum = (int) getParticipantsNum(subTasks);
-            return new RequesterSubTaskItem(e.getTaskType(), process, participantsNum);
+            return new RequesterSubTaskItem(e.getTaskType(), process,
+                    participantsNum, getParticipants(participantsPics));
         }).collect(Collectors.toList());
     }
 
@@ -105,19 +115,7 @@ public class RequesterTaskDaoImpl implements RequesterTaskDao {
                 " group by p.email";
         List<Map> participantsPics = taskOperation.executeSQL(Map.class, hql, taskId);
 
-        // Transfer it to a hashMap
-        Map<String, Long> participantsPicsMap = participantsPics.stream()
-                .collect(Collectors.toMap(e -> (String) e.get("email"), e -> (Long) e.get("picNum")));
-
-        // Get WorkerPO by email in participantsPics
-        List<WorkerPO> workers = workerOperation
-                .getValuesInSpecificSet(new ArrayList<>(participantsPicsMap.keySet()), "email");
-
-        // Combine them into TaskParticipant
-        return workers.stream()
-                .map(e -> new TaskParticipant(e.getName(), e.getAvatar(),
-                        e.getScore(), participantsPicsMap.get(e.getEmail()).intValue()))
-                .collect(Collectors.toList());
+        return getParticipants(participantsPics);
     }
 
     @Override
@@ -147,5 +145,22 @@ public class RequesterTaskDaoImpl implements RequesterTaskDao {
         return taskOperation.template(s -> (long) s.createQuery(participantsHql)
                 .setParameterList("se", collection)
                 .iterate().next());
+    }
+
+    // Get sub-task's participants
+    private List<TaskParticipant> getParticipants(List<Map> participantsPics) {
+        // Transfer it to a hashMap
+        Map<String, Long> participantsPicsMap = participantsPics.stream()
+                .collect(Collectors.toMap(e -> (String) e.get("email"), e -> (Long) e.get("picNum")));
+
+        // Get WorkerPO by email in participantsPics
+        List<WorkerPO> workers = workerOperation
+                .getValuesInSpecificSet(new ArrayList<>(participantsPicsMap.keySet()), "email");
+
+        // Combine them into TaskParticipant
+        return workers.stream()
+                .map(e -> new TaskParticipant(e.getName(), e.getAvatar(),
+                        e.getScore(), participantsPicsMap.get(e.getEmail()).intValue()))
+                .collect(Collectors.toList());
     }
 }
