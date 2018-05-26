@@ -76,7 +76,7 @@ public class TimeMessageConverter {
         Duration signupDuration = getDurationToNow(signUpTime);
 
         return Optional.ofNullable(convertDuration(signupDuration))
-                .map(e -> "joined " + e).orElse("joined just now");
+                .map(e -> "Joined " + e).orElse("Joined just now");
     }
 
     /**
@@ -92,7 +92,7 @@ public class TimeMessageConverter {
 
         Duration loginDuration = getDurationToNow(latestLoginTime);
 
-        return Optional.ofNullable(convertDuration(loginDuration)).map(e -> "last seen " + e).orElse(null);
+        return Optional.ofNullable(convertDuration(loginDuration)).map(e -> "Last seen " + e).orElse(null);
     }
 
     public static String convertStartTime(@NotNull Date startTime) {

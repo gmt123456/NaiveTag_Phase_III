@@ -36,15 +36,15 @@ public class GsonFactoryTest {
         this.gson = gson;
     }
 
-    @Test
-    public void testAccountLog() {
-        String date = new Date().toString();
-        AccountLog accountLog =
-                new AccountLog(111111.11, "RECHARGE", 111111.11, date);
-
-        String json = gson.toJson(accountLog);
-        assertEquals("[111111.11,\"RECHARGE\",111111.11,\"" + date + "\"]", json);
-    }
+//    @Test
+//    public void testAccountLog() {
+//        String date = new Date().toString();
+//        AccountLog accountLog =
+//                new AccountLog(111111.11, "RECHARGE", 111111.11, date);
+//
+//        String json = gson.toJson(accountLog);
+//        assertEquals("[111111.11,\"RECHARGE\",111111.11,\"" + date + "\"]", json);
+//    }
 
     @Test
     public void testTaskItem() {
