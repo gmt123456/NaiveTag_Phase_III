@@ -123,7 +123,7 @@ public class WorkerSpecificTaskService {
 
         return new TaskSpecification(Task.fromPO(taskPO), state, accepted,
                 requiredDivision, taskBackground, canAccept,
-                earnedDollars, scoreChange);
+                earnedDollars, scoreChange, taskPO.getBackgroundImage());
     }
 
 
