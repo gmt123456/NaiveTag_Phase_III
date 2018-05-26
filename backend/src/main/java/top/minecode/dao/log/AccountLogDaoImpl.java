@@ -53,7 +53,7 @@ public class AccountLogDaoImpl implements AccountLogDao {
         List<RequesterAccountLogPO> accountLogPOs = getAccountLogPOS(email);
         int pageLimit = accountLogPOs.size() / pageSize + 1;
         if (page > pageLimit || accountLogPOs.isEmpty()) {
-            log.debug("Page number is larger than max page number");
+            log.info("Page number is larger than max page number");
             return Collections.emptyList();  // Unmodifiable list
         }
 

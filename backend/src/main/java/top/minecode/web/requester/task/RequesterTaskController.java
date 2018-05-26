@@ -82,6 +82,7 @@ public class RequesterTaskController extends BaseController {
     @ResponseBody
     public String download(@RequestParam("taskId") int taskId) {
         String filePath = taskService.getResultFile(taskId);
+        // Return null if file not exists
         if (filePath == null)
             return null;
         return filePath;

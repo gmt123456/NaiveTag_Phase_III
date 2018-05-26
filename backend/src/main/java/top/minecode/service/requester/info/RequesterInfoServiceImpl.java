@@ -1,17 +1,16 @@
 package top.minecode.service.requester.info;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.minecode.dao.requester.info.RequesterInfoDao;
 import top.minecode.domain.user.requester.AccountLog;
 import top.minecode.domain.user.requester.Requester;
 import top.minecode.domain.utils.ResultMessage;
-import top.minecode.web.requester.info.ChangeInfoCommand;
-import top.minecode.web.requester.info.PageCommand;
+import top.minecode.po.requester.RequesterPO;
+import top.minecode.service.util.Encryptor;
+import top.minecode.web.requester.info.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -24,6 +23,12 @@ public class RequesterInfoServiceImpl implements RequesterInfoService {
 
     private RequesterInfoDao infoDao;
     private Gson gson;
+    private Encryptor encryptor;
+
+    @Autowired
+    public void setEncryptor(Encryptor encryptor) {
+        this.encryptor = encryptor;
+    }
 
     @Autowired
     public void setGson(Gson gson) {
@@ -54,8 +59,8 @@ public class RequesterInfoServiceImpl implements RequesterInfoService {
     }
 
     @Override
-    public String changeInfo(String email, ChangeInfoCommand changeInfoCommand) {
-        ResultMessage resultMessage = infoDao.updateRequesterInfo(changeInfoCommand, email);
-        return gson.toJson(resultMessage);
+    public ResultMessage changeInfo(String email, ChangeCommand<RequesterPO> command) {
+        return infoDao.updateRequesterInfo(command, email);
     }
+
 }

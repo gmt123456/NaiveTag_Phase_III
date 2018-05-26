@@ -17,6 +17,13 @@ public class ChangeInfoCommand {
     private String oldPassword;
     private String newPassword;
 
+    public ChangeInfoCommand(String oldPassword, String newPassword) {
+        this.oldPassword = oldPassword;
+        this.newPassword = newPassword;
+    }
+
+
+
     public MultipartFile getAvatar() {
         return avatar;
     }

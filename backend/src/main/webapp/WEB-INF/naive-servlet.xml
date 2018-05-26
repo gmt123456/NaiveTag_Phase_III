@@ -19,6 +19,16 @@
     <context:component-scan base-package="top.minecode.web.tag" />
     <context:component-scan base-package="top.minecode.web.common" />
 
+    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <list>
+                <bean class="top.minecode.web.common.StringToLocalDateConverter"/>
+                <bean class="top.minecode.web.common.StringToTaskTagConverter"/>
+                <bean class="top.minecode.web.common.StringToTaskTypeConverter"/>
+            </list>
+        </property>
+    </bean>
+
     <!-- 扫描web包，应用Spring的注解 -->
     <!--
     <context:component-scan base-package="top.minecode.web.user"/>

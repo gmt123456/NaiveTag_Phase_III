@@ -16,6 +16,7 @@ import top.minecode.po.log.LoginLogPO;
 import top.minecode.po.log.RequesterAccountLogPO;
 import top.minecode.po.requester.RequesterPO;
 import top.minecode.service.util.Encryptor;
+import top.minecode.web.requester.info.ChangeCommand;
 import top.minecode.web.requester.info.ChangeInfoCommand;
 
 import java.math.BigDecimal;
@@ -69,37 +70,17 @@ public class RequesterInfoDaoImpl implements RequesterInfoDao {
     }
 
     @Override
-    public ResultMessage updateRequesterInfo(ChangeInfoCommand changeInfo, String email) {
+    public ResultMessage updateRequesterInfo(ChangeCommand<RequesterPO> changeCommand, String email) {
         RequesterPO requesterPO = getRequesterPO(email);
 
-        // Find not null attributes and update them
-        if (changeInfo.getAvatar() != null && changeInfo.getImagePosition() != null)
-            updateAvatar(changeInfo.getAvatar(), changeInfo.getImagePosition(), requesterPO.getAvatar());
-
-        // Update name
-        if (changeInfo.getName() != null) {
-            requesterPO.setName(changeInfo.getName());
-        }
-
-        // Update password
-        if (changeInfo.getOldPassword() != null && changeInfo.getNewPassword() != null) {
-            String oldPwd = changeInfo.getOldPassword();
-            String newPwd = changeInfo.getNewPassword();
-
-            if (!encryptor.encrypt(oldPwd, email).equals(requesterPO.getPassword())) {
-                // Old password is not right
-                log.info("Invalid old password for user " + email);
-                return ResultMessage.failure("Invalid old password");
-            } else {
-                requesterPO.setPassword(encryptor.encrypt(newPwd, email));
-            }
-        }
-
-        if (requesterOperation.update(requesterPO))
+        try {
+            changeCommand.change(requesterPO);
+            requesterOperation.update(requesterPO);
             return ResultMessage.success();
-
-        log.error("Database error");
-        return ResultMessage.failure("Update failed");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultMessage.failure(e.getMessage());
+        }
     }
 
     @Override
