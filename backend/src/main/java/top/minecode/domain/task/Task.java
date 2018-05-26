@@ -45,7 +45,7 @@ public class Task {
         String name = po.getTaskName();
         int taskId = po.getId();
         String description = po.getTaskDescription();
-        String taskCover = po.getBackgroundImage();
+        String taskCover = po.getCover();
         List<TaskTag> taskTags = po.getTaskTags();
         Date endDate = po.getEndDate();
         List<TaskType> taskTypes = new ArrayList<>(po.getSpecificTasks().keySet());

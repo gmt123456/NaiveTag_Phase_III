@@ -18,7 +18,7 @@ public class RankDao {
     private CommonOperation<RankPO> rankHelper = new CommonOperation<>(RankPO.class.getName());
 
     public List<RankPO> getRanks() {
-        String sql = "select t from " + RankPO.class.getName() + " t where t.rank < 20";
+        String sql = "select t from " + RankPO.class.getName() + " t where t.rank < 20 order by t.rank asc";
         return rankHelper.executeSQL(sql);
     }
 

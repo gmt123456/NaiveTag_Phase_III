@@ -27,12 +27,15 @@ public class TaskSpecification extends Task {
 
     private double scoreChange;
 
+    private String backGroundImage;
+
     public TaskSpecification() {
     }
 
     public TaskSpecification(Task task, TaskState state,
                              boolean participated, Division requiredDivision, String taskBackground,
-                             boolean canAccept, double earnedDollars, double scoreChange) {
+                             boolean canAccept, double earnedDollars, double scoreChange,
+                             String backGroundImage) {
         super(task);
         this.state = state;
         this.participated = participated;
@@ -40,6 +43,7 @@ public class TaskSpecification extends Task {
         this.taskBackground = taskBackground;
         this.canAccept = canAccept;
         this.earnedDollars = earnedDollars;
+        this.backGroundImage = backGroundImage;
         this.scoreChange = scoreChange;
     }
 
@@ -111,5 +115,13 @@ public class TaskSpecification extends Task {
 
     public void setScoreChange(double scoreChange) {
         this.scoreChange = scoreChange;
+    }
+
+    public String getBackGroundImage() {
+        return backGroundImage;
+    }
+
+    public void setBackGroundImage(String backGroundImage) {
+        this.backGroundImage = backGroundImage;
     }
 }
