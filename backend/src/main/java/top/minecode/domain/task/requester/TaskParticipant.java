@@ -34,4 +34,14 @@ public class TaskParticipant {
     public int getPictureNum() {
         return pictureNum;
     }
+
+    @Override
+    public String toString() {
+        return "TaskParticipant{" +
+                "name='" + name + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", score=" + score +
+                ", pictureNum=" + pictureNum +
+                '}';
+    }
 }

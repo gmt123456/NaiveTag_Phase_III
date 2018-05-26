@@ -1,17 +1,22 @@
 package top.minecode.dao.requester.task;
 
-import org.hibernate.Session;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate5.HibernateTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import top.minecode.dao.utils.CommonOperation;
-import top.minecode.dao.utils.HibernateUtils;
+import top.minecode.domain.task.SubTaskState;
 import top.minecode.domain.task.TaskState;
-import top.minecode.domain.task.requester.TaskItem;
+import top.minecode.domain.task.TaskType;
+import top.minecode.domain.task.requester.RequesterSubTaskItem;
+import top.minecode.domain.task.requester.RequesterTaskDetails;
+import top.minecode.domain.task.requester.RequesterTaskItem;
 import top.minecode.domain.task.requester.TaskParticipant;
+import top.minecode.po.task.SpecificTaskPO;
 import top.minecode.po.task.TaskPO;
 import top.minecode.po.worker.WorkerPO;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -25,40 +30,122 @@ import java.util.stream.Collectors;
 @Repository("requesterTaskDaoImpl")
 public class RequesterTaskDaoImpl implements RequesterTaskDao {
 
-    private CommonOperation<TaskPO> taskOperation = new CommonOperation<>(TaskPO.class);
+    private static Logger log = LoggerFactory.getLogger(RequesterTaskDaoImpl.class);
 
+    private CommonOperation<WorkerPO> workerOperation = new CommonOperation<>(WorkerPO.class);
+    private CommonOperation<TaskPO> taskOperation = new CommonOperation<>(TaskPO.class);
+    private CommonOperation<SpecificTaskPO> specificTaskOperation =
+            new CommonOperation<>(SpecificTaskPO.class);
 
     @Override
-    public List<TaskParticipant> getTaskParticipants(String taskId) {
-//        TaskPO taskPO = hibernateTemplate.get(TaskPO.class, taskId);
-//        List<String> participants = taskPO.getParticipators();
+    public String getReadme(int taskId) {
+        TaskPO taskPO = taskOperation.getBySingleField("id", taskId);
+        return taskPO.getReadme();
+    }
 
-        // Get participant's name, avatar and division score
-        String hql1 = "select p from WorkerPO p where p.email in ?";
-        // noinspection unchecked
-//        List<WorkerPO> workers = taskOperation.executeSQL(hql1, participants);
+    @Override
+    public String getResultFilePath(int taskId) {
+        TaskPO taskPO =  taskOperation.getBySingleField("id", taskId);
+        return taskPO.getResultFilePath();
+    }
 
-        // Get participant's name and his completed pictures number
-        String hql = "select new map (p.email , sum(p.picAmount)) from SubTaskParticipationPO p where p.taskId=" + taskId +
-                " group by p.email";
+    @Override
+    public boolean updateReadme(int taskId, String readme) {
+        TaskPO taskPO = taskOperation.getBySingleField("id", taskId);
+        taskPO.setReadme(readme);
+
+        return taskOperation.update(taskPO);
+    }
+
+    @Override
+    public RequesterTaskDetails getTaskDetails(int taskId) {
+        TaskPO task = taskOperation.getBySingleField("id", taskId);
+        String hql = "select t.subTaskState from SubTaskPO t where t.taskId=?";
+
 
         //noinspection unchecked
-//        List<Map> participantsPics = (List<Map>) hibernateTemplate.find(hql);
+        List<SubTaskState> states = taskOperation.template(s ->
+                (List<SubTaskState>) s.createQuery(hql).setParameter(0, taskId).list());
 
-        // Combine them into TaskParticipant
-//        workers.stream().map(e -> new TaskParticipant(e.getName(), e.getAvatar(), e.getScore(), ))
-
-        return null;
+        return new RequesterTaskDetails(task, getTaskProcess(states));
     }
 
     @Override
-    public List<TaskItem> getTaskItems(String email, TaskState state) {
-        String hql = "from TaskPO t where t.email=" + email + " and t.taskState=" + state.toString();
-        List<TaskPO> taskPOS = taskOperation.executeSQL(hql);
-        return taskPOS.stream().map(TaskItem::new).collect(Collectors.toList());
+    public List<RequesterSubTaskItem> getSubTaskItem(int taskId) {
+        TaskPO task = taskOperation.getBySingleField("id", taskId);
+        Map<TaskType, Integer> specificTasksMap = task.getSpecificTasks();
+
+        // Get specific tasks
+        List<SpecificTaskPO> specificTasks = specificTaskOperation
+                .getValuesInSpecificSet(new ArrayList<>(specificTasksMap.values()), "id");
+
+        String hql = "select t.subTaskState from SubTaskPO t where t.id in :se";
+
+        return specificTasks.stream().map(e -> {
+            List<Integer> subTasks = e.getSubTasks();
+
+            // Get process
+            //noinspection unchecked
+            List<SubTaskState> states = taskOperation.template(s ->
+                    (List<SubTaskState>) s.createQuery(hql).setParameterList("se", subTasks).list());
+            log.info(states.toString());
+            double process = getTaskProcess(states);
+
+            // Get participants number
+            int participantsNum = (int) getParticipantsNum(subTasks);
+            return new RequesterSubTaskItem(e.getTaskType(), process, participantsNum);
+        }).collect(Collectors.toList());
     }
 
-    private int getCompletePictureNum(List<Object[]> table, String email) {
-        return 0;
+    @Override
+    public List<TaskParticipant> getTaskParticipants(int taskId) {
+        // Get all participants and their completed pictures number
+        String hql = "select new map (p.email as email , sum(p.picAmount) as picNum)" +
+                " from SubTaskParticipationPO p where p.taskId=?" +
+                " group by p.email";
+        List<Map> participantsPics = taskOperation.executeSQL(Map.class, hql, taskId);
+
+        // Transfer it to a hashMap
+        Map<String, Long> participantsPicsMap = participantsPics.stream()
+                .collect(Collectors.toMap(e -> (String) e.get("email"), e -> (Long) e.get("picNum")));
+
+        // Get WorkerPO by email in participantsPics
+        List<WorkerPO> workers = workerOperation
+                .getValuesInSpecificSet(new ArrayList<>(participantsPicsMap.keySet()), "email");
+
+        // Combine them into TaskParticipant
+        return workers.stream()
+                .map(e -> new TaskParticipant(e.getName(), e.getAvatar(),
+                        e.getScore(), participantsPicsMap.get(e.getEmail()).intValue()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RequesterTaskItem> getTaskItems(String email, TaskState state) {
+        String hql = "from TaskPO t where t.ownerEmail= :e and t.taskState= :s";
+        //noinspection unchecked
+        List<TaskPO> taskPOS = taskOperation.template(s ->
+                (List<TaskPO>) s.createQuery(hql)
+                        .setParameter("e", email)
+                        .setParameter("s", state).list());
+        return taskPOS.stream().map(RequesterTaskItem::new).collect(Collectors.toList());
+    }
+
+    private double getTaskProcess(List<SubTaskState> states) {
+        if (states.size() == 0) {
+            log.error("No states present");
+            return 0.;
+        }
+        long finishedNum = states.stream().filter(e -> e == SubTaskState.FINISHED).count();
+
+        return finishedNum * 1. / states.size();
+    }
+
+    private long getParticipantsNum(Collection collection) {
+        String participantsHql = "select count(distinct t.email) from SubTaskParticipationPO t where t.subTaskId in :se";
+
+        return taskOperation.template(s -> (long) s.createQuery(participantsHql)
+                .setParameterList("se", collection)
+                .iterate().next());
     }
 }

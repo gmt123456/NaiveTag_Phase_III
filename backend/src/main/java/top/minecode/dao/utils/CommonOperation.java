@@ -4,7 +4,10 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * Created on 2018/5/19.
@@ -114,7 +117,7 @@ public class CommonOperation<T> {
         return ts;
     }
 
-    public List<T> executeSQL(String sql) {
+    public List<T> executeSQL(String sql, Object... params) {
         List<T> ts = null;
         Session session = HibernateUtils.getCurrentSession();
         try {
@@ -174,4 +177,19 @@ public class CommonOperation<T> {
         return ts;
     }
 
+    public <R> R template(Function<Session, R> supplier) {
+        R result = null;
+        Session session = HibernateUtils.getCurrentSession();
+        try {
+            session.getTransaction().begin();
+            result = supplier.apply(session);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            HibernateUtils.closeSession();
+        }
+        return result;
+    }
 }

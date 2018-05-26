@@ -1,11 +1,14 @@
 package top.minecode.web.requester.task;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import top.minecode.domain.task.requester.RequesterSubTaskItem;
+import top.minecode.domain.task.requester.RequesterTaskDetails;
 import top.minecode.domain.task.requester.TaskParticipant;
 import top.minecode.service.requester.task.RequesterTaskService;
 import top.minecode.web.common.BaseController;
@@ -21,6 +24,8 @@ import java.util.List;
 @Controller
 @RequestMapping("requester/task")
 public class RequesterTaskController extends BaseController {
+
+    private static final int PARTICIPANTS_LIMIT = 20;
 
     private RequesterTaskService taskService;
     private Gson gson;
@@ -49,8 +54,43 @@ public class RequesterTaskController extends BaseController {
 
     @RequestMapping("participants")
     @ResponseBody
-    public String getParticipants(@RequestParam("taskId") String taskId) {
-        List<TaskParticipant> participants = taskService.getParticipants(taskId);
+    public String getParticipants(@RequestParam("taskId") int taskId) {
+        List<TaskParticipant> participants = taskService.getParticipants(taskId, PARTICIPANTS_LIMIT);
         return gson.toJson(participants);
+    }
+
+    @RequestMapping("sketch")
+    @ResponseBody
+    public String getTaskDetails(@RequestParam("taskId") int taskId) {
+        RequesterTaskDetails requesterTaskDetails = taskService.getTaskDetails(taskId);
+        return gson.toJson(requesterTaskDetails);
+    }
+
+    @RequestMapping("readme")
+    @ResponseBody
+    public String getReadMe(@RequestParam("taskId") int taskId) {
+        return taskService.getReadme(taskId);
+    }
+
+    @RequestMapping("editReadMe")
+    @ResponseBody
+    public String editReadMe(@RequestParam("readme") String readme, @RequestParam("taskId") int taskId) {
+        return gson.toJson(taskService.editReadme(taskId, readme));
+    }
+
+    @RequestMapping("download")
+    @ResponseBody
+    public String download(@RequestParam("taskId") int taskId) {
+        String filePath = taskService.getResultFile(taskId);
+        if (filePath == null)
+            return null;
+        return filePath;
+    }
+
+    @RequestMapping("subtask")
+    @ResponseBody
+    public String getSubTaskInfo(@RequestParam("taskId") int taskId) {
+        List<RequesterSubTaskItem> subTasks = taskService.getSubTasksInfo(taskId);
+        return gson.toJson(subTasks);
     }
 }

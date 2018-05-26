@@ -41,6 +41,18 @@ public class SubTaskPO {
 
     private String cover;
 
+    private int subTaskId;
+
+    private int taskId;
+
+    public int getSubTaskId() {
+        return subTaskId;
+    }
+
+    public int getTaskId() {
+        return taskId;
+    }
+
     public String getCover() {
         return cover;
     }

@@ -149,7 +149,7 @@ public class WorkerTaskBasicService {
         }
 
         return subTaskDao.getSubTasksByIdList(viewableTasksIds).stream()
-                .filter(e -> e.getSubTaskState() != SubTaskState.LOCKED).map(e -> SubTask.fromPO(e, taskId))
+                .filter(e -> e.getSubTaskState() == SubTaskState.COMMON).map(e -> SubTask.fromPO(e, taskId))
                 .collect(Collectors.toList());
     }
 

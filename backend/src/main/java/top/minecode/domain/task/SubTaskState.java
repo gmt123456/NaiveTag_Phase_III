@@ -9,6 +9,7 @@ package top.minecode.domain.task;
 public enum SubTaskState {
 
     COMMON,
-    LOCKED;
+    FINISHED,
+    LOCKED
 
 }

@@ -12,8 +12,9 @@ import java.util.List;
  * Description:
  * @author Liao
  */
-public class TaskItem {
+public class RequesterTaskItem {
 
+    private int taskId;
     private String title;
     private String description;
     private String cover;
@@ -21,12 +22,11 @@ public class TaskItem {
     private double dollars;
     private int participantsNum;
     private int pictureNum;
-    private int subTaskNum;
     private Division workerRequirement;
     private Date begin;
     private Date deadline;
 
-    public TaskItem(TaskPO taskPO) {
+    public RequesterTaskItem(TaskPO taskPO) {
         title = taskPO.getTaskName();
         description = taskPO.getTaskDescription();
         cover = taskPO.getCover();
@@ -34,10 +34,14 @@ public class TaskItem {
         dollars = taskPO.getTotalDollars();
         participantsNum = taskPO.getParticipators().size();
         pictureNum = taskPO.getPicNum();
-        subTaskNum = taskPO.getSpecificTasks().size();
         begin = taskPO.getBeginDate();
         deadline = taskPO.getEndDate();
         workerRequirement = taskPO.getLowestDivision();
+        taskId = taskPO.getId();
+    }
+
+    public int getTaskId() {
+        return taskId;
     }
 
     public String getTitle() {
@@ -68,10 +72,6 @@ public class TaskItem {
         return pictureNum;
     }
 
-    public int getSubTaskNum() {
-        return subTaskNum;
-    }
-
     public Date getBegin() {
         return begin;
     }
@@ -82,5 +82,22 @@ public class TaskItem {
 
     public Division getWorkerRequirement() {
         return workerRequirement;
+    }
+
+    @Override
+    public String toString() {
+        return "RequesterTaskItem{" +
+                "taskId=" + taskId +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", cover='" + cover + '\'' +
+                ", tags=" + tags +
+                ", dollars=" + dollars +
+                ", participantsNum=" + participantsNum +
+                ", pictureNum=" + pictureNum +
+                ", workerRequirement=" + workerRequirement +
+                ", begin=" + begin +
+                ", deadline=" + deadline +
+                '}';
     }
 }
