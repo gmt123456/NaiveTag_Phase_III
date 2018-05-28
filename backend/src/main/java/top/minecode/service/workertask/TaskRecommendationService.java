@@ -97,12 +97,12 @@ public class TaskRecommendationService {
         Set<Integer> participatedTasks = new HashSet<>(workerPO.getParticipatedTasks());
 
         // 根据推广费获得的任务
-        List<TaskPO> adTasks = rankTaskByAdRate().stream().filter(e -> participatedTasks.contains(e.getId()))
+        List<TaskPO> adTasks = rankTaskByAdRate().stream().filter(e -> !participatedTasks.contains(e.getId()))
                 .collect(Collectors.toList());
         Map<Integer, TaskPO> id2Task = adTasks.stream().collect(Collectors.toMap(TaskPO::getId, e -> e));
 
         // 根据用户能力获得的任务
-        List<Integer> taskIdsRankedByAbility = rankTasksByUserFeature(email).stream().filter(participatedTasks::contains)
+        List<Integer> taskIdsRankedByAbility = rankTasksByUserFeature(email).stream().filter(e -> !participatedTasks.contains(e))
                 .collect(Collectors.toList());
 
         if (taskIdsRankedByAbility.size() <= recommendAmount) // 假如任务比较少，那么就直接按照推广费来返回
@@ -137,7 +137,7 @@ public class TaskRecommendationService {
                 targets.add(newId);
         }
 
-        while (targets.size() < recommendAmount) { // 排名第 k 的任务有 1/(k+1)的概率
+        while (targets.size() < recommendAmount) { // 排名第 k 的任务有 1/(k+1)的概率，如果一遍没搞满，再来一遍
             for (int i = 0; i < taskIdsRankedByAbility.size(); i++) {
                 double temp = random.nextDouble();
                 if (temp <= 1.0 / (i + 1) && !targets.contains(taskIdsRankedByAbility.get(i))) {
