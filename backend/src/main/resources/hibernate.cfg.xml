@@ -8,7 +8,7 @@
     <session-factory>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="connection.url">
-            <![CDATA[jdbc:mysql://localhost:3306/naivetag?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8]]>
+            <![CDATA[jdbc:mysql://localhost:3306/naivetag?useUnicode=true&amp;characterEncoding=utf8&serverTimezone=GMT%2B8]]>
         </property>
         <property name="connection.username">root</property>
         <property name="connection.password">iznauy.top</property>
@@ -41,6 +41,9 @@
         <mapping class="top.minecode.po.worker.FinishedTaskParticipationPO" />
         <mapping class="top.minecode.po.worker.OnGoingTaskParticipationPO" />
         <mapping class="top.minecode.po.worker.SubTaskParticipationPO" />
+
+        <mapping class="top.minecode.po.auto.WorkerAbilityPO" />
+        <mapping class="top.minecode.po.auto.TaskVectorPO" />
 
     </session-factory>
 
