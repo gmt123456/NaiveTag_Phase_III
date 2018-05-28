@@ -45,6 +45,20 @@ public class SubTaskPO {
 
     private int taskId;
 
+    public SubTaskPO() {}
+
+    public SubTaskPO(TaskType taskType, String taskDescription,
+                     List<String> picList, int subTaskId, int taskId) {
+        this.taskType = taskType;
+        this.taskDescription = taskDescription;
+        this.picList = picList;
+        this.subTaskId = subTaskId;
+        this.taskId = taskId;
+
+        subTaskState = SubTaskState.COMMON;
+        cover = picList.get(0);  // Using first picture as the cover
+    }
+
     public int getSubTaskId() {
         return subTaskId;
     }

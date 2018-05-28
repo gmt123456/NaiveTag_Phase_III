@@ -19,8 +19,7 @@ import top.minecode.po.auto.WorkerAbilityPO;
 import top.minecode.po.auto.WorkerTastePO;
 import top.minecode.po.worker.RankPO;
 import top.minecode.service.util.Encryptor;
-import top.minecode.service.util.PathUtil;
-import top.minecode.service.util.RandomUtil;
+import top.minecode.service.util.ImageUtils;
 import top.minecode.web.user.LoginCommand;
 import top.minecode.web.user.SignupCommand;
 
@@ -119,13 +118,18 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
         UserType userType = UserType.valueOf(signupCommand.getUserType().toUpperCase());
         String password = encryptor.encrypt(signupCommand);  // Encrypted password
 
+        // Check duplicated
+        if (userDao.getUser(email) != null)
+            return "Email already used";
+
         // Assign an avatar randomly
-        String avatar = RandomUtil.getRandomTaskAvatar();
+        String avatar = ImageUtils.getRandomTaskCover();
 
         // Add this user to database
         Date joinTime = new Date();
         if (userType == UserType.WORKER) {
             userDao.addWorker(email, password, name, joinTime, avatar);
+            rankDao.addRank(new RankPO(email, name, 0, avatar));
             initAbilityAndTasteInfo(email);
         } else if (userType == UserType.REQUESTER) {
             userDao.addRequester(email, password, name, joinTime, avatar);
@@ -134,7 +138,6 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
         // First login log is the time the user sign up
         authenticationLogDao.recordSignup(email, joinTime, userType);
         authenticationLogDao.recordLogin(email, joinTime, userType);
-        rankDao.addRank(new RankPO(email, name, 0, avatar));
 
         // Login this user and get his web token
         String webToken = activeUserService.addUser(email);

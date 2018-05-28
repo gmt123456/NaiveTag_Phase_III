@@ -1,13 +1,9 @@
 package top.minecode.web.requester.info;
 
-import org.apache.commons.io.FileUtils;
-import org.springframework.util.Base64Utils;
+import top.minecode.dao.utils.CommonOperation;
 import top.minecode.po.requester.RequesterPO;
-import top.minecode.service.util.PathUtil;
-import top.minecode.service.util.RandomUtil;
-
-import java.io.File;
-import java.io.IOException;
+import top.minecode.po.worker.RankPO;
+import top.minecode.service.util.ImageUtils;
 
 /**
  * Created on 2018/5/26.
@@ -20,29 +16,22 @@ public class ChangeAvatarCommand implements ChangeCommand<RequesterPO> {
 
     @Override
     public void change(RequesterPO po) throws Exception {
-        String avatarPath = processAvatar();
+        String avatarPath = ImageUtils.transferAvatar(avatar);
         po.setAvatar(avatarPath);
-    }
 
-    private String processAvatar() throws IOException {
-        String[] tempData = avatar.split("base64,");
-        String suffix;
-        if ("data:image/jpeg;".equalsIgnoreCase(tempData[0])) {
-            suffix = ".jpg";
-        } else if ("data:image/x-icon;".equalsIgnoreCase(tempData[0])) {
-            suffix = ".ico";
-        } else if ("data:image/gif;".equalsIgnoreCase(tempData[0])) {
-            suffix = ".gif";
-        } else
-            throw new IllegalArgumentException("Wrong image format");
+        // Change RankPO's avatar
+        String hql = "select t from RankPO t where t.userEmail=:mail";
+        boolean updateRankSucceed = CommonOperation.template(session -> {
+            RankPO rankPO = (RankPO) session.createQuery(hql).
+                    setParameter("mail", po.getEmail()).iterate().next();
+            rankPO.setAvatar(avatarPath);
+            session.update(rankPO);
+            session.flush();
+        });
 
-        byte[] bsPic = Base64Utils.decodeFromString(tempData[1]);
-        String randomName = "avatar/" + RandomUtil.getRandomFileName() + suffix;
-        String fileName = PathUtil.getBasePath() + randomName;
-        File imageFile = new File(fileName);
-        FileUtils.writeByteArrayToFile(imageFile, bsPic);
-
-        return randomName;
+        if (!updateRankSucceed) {
+            throw new IllegalStateException("Update failed");
+        }
     }
 
     public String getAvatar() {

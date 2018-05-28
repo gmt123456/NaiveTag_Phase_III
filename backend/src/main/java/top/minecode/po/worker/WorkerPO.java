@@ -52,6 +52,7 @@ public class WorkerPO implements Serializable {
         this.password = password;
         this.name = name;
         this.joinTime = joinTime;
+        this.avatar = avatar;
     }
 
     public String getEmail() {

@@ -1,7 +1,6 @@
 package top.minecode.web.requester.task;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import top.minecode.domain.task.requester.RequesterSubTaskItem;
 import top.minecode.domain.task.requester.RequesterTaskDetails;
 import top.minecode.domain.task.requester.TaskParticipant;
-import top.minecode.service.requester.task.RequesterTaskService;
+import top.minecode.service.requester.task.RequesterTaskInfoService;
 import top.minecode.web.common.BaseController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,11 +26,11 @@ public class RequesterTaskController extends BaseController {
 
     private static final int PARTICIPANTS_LIMIT = 20;
 
-    private RequesterTaskService taskService;
+    private RequesterTaskInfoService taskService;
     private Gson gson;
 
     @Autowired
-    public void setTaskService(RequesterTaskService taskService) {
+    public void setTaskService(RequesterTaskInfoService taskService) {
         this.taskService = taskService;
     }
 

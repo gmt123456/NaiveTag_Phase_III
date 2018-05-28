@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -177,7 +178,7 @@ public class CommonOperation<T> {
         return ts;
     }
 
-    public <R> R template(Function<Session, R> supplier) {
+    public static <R> R template(Function<Session, R> supplier) {
         R result = null;
         Session session = HibernateUtils.getCurrentSession();
         try {
@@ -191,5 +192,22 @@ public class CommonOperation<T> {
             HibernateUtils.closeSession();
         }
         return result;
+    }
+
+    public static boolean template(Consumer<Session> consumer) {
+        Session session = HibernateUtils.getCurrentSession();
+        try {
+            session.getTransaction().begin();
+            consumer.accept(session);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+            return false;
+        } finally {
+            HibernateUtils.closeSession();
+        }
+
+        return true;
     }
 }

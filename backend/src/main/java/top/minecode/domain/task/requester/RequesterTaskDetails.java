@@ -1,5 +1,6 @@
 package top.minecode.domain.task.requester;
 
+import top.minecode.domain.task.TaskState;
 import top.minecode.domain.task.TaskTag;
 import top.minecode.domain.task.TaskType;
 import top.minecode.domain.user.worker.Division;
@@ -28,6 +29,7 @@ public class RequesterTaskDetails {
     private Division workerRequirement;
     private Date begin;
     private Date deadline;
+    private TaskState state;
 
 
     public RequesterTaskDetails(TaskPO taskPO, double process) {
@@ -41,59 +43,24 @@ public class RequesterTaskDetails {
         pictureNum = taskPO.getPicNum();
         workerRequirement = taskPO.getLowestDivision();
         begin = taskPO.getBeginDate();
+        state = taskPO.getTaskState();
 
         types = new ArrayList<>(taskPO.getSpecificTasks().keySet());
         this.process = process;
-    }
-
-    public String getBackgroundImage() {
-        return backgroundImage;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public List<TaskTag> getTags() {
-        return tags;
-    }
-
-    public double getDollars() {
-        return dollars;
-    }
-
-    public int getParticipantsNum() {
-        return participantsNum;
-    }
-
-    public int getPictureNum() {
-        return pictureNum;
-    }
-
-    public Division getWorkerRequirement() {
-        return workerRequirement;
     }
 
     public Date getBegin() {
         return begin;
     }
 
+    public TaskState getState() {
+        return state;
+    }
+
     public Date getDeadline() {
         return deadline;
     }
 
-
-    public List<TaskType> getTypes() {
-        return types;
-    }
-
-    public double getProcess() {
-        return process;
-    }
 
     @Override
     public String toString() {
@@ -110,6 +77,7 @@ public class RequesterTaskDetails {
                 ", workerRequirement=" + workerRequirement +
                 ", begin=" + begin +
                 ", deadline=" + deadline +
+                ", state=" + state +
                 '}';
     }
 }

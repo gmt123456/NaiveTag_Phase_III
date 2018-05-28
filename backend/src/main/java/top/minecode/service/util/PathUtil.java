@@ -11,12 +11,23 @@ import java.io.File;
 public class PathUtil {
 
     public static String getBasePath() {
-        System.out.println();
         String rawString = PathUtil.class.getResource("../../../../.").getPath();
         return rawString.substring(0, rawString.length() - 16);
     }
 
-    public static String getDefaultAvatarPath() {
-        return "/DefaultAvatar/";
+    public static String getDefaultTaskCoverPath() {
+        return "defaultImage/covers/";
+    }
+
+    public static String getDefaultTaskBackgroundPath() {
+        return "defaultImage/background/";
+    }
+
+    public static String getRequesterDataRec(String email) {
+        return "requester/" + email + "/data/";
+    }
+
+    public static String getRequesterDataFileRoot() {
+        return "requester";
     }
 }

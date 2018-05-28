@@ -11,6 +11,7 @@ import top.minecode.domain.task.TaskState;
 import top.minecode.domain.task.requester.*;
 import top.minecode.domain.utils.ResultMessage;
 import top.minecode.service.util.PathUtil;
+import top.minecode.web.requester.task.NewTaskCommand;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,9 +22,9 @@ import java.util.List;
  * @author Liao
  */
 @Service("requesterTaskServiceImpl")
-public class RequesterTaskServiceImpl implements RequesterTaskService {
+public class RequesterTaskInfoServiceImpl implements RequesterTaskInfoService {
 
-    private static Logger log = LoggerFactory.getLogger(RequesterTaskServiceImpl.class);
+    private static Logger log = LoggerFactory.getLogger(RequesterTaskInfoServiceImpl.class);
 
     private RequesterTaskDao taskDao;
 
@@ -75,11 +76,6 @@ public class RequesterTaskServiceImpl implements RequesterTaskService {
     @Override
     public List<RequesterSubTaskItem> getSubTasksInfo(int taskId) {
         return taskDao.getSubTaskItem(taskId);
-    }
-
-    @Override
-    public void newTask(NewTaskInfo newTaskInfo) throws IOException {
-        
     }
 
     @Override
