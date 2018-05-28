@@ -1,5 +1,9 @@
 package top.minecode.domain.task;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Created on 2018/5/16.
  * Description:
@@ -37,6 +41,19 @@ public enum TaskType {
             default:
                 return null;
         }
+    }
+
+    public static List<TaskType> getAll() {
+        List<TaskType> taskTypes = new LinkedList<>();
+        taskTypes.add(t_100);
+        taskTypes.add(t_101);
+        taskTypes.add(t_200);
+        taskTypes.add(t_201);
+        taskTypes.add(t_300);
+        taskTypes.add(t_301);
+        taskTypes.add(t_400);
+        taskTypes.add(t_401);
+        return taskTypes;
     }
 
 }
