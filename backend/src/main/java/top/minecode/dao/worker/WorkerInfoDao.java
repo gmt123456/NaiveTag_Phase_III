@@ -55,4 +55,9 @@ public class WorkerInfoDao {
         return workerPOHelper.update(worker);
     }
 
+    public List<WorkerPO> getAll() {
+        return workerPOHelper.getAll();
+    }
+
+
 }
