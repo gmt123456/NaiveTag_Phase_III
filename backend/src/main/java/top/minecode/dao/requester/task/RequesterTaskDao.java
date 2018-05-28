@@ -5,6 +5,7 @@ import top.minecode.domain.task.requester.RequesterSubTaskItem;
 import top.minecode.domain.task.requester.RequesterTaskItem;
 import top.minecode.domain.task.requester.RequesterTaskDetails;
 import top.minecode.domain.task.requester.TaskParticipant;
+import top.minecode.po.task.TaskPO;
 
 import java.util.List;
 
@@ -31,6 +32,11 @@ public interface RequesterTaskDao {
      */
     List<TaskParticipant> getTaskParticipants(int taskId);
 
+    /**
+     * Get sub-task information list
+     * @param taskId task's id
+     * @return list of sub-task information
+     */
     List<RequesterSubTaskItem> getSubTaskItem(int taskId);
 
     RequesterTaskDetails getTaskDetails(int taskId);

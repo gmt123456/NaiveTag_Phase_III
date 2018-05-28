@@ -23,7 +23,6 @@ public abstract class BaseController {
 
     private static Logger log = LoggerFactory.getLogger(BaseController.class);
     private static final String TOKEN = "token";
-    private static final Gson gson = new Gson();
     private ActiveUserService activeUserService;
 
     @Autowired

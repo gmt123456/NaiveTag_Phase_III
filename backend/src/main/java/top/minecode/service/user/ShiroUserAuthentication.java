@@ -20,6 +20,7 @@ import top.minecode.po.auto.WorkerTastePO;
 import top.minecode.po.worker.RankPO;
 import top.minecode.service.util.Encryptor;
 import top.minecode.service.util.PathUtil;
+import top.minecode.service.util.RandomUtil;
 import top.minecode.web.user.LoginCommand;
 import top.minecode.web.user.SignupCommand;
 
@@ -119,7 +120,7 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
         String password = encryptor.encrypt(signupCommand);  // Encrypted password
 
         // Assign an avatar randomly
-        String avatar = PathUtil.getDefaultAvatarPath();
+        String avatar = RandomUtil.getRandomTaskAvatar();
 
         // Add this user to database
         Date joinTime = new Date();
@@ -130,7 +131,7 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
             userDao.addRequester(email, password, name, joinTime, avatar);
         }
 
-        // First login is the time the user sign up
+        // First login log is the time the user sign up
         authenticationLogDao.recordSignup(email, joinTime, userType);
         authenticationLogDao.recordLogin(email, joinTime, userType);
         rankDao.addRank(new RankPO(email, name, 0, avatar));

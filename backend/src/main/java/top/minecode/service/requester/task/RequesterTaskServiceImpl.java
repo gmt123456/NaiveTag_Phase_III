@@ -8,13 +8,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import top.minecode.dao.requester.task.RequesterTaskDao;
 import top.minecode.domain.task.TaskState;
-import top.minecode.domain.task.requester.RequesterSubTaskItem;
-import top.minecode.domain.task.requester.RequesterTaskDetails;
-import top.minecode.domain.task.requester.RequesterTaskItem;
-import top.minecode.domain.task.requester.TaskParticipant;
+import top.minecode.domain.task.requester.*;
 import top.minecode.domain.utils.ResultMessage;
 import top.minecode.service.util.PathUtil;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -77,6 +75,11 @@ public class RequesterTaskServiceImpl implements RequesterTaskService {
     @Override
     public List<RequesterSubTaskItem> getSubTasksInfo(int taskId) {
         return taskDao.getSubTaskItem(taskId);
+    }
+
+    @Override
+    public void newTask(NewTaskInfo newTaskInfo) throws IOException {
+        
     }
 
     @Override

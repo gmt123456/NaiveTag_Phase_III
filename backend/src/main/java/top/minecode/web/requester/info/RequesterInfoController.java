@@ -1,11 +1,13 @@
 package top.minecode.web.requester.info;
 
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import top.minecode.domain.utils.ResultMessage;
 import top.minecode.service.requester.info.RequesterInfoService;
 import top.minecode.web.common.BaseController;
 
@@ -21,6 +23,12 @@ import javax.servlet.http.HttpServletRequest;
 public class RequesterInfoController extends BaseController {
 
     private RequesterInfoService infoService;
+    private Gson gson;
+
+    @Autowired
+    public void setGson(Gson gson) {
+        this.gson = gson;
+    }
 
     @Autowired
     @Qualifier("requesterInfoService")
@@ -46,9 +54,26 @@ public class RequesterInfoController extends BaseController {
         return infoService.recharge(getUserEmail(request), dollars);
     }
 
-    @RequestMapping("/change")
+    @RequestMapping("/changeAvatar")
     @ResponseBody
-    public String changeInfo(HttpServletRequest request, ChangeInfoCommand infoCommand) {
-        return infoService.changeInfo(getUserEmail(request), infoCommand);
+    public String changeAvatar(HttpServletRequest request, ChangeAvatarCommand changeAvatarCommand) {
+        ResultMessage resultMessage = infoService.changeInfo(getUserEmail(request), changeAvatarCommand);
+        return gson.toJson(resultMessage);
+    }
+
+    @RequestMapping("/changeName")
+    @ResponseBody
+    public String changeName(HttpServletRequest request, ChangeNameCommand changeNameCommand) {
+        ResultMessage resultMessage = infoService.changeInfo(getUserEmail(request), changeNameCommand);
+        return gson.toJson(resultMessage);
+    }
+
+    @RequestMapping("/changePassword")
+    @ResponseBody
+    public String changePassword(HttpServletRequest request, ChangePwdCommand changePwdCommand) {
+        String email = getUserEmail(request);
+        changePwdCommand.setEmail(email);
+        ResultMessage resultMessage = infoService.changeInfo(getUserEmail(request), changePwdCommand);
+        return gson.toJson(resultMessage);
     }
 }

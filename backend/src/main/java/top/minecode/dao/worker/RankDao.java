@@ -34,7 +34,8 @@ public class RankDao {
         rankHelper.update(rankPO);
     }
 
-    public void addRank(RankPO rankPO) {
+    public synchronized void addRank(RankPO rankPO) {
+        rankPO.setRank(rankHelper.getAll().size() + 1);
         rankHelper.add(rankPO);
     }
 

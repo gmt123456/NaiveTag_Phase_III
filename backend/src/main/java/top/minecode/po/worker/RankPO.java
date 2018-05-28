@@ -29,7 +29,6 @@ public class RankPO {
         this.userEmail = userEmail;
         this.userName = userName;
         this.score = score;
-        this.rank = rank;
         this.avatar = avatar;
     }
 

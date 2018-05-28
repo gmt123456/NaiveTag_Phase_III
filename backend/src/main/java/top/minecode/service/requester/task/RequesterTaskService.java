@@ -1,11 +1,9 @@
 package top.minecode.service.requester.task;
 
-import top.minecode.domain.task.requester.RequesterSubTaskItem;
-import top.minecode.domain.task.requester.RequesterTaskItem;
-import top.minecode.domain.task.requester.RequesterTaskDetails;
-import top.minecode.domain.task.requester.TaskParticipant;
+import top.minecode.domain.task.requester.*;
 import top.minecode.domain.utils.ResultMessage;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -48,11 +46,39 @@ public interface RequesterTaskService {
      */
     RequesterTaskDetails getTaskDetails(int taskId);
 
+    /**
+     * Get readme file for task
+     * @param taskId task's id
+     * @return readme's content
+     */
     String getReadme(int taskId);
 
+    /**
+     * Update task's readme's by content passed in.
+     * @param taskId task's id
+     * @param content new readme content
+     * @return success <tt>ResultMessage</tt> if update successfully,
+     * failure <tt>ResultMessage</tt> if something wrong with database
+     */
     ResultMessage editReadme(int taskId, String content);
 
+    /**
+     * Get result file's path of this task. If this task is still ongoing
+     * or it hasn't been settled, this method will return null
+     * @param taskId tasks's id
+     * @return result file's path if file exists, null otherwise
+     */
     String getResultFile(int taskId);
 
+    /**
+     * Get information about sub-tasks of task which contains
+     * type, process and participants number information
+     * @param taskId task's id
+     * @return list of sub-task information
+     */
     List<RequesterSubTaskItem> getSubTasksInfo(int taskId);
+
+    void newTask(NewTaskInfo newTaskInfo) throws IOException;
+
+
 }
