@@ -7,11 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import top.minecode.dao.requester.info.RequesterInfoDao;
 import top.minecode.dao.requester.task.RequesterTaskDao;
+import top.minecode.dao.utils.CommonOperation;
 import top.minecode.dao.utils.ZipHelper;
 import top.minecode.domain.task.TaskState;
 import top.minecode.domain.task.requester.TaskCreationOptions;
 import top.minecode.domain.task.requester.TaskOrder;
 import top.minecode.domain.utils.ResultMessage;
+import top.minecode.po.log.ReleaseTaskLogPO;
 import top.minecode.po.log.RequesterAccountLogPO;
 import top.minecode.po.task.SpecificTaskPO;
 import top.minecode.po.task.TaskPO;
@@ -41,7 +43,7 @@ public class RequesterNewTaskServiceImpl implements RequesterNewTaskService {
 
     private static Logger log = LoggerFactory.getLogger(RequesterNewTaskServiceImpl.class);
 
-    private TaskCreationOptions options;
+    private TaskCreationOptions options = new TaskCreationOptions();
     private TaskOrderCache orderCache;
     private RequesterTaskDao taskDao;
     private RequesterInfoDao infoDao;
@@ -59,11 +61,6 @@ public class RequesterNewTaskServiceImpl implements RequesterNewTaskService {
     @Autowired
     public void setOrderCache(TaskOrderCache orderCache) {
         this.orderCache = orderCache;
-    }
-
-    @Autowired
-    public void setOptions(TaskCreationOptions options) {
-        this.options = options;
     }
 
     @Override
@@ -171,6 +168,13 @@ public class RequesterNewTaskServiceImpl implements RequesterNewTaskService {
         if (!taskDao.addTask(taskPO, specificTaskPOS, destPath))
             return ResultMessage.failure("Pay failed");
 
+        // Add release tak log
+        ReleaseTaskLogPO logPO = new ReleaseTaskLogPO(taskPO.getId(), taskPO.getBeginDate());
+        CommonOperation.template(session -> {
+            session.persist(logPO);
+            session.flush();
+        });
+
         return ResultMessage.success();
     }
 
@@ -178,6 +182,12 @@ public class RequesterNewTaskServiceImpl implements RequesterNewTaskService {
         return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 
+    /**
+     * Process image by function process, if image is not
+     * null, which means the user has defined a image, the
+     * process function will process it, otherwise will return
+     * alternate by supplier
+     */
     private String processImage(String image, FunctionWithException<String,
             String> process, Supplier<String> alternate) throws IOException {
         if (image == null)

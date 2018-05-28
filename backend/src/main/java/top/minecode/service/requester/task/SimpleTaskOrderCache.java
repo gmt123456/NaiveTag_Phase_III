@@ -48,8 +48,7 @@ public class SimpleTaskOrderCache implements TaskOrderCache {
     /**
      * Refresh the <tt>SimpleCache</tt> per minutes
      */
-    @Scheduled(cron = "0 0/1 * * * ?")
-    private void refresh() {
+    public void refresh() {
         List<CacheItem> expiredOrders = orderCache.refresh();
         // Delete the zip file
         for (CacheItem item : expiredOrders) {

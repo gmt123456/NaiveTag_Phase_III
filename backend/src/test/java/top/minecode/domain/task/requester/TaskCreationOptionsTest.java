@@ -13,23 +13,14 @@ import static org.junit.Assert.*;
  * Description:
  * @author Liao
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath*:naive-*"})
 public class TaskCreationOptionsTest {
-
-    private TaskCreationOptions options;
-
-    @Autowired
-    public void setOptions(TaskCreationOptions options) {
-        this.options = options;
-    }
 
     @Test
     public void test1() {
+        TaskCreationOptions options = new TaskCreationOptions();
         String expected = "TaskCreationOptions{tags=[military, nature, sports, " +
-                "humanity, science, politics, others], divisions=[Novice, Contributor," +
-                " Expert, Master, GrandMaster], labelTasks=[100, 200, 300, 401]," +
-                " describeTasks=[101, 201, 301, 400]}";
+                "humanity, science, others], divisions=[Novice, Contributor," +
+                " Expert, Master, GrandMaster]}";
         assertEquals(expected, options.toString());
     }
 }

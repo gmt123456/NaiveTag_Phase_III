@@ -2,11 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:tx="http://www.springframework.org/schema/cache"
+       xmlns:tx="http://www.springframework.org/schema/cache" xmlns:task="http://www.springframework.org/schema/task"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
        http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context-4.0.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+       http://www.springframework.org/schema/context/spring-context-4.0.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
 
     <!-- 扫描类包，将标注Spring注解的类自动转化Bean，同时完成Bean的注入 -->
@@ -79,28 +79,21 @@
 
     <bean id="gsonFactory" class="top.minecode.dao.utils.GsonFactory" factory-method="getGson"/>
 
-    <bean id="taskCreationOptions" class="top.minecode.domain.task.requester.TaskCreationOptions">
-        <property name="labelTasks">
-            <list>
-                <value>100</value>
-                <value>200</value>
-                <value>300</value>
-                <value>401</value>
-            </list>
-        </property>
-        <property name="describeTasks">
-            <list>
-                <value>101</value>
-                <value>201</value>
-                <value>301</value>
-                <value>400</value>
-            </list>
-        </property>
-    </bean>
     <!--
         <bean id="sessionFactory"
               class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
               p:configLocation="classpath: hibernate.cfg.xml" />
     
     -->
+
+    <!-- Configure the scheduler -->
+    <task:scheduler id="myScheduler" pool-size="10" />
+
+    <!-- Configure parameters -->
+    <task:scheduled-tasks scheduler="myScheduler">
+        <task:scheduled ref="simpleOrderCache" method="refresh"
+                        fixed-delay="60000" initial-delay="1000" />
+        <task:scheduled ref="activeUsers" method="refresh"
+                        fixed-delay="60000" initial-delay="1000"/>
+    </task:scheduled-tasks>
 </beans>

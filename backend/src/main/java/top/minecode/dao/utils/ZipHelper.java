@@ -42,8 +42,6 @@ public class ZipHelper {
                 String entryName = new File(entry.getName()).getName();
                 File target = new File(destPath, entryName);
 
-                System.out.println(target.getPath());
-
                 if (!entry.isDirectory()) {
                     try (InputStream in = zipFile.getInputStream(entry);
                          OutputStream out = new FileOutputStream(target)){

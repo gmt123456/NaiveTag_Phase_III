@@ -6,8 +6,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.ConversionService;
-import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.format.Formatter;
 import org.springframework.format.support.FormattingConversionService;
 import org.springframework.http.MediaType;
@@ -20,9 +18,6 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import top.minecode.domain.task.TaskTag;
-import top.minecode.web.requester.task.NewTaskCommand;
 import top.minecode.web.requester.task.RequesterNewTaskController;
 import top.minecode.web.user.AuthenticationController;
 
@@ -33,7 +28,6 @@ import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.Locale;
 import java.util.Map;
 

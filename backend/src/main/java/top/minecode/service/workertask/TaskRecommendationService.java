@@ -39,6 +39,7 @@ public class TaskRecommendationService {
         int size1 = tagDoubleMap.size();
         int size2 = typeDoubleMap.size();
         double[] vector = new double[size1 + size2];
+        return null;
     }
 
     private double calcHistogramIntersectionSimilar(WorkerTastePO tastePO1, WorkerTastePO tastePO2) {

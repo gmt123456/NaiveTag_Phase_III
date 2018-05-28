@@ -23,6 +23,7 @@ import java.util.Map;
 public class TaskPO implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     private String taskName;
