@@ -28,4 +28,8 @@ public class TaskDao {
     public boolean persist(TaskPO taskPO) {
         return taskHelper.update(taskPO);
     }
+
+    public List<TaskPO> getAll() {
+        return taskHelper.getAll();
+    }
 }
