@@ -1,10 +1,14 @@
 package top.minecode.po.auto;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import top.minecode.domain.task.TaskTag;
 import top.minecode.domain.task.TaskType;
 import top.minecode.po.task.TaskPO;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +26,9 @@ public class TaskVectorPO {
     @Id
     private int taskId;
 
-    private String vector;
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = Double.class)
+    @Fetch(FetchMode.SUBSELECT)
+    private List<Double> vector;
 
     public TaskVectorPO(){}
 
@@ -58,13 +64,7 @@ public class TaskVectorPO {
                 vector.add(0.0);
             }
 
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < vector.size() - 1; i++) {
-            builder.append(String.valueOf(vector.get(i))).append(" ");
-        }
-        builder.append(String.valueOf(vector.get(vector.size() - 1)));
-
-        vectorPO.vector = builder.toString();
+        vectorPO.vector = vector;
 
         return vectorPO;
     }
@@ -77,20 +77,11 @@ public class TaskVectorPO {
         this.taskId = taskId;
     }
 
-    public String getVector() {
+    public List<Double> getVector() {
         return vector;
     }
 
-    public void setVector(String vector) {
+    public void setVector(List<Double> vector) {
         this.vector = vector;
     }
-
-    public double[] getActualVector() {
-        String[] temp =  vector.split(" ");
-        double[] result = new double[temp.length];
-        for (int i = 0; i < temp.length; i++)
-            result[i] = Double.valueOf(temp[i]);
-        return result;
-    }
-
 }

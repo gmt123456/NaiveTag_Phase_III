@@ -44,6 +44,7 @@
 
         <mapping class="top.minecode.po.auto.WorkerAbilityPO" />
         <mapping class="top.minecode.po.auto.TaskVectorPO" />
+        <mapping class="top.minecode.po.auto.WorkerVectorPO" />
 
     </session-factory>
 
