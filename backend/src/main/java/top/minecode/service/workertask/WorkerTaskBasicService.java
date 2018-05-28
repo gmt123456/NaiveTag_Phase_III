@@ -97,7 +97,6 @@ public class WorkerTaskBasicService {
         if (participators.stream().anyMatch(e -> e.equals(email)))
             return new JoinTaskResponse(false, JoinTaskResponse.HAS_ACCEPTED);
 
-
         // 判断段位条件是否满足
         double score = workerInfoDao.getWorkerPOByEmail(email).getScore();
         Division division = Division.convert(score);
@@ -118,6 +117,7 @@ public class WorkerTaskBasicService {
 
         WorkerPO worker = workerInfoDao.getWorkerPOByEmail(email);
         worker.getOnGoingTaskParticipation().add(participation.getId());
+        worker.getParticipatedTasks().add(taskId);
 
         workerInfoDao.updateWorkPO(worker);
 

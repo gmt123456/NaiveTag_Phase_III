@@ -35,6 +35,10 @@ public class WorkerPO implements Serializable {
 
     @ElementCollection(fetch = FetchType.EAGER, targetClass = Integer.class)
     @Fetch(FetchMode.SUBSELECT)
+    private List<Integer> participatedTasks;
+
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = Integer.class)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Integer> onGoingTaskParticipation;
 
     @ElementCollection(fetch = FetchType.EAGER, targetClass = Integer.class)
@@ -121,5 +125,12 @@ public class WorkerPO implements Serializable {
     public void setFinishedTaskParticipation(List<Integer> finishedTaskParticipation) {
         this.finishedTaskParticipation = finishedTaskParticipation;
     }
-    
+
+    public List<Integer> getParticipatedTasks() {
+        return participatedTasks;
+    }
+
+    public void setParticipatedTasks(List<Integer> participatedTasks) {
+        this.participatedTasks = participatedTasks;
+    }
 }

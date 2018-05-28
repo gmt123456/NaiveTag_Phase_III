@@ -9,10 +9,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import top.minecode.dao.auto.WorkerAbilityDao;
+import top.minecode.dao.auto.WorkerTasteDao;
 import top.minecode.dao.log.AuthenticationLogDao;
 import top.minecode.dao.user.UserDao;
 import top.minecode.dao.worker.RankDao;
 import top.minecode.domain.user.UserType;
+import top.minecode.po.auto.WorkerAbilityPO;
+import top.minecode.po.auto.WorkerTastePO;
 import top.minecode.po.worker.RankPO;
 import top.minecode.service.util.Encryptor;
 import top.minecode.service.util.PathUtil;
@@ -42,6 +46,20 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
     private UserDao userDao;
     private AuthenticationLogDao authenticationLogDao;
     private RankDao rankDao;
+
+    private WorkerTasteDao tasteDao;
+
+    private WorkerAbilityDao abilityDao;
+
+    @Autowired
+    public void setTasteDao(WorkerTasteDao tasteDao) {
+        this.tasteDao = tasteDao;
+    }
+
+    @Autowired
+    public void setAbilityDao(WorkerAbilityDao abilityDao) {
+        this.abilityDao = abilityDao;
+    }
 
     @Autowired
     public void setRankDao(RankDao rankDao) {
@@ -107,6 +125,7 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
         Date joinTime = new Date();
         if (userType == UserType.WORKER) {
             userDao.addWorker(email, password, name, joinTime, avatar);
+            initAbilityAndTasteInfo(email);
         } else if (userType == UserType.REQUESTER) {
             userDao.addRequester(email, password, name, joinTime, avatar);
         }
@@ -134,5 +153,12 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
         }
         // todo verify this email
         return gson.toJson(EmailVerificationResponse.valid());
+    }
+
+    private void initAbilityAndTasteInfo(String email) {
+        WorkerAbilityPO abilityPO = new WorkerAbilityPO(email);
+        WorkerTastePO tastePO = new WorkerTastePO(email);
+        tasteDao.addTastePO(tastePO);
+        abilityDao.addWorkerAbility(abilityPO);
     }
 }

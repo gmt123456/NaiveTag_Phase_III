@@ -13,7 +13,6 @@ public enum TaskTag {
     sports,
     humanity,
     science,
-    politics,
     others,
     all;
 
