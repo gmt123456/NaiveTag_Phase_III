@@ -20,9 +20,7 @@ public class WorkerTaskRecommendationController extends BaseController {
 
     @RequestMapping("/recommendation")
     @ResponseBody
-    public String getRecommendations(HttpServletRequest request, int taskType,
-                                     @RequestParam(required = false) String taskTag,
-                                     int rankType, int begin, int step) {
+    public String getRecommendations(HttpServletRequest request, int begin, int step) {
         return null;
     }
 

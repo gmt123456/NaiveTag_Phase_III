@@ -137,7 +137,7 @@ public class WorkerTaskSearchService {
                 value = ratio * taskPO.getAdRate();
             } else if (rankType == RankType.MONEY_DESCEND) {
                 value = taskPO.getTotalDollars() * ratio;
-            } else {
+            } else { // RankType.MONEY_ASCEND
                 value = - taskPO.getTotalDollars() / ratio;
             }
         }
