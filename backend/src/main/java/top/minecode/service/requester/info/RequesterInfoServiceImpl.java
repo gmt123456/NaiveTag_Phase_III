@@ -7,6 +7,7 @@ import top.minecode.dao.requester.info.RequesterInfoDao;
 import top.minecode.domain.user.requester.AccountLog;
 import top.minecode.domain.user.requester.Requester;
 import top.minecode.domain.utils.ResultMessage;
+import top.minecode.po.log.RequesterAccountLogPO;
 import top.minecode.po.requester.RequesterPO;
 import top.minecode.service.util.Encryptor;
 import top.minecode.web.requester.info.*;
@@ -54,7 +55,7 @@ public class RequesterInfoServiceImpl implements RequesterInfoService {
 
     @Override
     public String recharge(String email, double dollars) {
-        ResultMessage resultMessage = infoDao.updateAccount(email, dollars);
+        ResultMessage resultMessage = infoDao.updateAccount(email, dollars, RequesterAccountLogPO.ChangeType.RECHARGE);
         return gson.toJson(resultMessage);
     }
 

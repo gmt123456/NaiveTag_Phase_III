@@ -1,7 +1,11 @@
 package top.minecode.service.requester.task;
 
-import top.minecode.domain.task.requester.*;
+import top.minecode.domain.task.requester.RequesterSubTaskItem;
+import top.minecode.domain.task.requester.RequesterTaskDetails;
+import top.minecode.domain.task.requester.RequesterTaskItem;
+import top.minecode.domain.task.requester.TaskParticipant;
 import top.minecode.domain.utils.ResultMessage;
+import top.minecode.web.requester.task.NewTaskCommand;
 
 import java.io.IOException;
 import java.util.List;
@@ -11,7 +15,7 @@ import java.util.List;
  * Description:
  * @author Liao
  */
-public interface RequesterTaskService {
+public interface RequesterTaskInfoService {
 
     /**
      * Get requester's tasks which is still ongoing.
@@ -77,8 +81,5 @@ public interface RequesterTaskService {
      * @return list of sub-task information
      */
     List<RequesterSubTaskItem> getSubTasksInfo(int taskId);
-
-    void newTask(NewTaskInfo newTaskInfo) throws IOException;
-
 
 }

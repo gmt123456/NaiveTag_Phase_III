@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.multipart.MultipartFile;
 import top.minecode.dao.log.AccountLogDao;
 import top.minecode.dao.log.AuthenticationLogDao;
 import top.minecode.dao.utils.CommonOperation;
@@ -15,9 +14,7 @@ import top.minecode.domain.utils.ResultMessage;
 import top.minecode.po.log.LoginLogPO;
 import top.minecode.po.log.RequesterAccountLogPO;
 import top.minecode.po.requester.RequesterPO;
-import top.minecode.service.util.Encryptor;
 import top.minecode.web.requester.info.ChangeCommand;
-import top.minecode.web.requester.info.ChangeInfoCommand;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -35,12 +32,6 @@ public class RequesterInfoDaoImpl implements RequesterInfoDao {
     private CommonOperation<RequesterPO> requesterOperation = new CommonOperation<>(RequesterPO.class);
     private AuthenticationLogDao authenticationLogDao;
     private AccountLogDao accountLogDao;
-    private Encryptor encryptor;
-
-    @Autowired
-    public void setEncryptor(Encryptor encryptor) {
-        this.encryptor = encryptor;
-    }
 
     @Autowired
     public void setAuthenticationLogDao(AuthenticationLogDao authenticationLogDao) {
@@ -84,29 +75,24 @@ public class RequesterInfoDaoImpl implements RequesterInfoDao {
     }
 
     @Override
-    public ResultMessage updateAccount(String email, double dollars) {
+    public ResultMessage updateAccount(String email, double dollars, RequesterAccountLogPO.ChangeType changeType) {
         RequesterPO po = getRequesterPO(email);
         // Add dollars in po to dollars passed in by BigDecimal
         BigDecimal oldData = new BigDecimal(po.getDollars());
         BigDecimal newData = new BigDecimal(dollars);
         BigDecimal result = oldData.add(newData);
+        if (result.compareTo(BigDecimal.ZERO) < 0)
+            return ResultMessage.failure("Money not enough");
         po.setDollars(result.doubleValue());
 
-        accountLogDao.log(email, dollars, result.doubleValue(), RequesterAccountLogPO.ChangeType.RECHARGE);
+        requesterOperation.update(po);
+        accountLogDao.log(email, dollars, result.doubleValue(), changeType);
         return ResultMessage.success();
     }
 
     @Override
     public List<AccountLog> getAccountLogs(String email, int page, int pageSize) {
         return accountLogDao.getLogs(email, page, pageSize);
-    }
-
-    /**
-     * Update avatar's file by overwriting the old avatar, and the
-     * url will not change
-     */
-    private void updateAvatar(MultipartFile avatar, List<Integer> imagePosition, String oldPath) {
-        // TODO: 2018/5/23 update avatar here
     }
 
     private RequesterPO getRequesterPO(String email) {

@@ -73,6 +73,8 @@ public class TaskPO implements Serializable {
     @Fetch(FetchMode.SUBSELECT)
     private List<String> participators;
 
+    public TaskPO() {}
+
     public String getTaskDescription() {
         return taskDescription;
     }

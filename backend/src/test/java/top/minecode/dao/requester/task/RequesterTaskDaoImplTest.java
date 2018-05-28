@@ -3,7 +3,6 @@ package top.minecode.dao.requester.task;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import top.minecode.dao.utils.CommonOperation;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created on 2018/5/24.
@@ -50,7 +49,7 @@ public class RequesterTaskDaoImplTest {
         list.add("123@email");
         list.add("1234@email");
 
-        long actual = operation.template(s ->
+        long actual = CommonOperation.template(s ->
                 (long) s.createQuery(hql).setParameterList("se", list).iterate().next());
         assertEquals(2L, actual);
     }

@@ -5,14 +5,18 @@ package top.minecode.domain.utils;
  * Description:
  * @author Liao
  */
-public class ResultMessage {
+public abstract class ResultMessage {
 
     public static ResultMessage success() {
-        return new ResultMessage(SUCCESS, null);
+        return new SimpleResultMessage(SUCCESS, null);
     }
 
     public static ResultMessage failure(String message) {
-        return new ResultMessage(FAILURE, message);
+        return new SimpleResultMessage(FAILURE, message);
+    }
+
+    public static ResultMessage payMessage(String orderId, double lowerBound, int pictureNum) {
+        return new PayMessage(SUCCESS, null, orderId, lowerBound, pictureNum);
     }
 
     private static final String SUCCESS = "success";
@@ -21,9 +25,13 @@ public class ResultMessage {
     private final String status;
     private final String message;
 
-    private ResultMessage(String status, String message) {
+    protected ResultMessage(String status, String message) {
         this.status = status;
         this.message = message;
+    }
+
+    public boolean failed() {
+        return !status.equals(SUCCESS);
     }
 
     public String getStatus() {

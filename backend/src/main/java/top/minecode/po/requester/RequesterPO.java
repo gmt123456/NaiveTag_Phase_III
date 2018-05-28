@@ -37,6 +37,7 @@ public class RequesterPO implements Serializable {
         this.name = name;
         this.password = password;
         this.joinTime = joinTime;
+        this.avatar = avatar;
     }
 
     public String getEmail() {

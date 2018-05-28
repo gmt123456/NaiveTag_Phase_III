@@ -63,6 +63,7 @@ public class GsonFactory {
             String timeInfo = TimeMessageConverter.convertStartTime(taskDetails.getBegin()) +
                     ", " + TimeMessageConverter.convertDeadline(taskDetails.getDeadline());
             object.addProperty("timeInfo", timeInfo);
+            object.addProperty("state", taskDetails.getState().toString().toLowerCase());
 
             return object;
         };

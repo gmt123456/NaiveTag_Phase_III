@@ -90,6 +90,7 @@ public class RequesterAccountLogPO implements Serializable {
     public enum ChangeType {
         RECHARGE, // 充值
         RELEASE_TASK,
+        ADVERTISEMENT,
         PAY_BACK, // 没用完的钱退回来
     }
 
