@@ -26,7 +26,7 @@ public class FinishedTaskParticipationPO implements Serializable {
 
     private double earnedDollars;
 
-    private double scoreChange;
+    private double scoreChange; // 范围是 - ？~ + ？，除以100就得到这次任务的能力变化
 
     public int getId() {
         return id;
