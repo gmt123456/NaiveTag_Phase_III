@@ -1,13 +1,14 @@
 package top.minecode.service.requester.task;
 
-import com.google.gson.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.ConversionService;
-import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.format.Formatter;
 import org.springframework.format.support.FormattingConversionService;
 import org.springframework.http.MediaType;
@@ -19,10 +20,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import top.minecode.domain.task.TaskTag;
-import top.minecode.web.requester.task.NewTaskCommand;
 import top.minecode.web.requester.task.RequesterNewTaskController;
 import top.minecode.web.user.AuthenticationController;
 
@@ -33,7 +30,6 @@ import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.Locale;
 import java.util.Map;
 
@@ -53,10 +49,6 @@ public class RequesterNewTaskServiceImplTest {
 
     private static final String CLASS_PATH = RequesterNewTaskServiceImplTest.class.getResource("/").getPath();
 
-    private RequesterNewTaskService service;
-    private TaskOrderCache cache;
-    private WebApplicationContext context;
-    private Gson gson = new Gson();
     private JsonParser parser = new JsonParser();
     private RequesterNewTaskController controller;
     private AuthenticationController authenticationController;
@@ -74,21 +66,6 @@ public class RequesterNewTaskServiceImplTest {
         this.controller = controller;
     }
 
-
-    @Autowired
-    public void setContext(WebApplicationContext context) {
-        this.context = context;
-    }
-
-    @Autowired
-    public void setCache(TaskOrderCache cache) {
-        this.cache = cache;
-    }
-
-    @Autowired
-    public void setService(RequesterNewTaskService service) {
-        this.service = service;
-    }
 
     @Before
     public void setUp() throws Exception {
@@ -175,9 +152,6 @@ public class RequesterNewTaskServiceImplTest {
         System.out.println(payResult);
     }
 
-    private void testPay(String orderNum) throws Exception{
-
-    }
 
     private void setSpecificTasks(MockHttpServletRequestBuilder builder, JsonObject object) {
         JsonArray tasks = object.get("tasks").getAsJsonArray();

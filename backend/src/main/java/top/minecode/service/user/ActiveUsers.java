@@ -71,11 +71,10 @@ public class ActiveUsers implements ActiveUserService {
     /**
      * Refresh the <tt>SimpleCache</tt> per minutes
      */
-    @Scheduled(cron = "0 0/1 * * * ?")
-    private void refresh() {
+    public void refresh() {
         List<CacheItem> expiredKeys = userCache.refresh();
         log.info("Active user list update");
-        log.debug("Expired user's list: " + expiredKeys.toString());
+        log.info("Expired user's list: " + expiredKeys.toString());
     }
 
     /**

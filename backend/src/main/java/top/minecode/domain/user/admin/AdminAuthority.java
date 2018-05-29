@@ -7,6 +7,6 @@ package top.minecode.domain.user.admin;
  * @author iznauy
  */
 public enum AdminAuthority {
-    GENERAL,
+    SUPREME,
     COMMON
 }

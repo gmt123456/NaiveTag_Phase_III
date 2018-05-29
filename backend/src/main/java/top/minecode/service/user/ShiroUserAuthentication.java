@@ -78,6 +78,7 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
     }
 
     @Autowired
+    @Qualifier("authenticator")
     public void setAuthenticator(Authenticator authenticator) {
         this.authenticator = authenticator;
     }
