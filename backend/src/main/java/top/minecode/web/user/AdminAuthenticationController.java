@@ -13,7 +13,8 @@ import top.minecode.service.user.AdminAuthenticationService;
  * Description:
  * @author Liao
  */
-@Controller("admin")
+@Controller
+@RequestMapping("admin")
 public class AdminAuthenticationController {
 
     private AdminAuthenticationService authenticationService;
@@ -29,13 +30,13 @@ public class AdminAuthenticationController {
         this.authenticationService = authenticationService;
     }
 
-    @RequestMapping("login")
+    @RequestMapping("/login")
     @ResponseBody
     public String login(@RequestParam("username") String username, @RequestParam("password") String password) {
         return gson.toJson(authenticationService.login(username, password));
     }
 
-    @RequestMapping("new")
+    @RequestMapping("/new")
     @ResponseBody
     public String newAdmin(NewAdminCommand newAdminCommand) {
         return gson.toJson(authenticationService.createNewAdmin(newAdminCommand));
