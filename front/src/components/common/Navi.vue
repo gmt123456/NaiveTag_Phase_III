@@ -63,6 +63,7 @@
   .navi {
     background-color: #47494d;
     min-height: 50px;
+    min-width: 1000px;
   }
 
   .avatar {

@@ -37,13 +37,13 @@ export function needLabel(type) {
 export function getAllTypes() {
 
   return [
-    {value:'100', label:'aaa'},
-    {value:'101', label:'bbb'},
-    {value:'200', label:'ccc'},
-    {value:'201', label:'ddd'},
-    {value:'300', label:'eee'},
-    {value:'301', label:'fff'},
-    {value:'400', label:'ggg'},
-    {value:'401', label:'hhh'}
+    {value:'100', label:'Global Mark'},
+    {value:'101', label:'Global Describe'},
+    {value:'200', label:'Single-Frame Mark'},
+    {value:'201', label:'Single-Frame Describe'},
+    {value:'300', label:'Multiple-Frame Mark'},
+    {value:'301', label:'Multiple-Frame Describe'},
+    {value:'400', label:'Area Mark'},
+    {value:'401', label:'Area Describe'}
   ];
 }
