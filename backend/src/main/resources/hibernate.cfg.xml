@@ -10,7 +10,7 @@
         <property name="connection.url">
             <![CDATA[jdbc:mysql://localhost:3306/naivetag?useUnicode=true&amp;characterEncoding=utf8&serverTimezone=GMT%2B8]]>
         </property>
-        <property name="connection.username">root</property>
+        <property name="connection.currentAdmin">root</property>
         <property name="connection.password">iznauy.top</property>
         <property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
         <property name="show_sql">true</property>

@@ -55,7 +55,7 @@
                 <!--<![CDATA[jdbc:mysql://localhost:3306/naivetag?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8]]>-->
             <!--</value>-->
         <!--</property>-->
-        <!--<property name="username" value="root"/>-->
+        <!--<property name="currentAdmin" value="root"/>-->
         <!--<property name="password" value="iznauy.top"/>-->
     <!--</bean>-->
 
