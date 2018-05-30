@@ -25,7 +25,6 @@ public class NewSpecificTaskListConverter implements Converter<String, List<NewS
 
     @Override
     public List<NewSpecificTask> convert(String s) {
-        System.out.println("-------specific task converter]----------");
         Type type = new TypeToken<List<NewSpecificTask>>(){}.getType();
         return gson.fromJson(s, type);
     }

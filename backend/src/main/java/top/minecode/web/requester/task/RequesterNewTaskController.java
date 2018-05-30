@@ -58,8 +58,6 @@ public class RequesterNewTaskController extends BaseController {
     @RequestMapping("/pay")
     @ResponseBody
     public String pay(HttpServletRequest request, PayCommand payCommand) {
-        System.out.println(request.getParameter("token"));
-        System.out.println(payCommand);
         payCommand.setUserEmail(getUserEmail(request));
         ResultMessage resultMessage = service.pay(payCommand);
         return gson.toJson(resultMessage);

@@ -11,12 +11,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import top.minecode.dao.auto.WorkerAbilityDao;
 import top.minecode.dao.auto.WorkerTasteDao;
+import top.minecode.dao.auto.WorkerVectorDao;
 import top.minecode.dao.log.AuthenticationLogDao;
 import top.minecode.dao.user.UserDao;
 import top.minecode.dao.worker.RankDao;
 import top.minecode.domain.user.UserType;
 import top.minecode.po.auto.WorkerAbilityPO;
 import top.minecode.po.auto.WorkerTastePO;
+import top.minecode.po.auto.WorkerVectorPO;
 import top.minecode.po.worker.RankPO;
 import top.minecode.service.util.Encryptor;
 import top.minecode.service.util.ImageUtils;
@@ -46,19 +48,11 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
     private UserDao userDao;
     private AuthenticationLogDao authenticationLogDao;
     private RankDao rankDao;
-
-    private WorkerTasteDao tasteDao;
-
-    private WorkerAbilityDao abilityDao;
+    private WorkerVectorDao workerVectorDao;
 
     @Autowired
-    public void setTasteDao(WorkerTasteDao tasteDao) {
-        this.tasteDao = tasteDao;
-    }
-
-    @Autowired
-    public void setAbilityDao(WorkerAbilityDao abilityDao) {
-        this.abilityDao = abilityDao;
+    public void setWorkerVectorDao(WorkerVectorDao workerVectorDao) {
+        this.workerVectorDao = workerVectorDao;
     }
 
     @Autowired
@@ -131,7 +125,7 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
         if (userType == UserType.WORKER) {
             userDao.addWorker(email, password, name, joinTime, avatar);
             rankDao.addRank(new RankPO(email, name, 0, avatar));
-            initAbilityAndTasteInfo(email);
+            insertWorkerVector(email);
         } else if (userType == UserType.REQUESTER) {
             userDao.addRequester(email, password, name, joinTime, avatar);
         }
@@ -139,6 +133,8 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
         // First login log is the time the user sign up
         authenticationLogDao.recordSignup(email, joinTime, userType);
         authenticationLogDao.recordLogin(email, joinTime, userType);
+
+
 
         // Login this user and get his web token
         String webToken = activeUserService.addUser(email);
@@ -160,10 +156,8 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
         return gson.toJson(EmailVerificationResponse.valid());
     }
 
-    private void initAbilityAndTasteInfo(String email) {
-        WorkerAbilityPO abilityPO = new WorkerAbilityPO(email);
-        WorkerTastePO tastePO = new WorkerTastePO(email);
-        tasteDao.addTastePO(tastePO);
-        abilityDao.addWorkerAbility(abilityPO);
+    private void insertWorkerVector(String email) {
+        WorkerVectorPO workerVectorPO = WorkerVectorPO.fromWorkerEmail(email);
+        workerVectorDao.add(workerVectorPO);
     }
 }
