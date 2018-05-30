@@ -6,7 +6,7 @@
         <el-form-item label="Title" class="colorful-label" prop="title">
           <el-input v-model="taskForm.title" clearable></el-input>
         </el-form-item>
-        <el-form-item label="description" class="colorful-label" prop="description">
+        <el-form-item label="Description" class="colorful-label" prop="description">
           <el-input v-model="taskForm.description"
                     type="textarea" autosize clearable>
 
@@ -21,7 +21,8 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="Deadline" class="colorful-label" required prop="deadLine">
+        <el-form-item label="Deadline" class="colorful-label" required prop="deadLine"
+                      value-format="yyyy-MM-dd">
           <el-date-picker v-model="taskForm.deadLine"></el-date-picker>
         </el-form-item>
 
@@ -135,8 +136,12 @@
       </div>
     </div>
 
+    <div v-if="activeIndex===2">
+      <div>
 
-    <el-steps :active="activeIndex" class="steps" finish-status="succes">
+      </div>
+    </div>
+    <el-steps :active="activeIndex" class="steps" finish-status="success">
       <el-step title="create" description="create the task order"></el-step>
       <el-step title="pay" description="pay for the task order"></el-step>
       <el-step title="finish"></el-step>
@@ -185,7 +190,7 @@
         if (Number(this.orderForm.adFee) >= 0) {
           callback();
         } else {
-          callback(new Error('pleas input the number'));
+          callback(new Error('pleas input the number above zero'));
         }
       };
 
@@ -193,12 +198,12 @@
         if (Number(this.orderForm.extractFee) >= 0) {
           callback();
         } else {
-          callback(new Error('pleas input the number'));
+          callback(new Error('pleas input the number above zero'));
         }
       };
 
       return {
-        activeIndex: 1,
+        activeIndex: 0,
         defaultTags: '',
         uploadCover: false,
         addSubTaskVisible: false,
@@ -341,13 +346,14 @@
         })
       },
       payOrder: function () {
+        let pointer =this;
         this.$refs.order.validate((valid) => {
           if (valid) {
             this.orderForm.status = "accept";
             this.orderForm.dollars = this.orderInfo.payLowerBound;
             this.orderForm.orderId=this.orderInfo.orderId;
             payOrder(this.orderForm, function () {
-            this.$message({
+            pointer.$message({
               message:'you have create the task',
               type:'success'
             })

@@ -1,18 +1,19 @@
 <template>
   <div>
-    <banner title="Task List">
-      <div slot="buttonGroup">
-        <el-button class="my-button" >Learn More</el-button>
-        <el-button class="my-button" @click="createTaskVisible=true">New Task</el-button>
-      </div>
-    </banner>
-   <el-col :offset="4" :span="14">
+
+   <div style="min-width: 900px; max-width: 70%; margin: auto">
+     <banner title="Task List">
+       <div slot="buttonGroup">
+         <el-button class="my-button" >Learn More</el-button>
+         <el-button class="my-button" @click="createTaskVisible=true">New Task</el-button>
+       </div>
+     </banner>
      <task-list>
 
      </task-list>
-   </el-col>
+   </div >
 
-    <el-dialog title="create Task" :visible.sync="createTaskVisible"
+    <el-dialog title="Create Task" :visible.sync="createTaskVisible"
       @close="initTaskForm"
     width="865px">
 
