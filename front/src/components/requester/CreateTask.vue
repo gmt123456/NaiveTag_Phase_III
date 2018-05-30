@@ -138,6 +138,10 @@
 
     <div v-if="activeIndex===2">
       <div>
+        <div style="text-align: center">
+
+          <p> <i class="el-icon-success" style="color: forestgreen" ></i> You have created the task successfully  </p>
+        </div>
 
       </div>
     </div>
@@ -350,13 +354,14 @@
         this.$refs.order.validate((valid) => {
           if (valid) {
             this.orderForm.status = "accept";
-            this.orderForm.dollars = this.orderInfo.payLowerBound;
             this.orderForm.orderId=this.orderInfo.orderId;
-            payOrder(this.orderForm, function () {
-            pointer.$message({
-              message:'you have create the task',
-              type:'success'
-            })
+            this.orderForm.dollars=this.orderInfo.payLowerBound+this.orderForm.extractFee;
+            payOrder(this.orderForm,function(res){
+              if(res.status!=='success'){
+                pointer.$message.error(res.message);
+              }else{
+                this.activeIndex=2;
+              }
             })
           }
         })
