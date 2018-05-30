@@ -108,23 +108,23 @@
         methods: {
 
 			getTaskInfo(){
-				taskInfo(res => {
-					this.taskData = res;
-					console.log(this.res);
-					console.log(this.taskData);
+				let that = this;
+				taskInfo(localStorage.firstLevelTaskId, res => {
+					that.taskData = res;
                 })
             },
 
 	        joinHandle(){
+		        let that = this;
 		        taskJoin(this.taskData.taskId, res => {
 		        	if(res.result === true){
-				        this.$message({
+				        that.$message({
 					        message: 'join success! ψ(｀∇´)ψ',
 					        type: 'success'
 				        });
-				        this.getTaskInfo();
+				        that.getTaskInfo();
                     }else{
-		        		this.$message.error(res.reason);
+				        that.$message.error(res.reason);
                     }
                 })
             },

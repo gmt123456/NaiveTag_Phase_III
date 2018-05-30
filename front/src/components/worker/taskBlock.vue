@@ -3,7 +3,7 @@
         <el-card class="task-block" :body-style="{ padding: '0px' }" shadow="hover" style="margin-bottom: 10px;margin-top: 10px;">
             <el-container>
                 <el-aside style="width: 120px;height: 120px;background-color: transparent;">
-                    <div v-bind:style="{width:'100%',height:'100%','background-image':'url('+taskCover+')','background-size':'cover','background-position':'50%'}"></div>
+                    <div v-bind:style="{width:'100%',height:'100%','background-image':'url('+getImgSrc(taskCover)+')','background-size':'cover','background-position':'50%'}"></div>
                     <!--<img :src="taskCover" width="90px" height="auto" style="margin: 10px;padding-left: 10px;overflow: hidden;">-->
                 </el-aside>
                 <el-main style="background-color: transparent;">
@@ -44,6 +44,7 @@
 
 <script>
     import {getTaskName} from "../../api/taskTypeName";
+    import {getUrl} from "../../api/tool";
 
     export default {
 		props:{
@@ -68,7 +69,14 @@
         },
 
         methods: {
+
+			getImgSrc(src){
+				return getUrl(src);
+            },
+
 	        jumpFirstTask(){
+		        localStorage.firstLevelTaskId = this.taskId;
+		        console.log(localStorage.firstLevelTaskId);
 	        	this.$router.push('/firstTask/overview');
             },
 

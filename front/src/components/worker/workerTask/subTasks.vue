@@ -21,7 +21,7 @@
                         <el-col :span="8" v-if="show" v-for="(item, index) in this.subTaskList" :key="menuIndex+index" v-bind:data-index="index">
                             <el-card :body-style="{ padding: '0px' }" style="margin: 10px;" shadow="hover">
                                 <div style="width: 100%;height: 134px;">
-                                    <div :style="{width: '100%', height: '100%', 'background-image': 'url('+item.cover+')', 'background-size': 'cover', 'background-position': '50%'}"></div>
+                                    <div :style="{width: '100%', height: '100%', 'background-image': 'url('+getImgSrc(item.cover)+')', 'background-size': 'cover', 'background-position': '50%'}"></div>
                                 </div>
                                 <div style="padding: 10px;">
                                     <i class="el-icon-picture-outline"></i>
@@ -45,6 +45,7 @@
     import {getTaskName} from "../../../api/taskTypeName";
     import {subTaskInfo} from "../../../api/workerTaskInfo";
     import {acceptSubTask} from "../../../api/workerTaskInfo";
+    import {getUrl} from "../../../api/tool";
 
     export default {
 	    name: "subTasks",
@@ -81,25 +82,30 @@
 
         methods: {
 
+	        getImgSrc(src){
+		        return getUrl(src);
+	        },
+
 	        openDetails(index){
 		        this.$router.push({name: 'subTaskDetails', params: {taskId: this.taskData.taskId, subTaskId: this.subTaskList[index].subTaskId, taskType: this.taskData.taskTypes[parseInt(this.menuIndex)]}});
 	        	// this.$router.push("/subTaskDetails/:"+this.taskData.taskId+"/:"+this.subTaskList[index].subTaskId+"/:"+this.taskData.taskTypes[parseInt(this.menuIndex)]);
             },
 
 	    	fetchData(index){
+	        	let that = this;
 			    subTaskInfo(this.taskData.taskId, this.taskData.taskTypes[index], res => {
-			    	this.subTaskList = res;
-				    this.show = true;
+				    that.subTaskList = res;
+				    that.show = true;
                 })
             },
 
 	        open2(index) {
+		        let that = this;
 		        this.$confirm('Are you sure you accept this task?', 'Prompt', {
 			        confirmButtonText: 'yes',
 			        cancelButtonText: 'no',
 			        type: 'info'
 		        }).then(() => {
-			        let that = this;
 			        acceptSubTask(this.taskData.taskId, this.subTaskList[index].subTaskId, this.taskData.taskTypes[parseInt(this.menuIndex)], res =>{
 				        if(res.result === true){
 					        that.$message.success("accept success! Good Luck~(￣▽￣)");
@@ -107,10 +113,6 @@
 				        }else{
 					        that.$message.error("accept fail！（；´д｀）ゞ");
 				        }
-			        });
-			        this.$message({
-				        type: 'success',
-				        message: 'accept success!'
 			        });
 		        }).catch(() => {
 

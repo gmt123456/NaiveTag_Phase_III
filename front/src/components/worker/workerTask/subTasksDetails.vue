@@ -49,7 +49,7 @@
                                           v-on:enter="enter"
                                           name="fadeTask1">
                             <el-col v-if="detailsData.unFinishedPicList && (tabLabel === 'unfinish') && show" :span="lengthN" v-for="(item, index) in this.detailsData.unFinishedPicList" :key="index" v-bind:data-index="index" style="padding: 10px;">
-                                <img :src="item" style="width: 100%;height: auto;"/>
+                                <img :src="getImgSrc(item)" style="width: 100%;height: auto;"/>
                             </el-col>
                         </transition-group>
                     </div>
@@ -61,7 +61,7 @@
                                           v-on:enter="enter"
                                           name="fadeTask2">
                             <el-col v-if="detailsData.finishedPicList && (tabLabel === 'finish') && show" :span="lengthN" v-for="(item, index) in this.detailsData.finishedPicList" :key="index" v-bind:data-index="index" style="padding: 10px;">
-                                <img :src="item" style="width: 100%;height: auto;"/>
+                                <img :src="getImgSrc(item)" style="width: 100%;height: auto;"/>
                             </el-col>
                         </transition-group>
                     </div>
@@ -73,7 +73,7 @@
                                           v-on:enter="enter"
                                           name="fadeTask3">
                             <el-col v-if="detailsData.picList && show" :span="lengthN" v-for="(item, index) in this.detailsData.picList" :key="index" v-bind:data-index="index" style="padding: 10px;">
-                                <img :src="item" style="width: 100%;height: auto;"/>
+                                <img :src="getImgSrc(item)" style="width: 100%;height: auto;"/>
                             </el-col>
                         </transition-group>
                     </div>
@@ -90,6 +90,7 @@
     import {subTaskDetailsInfo} from "../../../api/workerTaskInfo";
     import {acceptSubTask} from "../../../api/workerTaskInfo";
     import {submitSubTask} from "../../../api/workerTaskInfo";
+    import {getUrl} from "../../../api/tool";
 
     export default {
 		name: "subTasksDetails",
@@ -129,13 +130,18 @@
         },
 
         methods: {
+
+	        getImgSrc(src){
+		        return getUrl(src);
+	        },
+
 	        startTag(){
 
             },
 
 	        accept(){
+		        let that = this;
 	        	this.loadingAccept = true;
-	        	let that = this;
 		        acceptSubTask(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, res =>{
 			        if(res.result === true){
                     that.$message.success("accept success! Good Luck~(￣▽￣)");
@@ -162,8 +168,9 @@
             },
 
 			fetchData() {
+	        	let that = this;
 				subTaskDetailsInfo(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, res =>{
-					this.detailsData = res;
+					that.detailsData = res;
                 });
             },
 

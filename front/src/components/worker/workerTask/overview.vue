@@ -25,7 +25,7 @@
                             <el-col :span="9">
                                 <div style="font-weight: bold;padding-top: 10px;padding-bottom: 10px;">Task Cover</div>
                                 <div class="box2-img">
-                                    <img :src="taskData.taskCover" class="img2" />
+                                    <img :src="getImgSrc(taskData.taskCover)" class="img2" />
                                 </div>
                             </el-col>
 
@@ -104,7 +104,8 @@
     import divisionPic from '../divisionPic.vue';
     // import biscuits from './biscuits.vue';
     import {getTaskName} from '../../../api/taskTypeName';
-    import {taskInfo} from "../../../api/workerTaskInfo";
+    import {getUrl} from "../../../api/tool";
+    // import {taskInfo} from "../../../api/workerTaskInfo";
 
     export default {
 		name: "overview",
@@ -139,6 +140,11 @@
         },
 
 		methods: {
+
+			getImgSrc(src){
+				return getUrl(src);
+			},
+
 			openMessage() {
 				this.$alert('Perhaps your division does not meet the requirements of the task, please complete the other tasks to ascent your division.', '', {
 					confirmButtonText: 'OK',

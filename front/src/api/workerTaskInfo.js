@@ -1,8 +1,8 @@
 import {getUrl} from "./tool";
 import {getTaskIdToServer} from "./taskTypeName";
 
-export function taskInfo(callback) {
-	taskInfoFromServer(callback);
+export function taskInfo(taskId, callback) {
+	taskInfoFromServer(taskId, callback);
 }
 export function taskJoin(taskId, callback) {
 	taskJoinFromServer(taskId, callback);
@@ -56,12 +56,12 @@ function subTaskDetailsInfoFromServer(taskId, subTaskId, taskType, callback) {
 		callback(JSON.parse(res));
 	});
 }
-function taskInfoFromServer(callback) {
+function taskInfoFromServer(taskId, callback) {
 
 	let url = 'worker/task/index.html';
 
 	$.get(getUrl(url), {
-	  taskId: 1,
+	    taskId: taskId,
 		token: localStorage.token
 	}, function (res) {
 		callback(JSON.parse(res));
@@ -184,7 +184,7 @@ function subTaskInfoMock(taskId, taskType, callback) {
 	callback( JSON.parse(JSON.stringify(data)));
 }
 
-function taskInfoMock(callback) {
+function taskInfoMock(taskId, callback) {
 	callback( JSON.parse(JSON.stringify({
 		"name": "TrackML Particle Tracking Challenge",
 		"taskId": 666,
@@ -195,7 +195,7 @@ function taskInfoMock(callback) {
 		"participated": true, // 是否已经参与了这个任务
 		"requiredDivision": "Contributor", // 表示段位的一个枚举值
 		"taskTags": ["nature", "history"],
-		"taskTypes": [401, 300,301,400,],
+		"taskTypes": ['t_401', 't_300','t_301','t_400',],
 
 		"taskBackground": "Meet WebStorm\n" +
 		"Welcome to WebStorm help!\n" +
