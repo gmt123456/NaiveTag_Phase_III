@@ -53,7 +53,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void addRequester(String email, String pwd, String name, Date joinTime, String avatar) {
-        RequesterPO requesterPO = new RequesterPO(email, pwd, name, joinTime, avatar);
+        RequesterPO requesterPO = new RequesterPO(email, name, pwd, joinTime, avatar);
         if (!requesterOperation.add(requesterPO))
             log.debug("requester: " + email + " fail to add to the database");
 

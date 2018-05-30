@@ -9,11 +9,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import top.minecode.dao.user.UserDao;
 import top.minecode.domain.user.User;
+import top.minecode.service.util.CacheItem;
+import top.minecode.service.util.SimpleCache;
 
 import java.time.LocalDateTime;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -29,8 +29,8 @@ public class ActiveUsers implements ActiveUserService {
     private static final int HASH_TIMES = 2;
     private static final String SALT = "1926";
 
-    private static ConcurrentHashMap<String, ActiveUser> tokenUserMap = new ConcurrentHashMap<>();
-    private static Logger log = LoggerFactory.getLogger(ActiveUser.class);
+    private static Logger log = LoggerFactory.getLogger(ActiveUsers.class);
+    private static SimpleCache<ActiveUser> userCache = new SimpleCache<>();
 
     private UserDao userDao;
 
@@ -42,87 +42,64 @@ public class ActiveUsers implements ActiveUserService {
 
     @Override
     public String getUserMail(String token) {
-        ActiveUser user = tokenUserMap.get(token);
-        if (user == null) {
+        ActiveUser user = userCache.get(token);
+        if (user == null)
             return null;
-        }
-
-        // update his time
-        user.updateTime();
         return user.email;
     }
 
     @Override
     public String addUser(String userEmail) {
-        // Check whether the user already have a token
-        Optional<Map.Entry<String, ActiveUser>> record = tokenUserMap.entrySet()
-                .stream().filter(e -> e.getValue().email.equals(userEmail)).findFirst();
-
-        return record.map(Map.Entry::getKey).orElse(addNewUser(userEmail));
+        return userCache.add(new ActiveUser(userEmail), e -> getToken(e.email));
     }
 
     @Override
     public void logoutUser(String token) {
-        tokenUserMap.remove(token);
+        userCache.remove(token);
     }
 
     @Override
     public User getUser(String token) {
-        ActiveUser user = tokenUserMap.get(token);
+        ActiveUser user = userCache.get(token);
         if (user == null) {
             return null;
         }
 
-        // update the his time
-        user.updateTime();
         return userDao.getUser(user.email);
     }
 
     /**
-     * Refresh the <tt>tokenUserMap</tt> per minutes
+     * Refresh the <tt>SimpleCache</tt> per minutes
      */
-    @Scheduled(cron = "0 0/1 * * * ?")
-    private void refresh() {
-        // Scan the token user map and delete users whose time
-        // exceed the EXPIRE_TIME
-        LocalDateTime now = LocalDateTime.now();
-        Map<String, ActiveUser> newMap = tokenUserMap.entrySet().stream().filter(e -> e.getValue().isActive(now))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-        tokenUserMap.clear();
-        tokenUserMap.putAll(newMap);
+    public void refresh() {
+        List<CacheItem> expiredKeys = userCache.refresh();
         log.info("Active user list update");
+        log.info("Expired user's list: " + expiredKeys.toString());
     }
 
     /**
-     * Generate a token for user and add him to the <tt>tokenUserMap</tt>
+     * Generate a token for the user
      * @param userEmail user's email
      * @return user's token
      */
-    private String addNewUser(String userEmail) {
+    private String getToken(String userEmail) {
         Random random = new Random();
-        String token = new Md5Hash(userEmail, SALT + random.nextInt(), HASH_TIMES).toString();
-        tokenUserMap.put(token, new ActiveUser(userEmail, LocalDateTime.now().plusMinutes(EXPIRE_TIME)));
-        return token;
+        return new Md5Hash(userEmail, SALT + random.nextInt(), HASH_TIMES).toString();
     }
 
-    private static class ActiveUser {
+    private static class ActiveUser extends CacheItem {
         private final String email;
-        private LocalDateTime expirationTime;
 
-        private ActiveUser(String email, LocalDateTime expirationTime) {
+        private ActiveUser(String email) {
+            super(EXPIRE_TIME);
             this.email = email;
-            this.expirationTime = expirationTime;
         }
 
-        private boolean isActive(LocalDateTime now) {
-            return now.isBefore(expirationTime);
-        }
-
-        /**
-         * Plus user's valid time with 30 minutes
-         */
-        private void updateTime() {
-            expirationTime = expirationTime.plusMinutes(EXPIRE_TIME);
+        @Override
+        public String toString() {
+            return "ActiveUser{" +
+                    "email='" + email + '\'' +
+                    '}';
         }
     }
 }

@@ -5,6 +5,7 @@ import top.minecode.domain.task.requester.RequesterSubTaskItem;
 import top.minecode.domain.task.requester.RequesterTaskItem;
 import top.minecode.domain.task.requester.RequesterTaskDetails;
 import top.minecode.domain.task.requester.TaskParticipant;
+import top.minecode.po.task.SpecificTaskPO;
 import top.minecode.po.task.TaskPO;
 
 import java.util.List;
@@ -46,4 +47,6 @@ public interface RequesterTaskDao {
     boolean updateReadme(int taskId, String readme);
 
     String getResultFilePath(int taskId);
+
+    boolean addTask(TaskPO taskPO, List<SpecificTaskPO> specificTaskPOS, String pictureDir);
 }

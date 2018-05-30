@@ -1,6 +1,5 @@
 package top.minecode.service.user;
 
-import org.springframework.stereotype.Service;
 import top.minecode.web.user.LoginCommand;
 import top.minecode.web.user.SignupCommand;
 
@@ -9,7 +8,6 @@ import top.minecode.web.user.SignupCommand;
  * Description:
  * @author Liao
  */
-@Service
 public interface UserAuthenticationService {
     /**
      * Login method

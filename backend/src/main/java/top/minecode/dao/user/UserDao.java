@@ -27,17 +27,17 @@ public interface UserDao {
      * @param pwd user's password
      * @param name user's name(Display name)
      * @param joinTime user's signup time
-     * @param avatar
+     * @param avatar worker's avatar's path
      */
     void addWorker(String email, String pwd, String name, Date joinTime, String avatar);
 
     /**
      * Add requester to the database
-     * @param email user's email
-     * @param pwd user's password
-     * @param name user's name(Display name)
-     * @param joinTime user's signup time
-     * @param avatar
+     * @param email requester's email
+     * @param pwd requester's password
+     * @param name requester's name(Display name)
+     * @param joinTime requester's signup time
+     * @param avatar requester's avatar's path
      */
     void addRequester(String email, String pwd, String name, Date joinTime, String avatar);
 }

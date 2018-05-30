@@ -35,6 +35,15 @@ public class SpecificTaskPO implements Serializable {
     @Fetch(FetchMode.SUBSELECT)
     private List<Integer> subTasks;
 
+    public SpecificTaskPO() {}
+
+    public SpecificTaskPO(TaskType taskType, String taskDescription, List<String> labels, double dollars) {
+        this.taskType = taskType;
+        this.taskDescription = taskDescription;
+        this.labels = labels;
+        this.dollars = dollars;
+    }
+
     public int getId() {
         return id;
     }

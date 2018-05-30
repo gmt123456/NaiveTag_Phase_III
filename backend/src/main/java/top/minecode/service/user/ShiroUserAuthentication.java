@@ -9,14 +9,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import top.minecode.dao.auto.WorkerAbilityDao;
+import top.minecode.dao.auto.WorkerTasteDao;
 import top.minecode.dao.log.AuthenticationLogDao;
 import top.minecode.dao.user.UserDao;
 import top.minecode.dao.worker.RankDao;
 import top.minecode.domain.user.UserType;
+import top.minecode.po.auto.WorkerAbilityPO;
+import top.minecode.po.auto.WorkerTastePO;
 import top.minecode.po.worker.RankPO;
 import top.minecode.service.util.Encryptor;
-import top.minecode.service.util.PathUtil;
-import top.minecode.service.util.RandomUtil;
+import top.minecode.service.util.ImageUtils;
 import top.minecode.web.user.LoginCommand;
 import top.minecode.web.user.SignupCommand;
 
@@ -44,6 +47,20 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
     private AuthenticationLogDao authenticationLogDao;
     private RankDao rankDao;
 
+    private WorkerTasteDao tasteDao;
+
+    private WorkerAbilityDao abilityDao;
+
+    @Autowired
+    public void setTasteDao(WorkerTasteDao tasteDao) {
+        this.tasteDao = tasteDao;
+    }
+
+    @Autowired
+    public void setAbilityDao(WorkerAbilityDao abilityDao) {
+        this.abilityDao = abilityDao;
+    }
+
     @Autowired
     public void setRankDao(RankDao rankDao) {
         this.rankDao = rankDao;
@@ -61,6 +78,7 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
     }
 
     @Autowired
+    @Qualifier("authenticator")
     public void setAuthenticator(Authenticator authenticator) {
         this.authenticator = authenticator;
     }
@@ -101,13 +119,19 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
         UserType userType = UserType.valueOf(signupCommand.getUserType().toUpperCase());
         String password = encryptor.encrypt(signupCommand);  // Encrypted password
 
+        // Check duplicated
+        if (userDao.getUser(email) != null)
+            return "Email already used";
+
         // Assign an avatar randomly
-        String avatar = RandomUtil.getRandomTaskAvatar();
+        String avatar = ImageUtils.getRandomTaskCover();
 
         // Add this user to database
         Date joinTime = new Date();
         if (userType == UserType.WORKER) {
             userDao.addWorker(email, password, name, joinTime, avatar);
+            rankDao.addRank(new RankPO(email, name, 0, avatar));
+            initAbilityAndTasteInfo(email);
         } else if (userType == UserType.REQUESTER) {
             userDao.addRequester(email, password, name, joinTime, avatar);
         }
@@ -115,7 +139,6 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
         // First login log is the time the user sign up
         authenticationLogDao.recordSignup(email, joinTime, userType);
         authenticationLogDao.recordLogin(email, joinTime, userType);
-        rankDao.addRank(new RankPO(email, name, 0, avatar));
 
         // Login this user and get his web token
         String webToken = activeUserService.addUser(email);
@@ -135,5 +158,12 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
         }
         // todo verify this email
         return gson.toJson(EmailVerificationResponse.valid());
+    }
+
+    private void initAbilityAndTasteInfo(String email) {
+        WorkerAbilityPO abilityPO = new WorkerAbilityPO(email);
+        WorkerTastePO tastePO = new WorkerTastePO(email);
+        tasteDao.addTastePO(tastePO);
+        abilityDao.addWorkerAbility(abilityPO);
     }
 }

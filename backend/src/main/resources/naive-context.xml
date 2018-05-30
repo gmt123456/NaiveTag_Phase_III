@@ -2,11 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:tx="http://www.springframework.org/schema/cache"
+       xmlns:tx="http://www.springframework.org/schema/cache" xmlns:task="http://www.springframework.org/schema/task"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
        http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context-4.0.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+       http://www.springframework.org/schema/context/spring-context-4.0.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
 
     <!-- 扫描类包，将标注Spring注解的类自动转化Bean，同时完成Bean的注入 -->
@@ -30,6 +30,8 @@
     <context:component-scan base-package="top.minecode.dao.requester"/>
     <context:component-scan base-package="top.minecode.dao.log"/>
     <context:component-scan base-package="top.minecode.dao.user"/>
+    <context:component-scan base-package="top.minecode.dao.auto" />
+    <context:component-scan base-package="top.minecode.service.ml" />
     <!--<context:component-scan base-package="top.minecode.dao.requester" />-->
     <!--<context:component-scan base-package="top.minecode.dao.statistic"/>
     <context:component-scan base-package="top.minecode.dao.task"/>
@@ -54,7 +56,7 @@
                 <!--<![CDATA[jdbc:mysql://localhost:3306/naivetag?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8]]>-->
             <!--</value>-->
         <!--</property>-->
-        <!--<property name="username" value="root"/>-->
+        <!--<property name="currentAdmin" value="root"/>-->
         <!--<property name="password" value="iznauy.top"/>-->
     <!--</bean>-->
 
@@ -77,10 +79,22 @@
 
 
     <bean id="gsonFactory" class="top.minecode.dao.utils.GsonFactory" factory-method="getGson"/>
+
     <!--
         <bean id="sessionFactory"
               class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
               p:configLocation="classpath: hibernate.cfg.xml" />
     
     -->
+
+    <!-- Configure the scheduler -->
+    <task:scheduler id="myScheduler" pool-size="10" />
+
+    <!-- Configure parameters -->
+    <task:scheduled-tasks scheduler="myScheduler">
+        <task:scheduled ref="simpleOrderCache" method="refresh"
+                        fixed-delay="60000" initial-delay="1000" />
+        <task:scheduled ref="activeUsers" method="refresh"
+                        fixed-delay="60000" initial-delay="1000"/>
+    </task:scheduled-tasks>
 </beans>

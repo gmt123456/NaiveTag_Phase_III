@@ -22,6 +22,13 @@ public class ReleaseTaskLogPO implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date releaseDate;
 
+    public ReleaseTaskLogPO() {}
+
+    public ReleaseTaskLogPO(int taskId, Date releaseDate) {
+        this.taskId = taskId;
+        this.releaseDate = releaseDate;
+    }
+
     public int getId() {
         return id;
     }

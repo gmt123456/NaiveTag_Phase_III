@@ -2,6 +2,8 @@ package top.minecode.domain.task.requester;
 
 import top.minecode.domain.task.TaskType;
 
+import java.util.List;
+
 /**
  * Created on 2018/5/24.
  * Description:
@@ -12,23 +14,14 @@ public class RequesterSubTaskItem {
     private TaskType type;
     private double process;
     private int participantsNum;
+    private List<TaskParticipant> participants;
 
-    public RequesterSubTaskItem(TaskType type, double process, int participantsNum) {
+    public RequesterSubTaskItem(TaskType type, double process,
+                                int participantsNum, List<TaskParticipant> participants) {
         this.type = type;
         this.process = process;
         this.participantsNum = participantsNum;
-    }
-
-    public TaskType getType() {
-        return type;
-    }
-
-    public double getProcess() {
-        return process;
-    }
-
-    public int getParticipantsNum() {
-        return participantsNum;
+        this.participants = participants;
     }
 
     @Override
@@ -37,6 +30,7 @@ public class RequesterSubTaskItem {
                 "type=" + type +
                 ", process=" + process +
                 ", participantsNum=" + participantsNum +
+                ", participants=" + participants +
                 '}';
     }
 }

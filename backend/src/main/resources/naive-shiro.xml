@@ -9,6 +9,10 @@
         <property name="credentialsMatcher" ref="credentialMatcher"/>
     </bean>
 
+    <bean id="adminRealm" class="top.minecode.dao.utils.AdminRealm">
+        <property name="credentialsMatcher" ref="credentialMatcher"/>
+    </bean>
+
     <bean id="credentialMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
         <property name="hashAlgorithmName" value="MD5"/>
         <property name="hashIterations" value="3"/>
@@ -18,6 +22,14 @@
         <property name="realms">
             <list>
                 <ref bean="emailRealm"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="adminAuthenticator" class="org.apache.shiro.authc.pam.ModularRealmAuthenticator">
+        <property name="realms">
+            <list>
+                <ref bean="adminRealm"/>
             </list>
         </property>
     </bean>

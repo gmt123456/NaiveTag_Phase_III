@@ -1,0 +1,20 @@
+{
+  "title" : "test data set",
+  "tags" : ["nature"],
+  "description" : "Test task",
+  "tasks" : [
+    {
+      "type" : 100,
+      "description" : "test",
+      "labels" : ["a", "b", "c"]
+    },
+    {
+      "type": 101,
+      "description" : "test",
+      "labels" : ["a", "b", "c"]
+    }
+  ],
+  "readme" : "Test task",
+  "deadline" : "2018-06-01",
+  "lowestDivision" : "Novice"
+}

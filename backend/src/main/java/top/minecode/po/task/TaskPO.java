@@ -23,6 +23,7 @@ import java.util.Map;
 public class TaskPO implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     private String taskName;
@@ -72,6 +73,8 @@ public class TaskPO implements Serializable {
     @ElementCollection(fetch = FetchType.EAGER, targetClass = String.class)
     @Fetch(FetchMode.SUBSELECT)
     private List<String> participators;
+
+    public TaskPO() {}
 
     public String getTaskDescription() {
         return taskDescription;
