@@ -79,7 +79,7 @@
                     <el-menu-item index="/worker/unfinish" style="height: 50px;">Unfinish</el-menu-item>
                     <el-menu-item index="/worker/finish" style="height: 50px;">Finish</el-menu-item>
                     <el-menu-item index="/worker/rank" style="height: 50px;">Rank</el-menu-item>
-                    <el-menu-item index="/worker/test" style="height: 50px;">test</el-menu-item>
+                    <el-menu-item index="/worker/test" style="height: 50px;">Recommendation</el-menu-item>
                     <el-button v-if="!isEditing" type="primary" style="float: right;height: 40px;width: 150px;margin-top: 10px;" @click="editHandle">Edit Profile</el-button>
                     <el-button v-if="isEditing" type="success" style="float: right;height: 40px;width: 150px;margin-top: 10px;" @click="submitForm('userInfo')">Save Profile</el-button>
                 </el-menu>
