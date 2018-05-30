@@ -15,8 +15,10 @@ import java.util.Random;
 public class ImageUtils {
 
     private static final String AVATAR_PATH = "avatar/";
-    private static final String TASK_BACKGROUND_PATH = PathUtil.getDefaultTaskBackgroundPath();
-    private static final String TASK_COVER_PATH = PathUtil.getDefaultTaskCoverPath();
+    private static final String TASK_BACKGROUND_PATH = PathUtil.getTaskBackgroundPath();
+    private static final String TASK_COVER_PATH = PathUtil.getTaskCoverPath();
+    private static final String DEFAULT_TASK_COVER_PATH = PathUtil.getDefaultTaskCoverPath();
+    private static final String DEFAULT_TASK_BACKGROUND_PATH = PathUtil.getDefaultTaskBackgroundPath();
     private static final String[] DEFAULT_AVATARS = new String[]{"0.png", "1.png", "2.png", "3.png", "4.jpg"};
     private static final String[] DEFAULT_BACKGROUNDS = new String[]{"0.jpg", "1.jpg", "2.jpg"};
 
@@ -64,13 +66,13 @@ public class ImageUtils {
         Random random = new Random();
 
         int result = random.nextInt(DEFAULT_AVATARS.length);
-        return TASK_COVER_PATH + DEFAULT_AVATARS[result];
+        return DEFAULT_TASK_COVER_PATH + DEFAULT_AVATARS[result];
     }
 
     public static String getRandomTaskBackground() {
         Random random = new Random();
 
-        return TASK_BACKGROUND_PATH + DEFAULT_BACKGROUNDS[random.nextInt(3)];
+        return DEFAULT_TASK_BACKGROUND_PATH + DEFAULT_BACKGROUNDS[random.nextInt(3)];
     }
 
     private static String transferImageTo(String imageData, String path) throws IOException {

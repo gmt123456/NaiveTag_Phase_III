@@ -15,11 +15,19 @@ public class PathUtil {
         return rawString.substring(0, rawString.length() - 16);
     }
 
-    public static String getDefaultTaskCoverPath() {
+    public static String getTaskCoverPath() {
         return "covers/";
     }
 
-    public static String getDefaultTaskBackgroundPath() {
+    static String getDefaultTaskCoverPath() {
+        return "defaultImage/covers/";
+    }
+
+    static String getDefaultTaskBackgroundPath() {
+        return "defaultImage/background/";
+    }
+
+    public static String getTaskBackgroundPath() {
         return "background/";
     }
 
