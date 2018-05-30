@@ -1,6 +1,5 @@
 export function getDivision(division) {
 
-  console.log(division);
   switch (division.toLocaleString().toLocaleLowerCase()){
     case 'expert':
       return "/static/grade/expert.png";

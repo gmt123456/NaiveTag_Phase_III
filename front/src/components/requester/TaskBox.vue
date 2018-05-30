@@ -80,7 +80,6 @@
       }
     },
     created: function () {
-      console.log(this.task.workerRequirement);
     }
   }
 </script>
