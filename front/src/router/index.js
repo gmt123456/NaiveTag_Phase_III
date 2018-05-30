@@ -38,7 +38,7 @@ export default new Router({
 				{path: 'subtasks', component: SubTask},
 			]
 		},
-		{path: '/subTaskDetails', component: SubTaskDetails},
+		{path: '/subTaskDetails/:taskId/:subTaskId/:taskType', name: 'subTaskDetails', component: SubTaskDetails},
 		{path: '/', component: Index},
 		{path: '/login', component:Login},
 		{path: '/signUp', component: SignUp},

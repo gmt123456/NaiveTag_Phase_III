@@ -190,7 +190,7 @@
 	            rules: {
 		            userName: [
 			            { required: true, message: '请输入你的名字', trigger: ['blur', 'change'] },
-			            { min: 3, max: 12, message: '长度在 3 到 12 个字符', trigger: ['blur', 'change'] }
+			            // { min: 3, max: 12, message: '长度在 3 到 12 个字符', trigger: ['blur', 'change'] }
 		            ],
 
 	            },

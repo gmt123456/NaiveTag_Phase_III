@@ -10,10 +10,13 @@
                         <el-container v-if="show" v-bind:style="{width:'100%',height:'100%'}" >
 
                             <el-main style="background-color: rgba(0,0,0,0.3);padding-left: 30px;">
-                                <div style="color: white;font-weight: 800;font-size: 20px;margin-top: 20px;">{{detailsData.taskName}}</div>
+                                <div style="color: white;font-weight: 800;font-size: 20px;margin-top: 10px;">{{detailsData.taskName}}</div>
                                 <div style="color: white;font-weight: lighter;font-size: 17px;margin-top: 5px;">{{detailsData.taskDescription}}</div>
-                                <div style="color: white;font-weight: lighter;font-size: 14px;margin-top: 25px;">end at {{detailsData.endDate}}</div>
+                                <div style="color: white;font-weight: lighter;font-size: 14px;margin-top: 20px;">end at {{detailsData.endDate}}</div>
                             </el-main>
+                            <el-aside style="background-color: rgba(0,0,0,0.3);height: 170px;overflow: hidden;width: 180px;">
+                                <img src="../../../../static/subtask.png" height="170px" width="auto"/>
+                            </el-aside>
 
                         </el-container>
                     </transition>
@@ -27,21 +30,52 @@
                 <el-card :body-style="{ padding: '0px' }" shadow="never" style="margin-top: 10px;margin-bottom: 20px;min-height: 450px;">
 
                     <div style="height: 40px;">
-                        <el-tabs v-model="activeName2" type="card" @tab-click="handleClick" style="width: 740px;display: inline-block;">
+                        <el-tabs v-if="detailsData.picList" v-model="activeName3" type="card" @tab-click="handleClick" style="width: 740px;display: inline-block;">
+                            <el-tab-pane label="picList" name="picList"></el-tab-pane>
+                        </el-tabs>
+                        <el-tabs v-else-if="detailsData.finishedPicList && detailsData.unFinishedPicList" v-model="activeName2" type="card" @tab-click="handleClick" style="width: 740px;display: inline-block;">
                             <el-tab-pane label="unfinish" name="unfinish"></el-tab-pane>
                             <el-tab-pane label="finish" name="finish"></el-tab-pane>
                         </el-tabs>
-                        <el-button v-if="this.detailsData.taskState === 'unAccepted'" type="primary" style="float: right;height: 40px;width: 150px;">Accept</el-button>
-                        <el-button v-else-if="this.detailsData.unFinishedPicList && this.detailsData.unFinishedPicList.length === 0" type="primary" style="float: right;height: 40px;width: 150px;">Submit</el-button>
-                        <el-button v-else type="primary" disabled style="float: right;height: 40px;width: 150px;">Already Accept</el-button>
+                        <el-button v-if="detailsData.taskState === 'unAccepted'" type="primary" style="float: right;height: 40px;width: 150px;" @click="accept" :loading="loadingAccept">Accept</el-button>
+                        <el-button v-else-if="detailsData.unFinishedPicList && detailsData.unFinishedPicList.length === 0" type="primary" style="float: right;height: 40px;width: 150px;" :loading="loadingSubmit" @click="submit">Submit</el-button>
+                        <el-button v-else type="primary" style="float: right;height: 40px;width: 150px;" @click="startTag">Start Tag</el-button>
                     </div>
 
-                    <div style="width: 100%;">
-                        <div v-if="this.detailsData.unFinishedPicList">
-                            <el-col :span="4" v-for="(item, index) in this.detailsData.unFinishedPicList" :key="index" style="margin: 10px;">
+                    <div>
+                        <div v-if="detailsData.unFinishedPicList && detailsData.unFinishedPicList.length === 0 && tabLabel === 'unfinish'" :style="getNoneStyle()"><div style="margin: 300px;"></div><span>No Picture Here</span></div>
+                        <transition-group v-bind:css="false"
+                                          v-on:before-enter="beforeEnter"
+                                          v-on:enter="enter"
+                                          name="fadeTask1">
+                            <el-col v-if="detailsData.unFinishedPicList && (tabLabel === 'unfinish') && show" :span="lengthN" v-for="(item, index) in this.detailsData.unFinishedPicList" :key="index" v-bind:data-index="index" style="padding: 10px;">
                                 <img :src="item" style="width: 100%;height: auto;"/>
                             </el-col>
-                        </div>
+                        </transition-group>
+                    </div>
+
+                    <div>
+                        <div v-if="detailsData.finishedPicList && detailsData.finishedPicList.length === 0 && tabLabel === 'finish'" :style="getNoneStyle()"><div style="margin: 300px;"></div><span>No Picture Here</span></div>
+                        <transition-group v-bind:css="false"
+                                          v-on:before-enter="beforeEnter"
+                                          v-on:enter="enter"
+                                          name="fadeTask2">
+                            <el-col v-if="detailsData.finishedPicList && (tabLabel === 'finish') && show" :span="lengthN" v-for="(item, index) in this.detailsData.finishedPicList" :key="index" v-bind:data-index="index" style="padding: 10px;">
+                                <img :src="item" style="width: 100%;height: auto;"/>
+                            </el-col>
+                        </transition-group>
+                    </div>
+
+                    <div>
+                        <div v-if="detailsData.picList && detailsData.picList.length === 0" :style="getNoneStyle()"><div style="margin: 300px;"></div><span>No Picture Here</span></div>
+                        <transition-group v-bind:css="false"
+                                          v-on:before-enter="beforeEnter"
+                                          v-on:enter="enter"
+                                          name="fadeTask3">
+                            <el-col v-if="detailsData.picList && show" :span="lengthN" v-for="(item, index) in this.detailsData.picList" :key="index" v-bind:data-index="index" style="padding: 10px;">
+                                <img :src="item" style="width: 100%;height: auto;"/>
+                            </el-col>
+                        </transition-group>
                     </div>
 
 
@@ -49,82 +83,135 @@
             </div>
         </div></el-col>
 
-        <!--<el-col>-->
-            <!--<div style="width: 100%;background-color: #f6f9fa;">-->
-                <!--<div style="width: 900px;min-height: 450px;margin: auto;">-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</el-col>-->
     </div>
 </template>
 
 <script>
-	export default {
+    import {subTaskDetailsInfo} from "../../../api/workerTaskInfo";
+    import {acceptSubTask} from "../../../api/workerTaskInfo";
+    import {submitSubTask} from "../../../api/workerTaskInfo";
+
+    export default {
 		name: "subTasksDetails",
         data(){
 			return {
+				lengthN: 4,
+                loadingAccept: false,
+                loadingSubmit: false,
+				showList: false,
+				tabLabel: 'unfinish',
 				activeName2: 'unfinish',
+				activeName3: 'picList',
 				show: false,
 				backgroundImg: "../../../../static/background/bg"+parseInt(Math.random()*3+1)+".jpg",
 				detailsData: {
-					"taskId": 1,//
-					"subTaskId": 2,//
-					"taskState": "Accepted",
-					"taskName": "Featured Prediction Competition",
-					"taskType": 401,
-					"taskDescription": "WebStorm is a powerful IDE for modern JavaScript development perfectly equipped .",
-					"finishedPicList": [
-						"../../../../static/1.png",
-						"../../../../static/1.png",
-						"../../../../static/1.png",
-						"../../../../static/1.png",
-						"../../../../static/1.png",
-						"../../../../static/1.png",
-						"../../../../static/1.png",
-						"../../../../static/1.png",
-						"../../../../static/1.png",
-						"../../../../static/1.png",
-						"../../../../static/1.png",
-						"../../../../static/1.png",
-						"../../../../static/1.png",
-						"../../../../static/1.png",
-						"../../../../static/1.png",
-					],
-					"unFinishedPicList": [
-						"../../../../static/1.png",
-						"../../../../static/1.png",
-						"../../../../static/1.png",
-						"../../../../static/1.png",
-						"../../../../static/1.png",
-						"../../../../static/1.png",
-						"../../../../static/1.png",
-						"../../../../static/1.png",
-						"../../../../static/1.png",
-						"../../../../static/1.png",
-						"../../../../static/1.png",
-						"../../../../static/1.png",
-						"../../../../static/1.png",
-						"../../../../static/1.png",
-						"../../../../static/1.png",
-					],
-					"picList": [
-						"../../../../static/1.png",
-						"../../../../static/1.png"
-					],
-					"endDate": "2018-5-24"
+					"taskId": 0,
+					"subTaskId": 0,
+					"taskState": "unAccepted",
+					"taskName": "",
+					"taskType": 100,
+					"taskDescription": "",
+					"finishedPicList": [],
+					"unFinishedPicList": [],
+					"picList": [],
+					"endDate": ""
 				},
             }
         },
 
+        created(){
+			this.fetchData();
+        },
+
         mounted(){
 			this.show = true;
+			this.showList = true;
         },
 
         methods: {
+	        startTag(){
+
+            },
+
+	        accept(){
+	        	this.loadingAccept = true;
+	        	let that = this;
+		        acceptSubTask(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, res =>{
+			        if(res.result === true){
+                    that.$message.success("accept success! Good Luck~(￣▽￣)");
+				        that.fetchData();
+                    }else{
+				        that.$message.error("accept fail！（；´д｀）ゞ");
+                    }
+		        });
+		        this.loadingAccept = false;
+            },
+
+            submit(){
+	        	this.loadingSubmit = true;
+	            let that = this;
+	            submitSubTask(this.$route.params.taskId, this.$route.params.subTaskId, res =>{
+		            if(res.result === true){
+			            that.$message.success("submit success! Well done!(￣▽￣)");
+			            that.fetchData();
+		            }else{
+			            that.$message.error("submit fail！（；´д｀）ゞ");
+		            }
+	            });
+	        	this.loadingSubmit = false;
+            },
+
+			fetchData() {
+				subTaskDetailsInfo(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, res =>{
+					this.detailsData = res;
+                });
+            },
+
+			getNoneStyle() {
+				let data = {
+					width: '100%',
+					height: '380px',
+					'text-align': 'center',
+                    color: 'gray',
+                    border: 'dashed 1px transparent',
+				};
+
+                data['background'] = "url('../../../../static/none.png') no-repeat center";
+                data['background-size'] =  '30%';
+
+				return data;
+            },
+
+	        beforeEnter: function (el) {
+		        el.style.opacity = 0;
+		        el.style.translateX = 170;
+	        },
+
+	        enter: function (el, done) {
+		        let delay = el.dataset.index * 30;
+		        setTimeout(function () {
+			        Velocity(
+				        el,
+				        { opacity: 0, translateX: 240 },
+				        { duration: 20 }
+			        )
+			        Velocity(
+				        el,
+				        { opacity: 1, translateX: 0 },
+				        { complete: done }
+			        )
+		        }, delay)
+	        },
+
 	        handleClick(tab, event) {
-		        // console.log(tab);
+		        this.tabLabel = tab.label;
 	        }
         },
+
+	    watch: {
+		    // 如果路由有变化，会再次执行该方法
+		    '$route': 'fetchData'
+	    },
 	}
 </script>
 

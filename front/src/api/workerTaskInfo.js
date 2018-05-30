@@ -10,7 +10,52 @@ export function taskJoin(taskId, callback) {
 export function subTaskInfo(taskId, taskType, callback) {
 	subTaskInfoMock(taskId, taskType, callback);
 }
+export function subTaskDetailsInfo(taskId, subTaskId, taskType, callback) {
+	subTaskDetailsInfoMock(taskId, subTaskId, taskType, callback);
+}
+export function acceptSubTask(taskId, subTaskId, taskType, callback) {
+	acceptSubTaskMock(taskId, subTaskId, taskType, callback);
+}
+export function submitSubTask(taskId, subTaskId, callback) {
+	submitSubTaskMock(taskId, subTaskId, callback);
+}
 
+
+function submitSubTaskFromServer(taskId, subTaskId, callback) {
+	let url = 'worker/task/subTask/commit.html';
+
+	$.get(getUrl(url), {
+		token: localStorage.token,
+		taskId: taskId,
+		subTaskId: subTaskId,
+	}, function (res) {
+		callback(JSON.parse(res));
+	});
+}
+function acceptSubTaskFromServer(taskId, subTaskId, taskType, callback) {
+	let url = 'worker/task/subTask/accept.html';
+
+	$.get(getUrl(url), {
+		token: localStorage.token,
+		taskId: taskId,
+		subTaskId: subTaskId,
+		taskType: taskType
+	}, function (res) {
+		callback(JSON.parse(res));
+	});
+}
+function subTaskDetailsInfoFromServer(taskId, subTaskId, taskType, callback) {
+	let url = 'worker/task/subTask/details.html';
+
+	$.get(getUrl(url), {
+		token: localStorage.token,
+		taskId: taskId,
+		subTaskId: subTaskId,
+		taskType: taskType
+	}, function (res) {
+		callback(JSON.parse(res));
+	});
+}
 function taskInfoFromServer(callback) {
 
 	let url = 'worker/task/index.html';
@@ -46,6 +91,62 @@ function subTaskInfoFromServer(taskId, taskType, callback) {
 }
 
 
+
+function submitSubTaskMock(taskId, subTaskId, callback) {
+	console.log("subTaskId"+subTaskId);
+	callback(JSON.parse(JSON.stringify({
+		result: true,
+		description: "xxxx",
+	})));
+}
+function acceptSubTaskMock(taskId, subTaskId, taskType, callback) {
+	console.log("subTaskId"+subTaskId+",taskType:"+taskType);
+	callback(JSON.parse(JSON.stringify({
+		result: true,
+		description: "xxxx",
+	})));
+}
+function subTaskDetailsInfoMock(taskId, subTaskId, taskType, callback) {
+	let detailsData = {
+			"taskId": taskId,
+			"subTaskId": subTaskId,
+			"taskState": "Accepted",
+			"taskName": "Featured Prediction Competition",
+			"taskType": taskType,
+			"taskDescription": "WebStorm is a powerful IDE for modern JavaScript development perfectly equipped .",
+			"finishedPicList": [
+			"../../../../static/background/bg1.jpg",
+			"../../../../static/1.png",
+			"../../../../static/1.png",
+			"../../../../static/1.png",
+			"../../../../static/1.png",
+			"../../../../static/1.png",
+		],
+			"unFinishedPicList": [
+			"../../../../static/1.png",
+			"../../../../static/1.png",
+			"../../../../static/1.png",
+			"../../../../static/1.png",
+			"../../../../static/1.png",
+			"../../../../static/1.png",
+			"../../../../static/1.png",
+			"../../../../static/1.png",
+			"../../../../static/1.png",
+			"../../../../static/1.png",
+			"../../../../static/1.png",
+			"../../../../static/1.png",
+			"../../../../static/1.png",
+			"../../../../static/1.png",
+			"../../../../static/1.png",
+		],
+		// 	"picList": [
+		// 		"../../../../static/1.png",
+		// 		"../../../../static/1.png"
+		// 	],
+			"endDate": "2018-5-24"
+	};
+	callback( JSON.parse(JSON.stringify(detailsData)));
+}
 function subTaskInfoMock(taskId, taskType, callback) {
 	let n = 2;
 	if(taskType === 400){
@@ -53,19 +154,19 @@ function subTaskInfoMock(taskId, taskType, callback) {
 	}
 	let data = [
 		{
-			"subTaskId": taskType,
+			"subTaskId": 0,
 			"taskId": taskId,
 			"cover": "../../../../static/background/bg3.jpg", // 是一个URL
 			"picCount": 66 // 图片数量
 		},
 		{
-			"subTaskId": taskType,
+			"subTaskId": 1,
 			"taskId": taskId,
 			"cover": "../../../../static/background/bg2.jpg", // 是一个URL
 			"picCount": 88 // 图片数量
 		},
 		{
-			"subTaskId": taskType,
+			"subTaskId": 2,
 			"taskId": taskId,
 			"cover": "../../../../static/background/bg3.jpg", // 是一个URL
 			"picCount": 100 // 图片数量
@@ -73,7 +174,7 @@ function subTaskInfoMock(taskId, taskType, callback) {
 	];
 	for(let i=0;i<n;i++){
 		data.push({
-			"subTaskId": taskType,
+			"subTaskId": i+3,
 			"taskId": taskId,
 			"cover": "../../../../static/1.png", // 是一个URL
 			"picCount": 99 // 图片数量
