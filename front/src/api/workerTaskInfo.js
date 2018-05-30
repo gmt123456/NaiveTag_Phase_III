@@ -1,23 +1,23 @@
 import {getUrl} from "./tool";
-
+import {getTaskIdToServer} from "./taskTypeName";
 
 export function taskInfo(callback) {
-	taskInfoMock(callback);
+	taskInfoFromServer(callback);
 }
 export function taskJoin(taskId, callback) {
-	taskJoinMock(taskId, callback);
+	taskJoinFromServer(taskId, callback);
 }
 export function subTaskInfo(taskId, taskType, callback) {
-	subTaskInfoMock(taskId, taskType, callback);
+	subTaskInfoFromServer(taskId, getTaskIdToServer(taskType), callback);
 }
 export function subTaskDetailsInfo(taskId, subTaskId, taskType, callback) {
-	subTaskDetailsInfoMock(taskId, subTaskId, taskType, callback);
+	subTaskDetailsInfoFromServer(taskId, subTaskId, getTaskIdToServer(taskType), callback);
 }
 export function acceptSubTask(taskId, subTaskId, taskType, callback) {
-	acceptSubTaskMock(taskId, subTaskId, taskType, callback);
+	acceptSubTaskFromServer(taskId, subTaskId, getTaskIdToServer(taskType), callback);
 }
 export function submitSubTask(taskId, subTaskId, callback) {
-	submitSubTaskMock(taskId, subTaskId, callback);
+	submitSubTaskFromServer(taskId, subTaskId, callback);
 }
 
 
@@ -61,6 +61,7 @@ function taskInfoFromServer(callback) {
 	let url = 'worker/task/index.html';
 
 	$.get(getUrl(url), {
+	  taskId: 1,
 		token: localStorage.token
 	}, function (res) {
 		callback(JSON.parse(res));

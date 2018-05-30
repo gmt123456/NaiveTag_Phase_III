@@ -110,6 +110,8 @@
 			getTaskInfo(){
 				taskInfo(res => {
 					this.taskData = res;
+					console.log(this.res);
+					console.log(this.taskData);
                 })
             },
 

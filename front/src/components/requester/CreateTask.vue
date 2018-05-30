@@ -377,15 +377,6 @@
         this.taskForm.lowestDivision = res.divisions[0];
       });
 
-
-      // //mock
-      submitTaskOrder('', res => {
-        if (res.status === 'success') {
-          console.log(this.orderInfo);
-          this.orderInfo = res;
-
-        }
-      })
     }
   }
 </script>

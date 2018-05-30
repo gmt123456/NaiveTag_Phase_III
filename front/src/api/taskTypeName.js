@@ -1,30 +1,35 @@
 export function getTaskName(taskType) {
 	switch (taskType){
-		case 100:
+		case 't_100':
 			return ["Global","Input"]
 			break;
-		case 101:
+		case 't_101':
 			return ["Global","Select"]
 			break;
-		case 200:
+		case 't_200':
 			return ["Single-Frame","Input"]
 			break;
-		case 201:
+		case 't_201':
 			return ["Single-Frame","Select"]
 			break;
-		case 300:
+		case 't_300':
 			return ["Multiple-Frame","Input"]
 			break;
-		case 301:
+		case 't_301':
 			return ["Multiple-Frame","Select"]
 			break;
-		case 400:
+		case 't_400':
 			return ["Area","Only"]
 			break;
-		case 401:
+		case 't_401':
 			return ["Area","Input"]
 			break;
 		default:
 			return;
 	}
+}
+
+export function getTaskIdToServer(taskStringId) {
+  return parseInt(taskStringId.split('_')[1]);
+
 }

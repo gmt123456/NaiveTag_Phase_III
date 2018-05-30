@@ -92,6 +92,6 @@ function mockDefaultInfo(callback) {
 
 function getTaskInfoFromServer(callback){
   $.get(getUrl('requester/new/info.html'),function(res){
-    callback(res);
+    callback(JSON.parse(res));
   })
 }
