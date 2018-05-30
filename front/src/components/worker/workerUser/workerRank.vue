@@ -13,7 +13,7 @@
                             <span style="color: gray">{{index + 1}}</span>
                         </div></el-col>
                         <el-col :span="3"><div class="centerR" style="height: 50px;">
-                            <img :src="item.avatar" width="44px" height="44px" style="border-radius: 6px;"/>
+                            <img :src="getImgSrc(item.avatar)" width="44px" height="44px" style="border-radius: 6px;"/>
                         </div></el-col>
                         <el-col :span="10"><div class="centerR" style="height: 50px;float: left;">
                             <span style="font-weight: 800;font-size: 15px;">{{item.userName}}</span>
@@ -37,8 +37,9 @@
 
     import divisionPic from '../divisionPic.vue';
 	import {workerRank} from "../../../api/workerInfo";
+	import {getUrl} from "../../../api/tool";
 
-	export default {
+    export default {
 		name: "workerRank",
 
 		mounted(){
@@ -62,6 +63,10 @@
 		},
 
         methods: {
+			getImgSrc(src){
+				return getUrl(src);
+            },
+
 			getWorkerRank(){
 				workerRank(res => {
                     this.rankDataList = res;

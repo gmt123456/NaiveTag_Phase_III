@@ -40,7 +40,7 @@ public class WorkerAbilityPO implements Serializable {
         this.email = email;
 
         this.typeToAbility = new HashMap<>();
-        tagToAbility = new HashMap<>();
+        this.tagToAbility = new HashMap<>();
         typeToAbility.put(TaskType.t_100, 0.5);
         typeToAbility.put(TaskType.t_101, 0.5);
         typeToAbility.put(TaskType.t_200, 0.5);
