@@ -9,20 +9,24 @@ export function submitTaskOrder(taskForm, callback) {
 }
 
 export function payOrder(order, callback) {
-payToServer(order,callback);
+  payToServer(order, callback);
 }
 
-function payToServer(Order, callback) {
+function payToServer(order, callback) {
   let formData = new FormData();
   formData.append('token', localStorage.token);
   formData.append('status', order.status);
-  formData.append('orderId', order.order);
+  formData.append('orderId', order.orderId);
   formData.append('dollars', order.dollars);
   formData.append('advertisementDollars', String(order.adFee));
 
+  console.log(localStorage.token);
+  console.log(order);
+
+
   $.ajax({
     url: getUrl('requester/new/pay.html'),
-    type: 'GET',
+    type: 'POST',
     data: formData,
     processData: false,
     contentType: false,

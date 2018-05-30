@@ -345,6 +345,7 @@
           if (valid) {
             this.orderForm.status = "accept";
             this.orderForm.dollars = this.orderInfo.payLowerBound;
+            this.orderForm.orderId=this.orderInfo.orderId;
             payOrder(this.orderForm, function () {
             this.$message({
               message:'you have create the task',
