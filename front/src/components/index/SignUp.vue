@@ -1,35 +1,35 @@
 <template>
     <div>
       <index-navi></index-navi>
-        <el-col :span="8" :offset="8">
-            <el-form :model="signUpForm" :rules="rules" ref="signUpForm" status-icon>
-                <el-form-item label="账号" prop="username">
-                    <el-input v-model="signUpForm.username"></el-input>
-                </el-form-item>
-                <el-form-item label="昵称" prop="nickname">
+        <div style="min-width: 400px !important;max-width: 35%; margin: auto">
+          <div class="top">
+            <h3> Create your personal account</h3>
+          </div>
+
+            <el-form :model="signUpForm" :rules="rules" ref="signUpForm" status-icon label-width="160px" label-position="left">
+                <el-form-item label="Name" prop="nickname">
                     <el-input v-model="signUpForm.nickname"></el-input>
                 </el-form-item>
-                <el-form-item label="邮箱" prop="email">
+                <el-form-item label="Email" prop="email">
                     <el-input v-model="signUpForm.email"></el-input>
                 </el-form-item>
-                <el-form-item label="密码" prop="password">
+                <el-form-item label="Password" prop="password">
                     <el-input v-model="signUpForm.password" type="password"></el-input>
                 </el-form-item>
-                <el-form-item label="确认密码" prop="checkPass" >
+                <el-form-item label="Confirm Password" prop="checkPass" >
                     <el-input v-model="signUpForm.checkPass" type="password"></el-input>
                 </el-form-item>
-                <el-form-item label="用户类型">
+                <el-form-item label="User Type">
                     <el-radio-group v-model="signUpForm.userType">
-                        <el-radio label="worker">众包工人</el-radio>
-                        <el-radio label="requester">众包发布者</el-radio>
+                        <el-radio label="worker">Worker</el-radio>
+                        <el-radio label="requester">Requester</el-radio>
                     </el-radio-group>
-                </el-form-item>
-                <el-form-item>
-                    <el-button @click="signUp" style="width: 100%">注册</el-button>
                 </el-form-item>
 
             </el-form>
-        </el-col>
+
+          <el-button @click="signUp" style="width: 100%" type="primary">Sign Up</el-button>
+        </div>
 
     </div>
 </template>
@@ -44,7 +44,7 @@
       data: function () {
             const confirmPassword = (rule, value, callback) => {
                 if (value !== this.signUpForm.password) {
-                    callback(new Error('两次输入密码不一致！'));
+                    callback(new Error("Password doesn't match！"));
                 } else {
                     callback();
                 }
@@ -54,7 +54,7 @@
                 if (reg.test(value)) {
                     callback();
                 } else {
-                    callback(new Error('请输入有效的邮箱地址'));
+                    callback(new Error('Invalid email!'));
                 }
             };
 
@@ -71,21 +71,18 @@
                 rules: {
                     checkPass: [
                         {validator: confirmPassword, trigger: 'blur'},
-                        {required: true, message: '请再次输入密码', trigger: 'blur'}
+                        {required: true, message: 'Please confirm your password', trigger: 'blur'}
                     ],
                     email: [
                         {validator: validateEmail, trigger: 'blur'},
-                        {required: true, message: '请输入邮箱', trigger: 'blur'}
+                        {required: true, message: 'Pleas input your email', trigger: 'blur'}
                     ],
                     password: [
-                        {required: true, message: '请输入密码', trigger: 'blur'},
-                        {min: 8, message: '密码至少应包含八个字符', trigger: 'blur'}
-                    ],
-                    username: [
-                        {required: true, message: '请输入账号', trigger: 'blur'}
+                        {required: true, message: 'Pleas input your password', trigger: 'blur'},
+                        {min: 8, message: 'Use at least 8 characters', trigger: 'blur'}
                     ],
                     nickname: [
-                        {required: true, message: '请输入昵称', trigger: 'blur'}
+                        {required: true, message: 'Pleas input your name', trigger: 'blur'}
                     ]
                 }
             }
@@ -137,4 +134,7 @@
 
 <style scoped>
 
+  .top{
+    margin-bottom: 30px;
+  }
 </style>

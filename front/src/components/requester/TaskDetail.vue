@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <el-col :span="15" :offset="4">
+  <div style="min-width: 900px; max-width: 70%; margin: auto">
       <div class="top" :style="{'background-image':'url('+taskSketch.backgroundImage+')'}">
         <el-col :span="13" :offset="1">
           <div class="text-box">
@@ -32,7 +31,7 @@
         <el-tab-pane label="Detail">
         </el-tab-pane>
       </el-tabs>
-    </el-col>
+
   </div>
 
 </template>

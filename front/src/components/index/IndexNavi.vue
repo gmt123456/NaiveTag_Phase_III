@@ -1,5 +1,10 @@
 <template>
   <div class="navi">
+    <el-col :span="2" :offset="4">
+        <div style="padding-top: 15px">
+          <logo></logo>
+        </div>
+    </el-col>
     <div class="button-group">
       <el-button type="text" @click="jumpToIndex" class="text-button">sign in</el-button>
       <span class="navi-text"> or </span>
@@ -9,8 +14,10 @@
 </template>
 
 <script>
+  import Logo from "../common/Logo";
   export default {
     name: "IndexNavi",
+    components: {Logo},
     methods: {
       jumpToSignUp: function () {
         this.$router.push('/signUp')
