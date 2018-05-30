@@ -1,7 +1,7 @@
 import {getUrl} from "./tool";
 
 export function getDefaultInfo(callback) {
-  mockDefaultInfo(callback);
+  getTaskInfoFromServer(callback);
 }
 
 export function submitTaskOrder(taskForm, callback) {
@@ -31,14 +31,14 @@ function payToServer(order, callback) {
     processData: false,
     contentType: false,
     success: function (res) {
-      callback();
+      callback(res);
     }
   })
 
 }
 
 function payToMock(order, callback) {
-  callback();
+  callback(res);
 }
 
 function submitTaskToServer(taskForm, callback) {
@@ -51,7 +51,7 @@ function submitTaskToServer(taskForm, callback) {
   formData.append('description', taskForm.description);
   formData.append('tasks', JSON.stringify(taskForm.tasks));
   formData.append('dataset', taskForm.file);
-  formData.append('readme', '');
+  formData.append('readme', taskForm.description);
   formData.append('deadline', taskForm.deadLine);
   formData.append('lowestDivision', taskForm.lowestDivision);
 
@@ -87,4 +87,11 @@ function mockDefaultInfo(callback) {
     divisions: ["Novice", "Contributor", "Expert", "Master", "Grandmaster"]
   };
   callback(res);
+}
+
+
+function getTaskInfoFromServer(callback){
+  $.get(getUrl('requester/new/info.html'),function(res){
+    callback(res);
+  })
 }
