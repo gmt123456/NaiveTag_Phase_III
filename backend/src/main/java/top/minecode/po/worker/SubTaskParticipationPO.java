@@ -20,6 +20,7 @@ import java.util.Map;
 public class SubTaskParticipationPO implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     private int taskId;
