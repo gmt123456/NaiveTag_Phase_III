@@ -28,8 +28,8 @@
                                     <span style="color: gray;font-size: 15px;">pics: </span>
                                     <span>{{item.picCount}}</span>
                                     <div class="bottom clearfix center" style="margin-left: 76px;">
-                                        <el-button type="text" style="padding: 0;" @click="open2">accept</el-button>
-                                        <el-button type="primary" size="mini" style="margin-left: 10px;">details</el-button>
+                                        <el-button type="text" style="padding: 0;" @click="open2(index)">accept</el-button>
+                                        <el-button type="primary" size="mini" style="margin-left: 10px;" @click="openDetails(index)">details</el-button>
                                     </div>
                                 </div>
                             </el-card>
@@ -44,6 +44,7 @@
 <script>
     import {getTaskName} from "../../../api/taskTypeName";
     import {subTaskInfo} from "../../../api/workerTaskInfo";
+    import {acceptSubTask} from "../../../api/workerTaskInfo";
 
     export default {
 	    name: "subTasks",
@@ -75,10 +76,15 @@
         },
 
         mounted() {
-	    	this.fetchData();
+	    	this.fetchData(0);
         },
 
         methods: {
+
+	        openDetails(index){
+		        this.$router.push({name: 'subTaskDetails', params: {taskId: this.taskData.taskId, subTaskId: this.subTaskList[index].subTaskId, taskType: this.taskData.taskTypes[parseInt(this.menuIndex)]}});
+	        	// this.$router.push("/subTaskDetails/:"+this.taskData.taskId+"/:"+this.subTaskList[index].subTaskId+"/:"+this.taskData.taskTypes[parseInt(this.menuIndex)]);
+            },
 
 	    	fetchData(index){
 			    subTaskInfo(this.taskData.taskId, this.taskData.taskTypes[index], res => {
@@ -87,12 +93,21 @@
                 })
             },
 
-	        open2() {
+	        open2(index) {
 		        this.$confirm('Are you sure you accept this task?', 'Prompt', {
 			        confirmButtonText: 'yes',
 			        cancelButtonText: 'no',
 			        type: 'info'
 		        }).then(() => {
+			        let that = this;
+			        acceptSubTask(this.taskData.taskId, this.subTaskList[index].subTaskId, this.taskData.taskTypes[parseInt(this.menuIndex)], res =>{
+				        if(res.result === true){
+					        that.$message.success("accept success! Good Luck~(￣▽￣)");
+					        that.fetchData();
+				        }else{
+					        that.$message.error("accept fail！（；´д｀）ゞ");
+				        }
+			        });
 			        this.$message({
 				        type: 'success',
 				        message: 'accept success!'
@@ -125,7 +140,7 @@
 				        el,
 				        { opacity: 0, translateX: 240 },
 				        { duration: 20 }
-			        )
+			        );
 			        Velocity(
 				        el,
 				        { opacity: 1, translateX: 0 },
@@ -135,6 +150,11 @@
 	        },
 
         },
+
+	    watch: {
+		    // 如果路由有变化，会再次执行该方法
+		    '$route': 'fetchData'
+	    },
 
 	}
 </script>

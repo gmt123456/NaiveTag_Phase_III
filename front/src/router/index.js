@@ -14,6 +14,7 @@ import Overview from '../components/worker/workerTask/overview.vue'
 import Index from '../components/index/Index.vue'
 import RequesterIndex from '../components/requester/RequesterIndex.vue'
 import RequesterHome from '../components/requester/Home.vue'
+import TaskDetail from  '../components/requester/TaskDetail.vue'
 
 Vue.use(Router)
 
@@ -38,14 +39,15 @@ export default new Router({
 				{path: 'subtasks', component: SubTask},
 			]
 		},
-		{path: '/subTaskDetails', component: SubTaskDetails},
+		{path: '/subTaskDetails/:taskId/:subTaskId/:taskType', name: 'subTaskDetails', component: SubTaskDetails},
 		{path: '/', component: Index},
 		{path: '/login', component:Login},
 		{path: '/signUp', component: SignUp},
 		{
 			path: '/requester', component: RequesterIndex,
 			children: [
-				{path: 'home', component: RequesterHome}
+				{path: 'home', component: RequesterHome},
+        {path:'taskDetail',name:'taskDetail',component:TaskDetail}
 			]
 		}
 

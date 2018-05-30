@@ -63,7 +63,7 @@
                     </div>
 
 
-                    <div v-else style="width: 100%;min-height: 400px;padding: 20px;">
+                    <div v-else style="width: 100%;min-height: 420px;padding: 20px;">
                         <div v-if="taskData.participated && taskData.state === 'Finished'">
                             <div style="color: darkgray;padding-top: 10px;padding-bottom: 10px;" class="center"><span style="color: black;padding-right: 8px;font-weight: bold;">Score</span>changes through the task:
                                 <img src="../../../../static/favorite.png" width="15px" style="padding-left: 10px;"/>
@@ -73,8 +73,9 @@
                                 <img src="../../../../static/dollar.png" width="15px" style="padding-left: 10px;"/>
                                 <span style="color: black;font-weight: normal;">{{taskData.earnedDollars.toFixed(2)}}</span>
                             </div>
-                            <div style="color: darkgray;" class="center">Try to get more of this cookie:
-                                <biscuits v-bind:earned="this.taskData.earnedDollars" v-bind:rest="this.taskData.totalDollars - this.taskData.earnedDollars"></biscuits>
+                            <div style="color: darkgray;" class="center">
+                                <!--<biscuits v-bind:earned="this.taskData.earnedDollars" v-bind:rest="this.taskData.totalDollars - this.taskData.earnedDollars"></biscuits>-->
+                                <img src="../../../../static/background/bg_gif.gif"/>
                             </div>
                         </div>
                         <div v-else class="center" style="width: 650px;justify-content:center;height: 350px;">
@@ -101,7 +102,7 @@
 
 <script>
     import divisionPic from '../divisionPic.vue';
-    import biscuits from './biscuits.vue';
+    // import biscuits from './biscuits.vue';
     import {getTaskName} from '../../../api/taskTypeName';
     import {taskInfo} from "../../../api/workerTaskInfo";
 
@@ -169,7 +170,7 @@
 
         components: {
 	        divisionPic,
-	        biscuits
+	        // biscuits
         },
 
 	    // watch: {

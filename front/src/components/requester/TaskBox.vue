@@ -2,13 +2,17 @@
 
   <div class="task-box">
     <el-card class="task-card">
-      <el-col :span="11" :offset="1">
-        <div class="title">
-          <h4>{{task.title}}</h4>
-          <p class="description">{{task.description}}</p>
-        </div>
-      </el-col>
+      <router-link :to="{name:'taskDetail',params:{taskId:this.task.taskId}}">
+        <el-col :span="12"  style="float: left">
 
+          <img :src="task.cover" class="cover"/>
+
+          <div class="title">
+            <h4>{{task.title}}</h4>
+            <p class="description">{{task.description}}</p>
+          </div>
+        </el-col>
+      </router-link>
       <el-col :span="4" :offset="1">
         <div v-if="task.tags.length<=4" class="tag-box">
           <div v-for="item in task.tags" class="tag">
@@ -32,27 +36,28 @@
         </div>
       </el-col>
 
-      <el-col :span="4" >
+      <el-col :span="4">
         <div class="remarks-box1">
-            <div class="division-box" >
-              <division-pic :division="task.workerRequirement" size="60px"></division-pic>
-              <div class="division-label">
-                <span>at least</span>
-              </div>
+          <div class="division-box">
+            <division-pic :division="task.workerRequirement" size="60px"></division-pic>
+            <div class="division-label">
+              <span>at least</span>
             </div>
-            <img-with-label url="/static/requester/金币.svg" :label="task.dollars"></img-with-label>
+          </div>
+          <img-with-label url="/static/requester/金币.svg" :label="task.dollars"></img-with-label>
         </div>
       </el-col>
 
-      <el-col :span="2" >
-        <div class="remarks-box2" >
+      <el-col :span="2">
+        <div class="remarks-box2">
           <img-with-label url="/static/requester/participants.svg" :label="task.participantsNum"></img-with-label>
-          <img-with-label url="/static/requester/pictures.svg" :label="task.pictureNum" style="margin-top: 39px"></img-with-label>
+          <img-with-label url="/static/requester/pictures.svg" :label="task.pictureNum"
+                          style="margin-top: 39px"></img-with-label>
         </div>
       </el-col>
 
       <div class="time">
-        <span > {{task.timeInfo}}</span>
+        <span> {{task.timeInfo}}</span>
       </div>
 
     </el-card>
@@ -98,15 +103,22 @@
     font-size: 14px;
     margin-top: -10px;
   }
-  .time{
+
+  .time {
     color: lightgray;
     font-size: 13px;
     float: right;
     margin-top: 15px;
   }
+  .cover{
+    width: 100px;
+    margin-top: 5px;
+  }
 
   .title {
-    margin-top: -10px;
+    margin-top: -120px;
+    margin-left: 125px;
+    color: black !important;
   }
 
   .tag {
@@ -120,14 +132,13 @@
 
   }
 
-
   .division-label {
     color: gray;
     margin-top: -50px;
     margin-left: 60px;
   }
 
-  .division-box{
+  .division-box {
     min-height: 70px;
     margin-left: -15px;
   }
