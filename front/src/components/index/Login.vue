@@ -54,13 +54,10 @@
           res => {
             if (res.status === 'success') {
               localStorage.token = res.token;
-
               if (this.userType === 'worker') {
                 router.push('/worker/home');
-                console.log('this is worker');
               } else {
                 router.push('/requester/Home');
-                console.log('this is requester');
               }
             } else {
               this.$alert(res.message, '', {
