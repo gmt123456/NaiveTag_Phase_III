@@ -29,6 +29,7 @@ public class RequesterTaskDetails {
     private Division workerRequirement;
     private Date begin;
     private Date deadline;
+    private String cover;
     private TaskState state;
 
 
@@ -44,6 +45,7 @@ public class RequesterTaskDetails {
         workerRequirement = taskPO.getLowestDivision();
         begin = taskPO.getBeginDate();
         state = taskPO.getTaskState();
+        cover = taskPO.getCover();
 
         types = new ArrayList<>(taskPO.getSpecificTasks().keySet());
         this.process = process;
@@ -78,6 +80,7 @@ public class RequesterTaskDetails {
                 ", begin=" + begin +
                 ", deadline=" + deadline +
                 ", state=" + state +
+                ", cover=" + cover +
                 '}';
     }
 }

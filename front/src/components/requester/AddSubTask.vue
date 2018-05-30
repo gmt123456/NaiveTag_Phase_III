@@ -32,6 +32,7 @@
         type="textarea"
         @keyup.enter.native="handleInputConfirm"
         @blur="handleInputConfirm"
+        placeholder="Please input your labels, separate your labels with spaces if you have multiple labels"
       >
       </el-input>
       <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Label</el-button>
@@ -116,6 +117,7 @@
       },
       handleSubTaskClose: function () {
         this.$refs['subTaskForm'].resetFields();
+        this.labelInputVisible=false;
       },
       addSubTaskHandle() {
         console.log('inside');

@@ -16,11 +16,11 @@ public class PathUtil {
     }
 
     public static String getDefaultTaskCoverPath() {
-        return "defaultImage/covers/";
+        return "covers/";
     }
 
     public static String getDefaultTaskBackgroundPath() {
-        return "defaultImage/background/";
+        return "background/";
     }
 
     public static String getRequesterDataRec(String email) {

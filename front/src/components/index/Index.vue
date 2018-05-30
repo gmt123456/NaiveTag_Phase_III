@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <IndexNavi></IndexNavi>
     <Login></Login>
     <Introduction></Introduction>

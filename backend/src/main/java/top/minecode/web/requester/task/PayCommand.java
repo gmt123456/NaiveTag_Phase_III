@@ -43,4 +43,14 @@ public class PayCommand {
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
     }
+
+    @Override
+    public String toString() {
+        return "PayCommand{" +
+                "orderId='" + orderId + '\'' +
+                ", dollars=" + dollars +
+                ", advertisementDollars=" + advertisementDollars +
+                ", userEmail='" + userEmail + '\'' +
+                '}';
+    }
 }

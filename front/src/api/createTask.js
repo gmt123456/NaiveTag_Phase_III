@@ -5,24 +5,28 @@ export function getDefaultInfo(callback) {
 }
 
 export function submitTaskOrder(taskForm, callback) {
-  mockSubmitTask(taskForm, callback);
+  submitTaskToServer(taskForm, callback);
 }
 
 export function payOrder(order, callback) {
-payToMock(order,callback);
+  payToServer(order, callback);
 }
 
-function payToServer(Order, callback) {
+function payToServer(order, callback) {
   let formData = new FormData();
   formData.append('token', localStorage.token);
   formData.append('status', order.status);
-  formData.append('orderId', order.order);
+  formData.append('orderId', order.orderId);
   formData.append('dollars', order.dollars);
   formData.append('advertisementDollars', String(order.adFee));
 
+  console.log(localStorage.token);
+  console.log(order);
+
+
   $.ajax({
     url: getUrl('requester/new/pay.html'),
-    type: 'GET',
+    type: 'POST',
     data: formData,
     processData: false,
     contentType: false,
@@ -79,7 +83,7 @@ function mockSubmitTask(taskForm, callback) {
 
 function mockDefaultInfo(callback) {
   let res = {
-    tags: ["education", "animal", "gaming", "computer", "software", "teaching", "career", "sport", "animate", "movie"],
+    tags: ["education", "animal", "gaming", "computer", "software", "teaching", "nature", "sports", "animate", "movie"],
     divisions: ["Novice", "Contributor", "Expert", "Master", "Grandmaster"]
   };
   callback(res);

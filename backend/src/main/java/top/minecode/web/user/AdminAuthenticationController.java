@@ -14,7 +14,7 @@ import top.minecode.service.user.AdminAuthenticationService;
  * @author Liao
  */
 @Controller
-@RequestMapping("admin")
+@RequestMapping("/admin")
 public class AdminAuthenticationController {
 
     private AdminAuthenticationService authenticationService;

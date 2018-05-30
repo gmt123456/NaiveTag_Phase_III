@@ -40,7 +40,7 @@
 
 <style scoped>
   .taskList{
-    min-width: 1000px;
+    min-width: 900px;
     margin-top: 50px;
   }
 
