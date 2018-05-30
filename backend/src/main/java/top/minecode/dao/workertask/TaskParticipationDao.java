@@ -29,7 +29,8 @@ public class TaskParticipationDao {
             new CommonOperation<SubTaskParticipationPO>(SubTaskParticipationPO.class.getName());
 
     public void addOnGoingTaskParticipation(OnGoingTaskParticipationPO po) {
-        onGoingTaskParticipationHelper.add(po);
+        System.out.println("add po");
+        System.out.println(onGoingTaskParticipationHelper.add(po));
     }
 
     public OnGoingTaskParticipationPO getOnGoingTaskParticipation(int id) {

@@ -355,7 +355,7 @@
           if (valid) {
             this.orderForm.status = "accept";
             this.orderForm.orderId=this.orderInfo.orderId;
-            this.orderForm.dollars=this.orderInfo.payLowerBound+this.orderForm.extractFee;
+            this.orderForm.dollars=Number(this.orderInfo.payLowerBound)+Number(this.orderForm.extractFee);
             payOrder(this.orderForm,function(res){
               if(res.status!=='success'){
                 pointer.$message.error(res.message);

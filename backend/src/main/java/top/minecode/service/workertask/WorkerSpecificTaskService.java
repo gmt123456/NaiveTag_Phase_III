@@ -129,7 +129,7 @@ public class WorkerSpecificTaskService {
 
     public SubTaskAcceptResponse acceptSubTask(String email, int taskId, int subTaskId, TaskType taskType) {
         TaskPO task = taskDao.getTaskById(taskId);
-        if (task.getParticipators().stream().anyMatch(e -> e.equals(email)))
+        if (task.getParticipators().stream().noneMatch(e -> e.equals(email)))
             return new SubTaskAcceptResponse(false, SubTaskAcceptResponse.UN_KNOWN);
         if (!task.getSpecificTasks().keySet().contains(taskType))
             return new SubTaskAcceptResponse(false, SubTaskAcceptResponse.UN_KNOWN);

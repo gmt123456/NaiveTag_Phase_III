@@ -94,12 +94,12 @@
             },
 
 	        open2(index) {
+            let that = this;
 		        this.$confirm('Are you sure you accept this task?', 'Prompt', {
 			        confirmButtonText: 'yes',
 			        cancelButtonText: 'no',
 			        type: 'info'
 		        }).then(() => {
-			        let that = this;
 			        acceptSubTask(this.taskData.taskId, this.subTaskList[index].subTaskId, this.taskData.taskTypes[parseInt(this.menuIndex)], res =>{
 				        if(res.result === true){
 					        that.$message.success("accept success! Good Luck~(￣▽￣)");
