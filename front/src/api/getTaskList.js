@@ -1,13 +1,13 @@
 import {getUrl} from "./tool";
 
 export function getTaskList(token,calback) {
-  mock(token,calback);
+  getTaskListFromServer(token,calback);
 }
 
 function getTaskListFromServer(token,callback) {
   $.get(getUrl('requester/task/ongoing.html'),{token:token},function (ongoing) {
     $.get(getUrl('requester/task/done.html'),{token:token},function (done) {
-      callback(ongoing,done);
+      callback(JSON.parse(ongoing),JSON.parse(done));
     })
   })
 }

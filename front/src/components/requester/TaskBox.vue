@@ -5,7 +5,7 @@
       <router-link :to="{name:'taskDetail',params:{taskId:this.task.taskId}}">
         <el-col :span="12"  style="float: left">
 
-          <img :src="task.cover" class="cover"/>
+          <img :src="getUrl(task.cover)" class="cover"/>
 
           <div class="title">
             <h4>{{task.title}}</h4>
@@ -69,6 +69,7 @@
   import {getDivision} from "../../api/getDivision";
   import ImgWithLabel from "./ImgWithLabel";
   import DivisionPic from "../worker/divisionPic";
+  import {getUrl} from "../../api/tool";
 
   export default {
     name: "TaskBox",
@@ -77,6 +78,9 @@
     methods: {
       getDivision(division) {
         return getDivision(division);
+      },
+      getUrl(src){
+        return getUrl(src);
       }
     },
     created: function () {

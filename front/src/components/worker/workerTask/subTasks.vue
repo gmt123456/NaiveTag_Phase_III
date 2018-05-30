@@ -106,10 +106,10 @@
 			        cancelButtonText: 'no',
 			        type: 'info'
 		        }).then(() => {
-			        acceptSubTask(this.taskData.taskId, this.subTaskList[index].subTaskId, this.taskData.taskTypes[parseInt(this.menuIndex)], res =>{
+			        acceptSubTask(this.taskData.taskId, this.subTaskList[index].subTaskId, this.taskData.taskTypes[parseInt(that.menuIndex)], res =>{
 				        if(res.result === true){
 					        that.$message.success("accept success! Good Luck~(￣▽￣)");
-					        that.fetchData();
+					        that.subTaskList.splice(index,1);
 				        }else{
 					        that.$message.error("accept fail！（；´д｀）ゞ");
 				        }
