@@ -1,5 +1,6 @@
 package top.minecode.service.requester.task;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import top.minecode.service.util.Encryptor;
 import top.minecode.service.util.SimpleCache;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Random;
 
@@ -54,7 +57,7 @@ public class SimpleTaskOrderCache implements TaskOrderCache {
         for (CacheItem item : expiredOrders) {
             TaskOrder order = (TaskOrder) item;
             File zipFile = new File(order.getZipFilePath());
-            if (!zipFile.delete()) {
+            if (!FileUtils.deleteQuietly(zipFile)) {
                 log.error("Delete expired order's dataset failed");
             }
         }

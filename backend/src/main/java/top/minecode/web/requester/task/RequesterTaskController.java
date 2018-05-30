@@ -39,45 +39,45 @@ public class RequesterTaskController extends BaseController {
         this.gson = gson;
     }
 
-    @RequestMapping("ongoing")
+    @RequestMapping("/ongoing")
     @ResponseBody
     public String getOngoingTasks(HttpServletRequest request) {
         return gson.toJson(taskService.getOnGoingTasks(getUserEmail(request)));
     }
 
-    @RequestMapping("done")
+    @RequestMapping("/done")
     @ResponseBody
     public String getCompletedTasks(HttpServletRequest request) {
         return gson.toJson(taskService.getCompletedTasks(getUserEmail(request)));
     }
 
-    @RequestMapping("participants")
+    @RequestMapping("/participants")
     @ResponseBody
     public String getParticipants(@RequestParam("taskId") int taskId) {
         List<TaskParticipant> participants = taskService.getParticipants(taskId, PARTICIPANTS_LIMIT);
         return gson.toJson(participants);
     }
 
-    @RequestMapping("sketch")
+    @RequestMapping("/sketch")
     @ResponseBody
     public String getTaskDetails(@RequestParam("taskId") int taskId) {
         RequesterTaskDetails requesterTaskDetails = taskService.getTaskDetails(taskId);
         return gson.toJson(requesterTaskDetails);
     }
 
-    @RequestMapping("readme")
+    @RequestMapping("/readme")
     @ResponseBody
     public String getReadMe(@RequestParam("taskId") int taskId) {
         return taskService.getReadme(taskId);
     }
 
-    @RequestMapping("editReadMe")
+    @RequestMapping("/editReadMe")
     @ResponseBody
     public String editReadMe(@RequestParam("readme") String readme, @RequestParam("taskId") int taskId) {
         return gson.toJson(taskService.editReadme(taskId, readme));
     }
 
-    @RequestMapping("download")
+    @RequestMapping("/download")
     @ResponseBody
     public String download(@RequestParam("taskId") int taskId) {
         String filePath = taskService.getResultFile(taskId);
@@ -87,7 +87,7 @@ public class RequesterTaskController extends BaseController {
         return filePath;
     }
 
-    @RequestMapping("subtask")
+    @RequestMapping("/subtask")
     @ResponseBody
     public String getSubTaskInfo(@RequestParam("taskId") int taskId) {
         List<RequesterSubTaskItem> subTasks = taskService.getSubTasksInfo(taskId);

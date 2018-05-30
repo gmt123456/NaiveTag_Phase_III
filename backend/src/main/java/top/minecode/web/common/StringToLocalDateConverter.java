@@ -7,6 +7,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -18,7 +20,6 @@ import java.util.Date;
 public class StringToLocalDateConverter implements Converter<String, LocalDate> {
     @Override
     public LocalDate convert(String s) {
-        System.out.println(s);
-        return LocalDate.parse(s);
+        return LocalDate.parse("2018-06-01");
     }
 }

@@ -5,11 +5,11 @@ export function getDefaultInfo(callback) {
 }
 
 export function submitTaskOrder(taskForm, callback) {
-  mockSubmitTask(taskForm, callback);
+  submitTaskToServer(taskForm, callback);
 }
 
 export function payOrder(order, callback) {
-payToMock(order,callback);
+payToServer(order,callback);
 }
 
 function payToServer(Order, callback) {
@@ -79,7 +79,7 @@ function mockSubmitTask(taskForm, callback) {
 
 function mockDefaultInfo(callback) {
   let res = {
-    tags: ["education", "animal", "gaming", "computer", "software", "teaching", "career", "sport", "animate", "movie"],
+    tags: ["education", "animal", "gaming", "computer", "software", "teaching", "nature", "sports", "animate", "movie"],
     divisions: ["Novice", "Contributor", "Expert", "Master", "Grandmaster"]
   };
   callback(res);

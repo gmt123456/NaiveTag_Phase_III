@@ -14,7 +14,7 @@ import java.util.zip.ZipFile;
  */
 public class ZipHelper {
 
-    public static int countEntriesInZipFile(final ZipFile zipFile) {
+    public static int countEntriesInZipFile(final ZipFile zipFile) throws IOException {
         int count = 0;
         final Enumeration<? extends ZipEntry> entries = zipFile.entries();
         while (entries.hasMoreElements()) {
@@ -23,6 +23,7 @@ public class ZipHelper {
             }
         }
 
+        zipFile.close();
         return count;
     }
 

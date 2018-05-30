@@ -38,7 +38,7 @@ public class RequesterNewTaskController extends BaseController {
         this.service = service;
     }
 
-    @RequestMapping("info")
+    @RequestMapping("/info")
     @ResponseBody
     public String getCreationInfo() {
         TaskCreationOptions options = service.getCreationInfo();
@@ -46,7 +46,7 @@ public class RequesterNewTaskController extends BaseController {
         return gson.toJson(options);
     }
 
-    @RequestMapping("taskOrder")
+    @RequestMapping("/taskOrder")
     @ResponseBody
     public String newTask(HttpServletRequest request, NewTaskCommand newTaskCommand) {
 
@@ -55,7 +55,7 @@ public class RequesterNewTaskController extends BaseController {
         return gson.toJson(resultMessage);
     }
 
-    @RequestMapping("pay")
+    @RequestMapping("/pay")
     @ResponseBody
     public String pay(HttpServletRequest request, PayCommand payCommand) {
         payCommand.setUserEmail(getUserEmail(request));

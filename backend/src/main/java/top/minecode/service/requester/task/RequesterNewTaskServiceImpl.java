@@ -190,7 +190,7 @@ public class RequesterNewTaskServiceImpl implements RequesterNewTaskService {
      */
     private String processImage(String image, FunctionWithException<String,
             String> process, Supplier<String> alternate) throws IOException {
-        if (image == null)
+        if (image == null || image.isEmpty())
             return alternate.get();
 
         return process.apply(image);
