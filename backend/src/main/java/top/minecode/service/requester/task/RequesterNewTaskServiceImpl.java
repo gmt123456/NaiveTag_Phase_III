@@ -13,6 +13,7 @@ import top.minecode.domain.task.TaskState;
 import top.minecode.domain.task.requester.TaskCreationOptions;
 import top.minecode.domain.task.requester.TaskOrder;
 import top.minecode.domain.utils.ResultMessage;
+import top.minecode.po.auto.TaskVectorPO;
 import top.minecode.po.log.ReleaseTaskLogPO;
 import top.minecode.po.log.RequesterAccountLogPO;
 import top.minecode.po.task.SpecificTaskPO;
@@ -172,6 +173,13 @@ public class RequesterNewTaskServiceImpl implements RequesterNewTaskService {
         ReleaseTaskLogPO logPO = new ReleaseTaskLogPO(taskPO.getId(), taskPO.getBeginDate());
         CommonOperation.template(session -> {
             session.persist(logPO);
+            session.flush();
+        });
+
+        // Insert task vector
+        TaskVectorPO vectorPO = TaskVectorPO.fromTaskPO(taskPO);
+        CommonOperation.template(session -> {
+            session.persist(vectorPO);
             session.flush();
         });
 

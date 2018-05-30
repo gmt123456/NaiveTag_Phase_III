@@ -155,11 +155,9 @@
         	getChangesData(){
 		        let that = this;
 		        workerChanges(res => {
-		          console.log(res.activity[0]);
 			        that.userChanges.activity = that.getDataList(res.activity);
 			        that.userChanges.dollarChanges = that.getDataList(res.dollarChanges);
 			        that.userChanges.scoreChanges = that.getDataList(res.scoreChanges);
-			        console.log(that.userChanges.activity[0]);
 
               that.drawCalendar();
               that.drawDollarChanges();

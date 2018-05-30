@@ -11,10 +11,13 @@ import SubTask from '../components/worker/workerTask/subTasks.vue'
 import SubTaskDetails from '../components/worker/workerTask/subTasksDetails.vue'
 import FirstLevelTask from '../components/worker/workerTask/firstLevelTask.vue'
 import Overview from '../components/worker/workerTask/overview.vue'
+import MyParticipation from '../components/worker/workerTask/myParticipation.vue'
 import Index from '../components/index/Index.vue'
 import RequesterIndex from '../components/requester/RequesterIndex.vue'
 import RequesterHome from '../components/requester/Home.vue'
 import TaskDetail from  '../components/requester/TaskDetail.vue'
+
+import test from '../components/worker/workerUser/test.vue'
 
 Vue.use(Router)
 
@@ -29,6 +32,7 @@ export default new Router({
 				{path: 'unfinish', component: WorkerUnfinish},
 				{path: 'finish', component: WorkerFinish},
 				{path: 'rank', component: WorkerRank},
+				{path: 'test', component: test},
 
 			]
 		},
@@ -37,6 +41,7 @@ export default new Router({
 			children: [
 				{path: 'overview', component: Overview},
 				{path: 'subtasks', component: SubTask},
+				{path: 'myparticipation', component: MyParticipation},
 			]
 		},
 		{path: '/subTaskDetails/:taskId/:subTaskId/:taskType', name: 'subTaskDetails', component: SubTaskDetails},
