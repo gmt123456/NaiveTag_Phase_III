@@ -1,41 +1,82 @@
 <template>
     <div id="myParticipation">
-        <el-card :body-style="{ padding: '0px' }" shadow="never">
-            <div style="min-height: 458px">
-                <transition-group v-bind:css="false"
-                                  v-on:before-enter="beforeEnter"
-                                  v-on:enter="enter"
-                                  name="fadeTask">
-                    <el-col :span="6" v-if="show" v-for="(item, index) in this.myParticipationList" :key="index" v-bind:data-index="index">
-                        <el-card :body-style="{ padding: '0px' }" style="margin: 10px;" shadow="hover">
-                            <div style="width: 100%;height: 134px;">
-                                <div :style="{width: '100%', height: '100%', 'background-image': 'url('+item.cover+')', 'background-size': 'cover', 'background-position': '50%'}"></div>
-                            </div>
-                            <div style="padding: 10px;">
-                                <i class="el-icon-picture-outline"></i>
-                                <span style="color: gray;font-size: 15px;">pics: </span>
-                                <span>{{item.picAmount}}</span>
-                                <el-progress :percentage="item.process"></el-progress>
-                                <div class="center" style="margin-left: 65px;">
-                                    <el-button type="text" style="padding: 0;" @click="startTag">start</el-button>
-                                    <el-button type="primary" size="mini" @click="openDetails(index)">details</el-button>
-                                </div>
+        <div style="min-height: 460px">
 
-                                <div style="color: lightgrey;font-size: 13px;padding-top: 10px;text-align: center;">
-                                    <div>Expire: {{item.expiredDate}}</div>
-                                    <div>Commit: {{item.commiteDate}}</div>
-                                </div>
-                            </div>
-                        </el-card>
-                    </el-col>
-                </transition-group>
+            <div class="center" style="width: 100%;height: 40px;background-color: #47494d;color: white;font-size: 13px;">
+                <el-container>
+                    <el-main>
+                        <span style="margin-left: 20px;">{{myParticipationList.length}} Assignments Matched</span>
+                    </el-main>
+                    <el-aside style="width: 150px;">
+                        <el-select v-model="value" placeholder="请选择" size="mini" @change="fetchData" style="margin-top: 13px;width: 100px;">
+                            <el-option
+                                    v-for="item in options"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-aside>
+                </el-container>
             </div>
-        </el-card>
+
+            <el-row :gutter="20">
+                <div v-if="myParticipationList.length === 0" class="center" style="width: 900px;justify-content:center;height: 410px;background-color: white;margin-left: 10px;">
+                    <div style="display: block;text-align: center;">
+                        <img src="../../../../static/none.png" width="200px"/>
+                    </div>
+                </div>
+
+                <!--<div v-else>-->
+                    <transition-group v-bind:css="false"
+                                      v-on:before-enter="beforeEnter"
+                                      v-on:enter="enter"
+                                      name="fadeTask">
+                        <el-col :span="12" v-if="show" v-for="(item, index) in this.myParticipationList" :key="index" v-bind:data-index="index">
+                            <el-card class="task-block" :body-style="{ padding: '0px' }" shadow="hover" style="margin-bottom: 10px;margin-top: 10px;overflow: hidden;height: 120px;">
+                                <el-container>
+                                    <el-aside style="width: 120px;height: 120px;background-color: white">
+                                        <div v-bind:style="{width:'100%',height:'100%','background-image':'url('+getImgSrc(item.cover)+')','background-size':'cover','background-position':'50%'}"></div>
+                                        <!--<img :src="taskCover" width="90px" height="auto" style="margin: 10px;padding-left: 10px;overflow: hidden;">-->
+                                    </el-aside>
+                                    <el-main style="background-color: white;">
+                                        <div style="float: left;">
+                                            <div><el-tag size="mini">{{getTaskNameByID(item.taskType)}}</el-tag></div>
+                                            <i class="el-icon-picture-outline"></i>
+                                            <!--<span style="color: gray;font-size: 14px;"></span>-->
+                                            <span style="font-size: 14px">{{item.picCount}}</span>
+                                            <span style="color: #6f7180;font-size: 15px;">{{item.picAmount}}</span>
+                                        </div>
+                                        <div v-if="!item.commiteDate" class="center" style="float: right;position:relative;z-index: 2">
+                                            <el-button type="text" style="padding: 0;" @click="startTag">start</el-button>
+                                            <el-button type="primary" size="mini" style="margin-left: 10px;" @click="openDetails(index)">details</el-button>
+                                        </div>
+                                        <div>
+                                            <el-progress v-if="item.process === 100" :percentage="100" status="success"></el-progress>
+                                            <el-progress v-else :percentage="item.process"></el-progress>
+                                        </div>
+                                        <div style="text-align: center;color: gray;font-size: 13px;width: 100%;float: bottom">
+                                            <div>expired: {{item.expiredDate}}</div>
+                                            <div v-if="item.commiteDate" style="color: lightgrey">commit: {{item.commiteDate}}</div>
+                                        </div>
+                                    </el-main>
+                                </el-container>
+                            </el-card>
+                        </el-col>
+                    </transition-group>
+                <!--</div>-->
+
+            </el-row>
+        </div>
     </div>
 </template>
 
 <script>
-	export default {
+    import {getTaskName} from "../../../api/taskTypeName";
+    import {getUrl} from "../../../api/tool";
+    import {myParticipation} from "../../../api/workerTaskInfo";
+
+    export default {
 		name: "myParticipation",
 		props:{
 			taskData: {
@@ -60,54 +101,49 @@
 		data() {
 			return {
 				show: false,
-				myParticipationList: [
-					{
-                        "cover": "../../../../static/1.png", // 封面
-                        "expiredDate": "2016-3-10",
-                        "commiteDate": "2018-5-30", // 可能是空的，如果没提交就是空的
-                        "subTaskId": 11,
-                        "taskType": 400, // 任务类型
-                        "process": 67, //之间的整数
-                        "picAmount": 666,// 图片数量
-		            },
-					{
-						"cover": "../../../../static/1.png", // 封面
-						"expiredDate": "2016-3-10",
-						"commiteDate": "2018-5-30", // 可能是空的，如果没提交就是空的
-						"subTaskId": 12,
-						"taskType": 400, // 任务类型
-						"process": 67, //之间的整数
-						"picAmount": 233,// 图片数量
-					},{
-						"cover": "../../../../static/1.png", // 封面
-						"expiredDate": "2016-3-10",
-						"commiteDate": "2018-5-30", // 可能是空的，如果没提交就是空的
-						"subTaskId": 13,
-						"taskType": 400, // 任务类型
-						"process": 67, //之间的整数
-						"picAmount": 555,// 图片数量
-					},
-                ],
+				myParticipationList: [],
+				options: [{
+					value: 'doing',
+					label: 'doing'
+				}, {
+					value: 'finished',
+					label: 'finished'
+				}, {
+					value: 'waiting',
+					label: 'waiting'
+				}, {
+					value: 'expired',
+					label: 'expired'
+				}],
+				value: 'doing'
 			}
 		},
 
 		mounted() {
-			this.show = true;
-			this.fetchData();
+			this.fetchData("doing");
 		},
 
         methods: {
-	        openDetails(index){
-		        this.$router.push({name: 'subTaskDetails', params: {taskId: this.taskData.taskId, subTaskId: this.myParticipationList[index].subTaskId, taskType: this.myParticipationList[index].taskType}});
-		        console.log("taskId:"+ this.taskData.taskId+" subTaskId:"+ this.myParticipationList[index].subTaskId +" taskType:"+this.myParticipationList[index].taskType);
-		        // this.$router.push("/subTaskDetails/:"+this.taskData.taskId+"/:"+this.subTaskList[index].subTaskId+"/:"+this.taskData.taskTypes[parseInt(this.menuIndex)]);
+
+			getImgSrc(src){
+				return getUrl(src);
+            },
+
+	        getTaskNameByID(taskID){
+		        let name = getTaskName(taskID);
+		        return name[0] + "-" + name[1];
 	        },
 
-	        fetchData(){
-		        // subTaskInfo(this.taskData.taskId, this.taskData.taskTypes[index], res => {
-			     //    this.subTaskList = res;
-			     //    this.show = true;
-		        // })
+	        openDetails(index){
+		        this.$router.push({name: 'subTaskDetails', params: {taskId: this.taskData.taskId, subTaskId: this.myParticipationList[index].subTaskId, taskType: this.myParticipationList[index].taskType}});
+	        },
+
+	        fetchData(state){
+				let that = this;
+		        myParticipation(this.taskData.taskId, state, res => {
+			        that.myParticipationList = res;
+			        that.show = true;
+		        })
 	        },
 	        startTag(){
 
@@ -140,5 +176,9 @@
 </script>
 
 <style scoped>
-
+    .center {
+        display: flex;
+        /*justify-content:center;*/
+        align-items: center;
+    }
 </style>

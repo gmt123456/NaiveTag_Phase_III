@@ -19,8 +19,22 @@ export function acceptSubTask(taskId, subTaskId, taskType, callback) {
 export function submitSubTask(taskId, subTaskId, callback) {
 	submitSubTaskFromServer(taskId, subTaskId, callback);
 }
+export function myParticipation(taskId, taskState, callback) {
+	myParticipationMock(taskId, taskState, callback);
+}
 
 
+function myParticipationFromServer(taskId, taskState, callback) {
+	let url = 'worker/task/myparticipation.html';
+
+	$.get(getUrl(url), {
+		token: localStorage.token,
+		taskId: taskId,
+		taskState: taskState,
+	}, function (res) {
+		callback(JSON.parse(res));
+	});
+}
 function submitSubTaskFromServer(taskId, subTaskId, callback) {
 	let url = 'worker/task/subTask/commit.html';
 
@@ -92,7 +106,39 @@ function subTaskInfoFromServer(taskId, taskType, callback) {
 }
 
 
+function myParticipationMock(taskId, taskState, callback) {
+	if(taskState === 'doing'){
+		callback(JSON.parse(JSON.stringify([
+			{
+				"cover": "../../../../static/1.png", // 封面
+				"expiredDate": "2016-3-10",
+				"subTaskId": 11,
+				"taskType": 't_301', // 任务类型
+				"process": 67, //之间的整数
+				"picAmount": 666,// 图片数量
+			},
+			{
+				"cover": "../../../../static/1.png", // 封面
+				"expiredDate": "2016-3-10",
+				"subTaskId": 12,
+				"taskType": 't_400', // 任务类型
+				"process": 67, //之间的整数
+				"picAmount": 233,// 图片数量
+			},{
+				"cover": "../../../../static/1.png", // 封面
+				"expiredDate": "2016-3-10",
+				"commiteDate": "2018-5-30", // 可能是空的，如果没提交就是空的
+				"subTaskId": 13,
+				"taskType": 't_400', // 任务类型
+				"process": 100, //之间的整数
+				"picAmount": 555,// 图片数量
+			},
+		])));
+	}else{
+		callback(JSON.parse(JSON.stringify([])));
+	}
 
+}
 function submitSubTaskMock(taskId, subTaskId, callback) {
 	console.log("subTaskId"+subTaskId);
 	callback(JSON.parse(JSON.stringify({
@@ -113,7 +159,7 @@ function subTaskDetailsInfoMock(taskId, subTaskId, taskType, callback) {
 			"subTaskId": subTaskId,
 			"taskState": "Accepted",
 			"taskName": "Featured Prediction Competition",
-			"taskType": taskType,
+			"taskType": "t_301",
 			"taskDescription": "WebStorm is a powerful IDE for modern JavaScript development perfectly equipped .",
 			"finishedPicList": [
 			"../../../../static/background/bg1.jpg",
