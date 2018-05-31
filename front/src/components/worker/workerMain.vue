@@ -1,7 +1,5 @@
 <template>
     <div id="workerMain">
-
-        <el-col :span="24"><div style="background-color: #47494d;min-height: 50px;"></div></el-col>
         <el-col :span="24"><div style="background-color: #8cd6b4;min-height: 200px;overflow:hidden;">
 
             <div style="width: 900px;height: 40px;margin: auto;">
@@ -79,7 +77,7 @@
                     <el-menu-item index="/worker/unfinish" style="height: 50px;">Unfinish</el-menu-item>
                     <el-menu-item index="/worker/finish" style="height: 50px;">Finish</el-menu-item>
                     <el-menu-item index="/worker/rank" style="height: 50px;">Rank</el-menu-item>
-                    <el-menu-item index="/worker/test" style="height: 50px;">Recommendation</el-menu-item>
+                    <!--<el-menu-item index="/worker/test" style="height: 50px;">Recommendation</el-menu-item>-->
                     <el-button v-if="!isEditing" type="primary" style="float: right;height: 40px;width: 150px;margin-top: 10px;" @click="editHandle">Edit Profile</el-button>
                     <el-button v-if="isEditing" type="success" style="float: right;height: 40px;width: 150px;margin-top: 10px;" @click="submitForm('userInfo')">Save Profile</el-button>
                 </el-menu>
@@ -213,7 +211,7 @@
 
         methods: {
 
-          getImage(){
+	        getImage(){
             return getUrl(this.userInfo.avatar);
           },
 
@@ -231,6 +229,7 @@
         		let that = this;
 		        workerInfo(res => {
 			        that.userInfo = res;
+			        that.$emit('uploadImage',that.userInfo.avatar);
 		        });
             },
 
@@ -385,6 +384,11 @@
         color: #333;
         /*text-align: center;*/
         /*line-height: 160px;*/
+    }
+    .center {
+        display: flex;
+        /*justify-content:center;*/
+        align-items: center;
     }
 
 </style>

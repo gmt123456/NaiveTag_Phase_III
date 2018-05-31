@@ -1,6 +1,5 @@
 <template>
     <div id="subTasksDetails">
-        <el-col :span="24"><div style="background-color: #47494d;min-height: 50px;"></div></el-col>
         <el-col :span="24"><div style="background-color: #f6f9fa;min-height: 200px;overflow:hidden;">
 
             <div style="width: 900px;height: 170px;margin: auto;">

@@ -76,7 +76,6 @@
 
 	        jumpFirstTask(){
 		        localStorage.firstLevelTaskId = this.taskId;
-		        console.log(localStorage.firstLevelTaskId);
 	        	this.$router.push('/firstTask/overview');
             },
 

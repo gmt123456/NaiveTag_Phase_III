@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '../components/index/Login.vue'
 import SignUp from '../components/index/SignUp.vue'
+import WorkerNavi from '../components/worker/workerNavi.vue'
 import WorkerHome from '../components/worker/workerUser/workerHome.vue'
 import WorkerMain from '../components/worker/workerMain.vue'
 import WorkerUnfinish from '../components/worker/workerUser/workerUnfinish.vue'
@@ -12,12 +13,11 @@ import SubTaskDetails from '../components/worker/workerTask/subTasksDetails.vue'
 import FirstLevelTask from '../components/worker/workerTask/firstLevelTask.vue'
 import Overview from '../components/worker/workerTask/overview.vue'
 import MyParticipation from '../components/worker/workerTask/myParticipation.vue'
+import Recommendation from '../components/worker/workerUser/recommendation.vue'
 import Index from '../components/index/Index.vue'
 import RequesterIndex from '../components/requester/RequesterIndex.vue'
 import RequesterHome from '../components/requester/Home.vue'
 import TaskDetail from  '../components/requester/TaskDetail.vue'
-
-import test from '../components/worker/workerUser/test.vue'
 
 Vue.use(Router)
 
@@ -26,25 +26,31 @@ export default new Router({
 
 	routes: [
 		{
-			path: '/worker', component: WorkerMain,
+			path: '/workerNavi', component: WorkerNavi,
 			children: [
-				{path: 'home', component: WorkerHome},
-				{path: 'unfinish', component: WorkerUnfinish},
-				{path: 'finish', component: WorkerFinish},
-				{path: 'rank', component: WorkerRank},
-				{path: 'test', component: test},
+				{
+					path: '/worker', component: WorkerMain,
+					children: [
+						{path: 'home', component: WorkerHome},
+						{path: 'unfinish', component: WorkerUnfinish},
+						{path: 'finish', component: WorkerFinish},
+						{path: 'rank', component: WorkerRank},
 
+					]
+				},
+				{
+					path: '/firstTask', component: FirstLevelTask,
+					children: [
+						{path: 'overview', component: Overview},
+						{path: 'subtasks', component: SubTask},
+						{path: 'myparticipation', component: MyParticipation},
+					]
+				},
+				{path: '/subTaskDetails/:taskId/:subTaskId/:taskType', name: 'subTaskDetails', component: SubTaskDetails},
+				{path: '/recommendation', component: Recommendation},
 			]
 		},
-		{
-			path: '/firstTask', component: FirstLevelTask,
-			children: [
-				{path: 'overview', component: Overview},
-				{path: 'subtasks', component: SubTask},
-				{path: 'myparticipation', component: MyParticipation},
-			]
-		},
-		{path: '/subTaskDetails/:taskId/:subTaskId/:taskType', name: 'subTaskDetails', component: SubTaskDetails},
+
 		{path: '/', component: Index},
 		{path: '/login', component:Login},
 		{path: '/signUp', component: SignUp},
