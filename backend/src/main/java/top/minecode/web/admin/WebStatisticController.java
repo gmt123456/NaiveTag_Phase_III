@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import top.minecode.dao.utils.GsonFactory;
 import top.minecode.service.statistic.StatisticService;
 
 /**
@@ -30,19 +30,19 @@ public class WebStatisticController {
         this.statisticService = statisticService;
     }
 
-    @RequestMapping("activeUser")
+    @RequestMapping(value = "/activeUser", method = RequestMethod.GET)
     @ResponseBody
     public String activeUsersStatistic() {
         return gson.toJson(statisticService.getActiveUserStatistic());
     }
 
-    @RequestMapping("signUpUser")
+    @RequestMapping(value = "/signUpUser", method = RequestMethod.GET)
     @ResponseBody
     public String totalUsersStatistic() {
         return gson.toJson(statisticService.getSignUpUserStatistic());
     }
 
-    @RequestMapping("tasks")
+    @RequestMapping(value = "/tasks", method = RequestMethod.GET)
     @ResponseBody
     public String tasksStatistic() {
         return gson.toJson(statisticService.getTasksStatistic());
