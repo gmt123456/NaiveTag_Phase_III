@@ -21,6 +21,8 @@ public class OnGoingTaskParticipationPO implements Serializable{
 
     private int taskId;
 
+    private boolean staffUser = false;
+
     @ElementCollection(fetch = FetchType.EAGER, targetClass = Integer.class)
     private List<Integer> participatedSubTaskResultIds; // 参加的下属任务
 
@@ -30,6 +32,14 @@ public class OnGoingTaskParticipationPO implements Serializable{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean isStaffUser() {
+        return staffUser;
+    }
+
+    public void setStaffUser(boolean staffUser) {
+        this.staffUser = staffUser;
     }
 
     public String getUserEmail() {

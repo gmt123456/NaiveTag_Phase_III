@@ -112,6 +112,7 @@ public class WorkerTaskBasicService {
         participation.setParticipatedSubTaskResultIds(new ArrayList<>());
         participation.setTaskId(taskId);
         participation.setUserEmail(email);
+        participation.setStaffUser(false);
 
         participationDao.addOnGoingTaskParticipation(participation);
 

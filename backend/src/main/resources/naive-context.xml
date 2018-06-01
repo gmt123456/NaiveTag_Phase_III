@@ -32,6 +32,8 @@
     <context:component-scan base-package="top.minecode.dao.user"/>
     <context:component-scan base-package="top.minecode.dao.auto" />
     <context:component-scan base-package="top.minecode.service.ml" />
+    <context:component-scan base-package="top.minecode.service.staff" />
+    <context:component-scan base-package="top.minecode.dao.staff" />
     <!--<context:component-scan base-package="top.minecode.dao.requester" />-->
     <!--<context:component-scan base-package="top.minecode.dao.statistic"/>
     <context:component-scan base-package="top.minecode.dao.task"/>

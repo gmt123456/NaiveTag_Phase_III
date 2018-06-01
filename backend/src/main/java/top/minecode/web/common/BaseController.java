@@ -43,4 +43,8 @@ public abstract class BaseController {
     protected User getUser(HttpServletRequest request) {
         return activeUserService.getUser(request.getParameter(TOKEN));
     }
+
+    protected String getStaffEmail(HttpServletRequest request) {
+        return "111";
+    }
 }

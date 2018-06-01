@@ -28,9 +28,11 @@ public class SubTaskParticipation {
 
     private int picAmount;
 
+    private Double earnedDollars;
+
     public SubTaskParticipation(String cover, Date expiredDate,
                                 Date commitDate, int taskId, int subTaskId,
-                                TaskType taskType, int process, int picAmount) {
+                                TaskType taskType, int process, int picAmount, Double earnedDollars) {
         this.cover = cover;
         this.expiredDate = expiredDate;
         this.commitDate = commitDate;
@@ -39,12 +41,16 @@ public class SubTaskParticipation {
         this.taskType = taskType;
         this.process = process;
         this.picAmount = picAmount;
+        this.earnedDollars = earnedDollars;
     }
 
     public static SubTaskParticipation fromPO(SubTaskParticipationPO po) {
+        Double earnedDollars = null;
+        if (!po.isEvaluated())
+            earnedDollars = po.getEarnedDollars();
         int process = po.getTags().keySet().size() / po.getPicAmount();
         return new SubTaskParticipation(po.getCover(), po.getExpiredDate(), po.getCommitDate(),
-                po.getTaskId(), po.getSubTaskId(), po.getSubTaskType(), process, po.getPicAmount());
+                po.getTaskId(), po.getSubTaskId(), po.getSubTaskType(), process, po.getPicAmount(), earnedDollars);
     }
 
     public String getCover() {
@@ -111,5 +117,11 @@ public class SubTaskParticipation {
         this.picAmount = picAmount;
     }
 
+    public Double getEarnedDollars() {
+        return earnedDollars;
+    }
 
+    public void setEarnedDollars(Double earnedDollars) {
+        this.earnedDollars = earnedDollars;
+    }
 }
