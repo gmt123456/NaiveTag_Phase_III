@@ -17,6 +17,9 @@ import static org.junit.Assert.*;
  */
 public class WebStatisticDaoImplTest {
 
+    private Gson gson = GsonFactory.getGson();
+    private WebStatisticDao webStatisticDao = new WebStatisticDaoImpl();
+
     @Test
     public void test1() {
         String hql = "select new map (t.loginTime as time, t.userType as type, count(t) as number)" +
@@ -29,15 +32,16 @@ public class WebStatisticDaoImplTest {
 
     @Test
     public void testGetActiveUser() {
-        WebStatisticDao statisticDao = new WebStatisticDaoImpl();
-        Gson gson = GsonFactory.getGson();
-        System.out.println(gson.toJson(statisticDao.getActiveUserData()));
+        System.out.println(gson.toJson(webStatisticDao.getActiveUserData()));
     }
 
     @Test
     public void testGetSignUp() {
-        WebStatisticDao dao = new WebStatisticDaoImpl();
-        Gson gson = GsonFactory.getGson();
-        System.out.println(gson.toJson(dao.getSignUpStatistic()));
+        System.out.println(gson.toJson(webStatisticDao.getSignUpStatistic()));
+    }
+
+    @Test
+    public void testGetTaskData() {
+        System.out.println(gson.toJson(webStatisticDao.getTasksData()));
     }
 }

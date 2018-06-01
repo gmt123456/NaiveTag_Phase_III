@@ -17,6 +17,10 @@ public class ChartData {
         vectors.add(new Vector<>(name, values));
     }
 
+    public boolean contains(String vectorName) {
+        return vectors.stream().anyMatch(vector -> vector.name.equals(vectorName));
+    }
+
     public void addEmptyVector(String name) {
         vectors.add(new Vector<>(name, Collections.emptyList()));
     }
@@ -32,6 +36,14 @@ public class ChartData {
         private Vector(String name, List<E> values) {
             this.name = name;
             this.values = values;
+        }
+
+        @Override
+        public String toString() {
+            return "Vector{" +
+                    "name='" + name + '\'' +
+                    ", values=" + values +
+                    '}';
         }
     }
 }

@@ -32,6 +32,9 @@ public class WebStatisticDaoImpl implements WebStatisticDao {
     private static final String TOTAL_DATA = "totalData";
     private static final String WORKER_DATA = "workerData";
     private static final String REQUESTER_DATA = "requesterData";
+    private static final String DONE_NUMBER = "doneNumber";
+    private static final String COMMIT_NUMBER = "commitNumber";
+    private static final String RELEASE_NUMBER = "releaseNumber";
 
     @Override
     public ChartData getActiveUserData() {
@@ -40,7 +43,7 @@ public class WebStatisticDaoImpl implements WebStatisticDao {
                 " from LoginLogPO t group by cast(t.loginTime as date), t.userType order by cast(t.loginTime as date)";
         List<Map> rawData = CommonOperation.executeSQL(Map.class, hql);
 
-        return processRawData(rawData, this::timestampToLocalDate);
+        return processUserRawData(rawData, this::timestampToLocalDate);
     }
 
     @Override
@@ -49,34 +52,94 @@ public class WebStatisticDaoImpl implements WebStatisticDao {
                 " from RegisterLogPO t group by cast(t.registerDate as date), t.userType order by cast(t.registerDate as date)";
         List<Map> rawData = CommonOperation.executeSQL(Map.class, hql);
 
-        return processRawData(rawData, d -> ((Date) d).toLocalDate());
+        return processUserRawData(rawData, d -> ((Date) d).toLocalDate());
     }
 
     @Override
     public ChartData getTasksData() {
-        String hql = "select new map (t.registerDate as time, t.userType as type, count(t) as number)" +
-                " from RegisterLogPO t group by cast(t.registerDate as date), t.userType order by cast(t.registerDate as date)";
-        return null;
-    }
+        String completeTaskHql = "select new map(t.accomplishDate as time, count(t) as number) " +
+                " from TaskAccomplishmentLogPO t group by cast(t.accomplishDate as date) order" +
+                " by cast(t.accomplishDate as date)";
 
-    private ChartData processRawData(List<Map> rawData, Function<Object, LocalDate> localDateFunction) {
+        String commitTaskHql = "select new map(t.commitTime as time, count(t) as number) " +
+                " from TaskCommitmentLogPO t group by cast(t.commitTime as date) order by " +
+                " cast(t.commitTime as date)";
+
+        String releaseTaskHql = "select new map(t.releaseDate as time, count(t) as number) " +
+                " from ReleaseTaskLogPO t group by cast(t.releaseDate as date) order by " +
+                " cast(t.releaseDate as date)";
+
+        List<Map> completeTaskRawData = CommonOperation.executeSQL(Map.class, completeTaskHql);
+        List<Map> commitTaskRawData = CommonOperation.executeSQL(Map.class, commitTaskHql);
+        List<Map> releaseTaskRawData = CommonOperation.executeSQL(Map.class, releaseTaskHql);
+
+        LocalDate start = getMinDate(getTaskRawDataFirstDate(commitTaskRawData),
+                getTaskRawDataFirstDate(completeTaskRawData), getTaskRawDataFirstDate(releaseTaskRawData));
+        List<LocalDate> dateInterval = getToNowInterval(start);
 
         ChartData chartData = new ChartData();
+        chartData.addVector(TIME, formatLocalDateStrings(dateInterval));
+        processTaskRawData(completeTaskRawData, DONE_NUMBER, chartData, dateInterval);
+        processTaskRawData(commitTaskRawData, COMMIT_NUMBER, chartData, dateInterval);
+        processTaskRawData(releaseTaskRawData, RELEASE_NUMBER, chartData, dateInterval);
+
+        return chartData;
+    }
+
+    private LocalDate getTaskRawDataFirstDate(List<Map> taskRawData) {
+        return taskRawData.isEmpty() ? LocalDate.now() : timestampToLocalDate(taskRawData.get(0).get(TIME));
+    }
+
+    private LocalDate getMinDate(LocalDate... localDates) {
+        // If not empty, find the minimum date
+        if (localDates != null) {
+            LocalDate min = LocalDate.MAX;
+            for (LocalDate curr : localDates) {
+                if (curr.isBefore(min))
+                    min = curr;
+            }
+            return min;
+        }
+
+        // If empty, just return now
+        return LocalDate.now();
+    }
+
+    private void processTaskRawData(List<Map> rawData, String dataTypeName, ChartData chartData, List<LocalDate> dateInterval) {
+        if (rawData.isEmpty()) {
+            chartData.addVector(dataTypeName, zeros(dateInterval.size()));
+            return;
+        }
+
+        // Collect data
+        int intervalPointer = 0;
+        List<Integer> value = zeros(dateInterval.size());
+        for (Map dict : rawData) {
+            LocalDate currDicTime = timestampToLocalDate(dict.get(TIME));
+
+            LocalDate intervalTime = dateInterval.get(intervalPointer);
+            while (!intervalTime.isEqual(currDicTime)) {
+                intervalTime = dateInterval.get(++intervalPointer);
+            }
+
+            // Set counts
+            int count = ((Long) dict.get(COUNT)).intValue();
+            value.set(intervalPointer, count);
+        }
+
+        chartData.addVector(dataTypeName, value);
+    }
+
+    private ChartData processUserRawData(List<Map> rawData, Function<Object, LocalDate> localDateFunction) {
+
 
         if (rawData.isEmpty()) {
-            chartData.addEmptyVector(TIME);
-            chartData.addEmptyVector(TOTAL_DATA);
-            chartData.addEmptyVector(WORKER_DATA);
-            chartData.addEmptyVector(REQUESTER_DATA);
-            return chartData;
+            return emptyChart(TIME, TOTAL_DATA, WORKER_DATA, REQUESTER_DATA);
         }
 
         // Get time interval
         LocalDate start = localDateFunction.apply(rawData.get(0).get(TIME));
-        LocalDate end = LocalDate.now().plusDays(1);
-        List<LocalDate> dateInterval = Stream.iterate(start, d -> d.plusDays(1))
-                .limit(ChronoUnit.DAYS.between(start, end))
-                .collect(Collectors.toList());
+        List<LocalDate> dateInterval = getToNowInterval(start);
 
         // Collect data
         int dateIntervalPointer = 0;
@@ -97,16 +160,17 @@ public class WebStatisticDaoImpl implements WebStatisticDao {
 
             if (userType == UserType.WORKER) {
                 workerValue.set(dateIntervalPointer, count);
-            } else if (userType == UserType.REQUESTER)
+            } else if (userType == UserType.REQUESTER) {
                 requesterValue.set(dateIntervalPointer, count);
+            }
 
             totalValue.set(dateIntervalPointer, totalValue.get(dateIntervalPointer) + count);
         }
 
-        // Get time list
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        List<String> datesString = dateInterval.stream().map(formatter::format).collect(Collectors.toList());
+        // Format LocalDate
+        List<String> datesString = formatLocalDateStrings(dateInterval);
 
+        ChartData chartData = new ChartData();
         chartData.addVector(TIME, datesString);
         chartData.addVector(TOTAL_DATA, totalValue);
         chartData.addVector(WORKER_DATA, workerValue);
@@ -122,5 +186,28 @@ public class WebStatisticDaoImpl implements WebStatisticDao {
 
     private List<Integer> zeros(int size) {
         return new ArrayList<>(Collections.nCopies(size, 0));
+    }
+
+    private ChartData emptyChart(String... headers) {
+        ChartData chartData = new ChartData();
+        if (headers != null) {
+            for (String s : headers)
+                chartData.addEmptyVector(s);
+        }
+
+        return chartData;
+    }
+
+    private List<LocalDate> getToNowInterval(LocalDate start) {
+        LocalDate end = LocalDate.now().plusDays(1);
+        return Stream.iterate(start, d -> d.plusDays(1))
+                .limit(ChronoUnit.DAYS.between(start, end))
+                .collect(Collectors.toList());
+    }
+
+    private List<String> formatLocalDateStrings(List<LocalDate> localDates) {
+        // Get time list
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return localDates.stream().map(formatter::format).collect(Collectors.toList());
     }
 }
