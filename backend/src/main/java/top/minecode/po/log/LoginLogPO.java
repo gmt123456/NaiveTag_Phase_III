@@ -66,4 +66,14 @@ public class LoginLogPO implements Serializable {
     public void setUserType(UserType userType) {
         this.userType = userType;
     }
+
+    @Override
+    public String toString() {
+        return "LoginLogPO{" +
+                "id=" + id +
+                ", userEmail='" + userEmail + '\'' +
+                ", loginTime=" + loginTime +
+                ", userType=" + userType +
+                '}';
+    }
 }

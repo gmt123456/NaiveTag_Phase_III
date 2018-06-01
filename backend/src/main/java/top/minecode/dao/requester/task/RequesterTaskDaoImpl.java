@@ -117,7 +117,7 @@ public class RequesterTaskDaoImpl implements RequesterTaskDao {
         String hql = "select new map (p.email as email , sum(p.picAmount) as picNum)" +
                 " from SubTaskParticipationPO p where p.taskId=?" +
                 " group by p.email";
-        List<Map> participantsPics = taskOperation.executeSQL(Map.class, hql, taskId);
+        List<Map> participantsPics = CommonOperation.executeSQL(Map.class, hql, taskId);
 
         return getParticipants(participantsPics);
     }

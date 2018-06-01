@@ -37,7 +37,7 @@ public class RequesterTaskDaoImplTest {
         String hql = "select new map (p.email as email , sum(p.picAmount) as picNum) from SubTaskParticipationPO p where p.taskId=?" +
                 " group by p.email order by sum(p.picAmount) desc";
 
-        List<Map> result = operation.executeSQL(Map.class, hql, 2);
+        List<Map> result = CommonOperation.executeSQL(Map.class, hql, 2);
         System.out.println(result);
     }
 

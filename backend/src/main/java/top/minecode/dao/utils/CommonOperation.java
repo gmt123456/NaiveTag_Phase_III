@@ -135,17 +135,16 @@ public class CommonOperation<T> {
         return ts;
     }
 
-    public <R> List<R> executeSQL(final Class<R> clazz, final String sql, final Object... values) {
-        List<R> ts = null;
+    public <V> List<T> getValuesInSpecificSet(List<V> set, String fieldName) {
+        if (set.size() == 0)
+            return new ArrayList<>();
         Session session = HibernateUtils.getCurrentSession();
+        List<T> ts = null;
         try {
             session.getTransaction().begin();
-            Query query = session.createQuery(sql);
-            if (values != null) {
-                for(int i = 0; i < values.length; ++i) {
-                    query.setParameter(i, values[i]);
-                }
-            }
+            String hql = "from " + className + " t where t." + fieldName + " in (:se)";
+            Query query = session.createQuery(hql);
+            query.setParameterList("se", set);
             ts = query.list();
             session.getTransaction().commit();
         } catch (Exception e) {
@@ -157,16 +156,17 @@ public class CommonOperation<T> {
         return ts;
     }
 
-    public <V> List<T> getValuesInSpecificSet(List<V> set, String fieldName) {
-        if (set.size() == 0)
-            return new ArrayList<>();
+    public static <R> List<R> executeSQL(final Class<R> clazz, final String sql, final Object... values) {
+        List<R> ts = null;
         Session session = HibernateUtils.getCurrentSession();
-        List<T> ts = null;
         try {
             session.getTransaction().begin();
-            String hql = "from " + className + " t where t." + fieldName + " in (:se)";
-            Query query = session.createQuery(hql);
-            query.setParameterList("se", set);
+            Query query = session.createQuery(sql);
+            if (values != null) {
+                for(int i = 0; i < values.length; ++i) {
+                    query.setParameter(i, values[i]);
+                }
+            }
             ts = query.list();
             session.getTransaction().commit();
         } catch (Exception e) {

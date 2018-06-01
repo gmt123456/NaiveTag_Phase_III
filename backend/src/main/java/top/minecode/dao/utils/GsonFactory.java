@@ -1,11 +1,13 @@
 package top.minecode.dao.utils;
 
 import com.google.gson.*;
+import top.minecode.domain.statistic.ChartData;
 import top.minecode.domain.task.requester.RequesterTaskItem;
 import top.minecode.domain.task.requester.RequesterTaskDetails;
 import top.minecode.domain.user.requester.AccountLog;
 import top.minecode.domain.utils.TimeMessageConverter;
 
+import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -24,7 +26,7 @@ public class GsonFactory {
         builder.registerTypeAdapter(AccountLog.class, new AccountLog.AccountLogSerializer())
                 .registerTypeAdapter(RequesterTaskItem.class, taskItemSerializer())
                 .registerTypeAdapter(RequesterTaskDetails.class, taskDetailsJsonSerializer())
-                .setPrettyPrinting()
+                .registerTypeAdapter(ChartData.class, chartDataJsonSerializer())
                 .serializeNulls();
         gson = builder.create();
     }
@@ -66,6 +68,21 @@ public class GsonFactory {
             object.addProperty("state", taskDetails.getState().toString().toLowerCase());
 
             return object;
+        };
+    }
+
+    private static JsonSerializer<ChartData> chartDataJsonSerializer() {
+        return (chartData, type, jsonSerializationContext) -> {
+            JsonArray data = jsonSerializationContext.serialize(chartData.getVectors()).getAsJsonArray();
+            JsonObject result = new JsonObject();
+
+            for (JsonElement element : data) {
+                // This object represent a vector of ChartData
+                JsonObject vector = element.getAsJsonObject();
+                result.add(vector.get("name").getAsString(), vector.get("values").getAsJsonArray());
+            }
+
+            return result;
         };
     }
 }
