@@ -55,4 +55,11 @@ public class StaffTaskController extends BaseController {
         SubTaskParticipationState state = SubTaskParticipationState.convert(subTaskState);
         return WebConfig.getGson().toJson(taskService.getWorkerParticipation(email, taskId, state));
     }
+
+    @RequestMapping(value = "/task/main")
+    @ResponseBody
+    public String getTasks(HttpServletRequest request, int taskId, int subTaskState) {
+        return null;
+    }
+
 }
