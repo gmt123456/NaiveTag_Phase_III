@@ -45,6 +45,10 @@ public class TaskParticipationDao {
         onGoingTaskParticipationHelper.update(po);
     }
 
+    public List<OnGoingTaskParticipationPO> getOnGoingParticipation(String email) {
+        return onGoingTaskParticipationHelper.getListBySingleField("userEmail", email);
+    }
+
     public SubTaskParticipationPO getWorkerSubTaskParticipation(String email, int taskId, int subTaskId) {
         String hql = "select t from " + SubTaskParticipationPO.class.getName() +
                 " t where t.email = ? and t.taskId = ? and t.subTaskId = ?";

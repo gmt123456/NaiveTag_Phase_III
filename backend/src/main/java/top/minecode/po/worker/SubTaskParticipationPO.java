@@ -36,6 +36,14 @@ public class SubTaskParticipationPO implements Serializable {
 
     private int picAmount;
 
+    private double errorRate = 0.0; // 只有评价过了才有用，当这个任务是客服标注的，那么就直接设置为0
+
+    private boolean accept; // 是否接受
+
+    private boolean evaluated = false; // 参与是否已经评价过
+
+    private double earnedDollars = 0.0; // 挣得的钱
+
     @ElementCollection(fetch = FetchType.EAGER, targetClass = String.class)
     @Fetch(FetchMode.SUBSELECT)
     private Map<String, String> tags;
@@ -134,5 +142,37 @@ public class SubTaskParticipationPO implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isEvaluated() {
+        return evaluated;
+    }
+
+    public void setEvaluated(boolean evaluated) {
+        this.evaluated = evaluated;
+    }
+
+    public double getErrorRate() {
+        return errorRate;
+    }
+
+    public void setErrorRate(double errorRate) {
+        this.errorRate = errorRate;
+    }
+
+    public boolean isAccept() {
+        return accept;
+    }
+
+    public void setAccept(boolean accept) {
+        this.accept = accept;
+    }
+
+    public double getEarnedDollars() {
+        return earnedDollars;
+    }
+
+    public void setEarnedDollars(double earnedDollars) {
+        this.earnedDollars = earnedDollars;
     }
 }
