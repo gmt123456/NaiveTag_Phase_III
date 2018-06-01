@@ -9,9 +9,9 @@ import top.minecode.domain.statistic.ChartData;
  */
 public interface StatisticService {
 
-    ChartData getActiveUserData();
+    ChartData getActiveUserStatistic();
 
-    ChartData getTotalUsersData();
+    ChartData getSignUpUserStatistic();
 
-    ChartData getTasksData();
+    ChartData getTasksStatistic();
 }
