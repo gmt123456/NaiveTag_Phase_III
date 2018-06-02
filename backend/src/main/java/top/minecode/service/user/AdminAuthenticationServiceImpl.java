@@ -60,7 +60,7 @@ public class AdminAuthenticationServiceImpl implements AdminAuthenticationServic
             return ResultMessage.authenticationSuccess(webToken);
         } catch (AuthenticationException e) {
             log.warn("Admin authenticating failed");
-            return ResultMessage.failure("Username or password false");
+            return ResultMessage.failure("Invalid username or password");
         }
     }
 

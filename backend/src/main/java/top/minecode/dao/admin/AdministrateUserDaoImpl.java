@@ -1,12 +1,15 @@
 package top.minecode.dao.admin;
 
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 import top.minecode.dao.utils.CommonOperation;
+import top.minecode.domain.admin.RequesterItem;
+import top.minecode.domain.admin.WorkerItem;
 import top.minecode.po.requester.RequesterPO;
 import top.minecode.po.worker.WorkerPO;
 
 import java.math.BigDecimal;
-import java.util.function.Consumer;
+import java.util.List;
 
 /**
  * Created on 2018/6/2.
@@ -45,7 +48,6 @@ public class AdministrateUserDaoImpl implements AdministrateUserDao {
     @Override
     public double changeDollars(String email, double dollars) {
 
-        BigDecimal change = new BigDecimal(dollars);
         BigDecimal balance = new BigDecimal(dollars);
 
         // If it's a worker
@@ -54,6 +56,7 @@ public class AdministrateUserDaoImpl implements AdministrateUserDao {
             balance = balance.add(new BigDecimal(workerPO.getDollars()));
             if (balance.compareTo(BigDecimal.ZERO) > 0) {
                 workerPO.setDollars(balance.doubleValue());
+                workerOperation.update(workerPO);
                 return balance.doubleValue();
             }
             return -1;
@@ -65,30 +68,77 @@ public class AdministrateUserDaoImpl implements AdministrateUserDao {
             balance = balance.add(new BigDecimal(requesterPO.getDollars()));
             if (balance.compareTo(BigDecimal.ZERO) > 0) {
                 requesterPO.setDollars(balance.doubleValue());
+                requesterOperation.update(requesterPO);
                 return balance.doubleValue();
             }
         }
+
         // Change failed
         return -1;
     }
 
-    private boolean setWorker(String email, Consumer<WorkerPO> setter) {
-        WorkerPO workerPO = workerOperation.getBySingleField("email", email);
-        if (workerPO == null)
-            return false;
+    @Override
+    public List<WorkerItem> getWorkers(int page, int pageSize) {
+        String workerPOHql = "select new top.minecode.domain.admin.WorkerItem(t) " +
+                " from WorkerPO t order by t.Score desc";
 
-        setter.accept(workerPO);
-        workerOperation.update(workerPO);
-        return true;
+        //noinspection unchecked
+        return (List<WorkerItem>) getPage(page, pageSize, workerPOHql);
     }
 
-    private boolean setRequester(String email, Consumer<RequesterPO> setter) {
-        RequesterPO requesterPO = requesterOperation.getBySingleField("email", email);
-        if (requesterPO == null)
-            return false;
+    @Override
+    public List<RequesterItem> getRequester(int page, int pageSize) {
+        String hql = "select new top.minecode.domain.admin.RequesterItem(r, cast(count(t) as int)) " +
+                " from RequesterPO r, TaskPO t where t.ownerEmail=r.email " +
+                " group by r.email order by count(t) desc";
 
-        setter.accept(requesterPO);
-        requesterOperation.update(requesterPO);
-        return true;
+        //noinspection unchecked
+        return (List<RequesterItem>) getPage(page, pageSize, hql);
+    }
+
+    @Override
+    public List<WorkerItem> searchWorkers(String key, int page, int pageSize) {
+        String hql = "select new top.minecode.domain.admin.WorkerItem(w) " +
+                " from WorkerPO w where w.email like :key or w.name like :key";
+
+        //noinspection unchecked
+        return (List<WorkerItem>) searchPage(page, pageSize, hql, key);
+    }
+
+    @Override
+    public List<RequesterItem> searchRequester(String key, int page, int pageSize) {
+        String hql = "select new top.minecode.domain.admin.RequesterItem(r, cast(count(t) as int)) " +
+                " from RequesterPO r, TaskPO t where (r.email like :key or r.name like :key) and " +
+                " t.ownerEmail=r.email group by r.email";
+
+        //noinspection unchecked
+        return (List<RequesterItem>) searchPage(page, pageSize, hql, key);
+    }
+
+    private List searchPage(int page, int pageSize, String hql, String key) {
+        int start = (page - 1) * pageSize;
+        int end = start + pageSize;
+
+        return CommonOperation.template(session -> {
+            Query query = session.createQuery(hql);
+            query.setFirstResult(start);
+            query.setMaxResults(end);
+            query.setString("key", "%" + key + "%");
+            //noinspection unchecked
+            return (List<WorkerItem>) query.list();
+        });
+    }
+
+    private List getPage(int page, int pageSize, String hql) {
+        int start = (page - 1) * pageSize;
+        int end = start + pageSize;
+
+        return CommonOperation.template(session -> {
+            Query query = session.createQuery(hql);
+            query.setFirstResult(start);
+            query.setMaxResults(end);
+            //noinspection unchecked
+            return query.list();
+        });
     }
 }
