@@ -91,6 +91,7 @@ public class RequesterNewTaskServiceImplTest {
         String result = mockMvc.perform(get("/login")
                 .param("email", "frogR@mail.com")
                 .param("password", "123456789")
+                .param("userType", "requester")
                 .contentType(MediaType.ALL).accept(MediaType.ALL))
                 .andReturn().getResponse().getContentAsString();
 
@@ -99,19 +100,6 @@ public class RequesterNewTaskServiceImplTest {
         System.out.println(loginToken);
     }
 
-    @Test
-    @Ignore
-    public void signup() throws Exception {
-        mockMvc.perform(post("/signup")
-                .param("name", "frog")
-                .param("email", "frogR@mail.com")
-                .param("password", "123456789")
-                .param("userType", "requester")
-                .contentType(MediaType.ALL)
-                .accept(MediaType.ALL))
-                .andDo(print())
-                .andExpect(status().isOk());
-    }
 
     @Test
     public void testCreateAndPay() throws Exception {
@@ -119,10 +107,8 @@ public class RequesterNewTaskServiceImplTest {
                 new FileInputStream(new File(CLASS_PATH, "newtask.json")))).getAsJsonObject();
 
         // Create multipart file
-        InputStream inputStream = new FileInputStream("C:\\Users\\liao\\Documents" +
-                "\\NaiveTag_Phase_III\\backend\\src\\main\\webapp\\WEB-INF" +
-                "\\defaultData\\AnimeData.zip");
-        MockMultipartFile data = new MockMultipartFile("dataset", "Anime.zip", MediaType.ALL_VALUE, inputStream);
+        InputStream inputStream = new FileInputStream("C:\\Users\\liao\\Desktop\\14_5464.zip");
+        MockMultipartFile data = new MockMultipartFile("dataset", "14_5464.zip", MediaType.ALL_VALUE, inputStream);
 
         // Create request
         MockMultipartHttpServletRequestBuilder builder = fileUpload("/requester/new/taskOrder").file(data);

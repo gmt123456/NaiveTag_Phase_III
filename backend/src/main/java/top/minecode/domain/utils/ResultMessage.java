@@ -19,6 +19,14 @@ public abstract class ResultMessage {
         return new PayMessage(SUCCESS, null, orderId, lowerBound, pictureNum);
     }
 
+    public static ResultMessage authenticationSuccess(String webToken) {
+        return new AuthenticationResultMessage(null, SUCCESS, webToken);
+    }
+
+    public static ResultMessage authenticateFail(String message) {
+        return new AuthenticationResultMessage(message, FAILURE, null);
+    }
+
     private static final String SUCCESS = "success";
     private static final String FAILURE = "failure";
 

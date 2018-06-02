@@ -8,6 +8,7 @@ package top.minecode.web.user;
 public class LoginCommand {
     private String email;
     private String password;
+    private String userType;
 
     public String getEmail() {
         return email;
@@ -23,5 +24,13 @@ public class LoginCommand {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 }
