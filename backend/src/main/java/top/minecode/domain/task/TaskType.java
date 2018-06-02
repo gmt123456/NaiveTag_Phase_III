@@ -43,6 +43,11 @@ public enum TaskType {
         }
     }
 
+    public static double getPrice(TaskType taskType) {
+        double value = Double.parseDouble(taskType.toString().substring(2));
+        return value / 100;
+    }
+
     public static List<TaskType> getAll() {
         List<TaskType> taskTypes = new LinkedList<>();
         taskTypes.add(t_100);

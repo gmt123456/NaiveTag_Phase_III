@@ -46,11 +46,25 @@ public class AdministrateUserDaoImpl implements AdministrateUserDao {
     public double changeDollars(String email, double dollars) {
 
         BigDecimal change = new BigDecimal(dollars);
+        BigDecimal balance = new BigDecimal(dollars);
+
+        // If it's a worker
         WorkerPO workerPO = workerOperation.getBySingleField("email", email);
         if (workerPO != null) {
-            BigDecimal balance = new BigDecimal(workerPO.getDollars()).add(change);
+            balance = balance.add(new BigDecimal(workerPO.getDollars()));
             if (balance.compareTo(BigDecimal.ZERO) > 0) {
                 workerPO.setDollars(balance.doubleValue());
+                return balance.doubleValue();
+            }
+            return -1;
+        }
+
+        // If it's a requester
+        RequesterPO requesterPO = requesterOperation.getBySingleField("email", email);
+        if (requesterPO != null) {
+            balance = balance.add(new BigDecimal(requesterPO.getDollars()));
+            if (balance.compareTo(BigDecimal.ZERO) > 0) {
+                requesterPO.setDollars(balance.doubleValue());
                 return balance.doubleValue();
             }
         }
