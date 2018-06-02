@@ -35,4 +35,12 @@ public class SearchCommand {
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
     }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
 }

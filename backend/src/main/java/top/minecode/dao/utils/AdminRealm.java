@@ -21,7 +21,7 @@ public class AdminRealm extends AuthenticatingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String username = (String) authenticationToken.getPrincipal();
 
-        AdminPO adminPO = adminOperation.getBySingleField("username", username);
+        AdminPO adminPO = adminOperation.getBySingleField("userName", username);
         if (adminPO != null) {
             SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(username, adminPO.getPassword(), getName());
             info.setCredentialsSalt(ByteSource.Util.bytes(username));

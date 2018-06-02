@@ -5,11 +5,16 @@ import org.springframework.stereotype.Service;
 import top.minecode.dao.admin.AdministrateUserDao;
 import top.minecode.dao.log.AccountLogDao;
 import top.minecode.dao.user.AdminDao;
+import top.minecode.domain.admin.RequesterItem;
+import top.minecode.domain.admin.WorkerItem;
 import top.minecode.domain.utils.ResultMessage;
 import top.minecode.po.log.RequesterAccountLogPO;
 import top.minecode.service.util.Encryptor;
 import top.minecode.web.admin.AdminChangeDollarsCommand;
 import top.minecode.web.admin.AdminChangePasswordCommand;
+import top.minecode.web.requester.info.PageCommand;
+
+import java.util.List;
 
 /**
  * Created on 2018/6/2.
@@ -19,7 +24,6 @@ import top.minecode.web.admin.AdminChangePasswordCommand;
 @Service("adminServiceImpl")
 public class AdminServiceImpl implements AdminService {
 
-    private AdminDao adminDao;
     private AdministrateUserDao administrateUserDao;
     private AccountLogDao accountLogDao;
     private Encryptor encryptor;
@@ -39,11 +43,6 @@ public class AdminServiceImpl implements AdminService {
         this.accountLogDao = accountLogDao;
     }
 
-    @Autowired
-    public void setAdminDao(AdminDao adminDao) {
-        this.adminDao = adminDao;
-    }
-
     @Override
     public ResultMessage changePassword(String admin, AdminChangePasswordCommand changePwdCommand) {
         String email = changePwdCommand.getEmail();
@@ -53,6 +52,26 @@ public class AdminServiceImpl implements AdminService {
             return ResultMessage.success();
 
         return ResultMessage.failure();
+    }
+
+    @Override
+    public List<WorkerItem> getWorkers(PageCommand pageCommand) {
+        return administrateUserDao.getWorkers(pageCommand.getPage(), pageCommand.getPageSize());
+    }
+
+    @Override
+    public List<RequesterItem> getRequester(PageCommand pageCommand) {
+        return administrateUserDao.getRequester(pageCommand.getPage(), pageCommand.getPageSize());
+    }
+
+    @Override
+    public List<WorkerItem> searchWorker(int page, int pageSize, String key) {
+        return administrateUserDao.searchWorkers(key, page, pageSize);
+    }
+
+    @Override
+    public List<RequesterItem> searchRequester(int page, int pageSize, String key) {
+        return administrateUserDao.searchRequester(key, page, pageSize);
     }
 
     @Override
