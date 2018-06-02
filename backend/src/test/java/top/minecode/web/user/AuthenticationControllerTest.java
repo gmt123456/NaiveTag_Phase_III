@@ -1,6 +1,5 @@
 package top.minecode.web.user;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.junit.Before;
@@ -13,7 +12,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import top.minecode.dao.utils.GsonFactory;
 
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -33,7 +31,6 @@ public class AuthenticationControllerTest {
     private AuthenticationController controller;
     private MockMvc mockMvc;
     private JsonParser parser = new JsonParser();
-    private Gson gson = GsonFactory.getGson();
 
     @Autowired
     public void setController(AuthenticationController controller) {
@@ -48,7 +45,7 @@ public class AuthenticationControllerTest {
     @Test
     public void testLogin1() throws Exception {
         String resultMsg = mockMvc.perform(post("/login")
-                .param("email", "frogR@email.com")
+                .param("email", "frogR@mail.com")
                 .param("password", "123456789")
                 .param("userType", "requester")
                 .contentType(MediaType.ALL)
@@ -64,7 +61,7 @@ public class AuthenticationControllerTest {
     @Test
     public void testLogin2() throws Exception {
         String resultMsg = mockMvc.perform(post("/login")
-                .param("email", "frogR@email.com")
+                .param("email", "frogR@mail.com")
                 .param("password", "123456789")
                 .param("userType", "worker")
                 .contentType(MediaType.ALL)
@@ -81,7 +78,7 @@ public class AuthenticationControllerTest {
     @Test
     public void testLogin3() throws Exception {
         String resultMsg = mockMvc.perform(post("/login")
-                .param("email", "frogR@email.com")
+                .param("email", "frogR@mail.com")
                 .param("password", "123")
                 .param("userType", "worker")
                 .contentType(MediaType.ALL)
@@ -92,7 +89,7 @@ public class AuthenticationControllerTest {
 
         JsonObject result = parser.parse(resultMsg).getAsJsonObject();
         assertEquals("failure", result.get("status").getAsString());
-        assertEquals("User type not match", result.get("message").getAsString());
+        assertEquals("Invalid username or password", result.get("message").getAsString());
     }
 
     @Test

@@ -24,8 +24,14 @@ public class AdminAuthenticationServiceImpl implements AdminAuthenticationServic
     private static Logger log = LoggerFactory.getLogger("AdminAuthentication");
 
     private Authenticator authenticator;
+    private ActiveUserService activeUserService;
     private AdminDao adminDao;
     private Encryptor encryptor;
+
+    @Autowired
+    public void setActiveUserService(ActiveUserService activeUserService) {
+        this.activeUserService = activeUserService;
+    }
 
     @Autowired
     public void setEncryptor(Encryptor encryptor) {
@@ -49,7 +55,9 @@ public class AdminAuthenticationServiceImpl implements AdminAuthenticationServic
 
         try {
             authenticator.authenticate(token);
-            return ResultMessage.success();
+            String webToken = activeUserService.addAdmin(username);
+
+            return ResultMessage.authenticationSuccess(webToken);
         } catch (AuthenticationException e) {
             log.warn("Admin authenticating failed");
             return ResultMessage.failure("Username or password false");

@@ -1,6 +1,5 @@
 package top.minecode.web.common;
 
-import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +10,12 @@ import top.minecode.service.user.ActiveUserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.NoSuchElementException;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 /**
  * Created on 2018/5/17.
  * Description:
- *
  * @author iznauy
  */
 @Controller
@@ -23,6 +23,7 @@ public abstract class BaseController {
 
     private static Logger log = LoggerFactory.getLogger(BaseController.class);
     private static final String TOKEN = "token";
+    private static final String ERROR_MSG = "Token is not in the cache";
     private ActiveUserService activeUserService;
 
     @Autowired
@@ -32,12 +33,11 @@ public abstract class BaseController {
     }
 
     protected String getUserEmail(HttpServletRequest request) {
-        String email = activeUserService.getUserMail(request.getParameter(TOKEN));
-        if (email == null) {
-            log.info("Token is not in the cache");
-            throw new NoSuchElementException();
-        }
-        return email;
+        return getTemplate(e -> e.getUserMail(request.getParameter(TOKEN)));
+    }
+
+    protected String getAdmin(HttpServletRequest request) {
+        return getTemplate(e -> e.getAdmin(request.getParameter(TOKEN)));
     }
 
     protected User getUser(HttpServletRequest request) {
@@ -45,6 +45,15 @@ public abstract class BaseController {
     }
 
     protected String getStaffEmail(HttpServletRequest request) {
-        return "111";
+        return getTemplate(e -> e.getStaff(request.getParameter(TOKEN)));
+    }
+
+    private String getTemplate(Function<ActiveUserService, String> getMethod) {
+        String result = getMethod.apply(activeUserService);
+        if (result == null) {
+            log.info(ERROR_MSG);
+            throw new NoSuchElementException();
+        }
+        return result;
     }
 }

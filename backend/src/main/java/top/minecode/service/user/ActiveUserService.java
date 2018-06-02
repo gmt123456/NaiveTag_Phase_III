@@ -31,6 +31,14 @@ public interface ActiveUserService {
      */
     String addUser(String userEmail);
 
+    String addAdmin(String admin);
+
+    String addStaff(String staff);
+
+    String getAdmin(String token);
+
+    String getStaff(String token);
+
     /**
      * Remove the token-email pair from records
      * @param token user's token

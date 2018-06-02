@@ -15,7 +15,7 @@ public class NewAdminCommand {
         return currentAdmin;
     }
 
-    public void setCurrentAdmin(String currentAdmin) {
+    void setCurrentAdmin(String currentAdmin) {
         this.currentAdmin = currentAdmin;
     }
 

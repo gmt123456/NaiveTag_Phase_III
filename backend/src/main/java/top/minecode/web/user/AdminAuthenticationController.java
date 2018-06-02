@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import top.minecode.service.user.AdminAuthenticationService;
+import top.minecode.web.common.BaseController;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created on 2018/5/29.
@@ -15,7 +18,7 @@ import top.minecode.service.user.AdminAuthenticationService;
  */
 @Controller
 @RequestMapping("/admin")
-public class AdminAuthenticationController {
+public class AdminAuthenticationController extends BaseController {
 
     private AdminAuthenticationService authenticationService;
     private Gson gson;
@@ -38,7 +41,8 @@ public class AdminAuthenticationController {
 
     @RequestMapping("/new")
     @ResponseBody
-    public String newAdmin(NewAdminCommand newAdminCommand) {
+    public String newAdmin(HttpServletRequest request, NewAdminCommand newAdminCommand) {
+        newAdminCommand.setCurrentAdmin(getAdmin(request));
         return gson.toJson(authenticationService.createNewAdmin(newAdminCommand));
     }
 }

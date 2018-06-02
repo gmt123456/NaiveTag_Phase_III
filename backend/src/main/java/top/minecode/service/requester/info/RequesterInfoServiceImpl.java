@@ -24,12 +24,6 @@ public class RequesterInfoServiceImpl implements RequesterInfoService {
 
     private RequesterInfoDao infoDao;
     private Gson gson;
-    private Encryptor encryptor;
-
-    @Autowired
-    public void setEncryptor(Encryptor encryptor) {
-        this.encryptor = encryptor;
-    }
 
     @Autowired
     public void setGson(Gson gson) {
