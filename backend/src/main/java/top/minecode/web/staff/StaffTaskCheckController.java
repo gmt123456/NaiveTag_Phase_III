@@ -1,9 +1,13 @@
 package top.minecode.web.staff;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import top.minecode.domain.task.TaskType;
+import top.minecode.service.staff.StaffTaskCheckService;
 import top.minecode.web.common.BaseController;
+import top.minecode.web.common.WebConfig;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,28 +21,60 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping(value = "/staff/check")
 public class StaffTaskCheckController extends BaseController {
 
+    private StaffTaskCheckService checkService;
+
+    public StaffTaskCheckService getCheckService() {
+        return checkService;
+    }
+
+    @Autowired
+    public void setCheckService(StaffTaskCheckService checkService) {
+        this.checkService = checkService;
+    }
+
     @RequestMapping(value = "/index")
     @ResponseBody
     public String getAllUncheckedTasks(HttpServletRequest request) {
-        return null;
+        return WebConfig.getGson().toJson(checkService.getAllUnfinishedTasks());
+    }
+
+    @RequestMapping(value = "/main")
+    @ResponseBody
+    public String getTaskSpecification(HttpServletRequest request, int taskId) { // 查看某个具体的任务
+        String email = getStaffEmail(request);
+        return WebConfig.getGson().toJson(checkService.getTaskSpecification(email, taskId));
     }
 
     @RequestMapping(value = "/join")
     @ResponseBody
     public String joinTaskCheck(HttpServletRequest request, int taskId) {
-        return null;
+        String email = getStaffEmail(request);
+        return WebConfig.getGson().toJson(checkService.joinTask(email, taskId));
     }
 
     @RequestMapping(value = "/subTasks")
     @ResponseBody
-    public String getUnCheckedSubTasks(HttpServletRequest request, int taskId) {
-        return null;
+    public String getUnCheckedSubTasks(HttpServletRequest request, int taskId, int taskType) {
+        TaskType type = TaskType.convert(taskType);
+        String email = getStaffEmail(request);
+        return WebConfig.getGson().toJson(checkService.getUnCheckedSubTasks(taskId, type));
     }
 
     @RequestMapping(value = "/subTask/accept")
     @ResponseBody
     public String acceptCheckedSubTasks(HttpServletRequest request, int taskId, int participationId) {
-        return null;
+        String email = getStaffEmail(request);
+        return WebConfig.getGson().toJson(checkService.acceptSubCheckTask(email, participationId, taskId));
     }
+
+    @RequestMapping(value = "/subTask/ongoing")
+    @ResponseBody
+    public String getMyUnfinishedSubTaskChecks(HttpServletRequest request, int taskId, int taskType) {
+        String email = getStaffEmail(request);
+        TaskType type = TaskType.convert(taskType);
+        return WebConfig.getGson().toJson(checkService.getOnGoingSubTaskChecks(taskId, email, type));
+    }
+
+
 
 }

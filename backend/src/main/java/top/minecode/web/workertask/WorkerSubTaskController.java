@@ -65,7 +65,9 @@ public class WorkerSubTaskController extends BaseController {
     @RequestMapping(value = "/subTask/commit")
     @ResponseBody
     public String commitSubTask(HttpServletRequest request, int taskId, int subTaskId, int taskType) {
-        return null;
+        String email = getUserEmail(request);
+        return WebConfig.getGson().toJson(specificTaskService.
+                commitTask(email, taskId, subTaskId, TaskType.convert(taskType)));
     }
 
 

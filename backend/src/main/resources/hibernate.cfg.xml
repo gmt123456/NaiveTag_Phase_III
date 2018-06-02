@@ -48,6 +48,9 @@
         <mapping class="top.minecode.po.auto.WorkerVectorPO" />
         <mapping class="top.minecode.po.auto.WorkerTastePO"/>
 
+        <mapping class="top.minecode.po.task.SubCheckTaskPO" />
+        <mapping class="top.minecode.po.task.CheckTaskPO" />
+
     </session-factory>
 
 

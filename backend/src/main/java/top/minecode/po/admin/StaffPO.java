@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created on 2018/6/1.
@@ -25,19 +26,11 @@ public class StaffPO {
 
     @ElementCollection(fetch = FetchType.EAGER, targetClass = Integer.class)
     @Fetch(FetchMode.SUBSELECT)
-    private List<Integer> participatedTasks;
+    private Map<Integer, Integer> participatedTaskEvaluations;
 
     @ElementCollection(fetch = FetchType.EAGER, targetClass = Integer.class)
     @Fetch(FetchMode.SUBSELECT)
-    private List<Integer> participatedTaskEvaluations;
-
-    @ElementCollection(fetch = FetchType.EAGER, targetClass = Integer.class)
-    @Fetch(FetchMode.SUBSELECT)
-    private List<Integer> onGoingTaskParticipation;
-
-    @ElementCollection(fetch = FetchType.EAGER, targetClass = Integer.class)
-    @Fetch(FetchMode.SUBSELECT)
-    private List<Integer> taskEvaluationsParticipation;
+    private Map<Integer, Integer> taskEvaluationsParticipation;
 
     public String getEmail() {
         return email;
@@ -55,35 +48,19 @@ public class StaffPO {
         this.password = password;
     }
 
-    public List<Integer> getParticipatedTasks() {
-        return participatedTasks;
-    }
-
-    public void setParticipatedTasks(List<Integer> participatedTasks) {
-        this.participatedTasks = participatedTasks;
-    }
-
-    public List<Integer> getParticipatedTaskEvaluations() {
+    public Map<Integer, Integer> getParticipatedTaskEvaluations() {
         return participatedTaskEvaluations;
     }
 
-    public void setParticipatedTaskEvaluations(List<Integer> participatedTaskEvaluations) {
+    public void setParticipatedTaskEvaluations(Map<Integer, Integer> participatedTaskEvaluations) {
         this.participatedTaskEvaluations = participatedTaskEvaluations;
     }
 
-    public List<Integer> getOnGoingTaskParticipation() {
-        return onGoingTaskParticipation;
-    }
-
-    public void setOnGoingTaskParticipation(List<Integer> onGoingTaskParticipation) {
-        this.onGoingTaskParticipation = onGoingTaskParticipation;
-    }
-
-    public List<Integer> getTaskEvaluationsParticipation() {
+    public Map<Integer, Integer> getTaskEvaluationsParticipation() {
         return taskEvaluationsParticipation;
     }
 
-    public void setTaskEvaluationsParticipation(List<Integer> taskEvaluationsParticipation) {
+    public void setTaskEvaluationsParticipation(Map<Integer, Integer> taskEvaluationsParticipation) {
         this.taskEvaluationsParticipation = taskEvaluationsParticipation;
     }
 }

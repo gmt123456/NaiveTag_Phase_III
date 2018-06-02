@@ -3,6 +3,7 @@ package top.minecode.service.workertask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.minecode.dao.log.WorkerLogDao;
+import top.minecode.dao.staff.TaskCheckDao;
 import top.minecode.dao.worker.WorkerInfoDao;
 import top.minecode.dao.workertask.SubTaskDao;
 import top.minecode.dao.workertask.TaskDao;
@@ -10,6 +11,7 @@ import top.minecode.dao.workertask.TaskParticipationDao;
 import top.minecode.domain.task.*;
 import top.minecode.domain.user.worker.Division;
 import top.minecode.po.log.WorkerViewLogPO;
+import top.minecode.po.task.SubCheckTaskPO;
 import top.minecode.po.task.SubTaskPO;
 import top.minecode.po.task.TaskPO;
 import top.minecode.po.worker.FinishedTaskParticipationPO;
@@ -37,6 +39,17 @@ public class WorkerSpecificTaskService {
     private TaskParticipationDao participationDao;
 
     private WorkerLogDao logDao;
+
+    private TaskCheckDao checkDao;
+
+    public TaskCheckDao getCheckDao() {
+        return checkDao;
+    }
+
+    @Autowired
+    public void setCheckDao(TaskCheckDao checkDao) {
+        this.checkDao = checkDao;
+    }
 
     public WorkerLogDao getLogDao() {
         return logDao;
@@ -220,6 +233,27 @@ public class WorkerSpecificTaskService {
 
         }
         return subTaskDetail;
+    }
+
+    public TaskCommitResponse commitTask(String email, int taskId, int subTaskId, TaskType taskType) {
+
+        SubTaskParticipationPO participationPO = participationDao.getWorkerSubTaskParticipation(email, taskId, subTaskId);
+        if (participationPO.getTags().keySet().size() != participationPO.getPicAmount())
+            return new TaskCommitResponse(false);
+
+        participationPO.setCommitDate(new Date());
+        participationPO.setState(SubTaskParticipationState.FINISHED);
+
+        TaskPO taskPO = taskDao.getTaskById(taskId);
+
+        TaskRequirement requirement = taskPO.getRequirement();
+
+        SubCheckTaskPO checkTaskPO = new SubCheckTaskPO(participationPO, requirement);
+
+        participationDao.updateSubTaskParticipation(participationPO);
+        checkDao.addSubCheck(checkTaskPO);
+
+        return new TaskCommitResponse(true);
     }
 
 }
