@@ -1,10 +1,9 @@
 <template>
   <div>
-    <index-navi></index-navi>
     <div style="min-width: 400px !important;max-width: 35%; margin: auto">
-      <div class="top">
-        <h3> Create your personal account</h3>
-      </div>
+      <!--<div class="top">-->
+        <!--<h3> Create your personal account</h3>-->
+      <!--</div>-->
 
       <el-form :model="signUpForm" :rules="rules" ref="signUpForm" status-icon label-width="160px"
                label-position="left">
