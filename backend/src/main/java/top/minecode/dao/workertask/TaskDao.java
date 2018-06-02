@@ -32,4 +32,9 @@ public class TaskDao {
     public List<TaskPO> getAll() {
         return taskHelper.getAll();
     }
+
+    public void update(TaskPO taskPO) {
+        taskHelper.update(taskPO);
+    }
+
 }

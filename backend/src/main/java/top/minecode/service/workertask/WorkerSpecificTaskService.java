@@ -188,10 +188,9 @@ public class WorkerSpecificTaskService {
         partPO.getParticipatedSubTaskResultIds().add(newId);
         participationDao.updateOnGoingTaskParticipation(partPO);
 
-        subTaskPO.getCurrentDoingWorkers().add(email);
 
-        if (subTaskPO.getCurrentDoingWorkers().size() + subTaskPO.getFinishedWorkers().size() == 3)
-            subTaskPO.setSubTaskState(SubTaskState.LOCKED);
+        subTaskPO.setCurrentDoingWorker(email);
+        subTaskPO.setSubTaskState(SubTaskState.LOCKED);
 
         subTaskDao.updateSubTask(subTaskPO);
 
@@ -206,7 +205,7 @@ public class WorkerSpecificTaskService {
         String taskDescription = subTaskPO.getTaskDescription();
 
         SubTaskDetail subTaskDetail = null;
-        if (subTaskPO.getFinishedWorkers().stream().anyMatch(e -> e.equals(email))) {
+        if (subTaskPO.getCurrentDoingWorker().equals(email)) {
             // 接过的任务
             SubTaskParticipationState taskState = SubTaskParticipationState.DOING;
             List<String> allPics = subTaskPO.getPicList();

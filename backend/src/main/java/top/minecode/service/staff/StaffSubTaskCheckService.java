@@ -4,11 +4,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.minecode.dao.staff.StaffDao;
 import top.minecode.dao.staff.TaskCheckDao;
+import top.minecode.dao.worker.WorkerInfoDao;
+import top.minecode.dao.workertask.SubTaskDao;
+import top.minecode.dao.workertask.TaskDao;
 import top.minecode.dao.workertask.TaskParticipationDao;
 import top.minecode.domain.tag.TagResult;
+import top.minecode.domain.task.SubTask;
+import top.minecode.domain.task.SubTaskState;
+import top.minecode.domain.task.TaskType;
 import top.minecode.domain.taskcheck.SubCheckTaskState;
 import top.minecode.po.task.SubCheckTaskPO;
+import top.minecode.po.task.SubTaskPO;
+import top.minecode.po.task.TaskPO;
 import top.minecode.po.worker.SubTaskParticipationPO;
+import top.minecode.po.worker.WorkerPO;
 import top.minecode.web.common.WebConfig;
 
 import java.util.*;
@@ -23,11 +32,44 @@ import java.util.stream.Collectors;
 @Service
 public class StaffSubTaskCheckService {
 
+    private WorkerInfoDao workerInfoDao;
+
     private TaskCheckDao checkDao;
 
     private StaffDao staffDao;
 
+    private SubTaskDao subTaskDao;
+
     private TaskParticipationDao participationDao;
+
+    private TaskDao taskDao;
+
+    public SubTaskDao getSubTaskDao() {
+        return subTaskDao;
+    }
+
+    @Autowired
+    public void setSubTaskDao(SubTaskDao subTaskDao) {
+        this.subTaskDao = subTaskDao;
+    }
+
+    public TaskDao getTaskDao() {
+        return taskDao;
+    }
+
+    @Autowired
+    public void setTaskDao(TaskDao taskDao) {
+        this.taskDao = taskDao;
+    }
+
+    public WorkerInfoDao getWorkerInfoDao() {
+        return workerInfoDao;
+    }
+
+    @Autowired
+    public void setWorkerInfoDao(WorkerInfoDao workerInfoDao) {
+        this.workerInfoDao = workerInfoDao;
+    }
 
     public TaskCheckDao getCheckDao() {
         return checkDao;
@@ -93,9 +135,54 @@ public class StaffSubTaskCheckService {
             if (value)
                 acceptCount += 1;
 
-        double errorRate = acceptCount * 1.0 / subCheckTaskPO.getAcceptRate();
+        double correctRate = acceptCount * 1.0 / subCheckTaskPO.getPicAmount();
+        double tolerantRate = subCheckTaskPO.getAcceptRate();
 
-        SubTaskParticipationPO subTaskParticipationPO;
+        boolean accept = correctRate >= tolerantRate;
+
+        SubTaskParticipationPO subTaskParticipationPO =
+                participationDao.getSubTaskParticipationById(subCheckTaskPO.getSubPartId());
+
+        subTaskParticipationPO.setAccept(accept);
+        subTaskParticipationPO.setEvaluated(true);
+        subTaskParticipationPO.setErrorRate(1 - correctRate);
+
+        String email = subTaskParticipationPO.getEmail();
+
+        if (accept) { // 如果这个任务正确率ok，那么就给他结算了，让他领钱
+
+            TaskPO taskPO = taskDao.getTaskById(subCheckTaskPO.getTaskId());
+
+            double earnedDollars = TaskType.getPrice(subTaskParticipationPO.getSubTaskType())
+                    * subTaskParticipationPO.getPicAmount() * taskPO.getPrizeRate() * correctRate;
+
+            double preDollars = taskPO.getActualDollars() == null ? 0.0 : taskPO.getActualDollars();
+            preDollars += earnedDollars;
+            taskPO.setActualDollars(preDollars);
+            taskDao.update(taskPO);
+
+            subTaskParticipationPO.setEarnedDollars(earnedDollars);
+
+            WorkerPO workerPO = workerInfoDao.getWorkerPOByEmail(email);
+            workerPO.setDollars(workerPO.getDollars() + earnedDollars);
+
+            workerInfoDao.updateWorkPO(workerPO);
+
+        } else {
+            subTaskParticipationPO.setEarnedDollars(0.0); // need to finish
+        }
+
+        SubTaskPO subTask = subTaskDao.getSubTaskById(subTaskParticipationPO.getSubTaskId());
+
+        if (accept) {
+            subTask.setSubTaskState(SubTaskState.FINISHED);
+        } else {
+            subTask.setSubTaskState(SubTaskState.COMMON);
+            subTask.setCurrentDoingWorker(null);
+        }
+
+        subTaskDao.updateSubTask(subTask);
+        participationDao.updateSubTaskParticipation(subTaskParticipationPO);
 
     }
 }

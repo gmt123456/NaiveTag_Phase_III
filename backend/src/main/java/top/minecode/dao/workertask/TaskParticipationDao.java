@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import top.minecode.dao.utils.CommonOperation;
 import top.minecode.dao.utils.HibernateUtils;
+import top.minecode.domain.task.SubTaskParticipation;
 import top.minecode.po.worker.FinishedTaskParticipationPO;
 import top.minecode.po.worker.OnGoingTaskParticipationPO;
 import top.minecode.po.worker.SubTaskParticipationPO;
@@ -29,8 +30,11 @@ public class TaskParticipationDao {
             new CommonOperation<SubTaskParticipationPO>(SubTaskParticipationPO.class.getName());
 
     public void addOnGoingTaskParticipation(OnGoingTaskParticipationPO po) {
-        System.out.println("add po");
         System.out.println(onGoingTaskParticipationHelper.add(po));
+    }
+
+    public SubTaskParticipationPO getSubTaskParticipationById(int id) {
+        return subPartHelper.getBySingleField("id", id);
     }
 
     public OnGoingTaskParticipationPO getOnGoingTaskParticipation(int id) {
