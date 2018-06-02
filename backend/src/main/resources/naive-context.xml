@@ -16,6 +16,7 @@
     <context:component-scan base-package="top.minecode.web.admin"/>
     <context:component-scan base-package="top.minecode.service.user"/>
     <context:component-scan base-package="top.minecode.dao.worker"/>
+    <context:component-scan base-package="top.minecode.dao.admin"/>
     <context:component-scan base-package="top.minecode.dao.log"/>
     <context:component-scan base-package="top.minecode.web.user"/>
     <context:component-scan base-package="top.minecode.web.requester.info"/>
@@ -25,6 +26,7 @@
     <context:component-scan base-package="top.minecode.service.workertask"/>
     <context:component-scan base-package="top.minecode.service.requester"/>
     <context:component-scan base-package="top.minecode.service.tag" />
+    <context:component-scan base-package="top.minecode.service.admin" />
     <context:component-scan base-package="top.minecode.service.statistic" />
     <context:component-scan base-package="top.minecode.dao.workertask"/>
     <context:component-scan base-package="top.minecode.dao.worker"/>

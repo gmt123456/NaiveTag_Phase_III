@@ -149,6 +149,7 @@ public class RequesterNewTaskServiceImpl implements RequesterNewTaskService {
 
         // Add dollars and advertisement dollars to taskPO
         order.setAdRate(payCommand.getAdvertisementDollars() / order.getPayLowerBound());
+        order.getTaskPO().setPrizeRate(payCommand.getDollars() / order.getPayLowerBound());
         List<SpecificTaskPO> specificTaskPOS = order.getSpecificPOS(payCommand.getDollars());
 
         // Unzip the dataset

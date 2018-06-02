@@ -3,7 +3,10 @@ package top.minecode.web.admin;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import top.minecode.web.common.BaseController;
 import top.minecode.web.requester.info.PageCommand;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created on 2018/6/2.
@@ -12,7 +15,7 @@ import top.minecode.web.requester.info.PageCommand;
  */
 @Controller
 @RequestMapping("admin/")
-public class UserInformationController {
+public class UserInformationController extends BaseController {
 
     @RequestMapping("workers")
     @ResponseBody
@@ -40,13 +43,13 @@ public class UserInformationController {
 
     @RequestMapping("modify/password")
     @ResponseBody
-    public String changePwd() {
+    public String changePwd(HttpServletRequest request, AdminChangeDollarsCommand changePwdCommand) {
         return null;
     }
 
     @RequestMapping("modify/dollars")
     @ResponseBody
-    public String changeDollars() {
+    public String changeDollars(HttpServletRequest request, AdminChangePasswordCommand changeDollarsCommand) {
         return null;
     }
 }

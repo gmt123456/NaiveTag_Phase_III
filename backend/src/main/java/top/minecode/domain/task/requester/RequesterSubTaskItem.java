@@ -14,14 +14,16 @@ public class RequesterSubTaskItem {
     private TaskType type;
     private double process;
     private int participantsNum;
+    private String description;
     private List<TaskParticipant> participants;
 
-    public RequesterSubTaskItem(TaskType type, double process,
-                                int participantsNum, List<TaskParticipant> participants) {
+    public RequesterSubTaskItem(TaskType type, double process, int participantsNum,
+                                List<TaskParticipant> participants, String description) {
         this.type = type;
         this.process = process;
         this.participantsNum = participantsNum;
         this.participants = participants;
+        this.description = description;
     }
 
     @Override
@@ -31,6 +33,7 @@ public class RequesterSubTaskItem {
                 ", process=" + process +
                 ", participantsNum=" + participantsNum +
                 ", participants=" + participants +
+                ", description=" + description +
                 '}';
     }
 }

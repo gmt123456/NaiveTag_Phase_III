@@ -45,6 +45,8 @@ public class TaskPO implements Serializable {
 
     private double adRate;
 
+    private double prizeRate;  // total dollars / lower bound
+
     private String cover;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -246,5 +248,13 @@ public class TaskPO implements Serializable {
 
     public void setCover(String cover) {
         this.cover = cover;
+    }
+
+    public double getPrizeRate() {
+        return prizeRate;
+    }
+
+    public void setPrizeRate(double prizeRate) {
+        this.prizeRate = prizeRate;
     }
 }

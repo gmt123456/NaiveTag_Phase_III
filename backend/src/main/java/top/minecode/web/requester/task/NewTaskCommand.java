@@ -151,7 +151,7 @@ public class NewTaskCommand {
         }
 
         public double getPrizeLowerBound(int pictureNum) {
-            return type * pictureNum * 1. / 100;
+            return type * pictureNum / 100;
         }
     }
 }

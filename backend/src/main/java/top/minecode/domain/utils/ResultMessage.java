@@ -15,6 +15,11 @@ public abstract class ResultMessage {
         return new SimpleResultMessage(FAILURE, message);
     }
 
+    public static ResultMessage failure() {
+        // Return default failure message
+        return new SimpleResultMessage(FAILURE, DEFAULT_FAILURE_MESSAGE);
+    }
+
     public static ResultMessage payMessage(String orderId, double lowerBound, int pictureNum) {
         return new PayMessage(SUCCESS, null, orderId, lowerBound, pictureNum);
     }
@@ -23,12 +28,9 @@ public abstract class ResultMessage {
         return new AuthenticationResultMessage(null, SUCCESS, webToken);
     }
 
-    public static ResultMessage authenticateFail(String message) {
-        return new AuthenticationResultMessage(message, FAILURE, null);
-    }
-
     private static final String SUCCESS = "success";
     private static final String FAILURE = "failure";
+    private static final String DEFAULT_FAILURE_MESSAGE = "Something is wrong";
 
     private final String status;
     private final String message;

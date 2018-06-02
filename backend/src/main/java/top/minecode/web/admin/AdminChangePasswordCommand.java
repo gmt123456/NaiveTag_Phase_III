@@ -5,15 +5,10 @@ package top.minecode.web.admin;
  * Description:
  * @author Liao
  */
-public class AdminChangeUserCommand {
+public class AdminChangePasswordCommand {
 
-    private String admin;
     private String email;
     private String newPassword;
-
-    public void setAdmin(String admin) {
-        this.admin = admin;
-    }
 
     public void setEmail(String email) {
         this.email = email;
@@ -29,9 +24,5 @@ public class AdminChangeUserCommand {
 
     public String getNewPassword() {
         return newPassword;
-    }
-
-    public String getAdmin() {
-        return admin;
     }
 }

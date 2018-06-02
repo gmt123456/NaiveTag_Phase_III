@@ -107,7 +107,7 @@ public class RequesterTaskDaoImpl implements RequesterTaskDao {
 
             int participantsNum = (int) getParticipantsNum(subTasks);
             return new RequesterSubTaskItem(e.getTaskType(), process,
-                    participantsNum, getParticipants(participantsPics));
+                    participantsNum, getParticipants(participantsPics), e.getTaskDescription());
         }).collect(Collectors.toList());
     }
 

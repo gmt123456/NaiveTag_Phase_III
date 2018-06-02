@@ -92,6 +92,7 @@ public class RequesterAccountLogPO implements Serializable {
         RELEASE_TASK,
         ADVERTISEMENT,
         PAY_BACK, // 没用完的钱退回来
+        SYSTEM  // 管理员调整的
     }
 
 
