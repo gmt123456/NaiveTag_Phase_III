@@ -103,24 +103,21 @@
 				show: false,
 				myParticipationList: [],
 				options: [{
-					value: 'doing',
+					value: 0,
 					label: 'doing'
 				}, {
-					value: 'finished',
+					value: 2,
 					label: 'finished'
-				}, {
-					value: 'waiting',
-					label: 'waiting'
-				}, {
-					value: 'expired',
+				},{
+					value: 1,
 					label: 'expired'
 				}],
-				value: 'doing'
+				value: 0
 			}
 		},
 
 		mounted() {
-			this.fetchData("doing");
+			this.fetchData(0);
 		},
 
         methods: {
