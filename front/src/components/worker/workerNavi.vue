@@ -10,7 +10,7 @@
                          background-color="#47494d"
                          text-color="lightgray"
                          active-text-color="#1B9CFC"
-                         style="height: 55px;position: relative;top: -2px;margin-left: 10px;">
+                         style="height: 55px;position: relative;top: -2px;margin-left: 26px;">
                     <el-menu-item index="/recommendation" style="height: 55px;">TaskHall</el-menu-item>
                     <el-menu-item index="/worker/home" style="height: 55px;">Home</el-menu-item>
                     <el-menu-item index="/worker/unfinish" style="height: 55px;">Unfinish</el-menu-item>

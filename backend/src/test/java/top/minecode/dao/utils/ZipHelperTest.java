@@ -23,8 +23,7 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = "classpath*:naive*")
 public class ZipHelperTest {
 
-    private String path = "C:\\Users\\liao\\Documents\\NaiveTag_Phase_III\\" +
-            "backend\\src\\main\\webapp\\WEB-INF\\defaultData\\AnimeData.zip";
+    private String path = "C:\\Users\\liao\\Desktop\\14_5464.zip";
 
     @Test
     public void countEntriesInZipFile() throws Exception{

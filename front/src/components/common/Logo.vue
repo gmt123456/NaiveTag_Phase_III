@@ -17,8 +17,8 @@
 
 <style scoped>
   .logo{
-    color:#1B9CFC;
-    font-size: 24px;
+    color:#20beff;
+    font-size: 20px;
     margin: 5px 0px 0px ;
     cursor:pointer;
   }

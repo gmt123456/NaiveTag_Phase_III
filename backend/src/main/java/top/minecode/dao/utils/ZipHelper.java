@@ -2,7 +2,9 @@ package top.minecode.dao.utils;
 
 import org.apache.commons.io.IOUtils;
 
+import javax.activation.MimetypesFileTypeMap;
 import java.io.*;
+import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -39,13 +41,15 @@ public class ZipHelper {
             while (entries.hasMoreElements()) {
                 ZipEntry entry = entries.nextElement();
 
-                // Only image will be unzipped todo add image checking
+                // Only image will be unzipped
                 String entryName = new File(entry.getName()).getName();
+                if (!isImageFile(entryName) || isHiddenFile(entryName))
+                    continue;
                 File target = new File(destPath, entryName);
 
                 if (!entry.isDirectory()) {
                     try (InputStream in = zipFile.getInputStream(entry);
-                         OutputStream out = new FileOutputStream(target)){
+                         OutputStream out = new FileOutputStream(target)) {
                         IOUtils.copy(in, out);
                     }
                 }
@@ -54,5 +58,15 @@ public class ZipHelper {
             e.printStackTrace();
             throw e;
         }
+    }
+
+    private static boolean isImageFile(String name) {
+        String mimeType = new MimetypesFileTypeMap().getContentType(name);
+        return mimeType.substring(0, 5).equalsIgnoreCase("image");
+    }
+
+    // Avoid unzip mac's hidden file
+    private static boolean isHiddenFile(String name) {
+        return name.startsWith("._");
     }
 }

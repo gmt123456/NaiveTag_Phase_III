@@ -9,15 +9,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import top.minecode.dao.auto.WorkerAbilityDao;
-import top.minecode.dao.auto.WorkerTasteDao;
 import top.minecode.dao.auto.WorkerVectorDao;
 import top.minecode.dao.log.AuthenticationLogDao;
 import top.minecode.dao.user.UserDao;
 import top.minecode.dao.worker.RankDao;
 import top.minecode.domain.user.UserType;
-import top.minecode.po.auto.WorkerAbilityPO;
-import top.minecode.po.auto.WorkerTastePO;
+import top.minecode.domain.utils.AuthenticationResultMessage;
+import top.minecode.domain.utils.ResultMessage;
 import top.minecode.po.auto.WorkerVectorPO;
 import top.minecode.po.worker.RankPO;
 import top.minecode.service.util.Encryptor;
@@ -38,9 +36,6 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
 
     private static final Logger log = LoggerFactory.getLogger(ShiroUserAuthentication.class);
     private static final Gson gson = new Gson();
-    private static final String SUCCESS = "success";
-    private static final String FAILURE = "failure";
-    private static final String ERROR_MESSAGE = "Invalid username or password";
 
     private Authenticator authenticator;
     private Encryptor encryptor;
@@ -98,11 +93,16 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
             String webToken = activeUserService.addUser(email);
 
             // Add login record to database
-            authenticationLogDao.recordLogin(email, new Date(), userDao.getUser(email).getUserType());
-            return gson.toJson(new AuthenticationResponse(null, SUCCESS, webToken));
+            UserType userType = userDao.getUser(email).getUserType();
+            if (userType.toString().equalsIgnoreCase(loginCommand.getUserType())) {
+                authenticationLogDao.recordLogin(email, new Date(), userDao.getUser(email).getUserType());
+                return gson.toJson(ResultMessage.authenticationSuccess(webToken));
+            }
+
+            return gson.toJson(ResultMessage.failure("User type not match"));
         } catch (AuthenticationException e) {
             log.debug("Authentication fail");
-            return gson.toJson(new AuthenticationResponse(ERROR_MESSAGE, FAILURE, null));
+            return gson.toJson(ResultMessage.failure("Invalid username or password"));
         }
     }
 
@@ -134,11 +134,9 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
         authenticationLogDao.recordSignup(email, joinTime, userType);
         authenticationLogDao.recordLogin(email, joinTime, userType);
 
-
-
         // Login this user and get his web token
         String webToken = activeUserService.addUser(email);
-        return gson.toJson(new AuthenticationResponse(null, SUCCESS, webToken));
+        return gson.toJson(ResultMessage.authenticationSuccess(webToken));
     }
 
     @Override
