@@ -155,6 +155,7 @@ public class WorkerSpecificTaskService {
 
         SubTaskParticipationPO participationPO = new SubTaskParticipationPO();
         participationPO.setTaskId(taskId);
+        participationPO.setSubTaskId(subTaskId);
         participationPO.setSubTaskType(taskType);
         participationPO.setCover(subTaskPO.getCover());
         participationPO.setPicAmount(subTaskPO.getPicList().size());

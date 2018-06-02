@@ -43,8 +43,10 @@ public class WorkerSubTaskController extends BaseController {
     @ResponseBody
     public String getSubTaskDetails(HttpServletRequest request, int taskId, int subTaskId, int taskType) {
         String email = getUserEmail(request);
-        SubTaskDetail subTaskDetail = specificTaskService.getSubTaskDetail
-                (email, taskId, subTaskId, TaskType.convert(taskType));
+        System.out.println(taskType);
+        System.out.println(TaskType.convert(taskType));
+        System.out.println(specificTaskService == null);
+        SubTaskDetail subTaskDetail = specificTaskService.getSubTaskDetail(email, taskId, subTaskId, TaskType.convert(taskType));
         if (subTaskDetail.getTaskState() == SubTaskParticipationState.DOING) {
             return WebConfig.getGson().toJson((AcceptedSubTask)subTaskDetail, AcceptedSubTask.class);
         } else {

@@ -20,17 +20,17 @@ export function submitSubTask(taskId, subTaskId, callback) {
 	submitSubTaskFromServer(taskId, subTaskId, callback);
 }
 export function myParticipation(taskId, taskState, callback) {
-	myParticipationMock(taskId, taskState, callback);
+	myParticipationFromServer(taskId, taskState, callback);
 }
 
 
 function myParticipationFromServer(taskId, taskState, callback) {
-	let url = 'worker/task/myparticipation.html';
+	let url = 'worker/task/myParticipation.html';
 
 	$.get(getUrl(url), {
 		token: localStorage.token,
 		taskId: taskId,
-		taskState: taskState,
+		subTaskState: taskState,
 	}, function (res) {
 		callback(JSON.parse(res));
 	});

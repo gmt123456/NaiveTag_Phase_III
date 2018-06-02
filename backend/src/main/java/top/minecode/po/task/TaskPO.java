@@ -2,6 +2,7 @@ package top.minecode.po.task;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import top.minecode.domain.task.TaskRequirement;
 import top.minecode.domain.task.TaskState;
 import top.minecode.domain.task.TaskTag;
 import top.minecode.domain.task.TaskType;
@@ -73,6 +74,17 @@ public class TaskPO implements Serializable {
     @ElementCollection(fetch = FetchType.EAGER, targetClass = String.class)
     @Fetch(FetchMode.SUBSELECT)
     private List<String> participators;
+
+    @Enumerated(EnumType.STRING)
+    private TaskRequirement requirement;
+
+    public TaskRequirement getRequirement() {
+        return requirement;
+    }
+
+    public void setRequirement(TaskRequirement requirement) {
+        this.requirement = requirement;
+    }
 
     public TaskPO() {}
 
