@@ -45,6 +45,7 @@ public class SubTaskParticipation {
     }
 
     public static SubTaskParticipation fromPO(SubTaskParticipationPO po) {
+        System.out.println("SubTaskPart id : " + po.getSubTaskId());
         Double earnedDollars = null;
         if (!po.isEvaluated())
             earnedDollars = po.getEarnedDollars();
