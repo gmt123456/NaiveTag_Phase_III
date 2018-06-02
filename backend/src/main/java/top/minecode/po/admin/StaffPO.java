@@ -30,7 +30,7 @@ public class StaffPO {
 
     @ElementCollection(fetch = FetchType.EAGER, targetClass = Integer.class)
     @Fetch(FetchMode.SUBSELECT)
-    private Map<Integer, Integer> taskEvaluationsParticipation;
+    private Map<Integer, Integer> participatedTasks;
 
     public String getEmail() {
         return email;
@@ -56,11 +56,11 @@ public class StaffPO {
         this.participatedTaskEvaluations = participatedTaskEvaluations;
     }
 
-    public Map<Integer, Integer> getTaskEvaluationsParticipation() {
-        return taskEvaluationsParticipation;
+    public Map<Integer, Integer> getParticipatedTasks() {
+        return participatedTasks;
     }
 
-    public void setTaskEvaluationsParticipation(Map<Integer, Integer> taskEvaluationsParticipation) {
-        this.taskEvaluationsParticipation = taskEvaluationsParticipation;
+    public void setParticipatedTasks(Map<Integer, Integer> participatedTasks) {
+        this.participatedTasks = participatedTasks;
     }
 }

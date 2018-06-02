@@ -14,6 +14,7 @@ import top.minecode.service.workertask.WorkerTaskBasicService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -87,7 +88,7 @@ public class StaffTaskService {
             return new JoinTaskResponse(false, JoinTaskResponse.UNKNOWN_REASON);
 
         StaffPO staff = staffDao.getStaffByEmail(email);
-        List<Integer> participatedTasks = staff.getParticipatedTasks();
+        Set<Integer> participatedTasks = staff.getParticipatedTasks().keySet();
 
         if (participatedTasks.contains(taskId))
             return new JoinTaskResponse(false, JoinTaskResponse.HAS_ACCEPTED);
@@ -96,10 +97,12 @@ public class StaffTaskService {
         participation.setParticipatedSubTaskResultIds(new ArrayList<>());
         participation.setTaskId(taskId);
         participation.setUserEmail(email);
-        participation.setStaffUser(false);
+        participation.setStaffUser(true);
 
         participationDao.addOnGoingTaskParticipation(participation);
-        participatedTasks.add(taskId);
+
+        staff.getParticipatedTasks().put(taskId, participation.getId());
+
         staffDao.updateStaff(staff);
 
         return new JoinTaskResponse(true, null);
