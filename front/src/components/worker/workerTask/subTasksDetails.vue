@@ -169,7 +169,7 @@
 	            submitSubTask(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, res =>{
 		            if(res.result === true){
 			            that.$message.success("submit success! Well done!(￣▽￣)");
-			            that.fetchData();
+			            that.$router.push("/firstTask/myparticipation");
 		            }else{
 			            that.$message.error("submit fail！（；´д｀）ゞ");
 		            }

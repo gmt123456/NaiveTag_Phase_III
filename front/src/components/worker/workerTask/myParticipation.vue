@@ -137,7 +137,7 @@
 
 	        fetchData(state){
 				let that = this;
-		        myParticipation(this.taskData.taskId, state, res => {
+		        myParticipation(localStorage.firstLevelTaskId, state, res => {
 			        that.myParticipationList = res;
 			        that.show = true;
 		        })
