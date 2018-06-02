@@ -8,6 +8,7 @@ import WorkerMain from '../components/worker/workerMain.vue'
 import WorkerUnfinish from '../components/worker/workerUser/workerUnfinish.vue'
 import WorkerFinish from '../components/worker/workerUser/workerFinish.vue'
 import WorkerRank from '../components/worker/workerUser/workerRank.vue'
+import WorkerTag from '../components/worker/workerTag/workerTagPage.vue'
 import SubTask from '../components/worker/workerTask/subTasks.vue'
 import SubTaskDetails from '../components/worker/workerTask/subTasksDetails.vue'
 import FirstLevelTask from '../components/worker/workerTask/firstLevelTask.vue'
@@ -48,6 +49,8 @@ export default new Router({
 				},
 				{path: '/subTaskDetails/:taskId/:subTaskId/:taskType', name: 'subTaskDetails', component: SubTaskDetails},
 				{path: '/recommendation', component: Recommendation},
+
+				{path: '/tag/:taskId/:subTaskId/:taskType/:picUrl', component: WorkerTag, name: 'workerTag'},
 			]
 		},
 

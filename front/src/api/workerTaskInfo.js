@@ -22,8 +22,38 @@ export function submitSubTask(taskId, subTaskId, callback) {
 export function myParticipation(taskId, taskState, callback) {
 	myParticipationFromServer(taskId, taskState, callback);
 }
+export function searchResult(taskType, taskTag, rankType, begin, step, key, canAccept, callback) {
+	searchResultFromServer(taskType, taskTag, rankType, begin, step, key, canAccept, callback);
+}
 
 
+function searchResultFromServer(taskType, taskTag, rankType, begin, step, key, canAccept, callback) {
+	let url = 'worker/task/search.html';
+
+	$.get(getUrl(url), {
+		token: localStorage.token,
+		taskType: taskType, // 指的是401，402之类的，如果用户没选，那就是传过来0
+		taskTag: taskTag,
+			// military,
+			// nature,
+			// sports,
+			// humanity,
+			// science,
+			// politics,
+			// others,
+			// all; // all 表示全部都返回，这个要传回来一个字符串
+		rankType: rankType,// 排序方式，提供默认排序，按照金钱数量降序，按照金钱升序
+			// --> DEFAULT,
+			// 	MONEY_DESCEND,
+			// 	MONEY_ASCEND; // 传回来一个字符串
+		begin: begin,// 起始位置，从0开始
+		step: step,// 请求的推荐任务的数量，迭代三应该实现下拉刷新，所以就不设置页了
+		key: key, // 字符串，用户为搜索提供的关键字
+		canAccept: canAccept, // 筛选条件，指的是用户是否可以接受，如果是false就返回所有的，如果是true就只返回可以接受的
+	}, function (res) {
+		callback(JSON.parse(res));
+	});
+}
 function myParticipationFromServer(taskId, taskState, callback) {
 	let url = 'worker/task/myParticipation.html';
 
