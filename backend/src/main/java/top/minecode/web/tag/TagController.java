@@ -71,9 +71,9 @@ public class TagController extends BaseController {
     @RequestMapping("/taskInfo")
     @ResponseBody
     public String getTaskInformation(HttpServletRequest request, int taskId, int taskType) {
-        TaskType type = TaskType.convert(taskType);
-        // notice the active user table
-        return WebConfig.getGson().toJson(tagService.getTaskInformation(taskId, type));
+            TaskType type = TaskType.convert(taskType);
+            // notice the active user table
+            return WebConfig.getGson().toJson(tagService.getTaskInformation(taskId, type));
 
     }
 

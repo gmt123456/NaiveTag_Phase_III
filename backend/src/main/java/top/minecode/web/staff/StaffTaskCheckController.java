@@ -57,14 +57,22 @@ public class StaffTaskCheckController extends BaseController {
     public String getUnCheckedSubTasks(HttpServletRequest request, int taskId, int taskType) {
         TaskType type = TaskType.convert(taskType);
         String email = getStaffEmail(request);
-        return null;
+        return WebConfig.getGson().toJson(checkService.getUnCheckedSubTasks(taskId, type));
     }
 
     @RequestMapping(value = "/subTask/accept")
     @ResponseBody
     public String acceptCheckedSubTasks(HttpServletRequest request, int taskId, int participationId) {
         String email = getStaffEmail(request);
-        return null;
+        return WebConfig.getGson().toJson(checkService.acceptSubCheckTask(email, participationId, taskId));
+    }
+
+    @RequestMapping(value = "/subTask/ongoing")
+    @ResponseBody
+    public String getMyUnfinishedSubTaskChecks(HttpServletRequest request, int taskId, int taskType) {
+        String email = getStaffEmail(request);
+        TaskType type = TaskType.convert(taskType);
+        return WebConfig.getGson().toJson(checkService.getOnGoingSubTaskChecks(taskId, email, type));
     }
 
 
