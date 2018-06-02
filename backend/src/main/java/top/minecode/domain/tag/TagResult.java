@@ -17,7 +17,7 @@ public abstract class TagResult implements Serializable {
     }
 
     public TagResult(TaskType taskType) {
-        this.tagType = tagType;
+        this.tagType = taskType;
     }
 
     public TaskType getTagType() {

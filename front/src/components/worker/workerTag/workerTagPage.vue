@@ -52,20 +52,6 @@
         },
 
         methods: {
-            back(){
-//                if(this.$refs.tagPage.checkNext()){
-//                    this.$refs.tagPage.changeLabel();
-////                    console.log(this.tagData);
-//                    var json = JSON.stringify(this.tagData);
-//                    console.log("json: ");
-//                    console.log(json);
-//                    let result = save(this.$route.params.taskId,this.picUrl,json, res=> {
-//                        console.log("saveResult success!");
-//                        console.log(res);
-                        this.$router.push({ name: 'task', params: { taskId: this.$route.params.taskId }});
-//                    });
-//                }
-            },
 
             changeLabel(newLabel){
                 this.tagData.label = newLabel;
@@ -73,7 +59,7 @@
 
             tagPicReflash(picUrl) {
                 console.log("picUrl: " + picUrl);
-                this.$router.push({ name: 'tag', params: { taskId: this.$route.params.taskId, picUrl: picUrl}});
+              this.$router.push({ name: 'workerTag', params: { taskId: localStorage.firstLevelTaskId, subTaskId: this.$route.params.subTaskId, taskType: this.$route.params.taskType, picUrl: picUrl}});
             },
 
             lastPic: function () {
@@ -91,11 +77,9 @@
             },
 
             nextPic: function () {
-                console.log(this.tagData);
                 this.saveData();
                 let result = next(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, this.picUrl, res=> {
-                    console.log("nextResult:");
-                    console.log(res);
+
                     if(res.url){
                         this.tagPicReflash(res.url);
                     }else{
@@ -105,10 +89,7 @@
             },
 
             saveData(){
-                console.log(this.tagData);
                 var json = JSON.stringify(this.tagData);
-                console.log("json: ");
-                console.log(json);
                 let result = save(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, this.picUrl,json, res=> {
                     console.log("saveResult success!");
                 });
@@ -116,10 +97,8 @@
 
             fetchTagData () {
                 this.picUrl = this.$route.params.picUrl;
-                console.log("picUrl" + this.picUrl);
                 let result = taskInfo(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType,  res=> {
-                    console.log("taskInfo:");
-                    console.log(res);
+
                     if(res.classes){
                         this.options = this.changeToOptions(res.classes);
                     }
@@ -136,15 +115,12 @@
             },
 
             fetchLabelDataByPicUrl(picUrl) {
+              let that = this;
                 let result = getLabelInfo(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, picUrl, res=> {
-                    console.log("getLabelInfo:");
-                    console.log(res);
                     if(res){
-                        this.tagData = res;
-                        console.log("this.tagData");
-                        console.log(this.tagData);
+                      that.tagData = res;
                     }else{
-                        this.tagData = {
+                      that.tagData = {
                             "label": null,
                             "frames":[
                             ],
@@ -154,7 +130,8 @@
                             ],
                         };
 
-                        this.tagData.tagType = "t_" + this.taskType;
+                      that.tagData.tagType =  ""+that.taskType;
+                        console.log(that.tagData.tagType)
                     }
                 });
             },

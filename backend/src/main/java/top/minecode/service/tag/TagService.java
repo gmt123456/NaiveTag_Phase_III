@@ -58,6 +58,7 @@ public class TagService {
         return participationDao;
     }
 
+    @Autowired
     public void setParticipationDao(TaskParticipationDao participationDao) {
         this.participationDao = participationDao;
     }

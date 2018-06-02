@@ -16,8 +16,8 @@ export function subTaskDetailsInfo(taskId, subTaskId, taskType, callback) {
 export function acceptSubTask(taskId, subTaskId, taskType, callback) {
 	acceptSubTaskFromServer(taskId, subTaskId, getTaskIdToServer(taskType), callback);
 }
-export function submitSubTask(taskId, subTaskId, callback) {
-	submitSubTaskFromServer(taskId, subTaskId, callback);
+export function submitSubTask(taskId, subTaskId, taskType, callback) {
+	submitSubTaskFromServer(taskId, subTaskId, taskType, callback);
 }
 export function myParticipation(taskId, taskState, callback) {
 	myParticipationFromServer(taskId, taskState, callback);
@@ -65,13 +65,14 @@ function myParticipationFromServer(taskId, taskState, callback) {
 		callback(JSON.parse(res));
 	});
 }
-function submitSubTaskFromServer(taskId, subTaskId, callback) {
+function submitSubTaskFromServer(taskId, subTaskId, taskType, callback) {
 	let url = 'worker/task/subTask/commit.html';
 
 	$.get(getUrl(url), {
 		token: localStorage.token,
 		taskId: taskId,
 		subTaskId: subTaskId,
+    taskType: getTaskIdToServer(taskType),
 	}, function (res) {
 		callback(JSON.parse(res));
 	});

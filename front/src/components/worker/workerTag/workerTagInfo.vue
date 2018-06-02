@@ -80,7 +80,6 @@
                         <div>
                             <el-button icon="el-icon-back" round size="mini" style="margin: 10px" @click="back">back</el-button>
                         </div>
-
                         <div v-if="description" class="block center" style="padding: 20px 20px 0px 20px;">
                             Description：{{description}}
                         </div>
@@ -91,7 +90,7 @@
                             <!--输入框-->
                             <div v-if="isInputType">
                                 <div v-if="!isRectsTypeNoLabel">
-                                    <el-input v-model="labelInput" placeholder="Please input content" class="input"></el-input>
+                                    <el-input v-model="labelInput" placeholder="Please input content" class="input" />
                                 </div>
                                 <div v-if="isRectsTypeNoLabel"
                                      v-for="(item, index) in frames"
@@ -134,7 +133,7 @@
                                         </el-option>
                                     </el-select>
                                     <el-button type="danger" icon="el-icon-delete" circle
-                                               v-on:click="deleteFramesItem(index)"></el-button>
+                                               v-on:click="deleteFramesItem(index)" />
                                 </div>
                             </div>
 
@@ -173,7 +172,9 @@
                }
 
                this.updatePic(this.picUrl);
+     //          console.log("isRectsTypeNoLabel: "+this.isRectsTypeNoLabel);
 
+      //       console.log("this.getTagTypeNum"+this.getTagTypeNum);
            })
         },
 
@@ -304,6 +305,8 @@
             },
 
             isRectsTypeNoLabel: function () {
+
+                console.log("switch.getTagTypeNum"+this.getTagTypeNum);
                 switch (this.getTagTypeNum) {
                     case 100:
                         return false;
@@ -398,8 +401,8 @@
 
         methods: {
 	        back(){
-
-            },
+            this.$router.push({ name: 'subTaskDetails', params: { taskId: localStorage.firstLevelTaskId, subTaskId: this.$route.params.subTaskId, taskType: this.$route.params.taskType}});
+          },
 
             updatePic: function (picUrl) {
                 this.picWidthStyle = 'auto';
@@ -616,7 +619,7 @@
 
             onMouseMove: function (event) {
                 if(this.drawRect){
-                    
+
                     this.endPoint.x = event.offsetX;
                     this.endPoint.y = event.offsetY;
 

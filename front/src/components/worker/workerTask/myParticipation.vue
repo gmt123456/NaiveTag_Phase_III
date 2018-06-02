@@ -47,7 +47,7 @@
                                             <span style="font-size: 14px">{{item.picCount}}</span>
                                             <span style="color: #6f7180;font-size: 15px;">{{item.picAmount}}</span>
                                         </div>
-                                        <div v-if="!item.commiteDate" class="center" style="float: right;position:relative;z-index: 2">
+                                        <div v-if="!item.commitDate" class="center" style="float: right;position:relative;z-index: 2">
                                             <el-button type="text" style="padding: 0;" @click="startTag">start</el-button>
                                             <el-button type="primary" size="mini" style="margin-left: 10px;" @click="openDetails(index)">details</el-button>
                                         </div>
@@ -57,7 +57,7 @@
                                         </div>
                                         <div style="text-align: center;color: gray;font-size: 13px;width: 100%;float: bottom">
                                             <div>expired: {{item.expiredDate}}</div>
-                                            <div v-if="item.commiteDate" style="color: lightgrey">commit: {{item.commiteDate}}</div>
+                                            <div v-if="item.commitDate" style="color: lightgrey">commit: {{item.commitDate}}</div>
                                         </div>
                                     </el-main>
                                 </el-container>
@@ -116,7 +116,7 @@
 			}
 		},
 
-		mounted() {
+		created() {
 			this.fetchData(0);
 		},
 

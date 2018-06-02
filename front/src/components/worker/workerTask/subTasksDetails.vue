@@ -36,7 +36,7 @@
                             <el-tab-pane label="unfinish" name="unfinish"></el-tab-pane>
                             <el-tab-pane label="finish" name="finish"></el-tab-pane>
                         </el-tabs>
-                        <el-button v-if="detailsData.taskState === 'unAccepted'" type="primary" style="float: right;height: 40px;width: 150px;" @click="accept" :loading="loadingAccept">Accept</el-button>
+                        <el-button v-if="detailsData.taskState === 'UN_PART'" type="primary" style="float: right;height: 40px;width: 150px;" @click="accept" :loading="loadingAccept">Accept</el-button>
                         <el-button v-else-if="detailsData.unFinishedPicList && detailsData.unFinishedPicList.length === 0" type="primary" style="float: right;height: 40px;width: 150px;" :loading="loadingSubmit" @click="submit">Submit</el-button>
                         <el-button v-else type="primary" style="float: right;height: 40px;width: 150px;" @click="startTag">Start Tag</el-button>
                     </div>
@@ -131,8 +131,8 @@
         methods: {
 
 	        getImgSrc(src){
-		        // return getUrl(src);
-                return src;
+		        return getUrl(src);
+                // return src;
 	        },
 
 	        startTagByPicUrl(url){
@@ -166,7 +166,7 @@
             submit(){
 	        	this.loadingSubmit = true;
 	            let that = this;
-	            submitSubTask(this.$route.params.taskId, this.$route.params.subTaskId, res =>{
+	            submitSubTask(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, res =>{
 		            if(res.result === true){
 			            that.$message.success("submit success! Well done!(￣▽￣)");
 			            that.fetchData();
