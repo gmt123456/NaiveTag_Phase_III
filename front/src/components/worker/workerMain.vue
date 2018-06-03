@@ -1,6 +1,6 @@
 <template>
     <div id="workerMain">
-        <el-col :span="24"><div style="background-color: #8cd6b4;min-height: 200px;overflow:hidden;">
+        <el-col :span="24"><div :style="{'background-color': getBackGroundColor(), 'min-height': '200px', 'overflow':'hidden'}">
 
             <div style="width: 900px;height: 40px;margin: auto;">
                 <div style="height: 30px;"></div>
@@ -210,6 +210,21 @@
         },
 
         methods: {
+
+        	getBackGroundColor(){
+        		switch (this.userInfo.division){
+                    case "Novice":
+                    	return "#8cd6b4";
+			        case "Contributor":
+				        return "#6ad4ff";
+			        case "Expert":
+				        return "#967492";
+			        case "Master":
+				        return "#f99970";
+			        case "Grandmaster":
+				        return "#ddb74b";
+                }
+            },
 
 	        getImage(){
             return getUrl(this.userInfo.avatar);

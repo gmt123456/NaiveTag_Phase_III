@@ -172,16 +172,10 @@
                }
 
                this.updatePic(this.picUrl);
-     //          console.log("isRectsTypeNoLabel: "+this.isRectsTypeNoLabel);
-
-      //       console.log("this.getTagTypeNum"+this.getTagTypeNum);
            })
         },
 
         created: function(){
-            console.log("tagInfo created");
-            console.log("frames");
-            console.log(this.frames);
             if(this.label){
                 this.updateLabel();
             }
@@ -306,7 +300,6 @@
 
             isRectsTypeNoLabel: function () {
 
-                console.log("switch.getTagTypeNum"+this.getTagTypeNum);
                 switch (this.getTagTypeNum) {
                     case 100:
                         return false;
@@ -435,9 +428,6 @@
                         }
                     }
                     if(this.isSelectType){
-                        console.log("tagInfo isSelectType");
-                        console.log("this.label "+ this.label);
-                        console.log(this.options);
                         for(var index in this.options){
                             if(this.options[index].label === this.label){
                                 this.labelSelect = index;
@@ -569,18 +559,14 @@
 
             deleteFramesItem(index) {
                 this.frames.splice(index, 1);
-                console.log(this.frames);
             },
 
             changeInputValue(value,index) {
-                console.log("value: "+value+" index: "+index);
                 Vue.set(this.frames[index], 'label', value);
-                console.log(this.frames);
             },
 //
 //            changeInputLabel(value){
 //                this.label = value;
-//                console.log("label: " + this.label);
 //            },
 
             changeSelectValue(value,index) {
@@ -588,9 +574,7 @@
                 obj = this.options.find((item)=>{
                     return item.value === value;
                 });
-                console.log("value: "+value+" index: "+index+" label: "+ obj.label);
                 Vue.set(this.frames[index], 'label', obj.label);
-                console.log(this.frames);
             },
 //
 //            changeSelectLabel(value){
@@ -599,7 +583,6 @@
 //                    return item.value === value;
 //                });
 //                this.label = obj.label;
-//                console.log("label: " + this.label);
 //            },
 
             onMouseDown: function (event) {
@@ -609,8 +592,6 @@
                     this.startPoint.y = event.offsetY;
                     this.endPoint.x = event.offsetX;
                     this.endPoint.y = event.offsetY;
-                    console.log(this.startPoint.x + " this.startPoint.x");
-                    console.log(this.startPoint.y + " this.startPoint.y");
                 }else{
                     this.$message.error('有标注信息未填写！');
                 }
@@ -643,7 +624,6 @@
                             "rightDown": {x:this.getRectLeft + this.getRectWidth,y:this.getRectTop + this.getRectHeight},
                             "label":label,
                         });
-                        console.log(this.frames);
                     }
                 }
             },

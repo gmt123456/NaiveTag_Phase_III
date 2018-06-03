@@ -14,13 +14,15 @@ import SubTaskDetails from '../components/worker/workerTask/subTasksDetails.vue'
 import FirstLevelTask from '../components/worker/workerTask/firstLevelTask.vue'
 import Overview from '../components/worker/workerTask/overview.vue'
 import MyParticipation from '../components/worker/workerTask/myParticipation.vue'
-import Recommendation from '../components/worker/workerUser/recommendation.vue'
+import TaskHall from '../components/worker/workerUser/taskHall.vue'
 import Index from '../components/index/Index.vue'
 import RequesterIndex from '../components/requester/RequesterIndex.vue'
 import RequesterHome from '../components/requester/Home.vue'
 import TaskDetail from  '../components/requester/TaskDetail.vue'
 
-Vue.use(Router)
+import ServiceCheck from '../components/stuff/stuffCheck/stuffCheckPage'
+
+Vue.use(Router);
 
 export default new Router({
 	mode: 'history',
@@ -48,11 +50,12 @@ export default new Router({
 					]
 				},
 				{path: '/subTaskDetails/:taskId/:subTaskId/:taskType', name: 'subTaskDetails', component: SubTaskDetails},
-				{path: '/recommendation', component: Recommendation},
+				{path: '/taskHall', component: TaskHall},
 
 				{path: '/tag/:taskId/:subTaskId/:taskType/:picUrl', component: WorkerTag, name: 'workerTag'},
 			]
 		},
+		{path: '/service', component: ServiceCheck},
 
 		{path: '/', component: Index},
 		{path: '/login', component:Login},
@@ -61,7 +64,7 @@ export default new Router({
 			path: '/requester', component: RequesterIndex,
 			children: [
 				{path: 'home', component: RequesterHome},
-        {path:'taskDetail',name:'taskDetail',component:TaskDetail}
+                {path:'taskDetail',name:'taskDetail',component:TaskDetail}
 			]
 		}
 
