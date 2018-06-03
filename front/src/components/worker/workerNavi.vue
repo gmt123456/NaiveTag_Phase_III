@@ -17,7 +17,7 @@
                     <el-menu-item index="/worker/finish" style="height: 55px;">Finish</el-menu-item>
                     <el-menu-item index="/worker/rank" style="height: 55px;">Rank</el-menu-item>
                 </el-menu>
-                <el-button type="text" style="color: lightgrey;margin: 15px;">Sign out</el-button>
+                <el-button type="text" style="color: lightgrey;margin: 15px;" @click="signOut">Sign out</el-button>
                 <img :src="avatar" width="30px" height="30px" style="border-radius: 3px;"/>
             </div>
         </div></el-col>
@@ -29,6 +29,7 @@
 <script>
 
 	import {getUrl} from '../../api/tool'
+    import {workerSignOut} from "../../api/workerInfo";
 	import logo from '../common/Logo.vue'
 
 	export default {
@@ -45,6 +46,21 @@
 	        loadImage(src){
 		        this.avatar = getUrl(src);
 	        },
+
+	        signOut() {
+		        this.$confirm('Are you sure you want to quit?', 'Prompt', {
+			        confirmButtonText: 'yes',
+			        cancelButtonText: 'no',
+			        type: 'info'
+		        }).then(() => {
+			        workerSignOut(() => {
+			        	this.$router.push("/");
+			        })
+		        }).catch(() => {
+
+		        });
+	        }
+
         },
 
         components: {

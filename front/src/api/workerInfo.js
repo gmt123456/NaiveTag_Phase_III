@@ -1,22 +1,19 @@
 import {getUrl} from "./tool";
+import {getTaskIdToServer} from "./taskTypeName";
 
-export function testTaskAll(taskType, taskTag, rankType, begin, step, callback) {
-	let url = 'worker/task/recommendation.html';
 
-	$.get(getUrl(url), {
-		token: localStorage.token,
-		taskType: taskType, // 指的是401，402之类的，如果用户没选，那就是传过来0
-		taskTag: taskTag, // 任务的题材，可能是军事啊，自然啊之类的，之后会有一个可能取值的表格
-		rankType: rankType, // 排序方式，提供默认排序，按照金钱数量降序，按照金钱升序
-		begin: begin, // 起始位置
-		step: step, // 请求的推荐任务的数量，迭代三应该实现下拉刷新，所以就不设置页了
-	}, function (res) {
-		callback(JSON.parse(res));
-	});
+export function workerSignOut(callback) {
+	$.ajax({
+		url: getUrl('logout.html'),
+		type: 'GET',
+		data: {
+			token: localStorage.token,
+		},
+		success: function(){
+			callback();
+		},
+	})
 }
-
-
-
 export function workerInfo(callback) {
 	getWorkerInfoFromServer(callback);
 }

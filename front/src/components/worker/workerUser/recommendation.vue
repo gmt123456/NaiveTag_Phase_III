@@ -6,7 +6,7 @@
                 <el-button plain style="margin-left: 620px;width: 170px;" size="small">Learn more</el-button>
             </div>
         </div>
-        <div style="width: 100%;text-align: center;min-height: 500px;border: dotted 1px;">
+        <div style="width: 100%;text-align: center;min-height: 500px;">
             <div style="width: 900px;margin: auto;">
 
                 <el-tabs v-model="activeName3" type="card" @tab-click="handleClick" style="margin-top: 30px">
