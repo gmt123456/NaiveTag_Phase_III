@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 import top.minecode.dao.utils.CommonOperation;
 import top.minecode.domain.user.admin.AdminAuthority;
 import top.minecode.po.admin.AdminPO;
+import top.minecode.po.admin.StaffPO;
 
 /**
  * Created on 2018/5/29.
@@ -14,11 +15,28 @@ import top.minecode.po.admin.AdminPO;
 public class AdminDaoImpl implements AdminDao {
 
     private CommonOperation<AdminPO> adminOperation = new CommonOperation<>(AdminPO.class);
+    private CommonOperation<StaffPO> staffOperation = new CommonOperation<>(StaffPO.class);
 
     @Override
-    public boolean checkAuthority(String username) {
-        AdminPO adminPO = adminOperation.getBySingleField("username", username);
+    public boolean exists(String admin) {
+        return adminOperation.getBySingleField("userName", admin) != null;
+    }
+
+    @Override
+    public boolean hasHighestAuthority(String username) {
+        AdminPO adminPO = adminOperation.getBySingleField("userName", username);
         return adminPO.getAuthority() == AdminAuthority.SUPREME;
+    }
+
+    @Override
+    public boolean addStaff(String email, String password) {
+        // Check duplicate
+        StaffPO staffPO = staffOperation.getBySingleField("email", email);
+        if (staffPO != null)
+            return false;
+
+        staffPO = new StaffPO(email, password);
+        return staffOperation.add(staffPO);
     }
 
     @Override

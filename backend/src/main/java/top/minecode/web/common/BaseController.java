@@ -10,7 +10,6 @@ import top.minecode.service.user.ActiveUserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.NoSuchElementException;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
@@ -37,7 +36,7 @@ public abstract class BaseController {
     }
 
     protected String getAdmin(HttpServletRequest request) {
-        return getTemplate(e -> e.getAdmin(request.getParameter(TOKEN)));
+        return getTemplate(e -> e.getAdminOrStaff(request.getParameter(TOKEN)));
     }
 
     protected User getUser(HttpServletRequest request) {
@@ -45,7 +44,7 @@ public abstract class BaseController {
     }
 
     protected String getStaffEmail(HttpServletRequest request) {
-        return getTemplate(e -> e.getStaff(request.getParameter(TOKEN)));
+        return getTemplate(e -> e.getAdminOrStaff(request.getParameter(TOKEN)));
     }
 
     private String getTemplate(Function<ActiveUserService, String> getMethod) {

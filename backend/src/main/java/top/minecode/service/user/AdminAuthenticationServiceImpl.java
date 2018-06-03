@@ -55,7 +55,7 @@ public class AdminAuthenticationServiceImpl implements AdminAuthenticationServic
 
         try {
             authenticator.authenticate(token);
-            String webToken = activeUserService.addAdmin(username);
+            String webToken = activeUserService.addAdminOrStaff(username);
 
             return ResultMessage.authenticationSuccess(webToken);
         } catch (AuthenticationException e) {
@@ -65,10 +65,24 @@ public class AdminAuthenticationServiceImpl implements AdminAuthenticationServic
     }
 
     @Override
+    public ResultMessage createStaff(String email, String password, String admin) {
+        // Check permission
+        if (!adminDao.exists(admin))
+            return ResultMessage.failure("Permission denied");
+
+        if (adminDao.addStaff(email, encryptor.encrypt(password, email))) {
+            log.info("Staff " + email + " created successfully");
+            return ResultMessage.success();
+        }
+
+        return ResultMessage.failure();
+    }
+
+    @Override
     public ResultMessage createNewAdmin(NewAdminCommand command) {
         // Verify current user's authority
         String currentAdmin = command.getCurrentAdmin();
-        if (!adminDao.checkAuthority(currentAdmin))
+        if (!adminDao.hasHighestAuthority(currentAdmin))
             return ResultMessage.failure("Permission denied");
 
         // Permission passed
@@ -78,6 +92,6 @@ public class AdminAuthenticationServiceImpl implements AdminAuthenticationServic
             return ResultMessage.success();
         }
 
-        return ResultMessage.failure("Something is wrong");
+        return ResultMessage.failure();
     }
 }
