@@ -6,7 +6,7 @@
                 <el-button plain style="margin-left: 620px;width: 170px;" size="small">Learn more</el-button>
             </div>
         </div>
-        <div style="width: 100%;text-align: center;min-height: 500px;">
+        <div style="width: 100%;text-align: center;min-height: 500px;border: dotted 1px;">
             <div style="width: 900px;margin: auto;">
 
                 <el-tabs v-model="activeName3" type="card" @tab-click="handleClick" style="margin-top: 30px">
@@ -63,13 +63,19 @@
                     </el-tab-pane>
                 </el-tabs>
 
-                <task-list :updateList=true :taskListData=this.searchList style="text-align: left;" @updateList="updateList"></task-list>
+                <div></div>
+                <task-list v-loading=false :taskListData=this.searchList style="text-align: left;"></task-list>
+
+                <infinite-loading @infinite="addList" ref="infiniteLoading">
+                    <span slot="no-more">No more tasks</span>
+                </infinite-loading>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+	import InfiniteLoading from 'vue-infinite-loading';
 	import taskList from "../taskList.vue";
     import {searchResult} from "../../../api/workerTaskInfo";
 
@@ -163,13 +169,14 @@
 	            })
             },
 
-	        updateList(){
+	        addList(){
+
+		        this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded');
 		        let that = this;
 		        // console.log("this.typeValue: "+this.typeValue+" this.tagValue: "+this.tagValue+" this.sortValue: "+this.sortValue+" this.searchKey: "+this.searchKey+" this.valueAccept: "+this.valueAccept);
 		        // that.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded');
 		        searchResult(this.typeValue, this.tagValue, this.sortValue, this.begin, this.step, this.searchKey, this.valueAccept, res =>{
-		        	console.log("addList: ");
-		        	console.log(res);
+		        	console.log(this.begin);
 			        if(res.length === 0 ){
 				        that.$refs.infiniteLoading.$emit('$InfiniteLoading:complete');
                     }else{
@@ -187,6 +194,7 @@
 
         components: {
 	        taskList,
+	        InfiniteLoading,
         }
 	}
 </script>
