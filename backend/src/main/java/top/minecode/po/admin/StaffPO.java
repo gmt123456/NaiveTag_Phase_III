@@ -32,6 +32,13 @@ public class StaffPO {
     @Fetch(FetchMode.SUBSELECT)
     private Map<Integer, Integer> participatedTasks;
 
+    public StaffPO() {}
+
+    public StaffPO(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
     public String getEmail() {
         return email;
     }

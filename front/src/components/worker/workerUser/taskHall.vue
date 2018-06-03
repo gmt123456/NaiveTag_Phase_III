@@ -159,12 +159,25 @@
             }
         },
 
+        mounted(){
+	        this.$emit('searchReady');
+        },
+
         methods: {
             search(){
             	let that = this;
             	// console.log("this.typeValue: "+this.typeValue+" this.tagValue: "+this.tagValue+" this.sortValue: "+this.sortValue+" this.searchKey: "+this.searchKey+" this.valueAccept: "+this.valueAccept);
 	            searchResult(this.typeValue, this.tagValue, this.sortValue, 0, this.step, this.searchKey, this.valueAccept, res =>{
 	            	that.searchList = res;
+		            that.begin += that.step;
+	            })
+            },
+
+            searchByKey(key){
+	            let that = this;
+	            console.log(key);
+	            searchResult(this.typeValue, this.tagValue, this.sortValue, 0, this.step, key, this.valueAccept, res =>{
+		            that.searchList = res;
 		            that.begin += that.step;
 	            })
             },

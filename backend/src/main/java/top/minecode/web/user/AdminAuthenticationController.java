@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author Liao
  */
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("inside")
 public class AdminAuthenticationController extends BaseController {
 
     private AdminAuthenticationService authenticationService;
@@ -39,10 +39,17 @@ public class AdminAuthenticationController extends BaseController {
         return gson.toJson(authenticationService.login(username, password));
     }
 
-    @RequestMapping("/new")
+    @RequestMapping("/new/admin")
     @ResponseBody
     public String newAdmin(HttpServletRequest request, NewAdminCommand newAdminCommand) {
         newAdminCommand.setCurrentAdmin(getAdmin(request));
         return gson.toJson(authenticationService.createNewAdmin(newAdminCommand));
+    }
+
+    @RequestMapping("/new/staff")
+    @ResponseBody
+    public String newStaff(HttpServletRequest request, String email, String password) {
+        String admin = getAdmin(request);
+        return gson.toJson(authenticationService.createStaff(email, password, admin));
     }
 }

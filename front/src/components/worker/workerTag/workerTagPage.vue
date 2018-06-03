@@ -58,16 +58,12 @@
             },
 
             tagPicReflash(picUrl) {
-                console.log("picUrl: " + picUrl);
               this.$router.push({ name: 'workerTag', params: { taskId: localStorage.firstLevelTaskId, subTaskId: this.$route.params.subTaskId, taskType: this.$route.params.taskType, picUrl: picUrl}});
             },
 
             lastPic: function () {
-                console.log(this.tagData);
                 this.saveData();
                 let result = previous(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, this.picUrl, res=> {
-                    console.log("previousResult:");
-                    console.log(res);
                     if(res.url){
                         this.tagPicReflash(res.url);
                     }else{
@@ -91,7 +87,7 @@
             saveData(){
                 var json = JSON.stringify(this.tagData);
                 let result = save(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, this.picUrl,json, res=> {
-                    console.log("saveResult success!");
+
                 });
             },
 
@@ -108,8 +104,6 @@
                     if(res.description){
                         this.description = res.description;
                     }
-                    console.log("options:");
-                    console.log(this.options);
                     this.fetchLabelDataByPicUrl(this.$route.params.picUrl);
                 });
             },
@@ -131,7 +125,6 @@
                         };
 
                       that.tagData.tagType =  ""+that.taskType;
-                        console.log(that.tagData.tagType)
                     }
                 });
             },

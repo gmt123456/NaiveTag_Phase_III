@@ -7,7 +7,11 @@ package top.minecode.dao.user;
  */
 public interface AdminDao {
 
-    boolean checkAuthority(String username);
+    boolean hasHighestAuthority(String username);
+
+    boolean exists(String admin);
 
     boolean addAdmin(String username, String password);
+
+    boolean addStaff(String email, String password);
 }
