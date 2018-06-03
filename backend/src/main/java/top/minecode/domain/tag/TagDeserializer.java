@@ -21,6 +21,8 @@ public class TagDeserializer implements JsonDeserializer<TagResult> {
                                  JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
         JsonObject originalObject = jsonElement.getAsJsonObject();
         TaskType tagType = jsonDeserializationContext.deserialize(originalObject.get("tagType"), TaskType.class);
+     //   TaskType tagType = TaskType.convert(originalObject.get("tagType").getAsInt());
+        System.out.println("Tag Type:"+ tagType);
         TagResult tagResult = null;
 
         if (tagType.equals(TaskType.t_100) || tagType.equals(TaskType.t_101)) {

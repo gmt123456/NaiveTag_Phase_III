@@ -1,16 +1,17 @@
 import {getUrl} from "./tool";
+import {getTaskIdToServer} from "./taskTypeName";
 
 export function taskInfo(taskId,subTaskId,taskType,callback) {
 
     $.ajax({
-        url: getUrl('tag/taskInfo.html'),
+        url: getUrl('worker/tag/taskInfo.html'),
         type: 'GET',
         // xhrFields:{withCredentials:true},
         data: {
             'token': localStorage.token,
             "taskId" : taskId,
 	        "subTaskId": subTaskId,
-	        "taskType": taskType,
+	        "taskType": getTaskIdToServer(taskType),
         },
         success: function(result){
             callback(JSON.parse(result));
@@ -21,15 +22,15 @@ export function taskInfo(taskId,subTaskId,taskType,callback) {
 export function getLabelInfo(taskId,subTaskId,taskType, picUrl, callback) {
 
     $.ajax({
-        url: getUrl('tag/getLabelInfo.html'),
+        url: getUrl('worker/tag/getLabelInfo.html'),
         type: 'GET',
         // xhrFields:{withCredentials:true},
         data: {
             'token': localStorage.token,
             "taskId" : taskId,
 	        "subTaskId": subTaskId,
-	        "taskType": taskType,
-            "picURL" : picUrl
+	        "taskType": getTaskIdToServer(taskType),
+            "url" : picUrl
         },
         success: function(result){
             callback(JSON.parse(result));

@@ -26,9 +26,9 @@
 		methods: {
 			getUnfinishDataList(){
 				let that = this;
-				workerUnfinish(res =>{
+                workerUnfinish(res =>{
 					that.taskUnfinishData = res;
-					this.isLoading = false;
+					that.isLoading = false;
                 });
             },
 		},

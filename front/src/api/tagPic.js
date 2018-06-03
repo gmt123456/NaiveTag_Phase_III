@@ -1,16 +1,17 @@
 import {getUrl} from "./tool";
+import {getTaskIdToServer} from "./taskTypeName";
 
 export function save(taskId,subTaskId,taskType,picUrl,JSONObject,callback) {
 
     $.ajax({
-        url: getUrl('tag/save.html'),
+        url: getUrl('worker/tag/save.html'),
         type: 'POST',
         // xhrFields:{withCredentials:true},
         data: {
             'token': localStorage.token,
             "taskId": taskId,
 	        "subTaskId": subTaskId,
-	        "taskType": taskType,
+	        "taskType": getTaskIdToServer(taskType),
             "url": picUrl, // 图片的url
             "data": JSONObject //迭代一中已经定义好的图片标注信息
         },
@@ -23,14 +24,14 @@ export function save(taskId,subTaskId,taskType,picUrl,JSONObject,callback) {
 export function next(taskId,subTaskId,taskType, picUrl, callback) {
 
     $.ajax({
-        url: getUrl('tag/next.html'),
+        url: getUrl('worker/tag/next.html'),
         type: 'GET',
         // xhrFields:{withCredentials:true},
         data: {
             'username': localStorage.username,
             "taskId" : taskId,
 	        "subTaskId": subTaskId,
-	        "taskType": taskType,
+	        "taskType": getTaskIdToServer(taskType),
             "url": picUrl // 当前图片的URL
         },
         success: function(result){
@@ -42,14 +43,14 @@ export function next(taskId,subTaskId,taskType, picUrl, callback) {
 export function previous(taskId,subTaskId,taskType, picUrl, callback) {
 
     $.ajax({
-        url: getUrl('tag/previous.html'),
+        url: getUrl('worker/tag/previous.html'),
         type: 'GET',
         // xhrFields:{withCredentials:true},
         data: {
             'username': localStorage.username,
             "taskId" : taskId,
 	        "subTaskId": subTaskId,
-	        "taskType": taskType,
+	        "taskType": getTaskIdToServer(taskType),
             "url": picUrl // 当前图片的URL
         },
         success: function(result){

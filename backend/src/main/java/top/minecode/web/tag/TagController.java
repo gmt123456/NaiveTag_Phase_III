@@ -35,8 +35,9 @@ public class TagController extends BaseController {
 
     @RequestMapping("/save")
     @ResponseBody
-    private String save(HttpServletRequest request, int taskId, int subTaskId, int taskType, String url, String data) {
+    public String save(HttpServletRequest request, int taskId, int subTaskId, int taskType, String url, String data) {
         TagResult tagResult = WebConfig.getGson().fromJson(data, TagResult.class);
+        System.out.println(WebConfig.getGson().toJson(tagResult));
         String userEmail = getUserEmail(request);
         TaskType type = TaskType.convert(taskType);
         tagService.save(userEmail, taskId, subTaskId, type, url, tagResult);
@@ -56,7 +57,7 @@ public class TagController extends BaseController {
     public String getLabelInformation(HttpServletRequest request, int taskId, int taskType, int subTaskId, String url) {
         String userEmail = getUserEmail(request);
         TaskType type = TaskType.convert(taskType);
-        TagResult result = tagService.getLabelInformation(null, taskId, subTaskId, type, url);
+        TagResult result = tagService.getLabelInformation(userEmail, taskId, subTaskId, type, url);
         return WebConfig.getGson().toJson(result);
     }
 

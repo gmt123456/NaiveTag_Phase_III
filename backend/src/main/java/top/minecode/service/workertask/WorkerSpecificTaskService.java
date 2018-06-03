@@ -10,6 +10,7 @@ import top.minecode.dao.workertask.TaskDao;
 import top.minecode.dao.workertask.TaskParticipationDao;
 import top.minecode.domain.task.*;
 import top.minecode.domain.user.worker.Division;
+import top.minecode.po.log.TaskCommitmentLogPO;
 import top.minecode.po.log.WorkerViewLogPO;
 import top.minecode.po.task.SubCheckTaskPO;
 import top.minecode.po.task.SubTaskPO;
@@ -103,11 +104,12 @@ public class WorkerSpecificTaskService {
 
     public TaskSpecification getTaskDetail(String email, int taskId) {
 
-        addViewLog(email, taskId);
-
         TaskPO taskPO = taskDao.getTaskById(taskId);
         boolean accepted = taskPO.getParticipators().stream().anyMatch(e -> e.equals(email));
         boolean canAccept = false;
+
+        if (!accepted)
+            addViewLog(email, taskId);
 
         TaskState state = taskPO.getTaskState();
         Division requiredDivision = taskPO.getLowestDivision();
@@ -205,7 +207,7 @@ public class WorkerSpecificTaskService {
         String taskDescription = subTaskPO.getTaskDescription();
 
         SubTaskDetail subTaskDetail = null;
-        if (subTaskPO.getCurrentDoingWorker().equals(email)) {
+        if (email.equals(subTaskPO.getCurrentDoingWorker())) {
             // 接过的任务
             SubTaskParticipationState taskState = SubTaskParticipationState.DOING;
             List<String> allPics = subTaskPO.getPicList();
@@ -213,6 +215,7 @@ public class WorkerSpecificTaskService {
 
             SubTaskParticipationPO subTaskParticipation = participationDao
                     .getWorkerSubTaskParticipation(email, taskId, subTaskId);
+
 
             Set<String> finishedPicsSet = subTaskParticipation.getTags().keySet();
             for (String path: allPics) {
@@ -251,6 +254,8 @@ public class WorkerSpecificTaskService {
 
         participationDao.updateSubTaskParticipation(participationPO);
         checkDao.addSubCheck(checkTaskPO);
+
+        logDao.addCommitLog(new TaskCommitmentLogPO(email, taskId, subTaskId, new Date()));
 
         return new TaskCommitResponse(true);
     }

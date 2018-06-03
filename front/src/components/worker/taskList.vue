@@ -10,20 +10,17 @@
                               v-on:leave="leave"
                               name="fadeTask">
                 <task-block v-if="show" v-for="(item,index) in taskListData" v-bind="item" :key="index" v-bind:data-index="index"></task-block>
-                <infinite-loading v-on:infinite="addList" ref="infiniteLoading" key="loading"><span slot="no-more">没有更多数据了！</span></infinite-loading>
             </transition-group>
         </div>
     </div>
 </template>
 
 <script>
-	import InfiniteLoading from 'vue-infinite-loading';
     import taskBlock from './taskBlock.vue';
     import Velocity from 'velocity-animate'
 
 	export default {
     	props: {
-    		updateList: Boolean,
 		    taskListData: Array,
         },
 
@@ -40,13 +37,6 @@
         },
 
         methods:{
-	        addList: function(){
-                console.log("addList");
-                // if(this.updateList){
-			     //    this.$emit('updateList');
-                // }
-            },
-
 	        beforeEnter: function (el) {
 		        el.style.opacity = 0;
 		        el.style.translateX = 170;
@@ -83,8 +73,7 @@
         },
 
         components: {
-			taskBlock,
-	        InfiniteLoading
+			taskBlock
         }
 	}
 </script>

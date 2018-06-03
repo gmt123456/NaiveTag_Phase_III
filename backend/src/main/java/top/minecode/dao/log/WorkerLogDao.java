@@ -57,5 +57,15 @@ public class WorkerLogDao {
         workerSearchLogHelper.add(po);
     }
 
+    public void addCommitLog(TaskCommitmentLogPO logPO) {
+        taskCommitLogHelper.add(logPO);
+    }
+
+    public void addWorkerAccountChangeLog(WorkerAccountLogPO logPO) {
+        workerAccountLogHelper.add(logPO);
+    }
+
+
+
 
 }

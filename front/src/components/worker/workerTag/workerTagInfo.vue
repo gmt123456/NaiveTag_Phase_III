@@ -80,7 +80,6 @@
                         <div>
                             <el-button icon="el-icon-back" round size="mini" style="margin: 10px" @click="back">back</el-button>
                         </div>
-
                         <div v-if="description" class="block center" style="padding: 20px 20px 0px 20px;">
                             Description：{{description}}
                         </div>
@@ -91,7 +90,7 @@
                             <!--输入框-->
                             <div v-if="isInputType">
                                 <div v-if="!isRectsTypeNoLabel">
-                                    <el-input v-model="labelInput" placeholder="Please input content" class="input"></el-input>
+                                    <el-input v-model="labelInput" placeholder="Please input content" class="input" />
                                 </div>
                                 <div v-if="isRectsTypeNoLabel"
                                      v-for="(item, index) in frames"
@@ -134,7 +133,7 @@
                                         </el-option>
                                     </el-select>
                                     <el-button type="danger" icon="el-icon-delete" circle
-                                               v-on:click="deleteFramesItem(index)"></el-button>
+                                               v-on:click="deleteFramesItem(index)" />
                                 </div>
                             </div>
 
@@ -173,14 +172,10 @@
                }
 
                this.updatePic(this.picUrl);
-
            })
         },
 
         created: function(){
-            console.log("tagInfo created");
-            console.log("frames");
-            console.log(this.frames);
             if(this.label){
                 this.updateLabel();
             }
@@ -304,6 +299,7 @@
             },
 
             isRectsTypeNoLabel: function () {
+
                 switch (this.getTagTypeNum) {
                     case 100:
                         return false;
@@ -398,8 +394,8 @@
 
         methods: {
 	        back(){
-
-            },
+            this.$router.push({ name: 'subTaskDetails', params: { taskId: localStorage.firstLevelTaskId, subTaskId: this.$route.params.subTaskId, taskType: this.$route.params.taskType}});
+          },
 
             updatePic: function (picUrl) {
                 this.picWidthStyle = 'auto';
@@ -432,9 +428,6 @@
                         }
                     }
                     if(this.isSelectType){
-                        console.log("tagInfo isSelectType");
-                        console.log("this.label "+ this.label);
-                        console.log(this.options);
                         for(var index in this.options){
                             if(this.options[index].label === this.label){
                                 this.labelSelect = index;
@@ -566,18 +559,14 @@
 
             deleteFramesItem(index) {
                 this.frames.splice(index, 1);
-                console.log(this.frames);
             },
 
             changeInputValue(value,index) {
-                console.log("value: "+value+" index: "+index);
                 Vue.set(this.frames[index], 'label', value);
-                console.log(this.frames);
             },
 //
 //            changeInputLabel(value){
 //                this.label = value;
-//                console.log("label: " + this.label);
 //            },
 
             changeSelectValue(value,index) {
@@ -585,9 +574,7 @@
                 obj = this.options.find((item)=>{
                     return item.value === value;
                 });
-                console.log("value: "+value+" index: "+index+" label: "+ obj.label);
                 Vue.set(this.frames[index], 'label', obj.label);
-                console.log(this.frames);
             },
 //
 //            changeSelectLabel(value){
@@ -596,7 +583,6 @@
 //                    return item.value === value;
 //                });
 //                this.label = obj.label;
-//                console.log("label: " + this.label);
 //            },
 
             onMouseDown: function (event) {
@@ -606,8 +592,6 @@
                     this.startPoint.y = event.offsetY;
                     this.endPoint.x = event.offsetX;
                     this.endPoint.y = event.offsetY;
-                    console.log(this.startPoint.x + " this.startPoint.x");
-                    console.log(this.startPoint.y + " this.startPoint.y");
                 }else{
                     this.$message.error('有标注信息未填写！');
                 }
@@ -616,7 +600,7 @@
 
             onMouseMove: function (event) {
                 if(this.drawRect){
-                    
+
                     this.endPoint.x = event.offsetX;
                     this.endPoint.y = event.offsetY;
 
@@ -640,7 +624,6 @@
                             "rightDown": {x:this.getRectLeft + this.getRectWidth,y:this.getRectTop + this.getRectHeight},
                             "label":label,
                         });
-                        console.log(this.frames);
                     }
                 }
             },

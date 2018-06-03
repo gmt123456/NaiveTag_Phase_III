@@ -32,27 +32,35 @@ public class StaffTaskCheckController extends BaseController {
         this.checkService = checkService;
     }
 
-    @RequestMapping(value = "/index")
+    @RequestMapping(value = "/index") // 查看所有的待检查的一级任务
     @ResponseBody
     public String getAllUncheckedTasks(HttpServletRequest request) {
-        return WebConfig.getGson().toJson(checkService.getAllUnfinishedTasks());
+        String email = getStaffEmail(request);
+        return WebConfig.getGson().toJson(checkService.getAllUnfinishedTasks(email));
     }
 
-    @RequestMapping(value = "/main")
+    @RequestMapping(value = "/myParticipation") // 查看所有的待检查的一级任务
+    @ResponseBody
+    public String getMyParticipation(HttpServletRequest request) {
+        String email = getStaffEmail(request);
+        return WebConfig.getGson().toJson(checkService.getMyParticipation(email));
+    }
+
+    @RequestMapping(value = "/main") // 点开某一个具体的一级任务
     @ResponseBody
     public String getTaskSpecification(HttpServletRequest request, int taskId) { // 查看某个具体的任务
         String email = getStaffEmail(request);
         return WebConfig.getGson().toJson(checkService.getTaskSpecification(email, taskId));
     }
 
-    @RequestMapping(value = "/join")
+    @RequestMapping(value = "/join") // 接受一级任务的审核
     @ResponseBody
     public String joinTaskCheck(HttpServletRequest request, int taskId) {
         String email = getStaffEmail(request);
         return WebConfig.getGson().toJson(checkService.joinTask(email, taskId));
     }
 
-    @RequestMapping(value = "/subTasks")
+    @RequestMapping(value = "/subTasks") // 查看某个一级任务下面的具体的小任务s
     @ResponseBody
     public String getUnCheckedSubTasks(HttpServletRequest request, int taskId, int taskType) {
         TaskType type = TaskType.convert(taskType);
@@ -60,14 +68,14 @@ public class StaffTaskCheckController extends BaseController {
         return WebConfig.getGson().toJson(checkService.getUnCheckedSubTasks(taskId, type));
     }
 
-    @RequestMapping(value = "/subTask/accept")
+    @RequestMapping(value = "/subTask/accept") // 接受某个下属小任务
     @ResponseBody
     public String acceptCheckedSubTasks(HttpServletRequest request, int taskId, int participationId) {
         String email = getStaffEmail(request);
         return WebConfig.getGson().toJson(checkService.acceptSubCheckTask(email, participationId, taskId));
     }
 
-    @RequestMapping(value = "/subTask/ongoing")
+    @RequestMapping(value = "/subTask/ongoing") // MY PARTICIPATION
     @ResponseBody
     public String getMyUnfinishedSubTaskChecks(HttpServletRequest request, int taskId, int taskType) {
         String email = getStaffEmail(request);
