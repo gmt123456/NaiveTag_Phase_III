@@ -16,6 +16,7 @@ import top.minecode.po.task.TaskPO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -60,9 +61,18 @@ public class StaffTaskCheckService {
         this.taskDao = taskDao;
     }
 
-    public List<Task> getAllUnfinishedTasks() {
+    public List<Task> getAllUnfinishedTasks(String email) {
+        StaffPO staff = staffDao.getStaffByEmail(email);
+        Set<Integer> participatedEvaluationTaskIds = staff.getParticipatedTaskEvaluations().keySet();
         return taskDao.getAll().stream().filter(e -> e.getTaskState() == TaskState.ON_GOING)
-                .map(Task::fromPO).collect(Collectors.toList());
+                .filter(e -> !participatedEvaluationTaskIds.contains(e.getId())).map(Task::fromPO).collect(Collectors.toList());
+    }
+
+    public List<Task> getMyParticipation(String email) {
+        StaffPO staff = staffDao.getStaffByEmail(email);
+        Set<Integer> participatedEvaluationTaskIds = staff.getParticipatedTaskEvaluations().keySet();
+        return taskDao.getAll().stream().filter(e -> e.getTaskState() == TaskState.ON_GOING)
+                .filter(e -> participatedEvaluationTaskIds.contains(e.getId())).map(Task::fromPO).collect(Collectors.toList());
     }
 
     public TaskCheckSpecification getTaskSpecification(String email, int taskId) {

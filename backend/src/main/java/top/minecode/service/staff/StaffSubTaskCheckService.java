@@ -2,6 +2,7 @@ package top.minecode.service.staff;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import top.minecode.dao.log.WorkerLogDao;
 import top.minecode.dao.staff.StaffDao;
 import top.minecode.dao.staff.TaskCheckDao;
 import top.minecode.dao.worker.WorkerInfoDao;
@@ -43,6 +44,17 @@ public class StaffSubTaskCheckService {
     private TaskParticipationDao participationDao;
 
     private TaskDao taskDao;
+
+    private WorkerLogDao logDao;
+
+    public WorkerLogDao getLogDao() {
+        return logDao;
+    }
+
+    @Autowired
+    public void setLogDao(WorkerLogDao logDao) {
+        this.logDao = logDao;
+    }
 
     public SubTaskDao getSubTaskDao() {
         return subTaskDao;

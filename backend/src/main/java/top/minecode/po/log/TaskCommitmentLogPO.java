@@ -26,6 +26,16 @@ public class TaskCommitmentLogPO implements Serializable{
     @Temporal(TemporalType.TIMESTAMP)
     private Date commitTime;
 
+    public TaskCommitmentLogPO() {
+    }
+
+    public TaskCommitmentLogPO(String userEmail, int taskId, int subTaskId, Date commitTime) {
+        this.userEmail = userEmail;
+        this.taskId = taskId;
+        this.subTaskId = subTaskId;
+        this.commitTime = commitTime;
+    }
+
     public int getId() {
         return id;
     }
