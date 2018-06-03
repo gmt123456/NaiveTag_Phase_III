@@ -34,27 +34,27 @@ public class StaffSubTaskCheckController {
 
     @RequestMapping(value = "/first")
     @ResponseBody
-    public String getFirstUrl(HttpServletRequest request, int participationId) {
-        return subTaskCheckService.morePic(participationId);
+    public String getFirstUrl(HttpServletRequest request, int subPartId) {
+        return subTaskCheckService.morePic(subPartId);
     }
 
     @RequestMapping(value = "/more")
     @ResponseBody // 如果是一个空值的话，那么这个任务就算是完成了
-    public String more(HttpServletRequest request, int participationId) {
-        return subTaskCheckService.morePic(participationId);
+    public String more(HttpServletRequest request, int subPartId) {
+        return subTaskCheckService.morePic(subPartId);
     }
 
     @RequestMapping(value = "/label")
     @ResponseBody
-    public String getLabelInfo(HttpServletRequest request, int participationId, String url) {
-        TagResult result = subTaskCheckService.getLabelInfo(participationId, url);
+    public String getLabelInfo(HttpServletRequest request, int subPartId, String url) {
+        TagResult result = subTaskCheckService.getLabelInfo(subPartId, url);
         return WebConfig.getGson().toJson(result, TagResult.class);
     }
 
     @RequestMapping(value = "/mark")
     @ResponseBody
-    public String mark(HttpServletRequest request, int participationId, String url, boolean accept) {
-        subTaskCheckService.mark(participationId, url, accept);
+    public String mark(HttpServletRequest request, int subPartId, String url, boolean accept) {
+        subTaskCheckService.mark(subPartId, url, accept);
         return "ok";
     }
 }

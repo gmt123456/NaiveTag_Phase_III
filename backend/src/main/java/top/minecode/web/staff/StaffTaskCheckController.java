@@ -70,9 +70,9 @@ public class StaffTaskCheckController extends BaseController {
 
     @RequestMapping(value = "/subTask/accept") // 接受某个下属小任务
     @ResponseBody
-    public String acceptCheckedSubTasks(HttpServletRequest request, int taskId, int participationId) {
+    public String acceptCheckedSubTasks(HttpServletRequest request, int taskId, int subPartId) {
         String email = getStaffEmail(request);
-        return WebConfig.getGson().toJson(checkService.acceptSubCheckTask(email, participationId, taskId));
+        return WebConfig.getGson().toJson(checkService.acceptSubCheckTask(email, subPartId, taskId));
     }
 
     @RequestMapping(value = "/subTask/ongoing") // MY PARTICIPATION
