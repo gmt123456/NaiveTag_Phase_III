@@ -21,9 +21,9 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="Deadline" class="colorful-label" required prop="deadLine"
-                      value-format="yyyy-MM-dd">
-          <el-date-picker v-model="taskForm.deadLine"></el-date-picker>
+        <el-form-item label="Deadline" class="colorful-label" required prop="deadLine">
+          <el-date-picker v-model="taskForm.deadLine"
+                          value-format="yyyy-MM-dd"></el-date-picker>
         </el-form-item>
 
         <el-form-item label="Lowest Division" class="colorful-label">

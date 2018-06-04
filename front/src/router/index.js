@@ -18,64 +18,66 @@ import TaskHall from '../components/worker/workerUser/taskHall.vue'
 import Index from '../components/index/Index.vue'
 import RequesterIndex from '../components/requester/RequesterIndex.vue'
 import RequesterHome from '../components/requester/Home.vue'
-import TaskDetail from  '../components/requester/TaskDetail.vue'
+import TaskDetail from '../components/requester/TaskDetail.vue'
+import RequesterProfile from '../components/requester/requesterProfile/Profile.vue'
 
 import ServiceCheck from '../components/stuff/stuffCheck/stuffCheckPage'
 
 Vue.use(Router);
 
 export default new Router({
-	mode: 'history',
+  mode: 'history',
 
-	routes: [
-		{
-			path: '/workerNavi', component: WorkerNavi,
-			children: [
-				{
-					path: '/worker', component: WorkerMain,
-					children: [
-						{path: 'home', component: WorkerHome},
-						{path: 'unfinish', component: WorkerUnfinish},
-						{path: 'finish', component: WorkerFinish},
-						{path: 'rank', component: WorkerRank},
+  routes: [
+    {
+      path: '/workerNavi', component: WorkerNavi,
+      children: [
+        {
+          path: '/worker', component: WorkerMain,
+          children: [
+            {path: 'home', component: WorkerHome},
+            {path: 'unfinish', component: WorkerUnfinish},
+            {path: 'finish', component: WorkerFinish},
+            {path: 'rank', component: WorkerRank},
 
-					]
-				},
-				{
-					path: '/firstTask', component: FirstLevelTask,
-					children: [
-						{path: 'overview', component: Overview},
-						{path: 'subtasks', component: SubTask},
-						{path: 'myparticipation', component: MyParticipation},
-					]
-				},
-				{path: '/subTaskDetails/:taskId/:subTaskId/:taskType', name: 'subTaskDetails', component: SubTaskDetails},
-				{path: '/taskHall', component: TaskHall},
+          ]
+        },
+        {
+          path: '/firstTask', component: FirstLevelTask,
+          children: [
+            {path: 'overview', component: Overview},
+            {path: 'subtasks', component: SubTask},
+            {path: 'myparticipation', component: MyParticipation},
+          ]
+        },
+        {path: '/subTaskDetails/:taskId/:subTaskId/:taskType', name: 'subTaskDetails', component: SubTaskDetails},
+        {path: '/taskHall', component: TaskHall},
 
-				{path: '/tag/:taskId/:subTaskId/:taskType/:picUrl', component: WorkerTag, name: 'workerTag'},
-			]
-		},
-		{path: '/service', component: ServiceCheck},
+        {path: '/tag/:taskId/:subTaskId/:taskType/:picUrl', component: WorkerTag, name: 'workerTag'},
+      ]
+    },
+    {path: '/service', component: ServiceCheck},
 
-		{path: '/', component: Index},
-		{path: '/login', component:Login},
-		{path: '/signUp', component: SignUp},
-		{
-			path: '/requester', component: RequesterIndex,
-			children: [
-				{path: 'home', component: RequesterHome},
-                {path:'taskDetail',name:'taskDetail',component:TaskDetail}
-			]
-		}
+    {path: '/', component: Index},
+    {path: '/login', component: Login},
+    {path: '/signUp', component: SignUp},
+    {
+      path: '/requester', component: RequesterIndex,
+      children: [
+        {path: 'home', component: RequesterHome},
+        {path: 'taskDetail', name: 'taskDetail', component: TaskDetail},
+        {path:'profile',component:RequesterProfile}
+      ]
+    }
 
-	],
+  ],
 
-	scrollBehavior (to, from, savedPosition) {
-		if (savedPosition) {
-			return savedPosition
-		} else {
-			return { x: 0, y: 0 }
-		}
-	}
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return {x: 0, y: 0}
+    }
+  }
 
 })

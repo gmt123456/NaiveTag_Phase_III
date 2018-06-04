@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="img-label-container">
     <img :src=url class="icon">
     <div class="label-box">
       <span class="label">{{label}}</span>
@@ -23,7 +23,7 @@
   .label {
     color: gray;
   }
-.container{
+.img-label-container{
   float: left;
   margin-top: 5px;
 }
