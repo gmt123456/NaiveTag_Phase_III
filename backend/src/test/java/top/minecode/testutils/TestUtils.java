@@ -1,5 +1,8 @@
 package top.minecode.testutils;
 
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import top.minecode.service.util.PathUtil;
 
 import java.io.File;
@@ -9,7 +12,10 @@ import java.io.File;
  * Description:
  * @author Liao
  */
-public class TestPathUtils {
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration("classpath*:naive*")
+public class TestUtils {
+
 
     public static File getBase() {
         return new File(PathUtil.class.getResource("/").getPath()).getParentFile();
@@ -18,4 +24,5 @@ public class TestPathUtils {
     public static String getWebApp() {
         return new File(getBase().getParentFile(), "src\\main\\webapp").getPath();
     }
+
 }

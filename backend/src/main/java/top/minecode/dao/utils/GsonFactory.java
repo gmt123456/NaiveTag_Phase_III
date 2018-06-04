@@ -27,7 +27,6 @@ public class GsonFactory {
                 .registerTypeAdapter(RequesterTaskItem.class, taskItemSerializer())
                 .registerTypeAdapter(RequesterTaskDetails.class, taskDetailsJsonSerializer())
                 .registerTypeAdapter(ChartData.class, chartDataJsonSerializer())
-                .setPrettyPrinting()
                 .serializeNulls();
         gson = builder.create();
     }

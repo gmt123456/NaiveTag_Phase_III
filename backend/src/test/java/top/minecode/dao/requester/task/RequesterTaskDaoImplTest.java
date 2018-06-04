@@ -1,5 +1,6 @@
 package top.minecode.dao.requester.task;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import top.minecode.dao.utils.CommonOperation;
 import top.minecode.domain.task.TaskState;
 import top.minecode.po.task.TaskPO;
+import top.minecode.service.requester.task.RequesterNewTaskServiceImplTest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,7 @@ public class RequesterTaskDaoImplTest {
     }
 
     @Test
+    @Ignore
     public void test1() {
         String hql = "select new map (p.email as email , sum(p.picAmount) as picNum) from SubTaskParticipationPO p where p.taskId=?" +
                 " group by p.email order by sum(p.picAmount) desc";
@@ -42,6 +45,7 @@ public class RequesterTaskDaoImplTest {
     }
 
     @Test
+    @Ignore
     public void test2() {
         String hql = "select count(distinct t.email) from SubTaskParticipationPO t where t.email in :se";
 
@@ -60,7 +64,7 @@ public class RequesterTaskDaoImplTest {
     }
 
     @Test
-    public void testGetSubTaskItems() {
+    public void testGetSubTaskItems() throws Exception{
         System.out.println(taskDao.getSubTaskItem(1));
     }
 

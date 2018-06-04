@@ -212,7 +212,7 @@ public class TaskRecommendationService {
         // If the unaccepted tasks number is less than num,
         // then just sort these tasks by adRate and return
         int thresholdSize = (int) (unacceptedTasks.size() * RECOMMENDATION_THRESHOLD);
-        if (num <= thresholdSize)
+        if (thresholdSize <= num)
             return unacceptedTasks.stream().map(FeatureVector::getIdentity)
                     .sorted(Comparator.comparing(TaskPO::getAdRate))
                     .limit(num)
@@ -229,6 +229,8 @@ public class TaskRecommendationService {
     // The higher the score is the more likely the task is chosen
     private List<TaskPO> samplingBy(List<FeatureVector<TaskPO>> tasks,
                                     Function<FeatureVector<TaskPO>, Double> scoreFunction, int num) {
+        if (num <= 0)
+            return Collections.emptyList();
         // Choose these tasks by the rule that the higher the
         // task's rank is the more likely the task be chosen
         List<Double> valueSections = new ArrayList<>();
@@ -252,7 +254,7 @@ public class TaskRecommendationService {
                     break;
                 }
             }
-        } while (result.size() != num);
+        } while (result.size() < num);
 
         // Result will be sorted by adRate
         return result.stream()
