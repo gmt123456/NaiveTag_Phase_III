@@ -4,7 +4,7 @@
       <account-change-item v-for="(item,key) in list"
                            :item="item" :key="key">
       </account-change-item>
-      <infinite-loading @infinite="infiniteHandle" ref="listLoad"></infinite-loading>
+      <infinite-loading @infinite="infiniteHandle"></infinite-loading>
     </el-collapse>
   </div>
 

@@ -194,7 +194,7 @@
         if (Number(this.orderForm.adFee) >= 0) {
           callback();
         } else {
-          callback(new Error('pleas input the number above zero'));
+          callback(new Error('please input the number above zero'));
         }
       };
 
@@ -202,7 +202,7 @@
         if (Number(this.orderForm.extractFee) >= 0) {
           callback();
         } else {
-          callback(new Error('pleas input the number above zero'));
+          callback(new Error('please input the number above zero'));
         }
       };
 

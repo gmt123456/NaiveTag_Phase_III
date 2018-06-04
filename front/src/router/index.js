@@ -20,8 +20,11 @@ import RequesterIndex from '../components/requester/RequesterIndex.vue'
 import RequesterHome from '../components/requester/Home.vue'
 import TaskDetail from '../components/requester/TaskDetail.vue'
 import RequesterProfile from '../components/requester/requesterProfile/Profile.vue'
-
+import InsiderLogin from  '../components/index/InsiderLogin.vue'
+import AdminIndex from '../components/admin/AdminIndex.vue'
 import ServiceCheck from '../components/stuff/stuffCheck/stuffCheckPage'
+import AdminRequesters from '../components/admin/AdminRequester.vue'
+import AdminWorkers from '../components/admin/AdminWorker.vue'
 
 Vue.use(Router);
 
@@ -61,6 +64,7 @@ export default new Router({
     {path: '/', component: Index},
     {path: '/login', component: Login},
     {path: '/signUp', component: SignUp},
+    {path:'/makeNaiveTagGreat',component:InsiderLogin},
     {
       path: '/requester', component: RequesterIndex,
       children: [
@@ -68,7 +72,12 @@ export default new Router({
         {path: 'taskDetail', name: 'taskDetail', component: TaskDetail},
         {path:'profile',component:RequesterProfile}
       ]
-    }
+    },
+    {path:'/makeNaiveTagGreatAgain',component:AdminIndex,
+    children:[
+      {path:'workers',component:AdminWorkers},
+      {path:'requesters',component:AdminRequesters}
+    ]}
 
   ],
 
