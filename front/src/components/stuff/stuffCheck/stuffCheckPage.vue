@@ -16,6 +16,11 @@
 
             <!--</el-row>-->
         </div>
+
+        <!--point和frames是双向绑定，如果tagInfo那边允许更改point和frames的话，那么这边的信息也会随之改变-->
+        <!--标注label的改变的话只能通过子组件调用负组件changeLabel更改这里的信息-->
+        <!--tagType,options,description属于任务信息，是一直不变的-->
+        <!--picUrl是当前标注的图片url-->
         <tag ref="tagPage" v-bind:tagType="tagData.tagType"
              v-bind:options="options"
              v-bind:picUrl="getPicUrl"
@@ -57,8 +62,8 @@
 				this.tagData.label = newLabel;
 			},
 
-			tagPicReflash(picUrl) {
-				this.$router.push({ name: 'workerTag', params: { taskId: localStorage.firstLevelTaskId, subTaskId: this.$route.params.subTaskId, taskType: this.$route.params.taskType, picUrl: picUrl}});
+			tagPicReflash(picUrl) {//根据拿到的picUrl重新访问这个route路径，页面也重新加载
+				this.$router.push({ name: 'stuffCheck', params: { taskId: localStorage.firstLevelTaskId, subTaskId: this.$route.params.subTaskId, taskType: this.$route.params.taskType, picUrl: picUrl}});
 			},
 
 			lastPic: function () {
@@ -92,7 +97,7 @@
 				});
 			},
 
-			fetchTagData () {
+			fetchTagData () {//有一个route里的url去后端拿任务数据：taskType，description，options
 				this.picUrl = this.$route.params.picUrl;
 				let result = taskInfo(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType,  res=> {
 
@@ -109,7 +114,7 @@
 				});
 			},
 
-			fetchLabelDataByPicUrl(picUrl) {
+			fetchLabelDataByPicUrl(picUrl) {//有一个目前正标注图片的url去后端拿标注数据tagData
 				let that = this;
 				let result = getLabelInfo(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, picUrl, res=> {
 					if(res){
@@ -130,7 +135,7 @@
 				});
 			},
 
-			changeToOptions(classes){
+			changeToOptions(classes){//把从后端拿到的classes变成options
 				var options = [];
 				for(var value in classes){
 					options.push({

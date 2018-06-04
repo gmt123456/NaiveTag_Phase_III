@@ -20,7 +20,7 @@ import RequesterIndex from '../components/requester/RequesterIndex.vue'
 import RequesterHome from '../components/requester/Home.vue'
 import TaskDetail from  '../components/requester/TaskDetail.vue'
 
-import ServiceCheck from '../components/stuff/stuffCheck/stuffCheckPage'
+import StuffCheck from '../components/stuff/stuffCheck/stuffCheckPage'
 
 Vue.use(Router);
 
@@ -55,7 +55,8 @@ export default new Router({
 				{path: '/tag/:taskId/:subTaskId/:taskType/:picUrl', component: WorkerTag, name: 'workerTag'},
 			]
 		},
-		{path: '/service', component: ServiceCheck},
+		// {path: '/stuffCheck/:taskId/:subTaskId/:taskType/:picUrl', component: StuffCheck, name: 'stuffCheck'},
+		{path: '/stuffCheck', component: StuffCheck, name: 'stuffCheck'},
 
 		{path: '/', component: Index},
 		{path: '/login', component:Login},
