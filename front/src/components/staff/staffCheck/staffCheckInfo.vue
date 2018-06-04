@@ -108,14 +108,15 @@
                             <!--选择框-->
                             <div v-if="isSelectType">
                                 <div v-if="!isRectsTypeNoLabel">
-                                    <el-select v-model="labelSelect" filterable placeholder="Please choose" class="select" disabled>
-                                        <el-option
-                                                v-for="item in options"
-                                                :key="item.value"
-                                                :label="item.label"
-                                                :value="item.value">
-                                        </el-option>
-                                    </el-select>
+                                    <el-input v-model="labelInput" placeholder="Please input content" class="input" disabled/>
+                                    <!--<el-select v-model="labelSelect" filterable placeholder="Please choose" class="select" disabled>-->
+                                        <!--<el-option-->
+                                                <!--v-for="item in options"-->
+                                                <!--:key="item.value"-->
+                                                <!--:label="item.label"-->
+                                                <!--:value="item.value">-->
+                                        <!--</el-option>-->
+                                    <!--</el-select>-->
                                 </div>
                                 <div v-if="isRectsTypeNoLabel"
                                      v-for="(item, index) in frames"
@@ -124,14 +125,15 @@
                                      v-bind:key="item.id"
                                      v-on:remove="frames.splice(index, 1)">
                                     <span v-if="isMoreThanOne">{{index + 1}}：</span>
-                                    <el-select v-model="item.label" filterable placeholder="Please choose" class="select" disabled @change="changeSelectValue($event,index)">
-                                        <el-option
-                                                v-for="item in options"
-                                                :key="item.value"
-                                                :label="item.label"
-                                                :value="item.value">
-                                        </el-option>
-                                    </el-select>
+                                    <el-input v-model="item.label" placeholder="Please input content" class="input" disabled/>
+                                    <!--<el-select v-model="item.label" filterable placeholder="Please choose" class="select" disabled @change="changeSelectValue($event,index)">-->
+                                        <!--<el-option-->
+                                                <!--v-for="item in options"-->
+                                                <!--:key="item.value"-->
+                                                <!--:label="item.label"-->
+                                                <!--:value="item.value">-->
+                                        <!--</el-option>-->
+                                    <!--</el-select>-->
                                     <!--<el-button type="danger" icon="el-icon-delete" circle-->
                                                <!--v-on:click="deleteFramesItem(index)" />-->
                                 </div>
@@ -142,8 +144,8 @@
 
                         <!--最后的按钮-->
                         <div class="center" style="padding-bottom: 20px;">
-                            <el-button type="danger" plain icon="el-icon-error" v-on:click="lastPic" style="width: 100px;">Fail</el-button>
-                            <el-button type="success" plain icon="el-icon-success" v-on:click="nextPic" style="width: 100px;">Pass</el-button>
+                            <el-button type="danger" plain icon="el-icon-error" v-on:click="failPic" style="width: 100px;">Fail</el-button>
+                            <el-button type="success" plain icon="el-icon-success" v-on:click="passPic" style="width: 100px;">Pass</el-button>
                         </div>
 
                     </div>
@@ -394,7 +396,7 @@
 
 		methods: {
 			back(){
-				// this.$router.push({ name: 'subTaskDetails', params: { taskId: localStorage.firstLevelTaskId, subTaskId: this.$route.params.subTaskId, taskType: this.$route.params.taskType}});
+				this.$router.push("/staffFirstTask/staffMyparticipation");
 			},
 
 			updatePic: function (picUrl) {
@@ -420,23 +422,27 @@
 			},
 
 			updateLabel: function () {
-				if(!this.isRectsTypeNoLabel && this.getTagTypeNum!=400){
-					if(this.isInputType){
-						this.labelInput = this.label;
-						if(this.labelInput === null){
-							this.labelInput = "";
-						}
-					}
-					if(this.isSelectType){
-						for(var index in this.options){
-							if(this.options[index].label === this.label){
-								this.labelSelect = index;
-								return;
-							}
-						}
-						this.labelSelect = null;
-					}
+				this.labelInput = this.label;
+				if(this.labelInput === null){
+					this.labelInput = "";
 				}
+				// if(!this.isRectsTypeNoLabel && this.getTagTypeNum!=400){
+				// 	if(this.isInputType){
+				// 		this.labelInput = this.label;
+				// 		if(this.labelInput === null){
+				// 			this.labelInput = "";
+				// 		}
+				// 	}
+				// 	if(this.isSelectType){
+				// 		for(var index in this.options){
+				// 			if(this.options[index].label === this.label){
+				// 				this.labelSelect = index;
+				// 				return;
+				// 			}
+				// 		}
+				// 		this.labelSelect = null;
+				// 	}
+				// }
 			},
 
 			// checkDraw: function () {
@@ -479,31 +485,40 @@
             //
             // },
 
-			lastPic: function () {
-				// if(this.checkNext()){
-//                    this.label = this.labelInput;
-					this.changeLabel();
-					this.$emit('lastPic');
-				// }
+			failPic:function () {
+				this.$emit('nextPic', false);
 			},
 
-			nextPic: function () {
-				// if(this.checkNext()){
-//                    this.label = this.labelInput;
-					this.changeLabel();
-					this.$emit('nextPic');
-				// }
-			},
+            passPic: function () {
+	            this.$emit('nextPic', true);
+            },
 
-			changeLabel: function () {
-				if(!this.isRectsTypeNoLabel && this.getTagTypeNum != 400){
-					if(this.labelInput.length > 0){
-						this.$emit('changeLabel', "" + this.labelInput);
-					}else{
-						this.$emit('changeLabel', "" + this.options[this.labelSelect].label);
-					}
-				}
-			},
+
+// 			lastPic: function () {
+// 				if(this.checkNext()){
+// //                    this.label = this.labelInput;
+// 					this.changeLabel();
+// 					this.$emit('lastPic');
+// 				}
+// 			},
+
+// 			nextPic: function () {
+// 				if(this.checkNext()){
+// //                    this.label = this.labelInput;
+// 					this.changeLabel();
+// 					this.$emit('nextPic');
+// 				}
+// 			},
+
+			// changeLabel: function () {
+			// 	if(!this.isRectsTypeNoLabel && this.getTagTypeNum != 400){
+			// 		if(this.labelInput.length > 0){
+			// 			this.$emit('changeLabel', "" + this.labelInput);
+			// 		}else{
+			// 			this.$emit('changeLabel', "" + this.options[this.labelSelect].label);
+			// 		}
+			// 	}
+			// },
 
 			// onCanvasMouseDown: function (event) {
 			// 	this.points.splice(0, this.points.length);
