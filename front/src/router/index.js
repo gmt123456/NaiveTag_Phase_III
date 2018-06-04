@@ -18,65 +18,75 @@ import TaskHall from '../components/worker/workerUser/taskHall.vue'
 import Index from '../components/index/Index.vue'
 import RequesterIndex from '../components/requester/RequesterIndex.vue'
 import RequesterHome from '../components/requester/Home.vue'
-import TaskDetail from  '../components/requester/TaskDetail.vue'
-
-import StuffCheck from '../components/stuff/stuffCheck/stuffCheckPage'
+import TaskDetail from '../components/requester/TaskDetail.vue'
+import RequesterProfile from '../components/requester/requesterProfile/Profile.vue'
+import InsiderLogin from  '../components/index/InsiderLogin.vue'
+import AdminIndex from '../components/admin/AdminIndex.vue'
+import ServiceCheck from '../components/stuff/stuffCheck/stuffCheckPage'
+import AdminRequesters from '../components/admin/AdminRequester.vue'
+import AdminWorkers from '../components/admin/AdminWorker.vue'
 
 Vue.use(Router);
 
 export default new Router({
-	mode: 'history',
+  mode: 'history',
 
-	routes: [
-		{
-			path: '/workerNavi', component: WorkerNavi,
-			children: [
-				{
-					path: '/worker', component: WorkerMain,
-					children: [
-						{path: 'home', component: WorkerHome},
-						{path: 'unfinish', component: WorkerUnfinish},
-						{path: 'finish', component: WorkerFinish},
-						{path: 'rank', component: WorkerRank},
+  routes: [
+    {
+      path: '/workerNavi', component: WorkerNavi,
+      children: [
+        {
+          path: '/worker', component: WorkerMain,
+          children: [
+            {path: 'home', component: WorkerHome},
+            {path: 'unfinish', component: WorkerUnfinish},
+            {path: 'finish', component: WorkerFinish},
+            {path: 'rank', component: WorkerRank},
 
-					]
-				},
-				{
-					path: '/firstTask', component: FirstLevelTask,
-					children: [
-						{path: 'overview', component: Overview},
-						{path: 'subtasks', component: SubTask},
-						{path: 'myparticipation', component: MyParticipation},
-					]
-				},
-				{path: '/subTaskDetails/:taskId/:subTaskId/:taskType', name: 'subTaskDetails', component: SubTaskDetails},
-				{path: '/taskHall', component: TaskHall},
+          ]
+        },
+        {
+          path: '/firstTask', component: FirstLevelTask,
+          children: [
+            {path: 'overview', component: Overview},
+            {path: 'subtasks', component: SubTask},
+            {path: 'myparticipation', component: MyParticipation},
+          ]
+        },
+        {path: '/subTaskDetails/:taskId/:subTaskId/:taskType', name: 'subTaskDetails', component: SubTaskDetails},
+        {path: '/taskHall', component: TaskHall},
 
-				{path: '/tag/:taskId/:subTaskId/:taskType/:picUrl', component: WorkerTag, name: 'workerTag'},
-			]
-		},
-		// {path: '/stuffCheck/:taskId/:subTaskId/:taskType/:picUrl', component: StuffCheck, name: 'stuffCheck'},
-		{path: '/stuffCheck', component: StuffCheck, name: 'stuffCheck'},
+        {path: '/tag/:taskId/:subTaskId/:taskType/:picUrl', component: WorkerTag, name: 'workerTag'},
+      ]
+    },
+    {path: '/service', component: ServiceCheck},
 
-		{path: '/', component: Index},
-		{path: '/login', component:Login},
-		{path: '/signUp', component: SignUp},
-		{
-			path: '/requester', component: RequesterIndex,
-			children: [
-				{path: 'home', component: RequesterHome},
-                {path:'taskDetail',name:'taskDetail',component:TaskDetail}
-			]
-		}
+    {path: '/', component: Index},
+    {path: '/login', component: Login},
+    {path: '/signUp', component: SignUp},
+    {path:'/makeNaiveTagGreat',component:InsiderLogin},
+    {
+      path: '/requester', component: RequesterIndex,
+      children: [
+        {path: 'home', component: RequesterHome},
+        {path: 'taskDetail', name: 'taskDetail', component: TaskDetail},
+        {path:'profile',component:RequesterProfile}
+      ]
+    },
+    {path:'/makeNaiveTagGreatAgain',component:AdminIndex,
+    children:[
+      {path:'workers',component:AdminWorkers},
+      {path:'requesters',component:AdminRequesters}
+    ]}
 
-	],
+  ],
 
-	scrollBehavior (to, from, savedPosition) {
-		if (savedPosition) {
-			return savedPosition
-		} else {
-			return { x: 0, y: 0 }
-		}
-	}
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return {x: 0, y: 0}
+    }
+  }
 
 })

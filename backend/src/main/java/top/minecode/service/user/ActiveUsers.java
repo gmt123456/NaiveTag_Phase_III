@@ -29,7 +29,7 @@ public class ActiveUsers implements ActiveUserService {
 
     private static Logger log = LoggerFactory.getLogger(ActiveUsers.class);
     private static SimpleCache<ActiveUser> userCache = new SimpleCache<>();
-    private static SimpleCache<ActiveUser> adminCache = new SimpleCache<>();
+    private static SimpleCache<ActiveUser> insiderCache = new SimpleCache<>();
     private static SimpleCache<ActiveUser> staffCache = new SimpleCache<>();
 
     private UserDao userDao;
@@ -51,23 +51,13 @@ public class ActiveUsers implements ActiveUserService {
     }
 
     @Override
-    public String addAdmin(String admin) {
-        return adminCache.add(new ActiveUser(admin), e -> getToken(e.identity));
+    public String addAdminOrStaff(String admin) {
+        return insiderCache.add(new ActiveUser(admin), e -> getToken(e.identity));
     }
 
     @Override
-    public String addStaff(String staff) {
-        return staffCache.add(new ActiveUser(staff), e -> getToken(e.identity));
-    }
-
-    @Override
-    public String getAdmin(String token) {
-        return Optional.ofNullable(adminCache.get(token)).map(e -> e.identity).orElse(null);
-    }
-
-    @Override
-    public String getStaff(String token) {
-        return Optional.ofNullable(staffCache.get(token)).map(e -> e.identity).orElse(null);
+    public String getAdminOrStaff(String token) {
+        return Optional.ofNullable(insiderCache.get(token)).map(e -> e.identity).orElse(null);
     }
 
     @Override
@@ -86,7 +76,7 @@ public class ActiveUsers implements ActiveUserService {
      */
     public void refresh() {
         List<CacheItem> expiredUsers = userCache.refresh();
-        List<CacheItem> expiredAdmin = adminCache.refresh();
+        List<CacheItem> expiredAdmin = insiderCache.refresh();
         List<CacheItem> expiredStaff = staffCache.refresh();
         log.info("Active user|admin|staff list update");
         log.info("Expired user's list: " + expiredUsers.toString());

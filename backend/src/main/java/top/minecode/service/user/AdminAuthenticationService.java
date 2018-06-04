@@ -13,4 +13,6 @@ public interface AdminAuthenticationService {
     ResultMessage login(String username, String password);
 
     ResultMessage createNewAdmin(NewAdminCommand command);
+
+    ResultMessage createStaff(String email, String password, String admin);
 }

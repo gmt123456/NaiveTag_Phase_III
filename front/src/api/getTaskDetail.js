@@ -4,21 +4,57 @@ export function getTaskSketch(taskId, callback) {
   mockSketch(taskId, callback)
 }
 
+function sketchFromServer(taskId, callback) {
+  $.get(getUrl('requester/task/sketch.html'), {taskId: taskId},
+    res => callback(JSON.parse(res)));
+
+}
+
 export function getParticipants(taskId, callback) {
   mockParticipants(taskId, callback)
+}
+
+
+function participantsFromServer(taskId,callback) {
+  $.get(getUrl('requester/task/participants.html'), {taskId: taskId},
+    res => callback(JSON.parse(res)));
 }
 
 export function getReadme(taskId, callback) {
   mockReadme(taskId, callback)
 }
 
+function readmeFromServer(taskId,callback) {
+  $.get(getUrl('requester/task/readme.html'), {taskId: taskId},
+    res => callback(JSON.parse(res)));
+
+}
+
+
 export function editReadme(taskId, content, callback) {
   mockEdit(taskId, content, callback);
+}
+
+
+function editReadmeFromServer(taskId,content,callback) {
+  $.post(getUrl('requester/task/editReadme.html'), {taskId: taskId,content:content},
+    res => callback(JSON.parse(res)));
+
 }
 
 export function getSubTask(taskId, callback) {
   mockSubTask(taskId, callback);
 }
+
+function subTaskFromServer(taskId,callback) {
+  $.get(getUrl('requester/task/subtask.html'), {taskId: taskId},
+    res => callback(JSON.parse(res)));
+
+}
+
+
+/*-----------------------------------------mock分割线----------------------------------------*/
+
 
 function mockSubTask(taskId, callback) {
   let res = [
@@ -156,11 +192,6 @@ function mockSketch(taskId, callback) {
   callback(res);
 }
 
-function sketchFromServer(taskId, callback) {
-  $.get(getUrl('requester/task/sketch.html'), {taskId: taskId},
-    res => callback(JSON.parse(res)));
-
-}
 
 function mockParticipants(taskId, callback) {
   let res = [

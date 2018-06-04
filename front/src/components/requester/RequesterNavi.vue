@@ -15,7 +15,7 @@
     </div>
     <div slot="dropdownMenu">
       <el-dropdown-item>
-        <el-button type="text">my profile</el-button>
+        <el-button type="text" @click="jumpToProfile">my profile</el-button>
       </el-dropdown-item>
     </div>
   </navi>
@@ -25,7 +25,12 @@
     import Navi from "../common/Navi";
     export default {
         name: "requesterNavi",
-      components: {Navi}
+      components: {Navi},
+      methods:{
+          jumpToProfile:function () {
+            this.$router.push('/requester/profile')
+          }
+      }
     }
 </script>
 
