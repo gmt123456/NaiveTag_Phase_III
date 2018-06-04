@@ -48,8 +48,8 @@ public class TaskSettlementDao {
         // 提前已经完成的任务或者到期的任务
         java.sql.Date date = new java.sql.Date(new Date().getTime());
         String queryFinishedTasks = "select t from " + TaskPO.class.getName() + " t where t.taskState = '" + TaskState.ON_GOING.toString()
-                + "' and ((not exists(select subT from " + SubTaskPO.class.getName() + " subT where subT.subTaskState <> '"
-                + SubTaskParticipationState.FINISHED.toString() + "' and subT.taskId = t.id))) or t.endDate <= '" + date.toString() +  "')";
+                + "' and ((not exists(select subT from " + SubTaskPO.class.getName() + " subT where subT.subTaskState <> "
+                + SubTaskState.FINISHED.ordinal() + " and subT.taskId = t.id))) or t.endDate <= '" + date.toString() +  "')";
 
         return taskHelper.executeSQL(queryFinishedTasks).stream().filter(e -> e.getTaskState() == TaskState.ON_GOING).collect(Collectors.toList());
     }
