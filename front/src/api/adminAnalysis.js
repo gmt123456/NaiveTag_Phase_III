@@ -35,7 +35,7 @@ export function getWorkerDistribution(callback) {
 }
 
 function getWorkerDistributionFromServer(callback) {
-  $.get(getUrl('admin/statistic/workerdistribution.html'), res => {
+  $.get(getUrl('admin/statistic/workerDistribution.html'), res => {
     callback(JSON.parse(res));
   })
 }
@@ -45,7 +45,7 @@ export function getWorkerSpeed(callback) {
 }
 
 function getWorkerSpeedFromServer(callback) {
-  $.get(getUrl('admin/statistic/workerspeed.html'), res => {
+  $.get(getUrl('admin/statistic/workerSpeed.html'), res => {
     callback(JSON.parse(res));
   })
 }
@@ -55,7 +55,7 @@ export function getWorkerQuality(callback) {
 }
 
 function getWorkerQualityFromServer(callback) {
-  $.get(getUrl('admin/statistic/workerdistribution.html'), res => {
+  $.get(getUrl('admin/statistic/workerDistribution.html'), res => {
     callback(JSON.parse(res));
   })
 }
@@ -65,7 +65,7 @@ export function getWorkerEvaluation(callback) {
 }
 
 function getWorkerEvaluationFromServer(callback) {
-  $.get(getUrl('admin/statistic/workerevaluation.html'), res => {
+  $.get(getUrl('admin/statistic/workerEvaluation.html'), res => {
     callback(JSON.parse(res));
   })
 }
@@ -75,7 +75,7 @@ export function getTaskEvaluation(callback) {
 }
 
 function getTaskEvaluationFromServer(callback) {
-  $.get(getUrl('admin/statistic/taskevaluation.html'), res => {
+  $.get(getUrl('admin/statistic/taskEvaluation.html'), res => {
     callback(JSON.parse(res));
   })
 }

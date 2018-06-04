@@ -92,6 +92,9 @@ public class TaskSettlementService {
     public void settleTasks() throws IOException{
 
         List<TaskPO> waitingForSettledTasks = settlementDao.getCanSettledTasks(); // 这儿只是考虑了让要去结算的任务，等会要考虑会过期的小任务
+        for (TaskPO po: waitingForSettledTasks) {
+            System.out.println(po);
+        }
         for (TaskPO taskPO: waitingForSettledTasks)
             settleTask(taskPO);
 

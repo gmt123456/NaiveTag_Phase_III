@@ -27,7 +27,7 @@ public class TaskSettlementController {
         this.settlementService = settlementService;
     }
 
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 * * * * ?")
     public void settleTasks() throws IOException {
         settlementService.settleTasks();
     }

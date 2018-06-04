@@ -25,7 +25,7 @@ public class VectorCalcController {
         this.calculateService = calculateService;
     }
 
-    @Scheduled(cron = "0 * * * * ?")
+    @Scheduled(cron = "0 0 * * * ?")
     public void calc() {
         calculateService.calculateWorkerVectors();
     }

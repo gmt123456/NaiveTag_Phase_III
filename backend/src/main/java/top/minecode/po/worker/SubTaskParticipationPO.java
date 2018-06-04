@@ -49,6 +49,7 @@ public class SubTaskParticipationPO implements Serializable {
     @Column(length = 2048)
     private Map<String, String> tags;
 
+    @Enumerated(EnumType.STRING)
     private SubTaskParticipationState state;
 
     @Temporal(TemporalType.TIMESTAMP)

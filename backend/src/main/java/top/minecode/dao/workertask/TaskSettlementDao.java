@@ -2,10 +2,7 @@ package top.minecode.dao.workertask;
 
 import org.springframework.stereotype.Repository;
 import top.minecode.dao.utils.CommonOperation;
-import top.minecode.domain.task.SubTaskParticipation;
-import top.minecode.domain.task.SubTaskState;
-import top.minecode.domain.task.Task;
-import top.minecode.domain.task.TaskState;
+import top.minecode.domain.task.*;
 import top.minecode.po.task.SubTaskPO;
 import top.minecode.po.task.TaskPO;
 import top.minecode.po.worker.FinishedTaskParticipationPO;
@@ -51,8 +48,8 @@ public class TaskSettlementDao {
         // 提前已经完成的任务或者到期的任务
         java.sql.Date date = new java.sql.Date(new Date().getTime());
         String queryFinishedTasks = "select t from " + TaskPO.class.getName() + " t where t.taskState = '" + TaskState.ON_GOING.toString()
-                + "' and ((not exists(select subT from " + SubTaskPO.class.getName() + " subT where subT.subTaskState <> "
-                + (1 + SubTaskState.FINISHED.ordinal()) + " and subT.taskId = t.id))) or t.endDate <= '" + date.toString() +  "')";
+                + "' and ((not exists(select subT from " + SubTaskPO.class.getName() + " subT where subT.subTaskState <> '"
+                + SubTaskParticipationState.FINISHED.toString() + "' and subT.taskId = t.id))) or t.endDate <= '" + date.toString() +  "')";
 
         return taskHelper.executeSQL(queryFinishedTasks).stream().filter(e -> e.getTaskState() == TaskState.ON_GOING).collect(Collectors.toList());
     }
