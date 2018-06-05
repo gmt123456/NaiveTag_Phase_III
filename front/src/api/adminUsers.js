@@ -27,29 +27,29 @@ function getRequesterFromServer(page, pageSize, callback) {
 }
 
 export function changePassword(email, newPassword, callback) {
-  mockChangePassword(email,newPassword,callback);
+  mockChangePassword(email, newPassword, callback);
 }
 
 function changePasswordFromServer(email, newPassword, callback) {
-  $.post(getUrl('admin/modify/password.html'),{
-    token:localStorage.token,
-    email:email,
-    newPassword:newPassword
-  },res=>{
+  $.post(getUrl('admin/modify/password.html'), {
+    token: localStorage.token,
+    email: email,
+    newPassword: newPassword
+  }, res => {
     callback(JSON.parse(res));
   })
 }
 
 export function changeDollars(email, dollars, callback) {
-  mockChangeDollars(email,dollars,callback);
+  mockChangeDollars(email, dollars, callback);
 }
 
 function changeDollarsFromServer(email, dollars, callback) {
-  $.post(getUrl('admin/modify/dollars.html'),{
-    token:localStorage.token,
-    email:email,
-    dollars:dollars
-  },res=>{
+  $.post(getUrl('admin/modify/dollars.html'), {
+    token: localStorage.token,
+    email: email,
+    dollars: dollars
+  }, res => {
     callback(JSON.parse(res));
   })
 }
@@ -66,6 +66,34 @@ function searchUserFromServer(key, userType, page, pageSize, callback) {
     pageSize: pageSize
   }, res => {
     callback(JSON.parse(res))
+  })
+}
+
+export function addAdmin(newAdminName, password, callback) {
+  mockAdd(newAdminName,password,callback)
+}
+
+function addAdminToServer(newAdminName, password, callback) {
+  $.post(getUrl('inside/new/admin'), {
+    token: localStorage.token,
+    newAdminName: newAdminName,
+    password: password
+  }, res => {
+    callback(JSON.parse(res));
+  })
+}
+
+export function addStuff(email, password, callback) {
+  mockAdd(email,password,callback);
+}
+
+function addStuffToServer(email,password,callback) {
+  $.post(getUrl('admin/newStaff'), {
+    token: localStorage.token,
+    email: email,
+    password: password
+  }, res => {
+    callback(JSON.parse(res));
   })
 }
 
@@ -177,5 +205,13 @@ function mockChangeDollars(email, dollars, callback) {
   callback({
     status: 'success',
     message: ''
+  })
+}
+
+
+function mockAdd(one,two,callback) {
+  callback({
+    status:'success',
+    message:null
   })
 }
