@@ -59,5 +59,9 @@ public class WorkerInfoDao {
         return workerPOHelper.getAll();
     }
 
+    public List<WorkerPO> getListByEmails(List<String> emails) {
+        return workerPOHelper.getListBySingleField("email", emails);
+    }
+
 
 }

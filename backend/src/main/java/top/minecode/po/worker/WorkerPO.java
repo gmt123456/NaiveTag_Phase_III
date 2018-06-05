@@ -24,7 +24,7 @@ public class WorkerPO implements Serializable {
 
     private String name;
 
-    private double Score;
+    private double score;
 
     private double dollars;
 
@@ -46,6 +46,15 @@ public class WorkerPO implements Serializable {
     private List<Integer> finishedTaskParticipation;
 
     public WorkerPO() {}
+
+    public void addDollars(double value) {
+        dollars += value;
+    }
+
+    public void changeScore(double value) {
+        score += value;
+    }
+
 
     public WorkerPO(String email, String password, String name, Date joinTime, String avatar) {
         this.email = email;
@@ -80,11 +89,11 @@ public class WorkerPO implements Serializable {
     }
 
     public double getScore() {
-        return Score;
+        return score;
     }
 
     public void setScore(double score) {
-        Score = score;
+        score = score;
     }
 
     public double getDollars() {

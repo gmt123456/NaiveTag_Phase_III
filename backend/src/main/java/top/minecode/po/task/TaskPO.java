@@ -84,6 +84,10 @@ public class TaskPO implements Serializable {
         return requirement;
     }
 
+    public void addActualDollars(double dollars) {
+        this.actualDollars += dollars;
+    }
+
     public void setRequirement(TaskRequirement requirement) {
         this.requirement = requirement;
     }

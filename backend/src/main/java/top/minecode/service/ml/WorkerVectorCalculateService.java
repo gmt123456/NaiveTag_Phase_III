@@ -75,7 +75,7 @@ public class WorkerVectorCalculateService {
                     workerInfoDao.getFinishedTasks(rawVector.getEmail());
             List<Pair<TaskVectorPO, Double>> values = finishedTaskParticipation
                     .stream().map(e -> new Pair<>(id2TaskVector.get(e.getTaskId()),
-                            e.getScoreChange() / 100.0))
+                            e.getStandardScoreChange()))
                     .collect(Collectors.toList());
 
             resultVectors.add(calculateSingleWorkerVector(rawVector, values));
