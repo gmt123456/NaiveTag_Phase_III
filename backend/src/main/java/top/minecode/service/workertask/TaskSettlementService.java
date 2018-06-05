@@ -6,9 +6,12 @@ import top.minecode.dao.worker.WorkerInfoDao;
 import top.minecode.dao.workertask.TaskSettlementDao;
 import top.minecode.domain.tag.SubTaskResult;
 import top.minecode.domain.tag.TaskResult;
+import top.minecode.domain.task.SubTask;
 import top.minecode.domain.task.SubTaskParticipationState;
+import top.minecode.domain.task.SubTaskState;
 import top.minecode.domain.task.TaskType;
 import top.minecode.domain.utils.Pair;
+import top.minecode.po.task.SubTaskPO;
 import top.minecode.po.task.TaskPO;
 import top.minecode.po.worker.FinishedTaskParticipationPO;
 import top.minecode.po.worker.OnGoingTaskParticipationPO;
@@ -52,9 +55,26 @@ public class TaskSettlementService {
     }
 
     public void settleTasks() throws IOException{
+
         List<TaskPO> waitingForSettledTasks = settlementDao.getCanSettledTasks(); // 这儿只是考虑了让要去结算的任务，等会要考虑会过期的小任务
         for (TaskPO taskPO: waitingForSettledTasks)
             settleTask(taskPO);
+
+        expireSubParts(); // 让子任务过期掉
+    }
+
+    private void expireSubParts() {
+        List<SubTaskParticipationPO> expiredParticipation = settlementDao.getExpiredSubTaskParticipationPOS();
+        for (SubTaskParticipationPO po: expiredParticipation) {
+            po.setState(SubTaskParticipationState.EXPIRED);
+        }
+        List<SubTaskPO> subTaskPOS = settlementDao.getSubTasksByIds(expiredParticipation.stream().map(SubTaskParticipationPO::getId).collect(Collectors.toList()));
+        for (SubTaskPO po: subTaskPOS) {
+            po.setCurrentDoingWorker(null);
+            po.setSubTaskState(SubTaskState.COMMON);
+        }
+        settlementDao.batchUpdateSubPart(expiredParticipation);
+        settlementDao.batchUpdateSubTasks(subTaskPOS);
     }
 
     private void settleTask(TaskPO taskPO) throws IOException {
@@ -101,6 +121,9 @@ public class TaskSettlementService {
                 List<Pair<Double, Integer>> correctRateAndPicAmount = new ArrayList<>();
                 for (SubTaskParticipationPO po: participationPOS) {
                     TaskType taskType = po.getSubTaskType();
+                    if (po.getState() == SubTaskParticipationState.DOING) {
+                        po.setState(SubTaskParticipationState.EXPIRED);
+                    }
                     if (po.getState() == SubTaskParticipationState.EXPIRED) {
                         //过期会受到严厉的惩罚
                         correctRateAndPicAmount.add(new Pair<>(0.0, po.getPicAmount()));

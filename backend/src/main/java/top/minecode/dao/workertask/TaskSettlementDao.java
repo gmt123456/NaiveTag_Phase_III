@@ -81,4 +81,18 @@ public class TaskSettlementDao {
         subTaskParticipationHelper.batchUpdate(subTaskParticipationPOS);
     }
 
+    public List<SubTaskParticipationPO> getExpiredSubTaskParticipationPOS() {
+        String sql = "select * from " + SubTaskParticipationPO.class.getName() + " t where t.commitDate is null and t.expiredDate < "
+                + new Date().toString();
+        return subTaskParticipationHelper.executeSQL(sql);
+    }
+
+    public void batchUpdateSubTasks(List<SubTaskPO> subTaskPOS) {
+        subTaskHelper.batchUpdate(subTaskPOS);
+    }
+
+    public List<SubTaskPO> getSubTasksByIds(List<Integer> ids) {
+        return subTaskHelper.getListBySingleField("id", ids);
+    }
+
 }
