@@ -1,5 +1,5 @@
 <template>
-  <el-collapse-item style="width: 1000px">
+  <el-collapse-item>
     <div slot="title" style="display: flex">
       <el-col :span="2" :offset="2">
         <img :src="worker.avatar" style="margin-top: 5px;height: 40px">
@@ -16,11 +16,12 @@
       <el-form size="medium" label-width="90px" :inline="true" label-position="left"  class="worker-details">
         <el-form-item label="email">{{worker.email}}</el-form-item>
         <el-form-item label="dollars">
-          <span>{{worker.dollars}}   <el-button type="text" style="margin-left: 20px;padding: 0">modify</el-button></span>
+          <span>{{worker.dollars}}  <modify-dollars :email="worker.email" style="padding-left: 30px"></modify-dollars> </span>
         </el-form-item>
 
         <el-form-item label="score">{{worker.score}}</el-form-item>
         <el-form-item label="Joined at">{{worker.signupTime}}</el-form-item>
+        <modify-password :email="worker.email"></modify-password>
 
       </el-form>
     </div>
@@ -31,10 +32,12 @@
 
 <script>
 
-  import DivisionPic from "../worker/divisionPic";
+  import DivisionPic from "../../worker/divisionPic";
+  import ModifyDollars from "./ModifyDollars";
+  import ModifyPassword from "./ModifyPassword";
   export default {
     name: "WorkerListItem",
-    components:{DivisionPic},
+    components:{ModifyPassword, ModifyDollars, DivisionPic},
     props: ['worker']
   }
 </script>
