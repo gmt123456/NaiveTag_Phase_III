@@ -2,12 +2,16 @@ package top.minecode.dao.workertask;
 
 import org.springframework.stereotype.Repository;
 import top.minecode.dao.utils.CommonOperation;
+import top.minecode.domain.task.SubTaskParticipation;
 import top.minecode.domain.task.SubTaskState;
 import top.minecode.domain.task.Task;
 import top.minecode.domain.task.TaskState;
 import top.minecode.po.task.SubTaskPO;
 import top.minecode.po.task.TaskPO;
+import top.minecode.po.worker.FinishedTaskParticipationPO;
+import top.minecode.po.worker.OnGoingTaskParticipationPO;
 import top.minecode.po.worker.SubTaskParticipationPO;
+import top.minecode.po.worker.WorkerPO;
 
 import java.util.Date;
 import java.util.List;
@@ -30,6 +34,15 @@ public class TaskSettlementDao {
     private CommonOperation<SubTaskPO> subTaskHelper =
             new CommonOperation<>(SubTaskPO.class);
 
+    private CommonOperation<OnGoingTaskParticipationPO> onGoingTaskParticipationHelper =
+            new CommonOperation<>(OnGoingTaskParticipationPO.class);
+
+    private CommonOperation<FinishedTaskParticipationPO> finishedTaskParticipationHelper =
+            new CommonOperation<>(FinishedTaskParticipationPO.class);
+
+    private CommonOperation<WorkerPO> workerHelper =
+            new CommonOperation<>(WorkerPO.class);
+
     public List<TaskPO> getCanSettledTasks() {
         // 提前已经完成的任务或者到期的任务
         String queryFinishedTasks = "select * from " + TaskPO.class.getName() + " t where t.taskState = " + TaskState.ON_GOING
@@ -42,5 +55,30 @@ public class TaskSettlementDao {
         return subTaskParticipationHelper.getListBySingleField("taskId", taskId);
     }
 
+    public OnGoingTaskParticipationPO getOnGoingTaskParticipationPOByEmailAndTaskId(String email, int taskId) {
+        String hql = "select * from " + OnGoingTaskParticipationPO.class.getName() + " t where t.taskId = " + taskId + " and "
+                 + "t.userEmail = " + email;
+        return onGoingTaskParticipationHelper.executeHQL(hql);
+    }
+
+    public void deleteOngoingPart(OnGoingTaskParticipationPO po) {
+        onGoingTaskParticipationHelper.delete(po);
+    }
+
+    public void addFinishedPartPO(FinishedTaskParticipationPO finishedTaskParticipationPO) {
+        finishedTaskParticipationHelper.add(finishedTaskParticipationPO);
+    }
+
+    public void batchUpdateWorkerInfo(List<WorkerPO> workerPOS) {
+        workerHelper.batchUpdate(workerPOS);
+    }
+
+    public void updateTaskPO(TaskPO taskPO) {
+        taskHelper.update(taskPO);
+    }
+
+    public void batchUpdateSubPart(List<SubTaskParticipationPO> subTaskParticipationPOS) {
+        subTaskParticipationHelper.batchUpdate(subTaskParticipationPOS);
+    }
 
 }

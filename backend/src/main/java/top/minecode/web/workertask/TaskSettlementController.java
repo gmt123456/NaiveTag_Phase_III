@@ -5,6 +5,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import top.minecode.service.workertask.TaskSettlementService;
 
+import java.io.IOException;
+
 /**
  * Created on 2018/6/4.
  * Description: 任务结算
@@ -26,7 +28,7 @@ public class TaskSettlementController {
     }
 
     @Scheduled(cron = "0 0 * * * ?")
-    public void settleTasks() {
+    public void settleTasks() throws IOException {
         settlementService.settleTasks();
     }
 

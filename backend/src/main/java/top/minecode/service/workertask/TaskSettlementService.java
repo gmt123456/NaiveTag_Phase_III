@@ -2,20 +2,21 @@ package top.minecode.service.workertask;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sun.jvm.hotspot.jdi.ArrayReferenceImpl;
 import top.minecode.dao.worker.WorkerInfoDao;
 import top.minecode.dao.workertask.TaskSettlementDao;
 import top.minecode.domain.tag.SubTaskResult;
 import top.minecode.domain.tag.TaskResult;
 import top.minecode.domain.task.SubTaskParticipationState;
-import top.minecode.domain.task.SubTaskState;
-import top.minecode.domain.task.TaskState;
 import top.minecode.domain.task.TaskType;
 import top.minecode.domain.utils.Pair;
 import top.minecode.po.task.TaskPO;
+import top.minecode.po.worker.FinishedTaskParticipationPO;
+import top.minecode.po.worker.OnGoingTaskParticipationPO;
 import top.minecode.po.worker.SubTaskParticipationPO;
 import top.minecode.po.worker.WorkerPO;
+import top.minecode.web.common.WebConfig;
 
+import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -50,13 +51,13 @@ public class TaskSettlementService {
         this.settlementDao = settlementDao;
     }
 
-    public void settleTasks() {
+    public void settleTasks() throws IOException{
         List<TaskPO> waitingForSettledTasks = settlementDao.getCanSettledTasks(); // 这儿只是考虑了让要去结算的任务，等会要考虑会过期的小任务
         for (TaskPO taskPO: waitingForSettledTasks)
             settleTask(taskPO);
     }
 
-    private void settleTask(TaskPO taskPO) {
+    private void settleTask(TaskPO taskPO) throws IOException {
 
 
         List<String> participators = taskPO.getParticipators();
@@ -78,8 +79,10 @@ public class TaskSettlementService {
             subResults.put(type, new SubTaskResult());
 
         Map<String, Pair<Double, Integer>> emailToErrorRate = new HashMap<>();
+        Map<String, Double> emailToEarnedDollars = new HashMap<>();
         for (WorkerPO workerPO: workers) {
             emailToErrorRate.put(workerPO.getEmail(), new Pair<>(1.0, 0));
+            emailToEarnedDollars.put(workerPO.getEmail(), 0.0);
         }
 
         for (String email: emailToParticipation.keySet()) {
@@ -117,6 +120,7 @@ public class TaskSettlementService {
                             taskPO.addActualDollars(earnedDollars);
                             workerPO.addDollars(earnedDollars);
                         }
+                        emailToEarnedDollars.put(email, emailToEarnedDollars.get(email) + po.getEarnedDollars());
                         correctRateAndPicAmount.add(new Pair<>(po.getErrorRate(), po.getPicAmount()));
                         if (po.isAccept()) {
                             subResults.get(taskType).extendResult(po.getTags());
@@ -149,14 +153,26 @@ public class TaskSettlementService {
         int participatedUserAmount = userTaskInfo.size();
         for (int i = 0; i < participatedUserAmount; i++) {
             Pair<String, Pair<Double, Integer>> userInfo = userTaskInfo.get(i);
+            String userEmail = userInfo.l;
             double standardScore = (2 * i + 1) / (participatedUserAmount * 2.0) * 6 - 3;
             double scoreChange = standardScore * userInfo.r.r / 10;
             WorkerPO currentWorker = emailToWorker.get(userInfo.l);
             currentWorker.changeScore(scoreChange);
 
             // 把ongoing 变成 finished
+            OnGoingTaskParticipationPO onGoingPO = settlementDao.getOnGoingTaskParticipationPOByEmailAndTaskId(userEmail,
+                    taskPO.getId());
+            currentWorker.getOnGoingTaskParticipation().remove(onGoingPO.getId()); // 从已经参与的任务的id集合中删掉
 
+            FinishedTaskParticipationPO finishedPO = new FinishedTaskParticipationPO();
+            finishedPO.setParticipatedSubTaskResults(onGoingPO.getParticipatedSubTaskResultIds());
+            finishedPO.setAcceptedPicAmount(userInfo.r.r);
+            finishedPO.setScoreChange(scoreChange);
+            finishedPO.setEarnedDollars(emailToEarnedDollars.get(userEmail));
 
+            settlementDao.addFinishedPartPO(finishedPO);
+            settlementDao.deleteOngoingPart(onGoingPO); // 删去过去的
+            currentWorker.getFinishedTaskParticipation().add(finishedPO.getId());
         }
 
 
@@ -164,6 +180,21 @@ public class TaskSettlementService {
         TaskResult result = new TaskResult(new ArrayList<>(subResults.values()));
         String filePath = taskPO.getResultFilePath(); // 用来存储标注结果的文件
 
+        File resultFile = new File(filePath);
+
+        if (!resultFile.exists()) {
+            if (!resultFile.createNewFile())
+                throw new IOException();
+        }
+        BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(resultFile));
+        PrintWriter printWriter = new PrintWriter(bufferedOutputStream);
+        printWriter.write(WebConfig.getGson().toJson(result));
+        printWriter.close(); // 写进了文件里面
+
+        // 保存在上述过程中发生了变更的po
+        settlementDao.batchUpdateWorkerInfo(workers);
+        settlementDao.updateTaskPO(taskPO);
+        settlementDao.batchUpdateSubPart(subTaskParticipationPOS);
 
     }
 
