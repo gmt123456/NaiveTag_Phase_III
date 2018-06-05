@@ -1,22 +1,22 @@
 export function getTaskName(taskType) {
 	switch (taskType){
 		case 't_100':
-			return ["Global","Input"]
-			break;
-		case 't_101':
 			return ["Global","Select"]
 			break;
-		case 't_200':
-			return ["Single-Frame","Input"]
+		case 't_101':
+			return ["Global","Input"]
 			break;
-		case 't_201':
+		case 't_200':
 			return ["Single-Frame","Select"]
 			break;
+		case 't_201':
+			return ["Single-Frame","Input"]
+			break;
 		case 't_300':
-			return ["Multiple-Frame","Input"]
+			return ["Multiple-Frame","Select"]
 			break;
 		case 't_301':
-			return ["Multiple-Frame","Select"]
+			return ["Multiple-Frame","Input"]
 			break;
 		case 't_400':
 			return ["Area","Only"]

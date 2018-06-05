@@ -33,10 +33,10 @@
                                      v-bind:key="item.id"><span v-if="isMoreThanOne">#{{index + 1}}</span></div>
 
                                 <!--框画板-->
-                                <div v-if="isRectsTypeNoLabel" ref="canvas" v-bind:style="getCanvasStyle()"
-                                     v-on:mousedown="onMouseDown($event)"
-                                     v-on:mouseup="onMouseUp($event)"
-                                     v-on:mousemove="onMouseMove($event)"></div>
+                                <div v-if="isRectsTypeNoLabel" ref="canvas" v-bind:style="getCanvasStyle()"></div>
+                                     <!--v-on:mousedown="onMouseDown($event)"-->
+                                     <!--v-on:mouseup="onMouseUp($event)"-->
+                                     <!--v-on:mousemove="onMouseMove($event)"-->
 
                                 <!--正在画的框-->
                                 <div v-if="this.drawRect" v-bind:style="getChangeRectStyle()"></div>
@@ -48,12 +48,12 @@
                                 <!--&gt;</tagCanvas>-->
                                 <canvas ref="canvas" class="canvas"
                                         ondragstart="return false;" oncontextmenu="return false;"
-                                        v-on:mousedown="onCanvasMouseDown($event)"
-                                        v-on:mousemove="onCanvasMouseMove($event)"
-                                        v-on:mouseup="onCanvasMouseUp($event)"
                                         v-bind:width="this.picWidth"
                                         v-bind:height="this.picHeight"
                                         v-bind:style="getTagCanvasStyle()"></canvas>
+                                <!--v-on:mousedown="onCanvasMouseDown($event)"-->
+                                <!--v-on:mousemove="onCanvasMouseMove($event)"-->
+                                <!--v-on:mouseup="onCanvasMouseUp($event)"-->
 
                             </div>
 
@@ -90,7 +90,7 @@
                             <!--输入框-->
                             <div v-if="isInputType">
                                 <div v-if="!isRectsTypeNoLabel">
-                                    <el-input v-model="labelInput" placeholder="Please input content" class="input" />
+                                    <el-input v-model="labelInput" placeholder="Please input content" class="input" disabled/>
                                 </div>
                                 <div v-if="isRectsTypeNoLabel"
                                      v-for="(item, index) in frames"
@@ -98,9 +98,9 @@
                                      v-bind:index="index"
                                      v-bind:key="item.id">
                                     <span v-if="isMoreThanOne">{{index + 1}}：</span>
-                                    <el-input v-model="item.label" placeholder="Please input content" class="input" @change="changeInputValue($event,index)"></el-input>
-                                    <el-button type="danger" icon="el-icon-delete" circle
-                                               v-on:click="deleteFramesItem(index)"></el-button>
+                                    <el-input v-model="item.label" placeholder="Please input content" class="input" disabled @change="changeInputValue($event,index)"></el-input>
+                                    <!--<el-button type="danger" icon="el-icon-delete" circle-->
+                                               <!--v-on:click="deleteFramesItem(index)"></el-button>-->
                                 </div>
                             </div>
 
@@ -108,14 +108,15 @@
                             <!--选择框-->
                             <div v-if="isSelectType">
                                 <div v-if="!isRectsTypeNoLabel">
-                                    <el-select v-model="labelSelect" filterable placeholder="Please choose" class="select">
-                                        <el-option
-                                                v-for="item in options"
-                                                :key="item.value"
-                                                :label="item.label"
-                                                :value="item.value">
-                                        </el-option>
-                                    </el-select>
+                                    <el-input v-model="labelInput" placeholder="Please input content" class="input" disabled/>
+                                    <!--<el-select v-model="labelSelect" filterable placeholder="Please choose" class="select" disabled>-->
+                                        <!--<el-option-->
+                                                <!--v-for="item in options"-->
+                                                <!--:key="item.value"-->
+                                                <!--:label="item.label"-->
+                                                <!--:value="item.value">-->
+                                        <!--</el-option>-->
+                                    <!--</el-select>-->
                                 </div>
                                 <div v-if="isRectsTypeNoLabel"
                                      v-for="(item, index) in frames"
@@ -124,27 +125,27 @@
                                      v-bind:key="item.id"
                                      v-on:remove="frames.splice(index, 1)">
                                     <span v-if="isMoreThanOne">{{index + 1}}：</span>
-                                    <el-select v-model="item.label" filterable placeholder="Please choose" class="select" @change="changeSelectValue($event,index)">
-                                        <el-option
-                                                v-for="item in options"
-                                                :key="item.value"
-                                                :label="item.label"
-                                                :value="item.value">
-                                        </el-option>
-                                    </el-select>
-                                    <el-button type="danger" icon="el-icon-delete" circle
-                                               v-on:click="deleteFramesItem(index)" />
+                                    <el-input v-model="item.label" placeholder="Please input content" class="input" disabled/>
+                                    <!--<el-select v-model="item.label" filterable placeholder="Please choose" class="select" disabled @change="changeSelectValue($event,index)">-->
+                                        <!--<el-option-->
+                                                <!--v-for="item in options"-->
+                                                <!--:key="item.value"-->
+                                                <!--:label="item.label"-->
+                                                <!--:value="item.value">-->
+                                        <!--</el-option>-->
+                                    <!--</el-select>-->
+                                    <!--<el-button type="danger" icon="el-icon-delete" circle-->
+                                               <!--v-on:click="deleteFramesItem(index)" />-->
                                 </div>
                             </div>
 
 
                         </div>
 
+                        <!--最后的按钮-->
                         <div class="center" style="padding-bottom: 20px;">
-                            <el-button-group>
-                                <el-button type="primary" icon="el-icon-arrow-left" v-on:click="lastPic">Last one</el-button>
-                                <el-button type="primary" v-on:click="nextPic">Next one<i class="el-icon-arrow-right el-icon--right"></i></el-button>
-                            </el-button-group>
+                            <el-button type="danger" plain icon="el-icon-error" v-on:click="failPic" style="width: 100px;">Fail</el-button>
+                            <el-button type="success" plain icon="el-icon-success" v-on:click="passPic" style="width: 100px;">Pass</el-button>
                         </div>
 
                     </div>
@@ -167,7 +168,7 @@
 				this.picHeight = this.$refs.image.getBoundingClientRect().height;
 				this.ctx = this.$refs.canvas.getContext('2d');
 
-				if(this.points && (this.points.length > 0)){
+				if(this.points && (this.points.length > 0)){//如果有points，就画出来；而frames是自动画的
 					this.drawPolygon();
 				}
 
@@ -395,7 +396,7 @@
 
 		methods: {
 			back(){
-				this.$router.push({ name: 'subTaskDetails', params: { taskId: localStorage.firstLevelTaskId, subTaskId: this.$route.params.subTaskId, taskType: this.$route.params.taskType}});
+				this.$router.push("/staffFirstTask/staffMyparticipation");
 			},
 
 			updatePic: function (picUrl) {
@@ -421,127 +422,141 @@
 			},
 
 			updateLabel: function () {
-				if(!this.isRectsTypeNoLabel && this.getTagTypeNum!=400){
-					if(this.isInputType){
-						this.labelInput = this.label;
-						if(this.labelInput === null){
-							this.labelInput = "";
-						}
-					}
-					if(this.isSelectType){
-						for(var index in this.options){
-							if(this.options[index].label === this.label){
-								this.labelSelect = index;
-								return;
-							}
-						}
-						this.labelSelect = null;
-					}
+				this.labelInput = this.label;
+				if(this.labelInput === null){
+					this.labelInput = "";
 				}
+				// if(!this.isRectsTypeNoLabel && this.getTagTypeNum!=400){
+				// 	if(this.isInputType){
+				// 		this.labelInput = this.label;
+				// 		if(this.labelInput === null){
+				// 			this.labelInput = "";
+				// 		}
+				// 	}
+				// 	if(this.isSelectType){
+				// 		for(var index in this.options){
+				// 			if(this.options[index].label === this.label){
+				// 				this.labelSelect = index;
+				// 				return;
+				// 			}
+				// 		}
+				// 		this.labelSelect = null;
+				// 	}
+				// }
 			},
 
-			checkDraw: function () {
-				if(this.frames.length === 0){
-					return true;
-				}else if(this.frames[this.frames.length - 1].label){
-					return true;
-				}else{
-					return false;
-				}
+			// checkDraw: function () {
+			// 	if(this.frames.length === 0){
+			// 		return true;
+			// 	}else if(this.frames[this.frames.length - 1].label){
+			// 		return true;
+			// 	}else{
+			// 		return false;
+			// 	}
+			// },
+
+            //对是否进行标注且标注合法的检测，在客服check的时候是不需要检测的
+            // checkNext: function () {
+				// if(this.isRectsTypeNoLabel){
+				// 	if(this.frames.length === 0){
+				// 		this.$message.error('请填写至少一个标注信息！');
+				// 		return false;
+				// 	}else if(this.frames[this.frames.length - 1].label){
+				// 		return true;
+				// 	}else{
+				// 		this.$message.error('有标注信息未填写！');
+				// 		return false;
+				// 	}
+				// }else{
+				// 	if(!this.isRectsTypeNoLabel && this.getTagTypeNum != 400 && (this.labelSelect === null && this.labelInput.length === 0)){
+				// 		this.$message.error('请填写标注信息！');
+				// 		return false;
+				// 	}
+				// 	if(this.isCanvasType){
+				// 		if(this.points && this.points.length > 0){
+				// 			return true;
+				// 		}else{
+				// 			this.$message.error('请画出标注区域！');
+				// 			return false;
+				// 		}
+				// 	}
+				// 	return true;
+				// }
+            //
+            // },
+
+			failPic:function () {
+				this.$emit('nextPic', false);
 			},
 
-			checkNext: function () {
-				if(this.isRectsTypeNoLabel){
-					if(this.frames.length === 0){
-						this.$message.error('请填写至少一个标注信息！');
-						return false;
-					}else if(this.frames[this.frames.length - 1].label){
-						return true;
-					}else{
-						this.$message.error('有标注信息未填写！');
-						return false;
-					}
-				}else{
-					if(!this.isRectsTypeNoLabel && this.getTagTypeNum != 400 && (this.labelSelect === null && this.labelInput.length === 0)){
-						this.$message.error('请填写标注信息！');
-						return false;
-					}
-					if(this.isCanvasType){
-						if(this.points && this.points.length > 0){
-							return true;
-						}else{
-							this.$message.error('请画出标注区域！');
-							return false;
-						}
-					}
-					return true;
-				}
+            passPic: function () {
+	            this.$emit('nextPic', true);
+            },
 
-			},
 
-			lastPic: function () {
-				if(this.checkNext()){
-//                    this.label = this.labelInput;
-					this.changeLabel();
-					this.$emit('lastPic');
-				}
-			},
+// 			lastPic: function () {
+// 				if(this.checkNext()){
+// //                    this.label = this.labelInput;
+// 					this.changeLabel();
+// 					this.$emit('lastPic');
+// 				}
+// 			},
 
-			nextPic: function () {
-				if(this.checkNext()){
-//                    this.label = this.labelInput;
-					this.changeLabel();
-					this.$emit('nextPic');
-				}
-			},
+// 			nextPic: function () {
+// 				if(this.checkNext()){
+// //                    this.label = this.labelInput;
+// 					this.changeLabel();
+// 					this.$emit('nextPic');
+// 				}
+// 			},
 
-			changeLabel: function () {
-				if(!this.isRectsTypeNoLabel && this.getTagTypeNum != 400){
-					if(this.labelInput.length > 0){
-						this.$emit('changeLabel', "" + this.labelInput);
-					}else{
-						this.$emit('changeLabel', "" + this.options[this.labelSelect].label);
-					}
-				}
-			},
+			// changeLabel: function () {
+			// 	if(!this.isRectsTypeNoLabel && this.getTagTypeNum != 400){
+			// 		if(this.labelInput.length > 0){
+			// 			this.$emit('changeLabel', "" + this.labelInput);
+			// 		}else{
+			// 			this.$emit('changeLabel', "" + this.options[this.labelSelect].label);
+			// 		}
+			// 	}
+			// },
 
-			onCanvasMouseDown: function (event) {
-				this.points.splice(0, this.points.length);
-				this.isDrawing = true;
+			// onCanvasMouseDown: function (event) {
+			// 	this.points.splice(0, this.points.length);
+			// 	this.isDrawing = true;
+            //
+			// 	this.points.push({
+			// 		x: event.offsetX,
+			// 		y: event.offsetY
+			// 	});
+            //
+			// },
 
-				this.points.push({
-					x: event.offsetX,
-					y: event.offsetY
-				});
-
-			},
-
-			onCanvasMouseMove: function (event) {
-				if (this.isDrawing) {
-					this.ctx.lineTo(event.offsetX, event.offsetY);
-					this.ctx.stroke();
-
-					this.points.push({
-						x: event.offsetX,
-						y: event.offsetY
-					});
-
-				} else {
-					this.ctx.beginPath();
-					this.ctx.moveTo(event.offsetX, event.offsetY);
-				}
-			},
-
-			onCanvasMouseUp: function (event) {
-				this.isDrawing = false;
-
-				this.points.push({
-					x: event.offsetX,
-					y: event.offsetY
-				});
-
-				this.drawPolygon();
-			},
+			// onCanvasMouseMove: function (event) {
+			// 	if (this.isDrawing) {
+			// 		this.ctx.lineTo(event.offsetX, event.offsetY);
+			// 		this.ctx.stroke();
+            //
+			// 		this.points.push({
+			// 			x: event.offsetX,
+			// 			y: event.offsetY
+			// 		});
+            //
+			// 	} else {
+			// 		this.ctx.beginPath();
+			// 		this.ctx.moveTo(event.offsetX, event.offsetY);
+			// 	}
+			// },
+            //
+			// onCanvasMouseUp: function (event) {
+			// 	this.isDrawing = false;
+            //
+			// 	this.points.push({
+			// 		x: event.offsetX,
+			// 		y: event.offsetY
+			// 	});
+            //
+			// 	this.drawPolygon();
+			// },
 
 			drawPolygon: function() {
 				this.ctx.clearRect(0, 0, this.$refs.canvas.width, this.$refs.canvas.height);
@@ -558,9 +573,9 @@
 
 			},
 
-			deleteFramesItem(index) {
-				this.frames.splice(index, 1);
-			},
+			// deleteFramesItem(index) {
+			// 	this.frames.splice(index, 1);
+			// },
 
 			changeInputValue(value,index) {
 				Vue.set(this.frames[index], 'label', value);
@@ -586,48 +601,48 @@
 //                this.label = obj.label;
 //            },
 
-			onMouseDown: function (event) {
-				if(this.checkDraw()){
-					this.drawRect = true;
-					this.startPoint.x = event.offsetX;
-					this.startPoint.y = event.offsetY;
-					this.endPoint.x = event.offsetX;
-					this.endPoint.y = event.offsetY;
-				}else{
-					this.$message.error('有标注信息未填写！');
-				}
+			// onMouseDown: function (event) {
+			// 	if(this.checkDraw()){
+			// 		this.drawRect = true;
+			// 		this.startPoint.x = event.offsetX;
+			// 		this.startPoint.y = event.offsetY;
+			// 		this.endPoint.x = event.offsetX;
+			// 		this.endPoint.y = event.offsetY;
+			// 	}else{
+			// 		this.$message.error('有标注信息未填写！');
+			// 	}
+            //
+			// },
 
-			},
+			// onMouseMove: function (event) {
+			// 	if(this.drawRect){
+            //
+			// 		this.endPoint.x = event.offsetX;
+			// 		this.endPoint.y = event.offsetY;
+            //
+			// 	}
+			// },
 
-			onMouseMove: function (event) {
-				if(this.drawRect){
-
-					this.endPoint.x = event.offsetX;
-					this.endPoint.y = event.offsetY;
-
-				}
-			},
-
-			onMouseUp: function () {
-				if(this.checkDraw()){
-					this.drawRect = false;
-
-					if(this.getRectWidth > 5 && this.getRectHeight > 5){
-						var label = null;
-						if(!this.isMoreThanOne){
-							if(this.frames.length === 1){
-								label = this.frames[0].label;
-								this.frames.pop();
-							}
-						}
-						this.frames.push({
-							"leftTop": {x:this.getRectLeft,y:this.getRectTop},//left and top
-							"rightDown": {x:this.getRectLeft + this.getRectWidth,y:this.getRectTop + this.getRectHeight},
-							"label":label,
-						});
-					}
-				}
-			},
+			// onMouseUp: function () {
+			// 	if(this.checkDraw()){
+			// 		this.drawRect = false;
+            //
+			// 		if(this.getRectWidth > 5 && this.getRectHeight > 5){
+			// 			var label = null;
+			// 			if(!this.isMoreThanOne){
+			// 				if(this.frames.length === 1){
+			// 					label = this.frames[0].label;
+			// 					this.frames.pop();
+			// 				}
+			// 			}
+			// 			this.frames.push({
+			// 				"leftTop": {x:this.getRectLeft,y:this.getRectTop},//left and top
+			// 				"rightDown": {x:this.getRectLeft + this.getRectWidth,y:this.getRectTop + this.getRectHeight},
+			// 				"label":label,
+			// 			});
+			// 		}
+			// 	}
+			// },
 
 			getPicStyle: function () {
 				return {

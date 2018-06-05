@@ -18,64 +18,111 @@ import TaskHall from '../components/worker/workerUser/taskHall.vue'
 import Index from '../components/index/Index.vue'
 import RequesterIndex from '../components/requester/RequesterIndex.vue'
 import RequesterHome from '../components/requester/Home.vue'
-import TaskDetail from  '../components/requester/TaskDetail.vue'
+import TaskDetail from '../components/requester/TaskDetail.vue'
+import RequesterProfile from '../components/requester/requesterProfile/Profile.vue'
+import InsiderLogin from  '../components/index/InsiderLogin.vue'
+import AdminIndex from '../components/admin/AdminIndex.vue'
+import AdminRequesters from '../components/admin/AdminRequester.vue'
+import AdminWorkers from '../components/admin/AdminWorker.vue'
 
-import ServiceCheck from '../components/stuff/stuffCheck/stuffCheckPage'
+import StaffNavi from '../components/staff/staffNavi.vue'
+import StaffMain from '../components/staff/staffMain.vue'
+import StaffAllCheck from '../components/staff/staffHome/staffAllCheck.vue'
+import StaffMyCheck from '../components/staff/staffHome/staffMyCheck.vue'
+import StaffAllTasks from '../components/staff/staffHome/staffAllTasks.vue'
+import StaffMyTasks from '../components/staff/staffHome/staffMyTasks.vue'
+import StaffFirstLevelTask from '../components/staff/staffTask/staffFirstLevelTask.vue'
+import StaffOverview from '../components/staff/staffTask/staffOverview.vue'
+import StaffSubTask from '../components/staff/staffTask/staffSubTasks.vue'
+import StaffMyParticipation from '../components/staff/staffTask/staffMyParticipation.vue'
+import StaffCheck from '../components/staff/staffCheck/staffCheckPage.vue'
 
 Vue.use(Router);
 
 export default new Router({
-	mode: 'history',
+  mode: 'history',
 
-	routes: [
-		{
-			path: '/workerNavi', component: WorkerNavi,
-			children: [
-				{
-					path: '/worker', component: WorkerMain,
-					children: [
-						{path: 'home', component: WorkerHome},
-						{path: 'unfinish', component: WorkerUnfinish},
-						{path: 'finish', component: WorkerFinish},
-						{path: 'rank', component: WorkerRank},
+  routes: [
+    {
+      path: '/workerNavi', component: WorkerNavi,
+      children: [
+        {
+          path: '/worker', component: WorkerMain,
+          children: [
+            {path: 'home', component: WorkerHome},
+            {path: 'unfinish', component: WorkerUnfinish},
+            {path: 'finish', component: WorkerFinish},
+            {path: 'rank', component: WorkerRank},
 
-					]
-				},
-				{
-					path: '/firstTask', component: FirstLevelTask,
-					children: [
-						{path: 'overview', component: Overview},
-						{path: 'subtasks', component: SubTask},
-						{path: 'myparticipation', component: MyParticipation},
-					]
-				},
-				{path: '/subTaskDetails/:taskId/:subTaskId/:taskType', name: 'subTaskDetails', component: SubTaskDetails},
-				{path: '/taskHall', component: TaskHall},
+          ]
+        },
+        {
+          path: '/firstTask', component: FirstLevelTask,
+          children: [
+            {path: 'overview', component: Overview},
+            {path: 'subtasks', component: SubTask},
+            {path: 'myparticipation', component: MyParticipation},
+          ]
+        },
+        {path: '/subTaskDetails/:taskId/:subTaskId/:taskType', name: 'subTaskDetails', component: SubTaskDetails},
+        {path: '/taskHall', component: TaskHall},
 
-				{path: '/tag/:taskId/:subTaskId/:taskType/:picUrl', component: WorkerTag, name: 'workerTag'},
-			]
-		},
-		{path: '/service', component: ServiceCheck},
+        {path: '/tag/:taskId/:subTaskId/:taskType/:picUrl', component: WorkerTag, name: 'workerTag'},
+      ]
+    },
+	  {
+		  path: '/staffNavi', component: StaffNavi,
+		  children: [
+			  {
+				  path: '/staff', component: StaffMain,
+				  children: [
+					  {path: 'allCheck', component: StaffAllCheck},
+					  {path: 'myCheck', component: StaffMyCheck},
+					  {path: 'allTasks', component: StaffAllTasks},
+					  {path: 'myTasks', component: StaffMyTasks},
 
-		{path: '/', component: Index},
-		{path: '/login', component:Login},
-		{path: '/signUp', component: SignUp},
-		{
-			path: '/requester', component: RequesterIndex,
-			children: [
-				{path: 'home', component: RequesterHome},
-                {path:'taskDetail',name:'taskDetail',component:TaskDetail}
-			]
-		}
+				  ]
+			  },
+			  {
+				  path: '/staffFirstTask', component: StaffFirstLevelTask,
+				  children: [
+					  {path: 'staffOverview', component: StaffOverview},
+					  {path: 'staffSubtasks', component: StaffSubTask},
+					  {path: 'staffMyparticipation', component: StaffMyParticipation},
+				  ]
+			  },
 
-	],
+			  {path: '/staffCheck/:taskId/:subTaskId/:taskType/:picUrl', component: StaffCheck, name: 'staffCheck'},
+			  // {path: '/staffTag/:taskId/:subTaskId/:taskType/:picUrl', component: StaffTag, name: 'staffTag'},
+		  ]
+	  },
 
-	scrollBehavior (to, from, savedPosition) {
-		if (savedPosition) {
-			return savedPosition
-		} else {
-			return { x: 0, y: 0 }
-		}
-	}
+    {path: '/', component: Index},
+    {path: '/login', component: Login},
+    {path: '/signUp', component: SignUp},
+    {path:'/makeNaiveTagGreat',component:InsiderLogin},
+    {
+      path: '/requester', component: RequesterIndex,
+      children: [
+        {path: 'home', component: RequesterHome},
+        {path: 'taskDetail', name: 'taskDetail', component: TaskDetail},
+        {path:'profile',component:RequesterProfile}
+      ]
+    },
+    {path:'/makeNaiveTagGreatAgain',component:AdminIndex,
+    children:[
+      {path:'workers',component:AdminWorkers},
+      {path:'requesters',component:AdminRequesters}
+    ]}
+
+  ],
+
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return {x: 0, y: 0}
+    }
+  }
 
 })
