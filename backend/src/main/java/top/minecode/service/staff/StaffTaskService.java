@@ -7,6 +7,7 @@ import top.minecode.dao.workertask.SubTaskDao;
 import top.minecode.dao.workertask.TaskDao;
 import top.minecode.dao.workertask.TaskParticipationDao;
 import top.minecode.domain.task.*;
+import top.minecode.domain.user.worker.Division;
 import top.minecode.po.admin.StaffPO;
 import top.minecode.po.task.TaskPO;
 import top.minecode.po.worker.OnGoingTaskParticipationPO;
@@ -136,6 +137,37 @@ public class StaffTaskService {
 
     }
 
+    public List<Task> getParticipatedTasks(String staffEmail) {
+        StaffPO staffPO = staffDao.getStaffByEmail(staffEmail);
+        List<Integer> taskIds = new ArrayList<>(staffPO.getParticipatedTasks().keySet());
+        List<TaskPO> rawTasks = taskDao.getTasksByIds(taskIds);
+        return rawTasks.stream().filter(e -> e.getTaskState() == TaskState.ON_GOING).map(Task::fromPO).collect(Collectors.toList());
+    }
+
+    public List<Task> getTasks(String staffEmail) {
+        List<TaskPO> taskPOS = taskDao.getCriticalTasks();
+        StaffPO staffPO = staffDao.getStaffByEmail(staffEmail);
+        Set<Integer> participatedTasks = staffPO.getParticipatedTasks().keySet();
+        return taskPOS.stream().filter(e -> !participatedTasks.contains(e.getId())).map(Task::fromPO)
+                .collect(Collectors.toList());
+    }
+
+    public TaskSpecification getTaskDetail(String staffEmail, int taskId) {
+        TaskPO taskPO = taskDao.getTaskById(taskId);
+        StaffPO staffPO = staffDao.getStaffByEmail(staffEmail);
+        boolean accepted = false;
+        if (staffPO.getParticipatedTasks().keySet().contains(taskId))
+            accepted = true;
+
+        TaskState state = taskPO.getTaskState();
+        Division requiredDivision = taskPO.getLowestDivision();
+
+        String taskBackground = taskPO.getReadme();
+
+        return new TaskSpecification(Task.fromPO(taskPO), state, accepted, requiredDivision,
+                taskBackground, true, 0.0, 0.0, taskPO.getBackgroundImage());
+
+    }
 
 
 }
