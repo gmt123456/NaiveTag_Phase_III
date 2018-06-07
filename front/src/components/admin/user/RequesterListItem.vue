@@ -1,27 +1,27 @@
 <template>
-  <el-collapse-item style="width: 1000px">
+  <el-collapse-item >
     <div slot="title" style="display: flex">
       <el-col :span="2" :offset="2">
         <img :src="requester.avatar" style="margin-top: 5px;height: 40px">
 
       </el-col>
-      <el-col :span="17">
+      <el-col :span="13">
         <span style="font-weight: bold">{{requester.name}}</span>
       </el-col>
-      <el-col :span="4">
-        <!--<division-pic :division="worker.division" size="50px"></division-pic>-->
+      <el-col :span="6">
+        <div style="float: right">
+          <span ><b>{{requester.tasksNum}} </b>tasks have been released</span>
+        </div>
       </el-col>
     </div>
     <div style="margin: 20px">
       <el-form size="medium" label-width="90px" :inline="true" label-position="left"  class="worker-details">
         <el-form-item label="email">{{requester.email}}</el-form-item>
         <el-form-item label="dollars">
-          <span>{{requester.dollars}}   <el-button type="text" style="margin-left: 20px;padding: 0">modify</el-button></span>
+          <span>{{requester.dollars}}   <modify-dollars :email="requester.email" style="margin-left: 30px"></modify-dollars> </span>
         </el-form-item>
-
-        <!--<el-form-item label="score">{{worker.score}}</el-form-item>-->
         <el-form-item label="Joined at">{{requester.signupTime}}</el-form-item>
-
+        <modify-password :email="requester.email"></modify-password>
       </el-form>
     </div>
 
@@ -29,8 +29,11 @@
 </template>
 
 <script>
+  import ModifyDollars from "./ModifyDollars";
+  import ModifyPassword from "./ModifyPassword";
   export default {
     name: "RequesterListItem",
+    components: {ModifyPassword, ModifyDollars},
     props: ['requester']
   }
 </script>

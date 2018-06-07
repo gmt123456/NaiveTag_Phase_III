@@ -38,7 +38,7 @@ public class SubTaskParticipationPO implements Serializable {
 
     private double errorRate = 0.0; // 只有评价过了才有用，当这个任务是客服标注的，那么就直接设置为0
 
-    private boolean accept; // 是否接受
+    private boolean accept; // 是否接受，如果接受了，但是挣钱是0，那么就是客服标注的
 
     private boolean evaluated = false; // 参与是否已经评价过
 

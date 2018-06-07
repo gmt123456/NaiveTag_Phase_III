@@ -28,6 +28,16 @@ public class FinishedTaskParticipationPO implements Serializable {
 
     private double scoreChange; // 范围是 - ？~ + ？，除以100就得到这次任务的质量
 
+    private int acceptedPicAmount;
+
+    public int getAcceptedPicAmount() {
+        return acceptedPicAmount;
+    }
+
+    public void setAcceptedPicAmount(int picAmount) {
+        this.acceptedPicAmount = picAmount;
+    }
+
     public int getId() {
         return id;
     }
@@ -75,4 +85,9 @@ public class FinishedTaskParticipationPO implements Serializable {
     public void setScoreChange(double scoreChange) {
         this.scoreChange = scoreChange;
     }
+
+    public double getStandardScoreChange() {  // 标准分变化，因为每个人标注的数量可能不同，一概而论可能不合适
+        return scoreChange * 10 / acceptedPicAmount;
+    }
+
 }

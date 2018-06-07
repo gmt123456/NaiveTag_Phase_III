@@ -1,22 +1,22 @@
 <template>
-  <el-button type="text" @click="change">Change Dollars</el-button>
+  <div>
+    <el-button type="text" @click="change">Change Password</el-button>
+  </div>
 </template>
 
 <script>
-  import {changeDollars} from "../../api/adminUsers";
+  import {changePassword} from "../../../api/adminUsers";
 
   export default {
-    name: "ModifyDollars",
+    name: "ModifyPassword",
     props: ['email'],
     methods: {
       change() {
-        this.$prompt('Please input dollars', 'Change Password', {
+        this.$prompt('Please input new password', 'Change Password', {
           confirmButtonText: 'confirm',
           cancelButtonText: 'cancel',
-          inputPattern: /^[0-9]+(.[0-9]{2})?$/,
-          inputErrorMessage:'The dollars should be a nonnegative value'
         }).then(({value}) => {
-          changeDollars(this.email, value, res => {
+          changePassword(this.email, value, res => {
             if (res.status === 'success') {
               this.$message({
                 type: 'success',

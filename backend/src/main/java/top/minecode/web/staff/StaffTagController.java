@@ -53,7 +53,8 @@ public class StaffTagController extends BaseController {
     @ResponseBody
     public String getLabelInformation(HttpServletRequest request, int taskId, int taskType, int subTaskId, String url) {
         TaskType type = TaskType.convert(taskType);
-        TagResult result = tagService.getLabelInformation(null, taskId, subTaskId, type, url);
+        String staffEmail = getStaffEmail(request);
+        TagResult result = tagService.getLabelInformation(staffEmail, taskId, subTaskId, type, url);
         return WebConfig.getGson().toJson(result);
     }
 

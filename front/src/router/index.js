@@ -20,10 +20,16 @@ import RequesterIndex from '../components/requester/RequesterIndex.vue'
 import RequesterHome from '../components/requester/Home.vue'
 import TaskDetail from '../components/requester/TaskDetail.vue'
 import RequesterProfile from '../components/requester/requesterProfile/Profile.vue'
+
 import InsiderLogin from  '../components/index/InsiderLogin.vue'
 import AdminIndex from '../components/admin/AdminIndex.vue'
-import AdminRequesters from '../components/admin/AdminRequester.vue'
-import AdminWorkers from '../components/admin/AdminWorker.vue'
+import AdminRequester from '../components/admin/user/AdminRequester.vue'
+import AdminWorkers from '../components/admin/user/AdminWorker.vue'
+import AdminAdmin from '../components/admin/user/AdminAdmin.vue'
+import AdminStuff from '../components/admin/user/AdminStuff.vue'
+import ActiveUser from  '../components/admin/analysis/ActiveUser.vue'
+import TotalUser from  '../components/admin/analysis/TotalUser.vue'
+import TaskAnalysis from '../components/admin/analysis/Task.vue'
 
 import StaffNavi from '../components/staff/staffNavi.vue'
 import StaffMain from '../components/staff/staffMain.vue'
@@ -112,8 +118,13 @@ export default new Router({
     },
     {path:'/makeNaiveTagGreatAgain',component:AdminIndex,
     children:[
-      {path:'workers',component:AdminWorkers},
-      {path:'requesters',component:AdminRequesters}
+      {path:'worker',component:AdminWorkers},
+      {path:'requester',component:AdminRequester},
+      {path:'admin',component:AdminAdmin},
+      {path:'stuff',component:AdminStuff},
+      {path:'activeUser',component:ActiveUser},
+      {path:'totalUser',component:TotalUser},
+      {path:'task',component:TaskAnalysis}
     ]}
 
   ],

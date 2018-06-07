@@ -118,6 +118,39 @@ public class CommonOperation<T> {
         return ts;
     }
 
+    public T executeHQL(String sql) {
+        T t = null;
+        Session session = HibernateUtils.getCurrentSession();
+        try {
+            session.getTransaction().begin();
+            Query query = session.createQuery(sql);
+            t = (T)query.uniqueResult();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            HibernateUtils.closeSession();
+        }
+        return t;
+    }
+
+    public void batchUpdate(List<T> tpo) {
+        Session session = HibernateUtils.getCurrentSession();
+        try {
+            session.getTransaction().begin();
+            for (T t: tpo) {
+                session.update(t);
+            }
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            HibernateUtils.closeSession();
+        }
+    }
+
     public List<T> executeSQL(String sql, Object... params) {
         List<T> ts = null;
         Session session = HibernateUtils.getCurrentSession();
@@ -210,4 +243,20 @@ public class CommonOperation<T> {
 
         return true;
     }
+
+    public void delete(T tpo) {
+        Session session = HibernateUtils.getCurrentSession();
+        try {
+            session.getTransaction().begin();
+            session.delete(tpo);
+            session.flush();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            HibernateUtils.closeSession();
+        }
+    }
+
 }
