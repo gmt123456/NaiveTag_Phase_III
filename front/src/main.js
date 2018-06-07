@@ -16,9 +16,38 @@ Vue.config.productionTip = false
 window.$ = jQuery;
 window.jQuery = jQuery;
 
+
+window.onunload = function () {
+  localStorage.clear();
+};
+
+router.beforeEach((to, from, next) => {
+  // console.log('before each');
+  // console .log(to.path);
+  // console.log(from.path);
+  if (to.matched.some(record => record.meta.requireAuth)) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    if (!localStorage.token) {
+      if (to.path.includes('makeNaiveTag'))
+        next({
+          path: 'makeNaiveTagGreat'
+        });
+      else
+        next({
+          path: '/',
+        });
+    } else {
+      next();
+    }
+  } else {
+    next() // 确保一定要调用 next()
+  }
+});
+
 new Vue({
   el: '#app',
   router,
-  render: h => h(App)
+  render: h => h(App),
 
 })
