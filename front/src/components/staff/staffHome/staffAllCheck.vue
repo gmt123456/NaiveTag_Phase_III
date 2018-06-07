@@ -1,7 +1,7 @@
 <template>
-    <div id="staffAllCheck">
+    <div id="staffAllCheck" style="text-align: left">
         <task-list v-loading="this.isLoading"
-                   :taskListData = this.allCheckList></task-list>
+                   :taskListData = this.allCheckList @saveTaskState="saveTaskState"></task-list>
     </div>
 </template>
 
@@ -24,6 +24,11 @@
 		},
 
 		methods: {
+
+			saveTaskState(){
+				localStorage.taskState = "check";
+            },
+
 			fetchDataList(){
 				let that = this;
 				allCheck(res =>{

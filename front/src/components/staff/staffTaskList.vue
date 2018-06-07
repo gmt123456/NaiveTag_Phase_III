@@ -1,6 +1,6 @@
 <template>
     <div id="staffTaskList" style="width: 100%;">
-        <div class="center" style="width: 100%;height: 40px;background-color: #47494d;color: white;font-size: 13px;">
+        <div class="center" style="width: 100%;height: 40px;background-color: #47494d;color: white;font-size: 13px;text-align: left;">
             <span style="margin-left: 20px;">{{taskListData.length}} Assignments Matched</span>
         </div>
         <div>
@@ -9,7 +9,7 @@
                               v-on:enter="enter"
                               v-on:leave="leave"
                               name="fadeTask">
-                <task-block v-if="show" v-for="(item,index) in taskListData" v-bind="item" :key="index" v-bind:data-index="index"></task-block>
+                <task-block v-if="show" v-for="(item,index) in taskListData" v-bind="item" :key="index" v-bind:data-index="index" @saveTaskState="saveTaskState"></task-block>
             </transition-group>
         </div>
     </div>
@@ -37,6 +37,10 @@
         },
 
         methods:{
+	        saveTaskState(){
+		        this.$emit('saveTaskState');
+            },
+
 	        beforeEnter: function (el) {
 		        el.style.opacity = 0;
 		        el.style.translateX = 170;

@@ -19,16 +19,17 @@ import Index from '../components/index/Index.vue'
 import RequesterIndex from '../components/requester/RequesterIndex.vue'
 import RequesterHome from '../components/requester/Home.vue'
 import TaskDetail from '../components/requester/TaskDetail.vue'
+import RequesterNavi from '../components/requester/RequesterNavi.vue'
 import RequesterProfile from '../components/requester/requesterProfile/Profile.vue'
 
-import InsiderLogin from  '../components/index/InsiderLogin.vue'
+import InsiderLogin from '../components/index/InsiderLogin.vue'
 import AdminIndex from '../components/admin/AdminIndex.vue'
 import AdminRequester from '../components/admin/user/AdminRequester.vue'
 import AdminWorkers from '../components/admin/user/AdminWorker.vue'
 import AdminAdmin from '../components/admin/user/AdminAdmin.vue'
 import AdminStuff from '../components/admin/user/AdminStuff.vue'
-import ActiveUser from  '../components/admin/analysis/ActiveUser.vue'
-import TotalUser from  '../components/admin/analysis/TotalUser.vue'
+import ActiveUser from '../components/admin/analysis/ActiveUser.vue'
+import TotalUser from '../components/admin/analysis/TotalUser.vue'
 import TaskAnalysis from '../components/admin/analysis/Task.vue'
 
 import StaffNavi from '../components/staff/staffNavi.vue'
@@ -42,6 +43,9 @@ import StaffOverview from '../components/staff/staffTask/staffOverview.vue'
 import StaffSubTask from '../components/staff/staffTask/staffSubTasks.vue'
 import StaffMyParticipation from '../components/staff/staffTask/staffMyParticipation.vue'
 import StaffCheck from '../components/staff/staffCheck/staffCheckPage.vue'
+import StaffTag from '../components/staff/staffTag/staffTagPage.vue'
+
+import Introduction from '../components/index/Introduction.vue';
 
 Vue.use(Router);
 
@@ -49,6 +53,7 @@ export default new Router({
   mode: 'history',
 
   routes: [
+
     {
       path: '/workerNavi', component: WorkerNavi,
       children: [
@@ -59,6 +64,7 @@ export default new Router({
             {path: 'unfinish', component: WorkerUnfinish},
             {path: 'finish', component: WorkerFinish},
             {path: 'rank', component: WorkerRank},
+
 
           ]
         },
@@ -72,59 +78,73 @@ export default new Router({
         },
         {path: '/subTaskDetails/:taskId/:subTaskId/:taskType', name: 'subTaskDetails', component: SubTaskDetails},
         {path: '/taskHall', component: TaskHall},
+        {path: '/about', component: Introduction},
 
         {path: '/tag/:taskId/:subTaskId/:taskType/:picUrl', component: WorkerTag, name: 'workerTag'},
       ]
     },
-	  {
-		  path: '/staffNavi', component: StaffNavi,
-		  children: [
-			  {
-				  path: '/staff', component: StaffMain,
-				  children: [
-					  {path: 'allCheck', component: StaffAllCheck},
-					  {path: 'myCheck', component: StaffMyCheck},
-					  {path: 'allTasks', component: StaffAllTasks},
-					  {path: 'myTasks', component: StaffMyTasks},
+    {
+      path: '/staffNavi', component: StaffNavi,
+      children: [
+        {
+          path: '/staff', component: StaffMain,
+          children: [
+            {path: 'allCheck', component: StaffAllCheck},
+            {path: 'myCheck', component: StaffMyCheck},
+            {path: 'allTasks', component: StaffAllTasks},
+            {path: 'myTasks', component: StaffMyTasks},
 
-				  ]
-			  },
-			  {
-				  path: '/staffFirstTask', component: StaffFirstLevelTask,
-				  children: [
-					  {path: 'staffOverview', component: StaffOverview},
-					  {path: 'staffSubtasks', component: StaffSubTask},
-					  {path: 'staffMyparticipation', component: StaffMyParticipation},
-				  ]
-			  },
+          ]
+        },
+        {
+          path: '/staffFirstTask', component: StaffFirstLevelTask,
+          children: [
+            {path: 'staffOverview', component: StaffOverview},
+            {path: 'staffSubtasks', component: StaffSubTask},
+            {path: 'staffMyparticipation', component: StaffMyParticipation},
+          ]
+        },
 
-			  {path: '/staffCheck/:taskId/:subTaskId/:taskType/:picUrl', component: StaffCheck, name: 'staffCheck'},
-			  // {path: '/staffTag/:taskId/:subTaskId/:taskType/:picUrl', component: StaffTag, name: 'staffTag'},
-		  ]
-	  },
+        {path: '/staffCheck/:taskId/:subPartId/:taskType/:picUrl', component: StaffCheck, name: 'staffCheck'},
+        {path: '/staffTag/:taskId/:subPartId/:taskType/:picUrl', component: StaffTag, name: 'staffTag'},
+      ]
+    },
 
     {path: '/', component: Index},
     {path: '/login', component: Login},
     {path: '/signUp', component: SignUp},
-    {path:'/makeNaiveTagGreat',component:InsiderLogin},
+    {path: '/makeNaiveTagGreat', component: InsiderLogin},
     {
       path: '/requester', component: RequesterIndex,
+      meta: {
+        requireAuth: true
+      },
       children: [
-        {path: 'home', component: RequesterHome},
+        {
+          path: 'home', component: RequesterHome,
+        },
         {path: 'taskDetail', name: 'taskDetail', component: TaskDetail},
-        {path:'profile',component:RequesterProfile}
+        {path: 'profile', component: RequesterProfile},
+        {path: 'about', component: Introduction},
+
       ]
     },
-    {path:'/makeNaiveTagGreatAgain',component:AdminIndex,
-    children:[
-      {path:'worker',component:AdminWorkers},
-      {path:'requester',component:AdminRequester},
-      {path:'admin',component:AdminAdmin},
-      {path:'stuff',component:AdminStuff},
-      {path:'activeUser',component:ActiveUser},
-      {path:'totalUser',component:TotalUser},
-      {path:'task',component:TaskAnalysis}
-    ]}
+    {
+      path: '/makeNaiveTagGreatAgain', component: AdminIndex,
+      meta: {
+        requireAuth: true
+      },
+      children: [
+        {path: 'worker', component: AdminWorkers},
+        {path: 'requester', component: AdminRequester},
+        {path: 'admin', component: AdminAdmin},
+        {path: 'stuff', component: AdminStuff},
+        {path: 'activeUser', component: ActiveUser},
+        {path: 'totalUser', component: TotalUser},
+        {path: 'task', component: TaskAnalysis}
+      ]
+    },
+    {path: '/aboutUs', component: Introduction},
 
   ],
 

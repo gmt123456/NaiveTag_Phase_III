@@ -76,6 +76,7 @@
             },
 
 	        jumpFirstTask(){
+		        this.$emit('saveTaskState');
 		        localStorage.firstLevelTaskId = this.taskId;
 	        	this.$router.push('/staffFirstTask/staffOverview');
             },

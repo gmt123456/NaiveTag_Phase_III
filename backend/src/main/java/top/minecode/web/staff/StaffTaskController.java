@@ -1,5 +1,6 @@
 package top.minecode.web.staff;
 
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +41,7 @@ public class StaffTaskController extends BaseController {
         return WebConfig.getGson().toJson(taskService.joinTask(email, taskId));
     }
 
-    @RequestMapping(value = "/task/subTaskSet")
+    @RequestMapping(value = "/subTaskSet")
     @ResponseBody
     public String getSubTaskSet(HttpServletRequest request, int taskId, int taskType) {
         String email = getStaffEmail(request);
@@ -48,7 +49,7 @@ public class StaffTaskController extends BaseController {
         return WebConfig.getGson().toJson(taskService.getAllSubTasks(email, taskId, type));
     }
 
-    @RequestMapping(value = "/task/myParticipation")
+    @RequestMapping(value = "/myParticipation")
     @ResponseBody
     public String getMyParticipation(HttpServletRequest request, int taskId, int subTaskState) {
         String email = getStaffEmail(request);
@@ -56,10 +57,25 @@ public class StaffTaskController extends BaseController {
         return WebConfig.getGson().toJson(taskService.getWorkerParticipation(email, taskId, state));
     }
 
-    @RequestMapping(value = "/task/main")
+    @RequestMapping(value = "/index")
     @ResponseBody
-    public String getTasks(HttpServletRequest request, int taskId, int subTaskState) {
-        return null;
+    public String getTasks(HttpServletRequest request) {
+        String email = getStaffEmail(request);
+        return WebConfig.getGson().toJson(taskService.getTasks(email));
+    }
+
+    @RequestMapping(value = "/main")
+    @ResponseBody
+    public String getTaskInfo(HttpServletRequest request, int taskId) {
+        String email = getStaffEmail(request);
+        return WebConfig.getGson().toJson(taskService.getTaskDetail(email, taskId));
+    }
+
+    @RequestMapping(value = "/ongoing")
+    @ResponseBody
+    public String participatedTasks(HttpServletRequest request) {
+        String email = getStaffEmail(request);
+        return WebConfig.getGson().toJson(taskService.getParticipatedTasks(email));
     }
 
 }

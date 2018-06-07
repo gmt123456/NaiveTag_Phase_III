@@ -45,7 +45,7 @@
 		methods: {
 
 			tagPicReflash(picUrl) {//根据拿到的picUrl重新访问这个route路径，页面也重新加载
-				this.$router.push({ name: 'stuffCheck', params: { taskId: localStorage.firstLevelTaskId, subPartId: this.$route.params.subPartId, taskType: this.$route.params.taskType, picUrl: picUrl}});
+				this.$router.push({ name: 'staffCheck', params: { taskId: localStorage.firstLevelTaskId, subPartId: this.$route.params.subPartId, taskType: this.$route.params.taskType, picUrl: picUrl}});
 			},
 
 			nextPic: function (accept) {//check中，下一张图片，先对标注结果进行评分，然后用回调函数得到下一张图片的url、和下一张图片的标注信息

@@ -99,7 +99,7 @@
               if (this.userType === 'worker') {
                 router.push('/worker/home');
               } else {
-                router.push('/requester/Home');
+                router.push('/requester/home');
               }
             } else {
               this.$alert(res.message, '', {

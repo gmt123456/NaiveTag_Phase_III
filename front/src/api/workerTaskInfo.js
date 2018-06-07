@@ -139,12 +139,12 @@ function subTaskInfoFromServer(taskId, taskType, callback) {
 
 
 
-function searchResultMock(taskType, taskTag, rankType, begin, step, key, canAccept, callback) {
+export function searchResultMock(taskType, taskTag, rankType, begin, step, key, canAccept, callback) {
 	console.log("begin " + begin);
 	console.log("step "+step);
 	callback(JSON.parse(JSON.stringify(getFinishDataMock(10))));
 }
-function getFinishDataMock(num) {
+export function getFinishDataMock(num) {
 	let data = [];
 	for (let index = 0; index < num; index++) {
 		data.push({
@@ -161,13 +161,13 @@ function getFinishDataMock(num) {
 	}
 	return data;
 }
-function myParticipationMock(taskId, taskState, callback) {
-	if(taskState === 'doing'){
+export function myParticipationMock(taskId, taskState, callback) {
+	// if(taskState === 'doing'){
 		callback(JSON.parse(JSON.stringify([
 			{
 				"cover": "../../../../static/1.png", // 封面
 				"expiredDate": "2016-3-10",
-				"subTaskId": 11,
+				"subPartId": 11,
 				"taskType": 't_301', // 任务类型
 				"process": 67, //之间的整数
 				"picAmount": 666,// 图片数量
@@ -175,7 +175,7 @@ function myParticipationMock(taskId, taskState, callback) {
 			{
 				"cover": "../../../../static/1.png", // 封面
 				"expiredDate": "2016-3-10",
-				"subTaskId": 12,
+				"subPartId": 12,
 				"taskType": 't_400', // 任务类型
 				"process": 67, //之间的整数
 				"picAmount": 233,// 图片数量
@@ -183,32 +183,32 @@ function myParticipationMock(taskId, taskState, callback) {
 				"cover": "../../../../static/1.png", // 封面
 				"expiredDate": "2016-3-10",
 				"commiteDate": "2018-5-30", // 可能是空的，如果没提交就是空的
-				"subTaskId": 13,
+				"subPartId": 13,
 				"taskType": 't_400', // 任务类型
 				"process": 100, //之间的整数
 				"picAmount": 555,// 图片数量
 			},
 		])));
-	}else{
-		callback(JSON.parse(JSON.stringify([])));
-	}
+	// }else{
+	// 	callback(JSON.parse(JSON.stringify([])));
+	// }
 
 }
-function submitSubTaskMock(taskId, subTaskId, callback) {
+export function submitSubTaskMock(taskId, subTaskId, callback) {
 	console.log("subTaskId"+subTaskId);
 	callback(JSON.parse(JSON.stringify({
 		result: true,
 		description: "xxxx",
 	})));
 }
-function acceptSubTaskMock(taskId, subTaskId, taskType, callback) {
+export function acceptSubTaskMock(taskId, subTaskId, taskType, callback) {
 	console.log("subTaskId"+subTaskId+",taskType:"+taskType);
 	callback(JSON.parse(JSON.stringify({
 		result: true,
 		description: "xxxx",
 	})));
 }
-function subTaskDetailsInfoMock(taskId, subTaskId, taskType, callback) {
+export function subTaskDetailsInfoMock(taskId, subTaskId, taskType, callback) {
 	let detailsData = {
 			"taskId": taskId,
 			"subTaskId": subTaskId,
@@ -249,7 +249,7 @@ function subTaskDetailsInfoMock(taskId, subTaskId, taskType, callback) {
 	};
 	callback( JSON.parse(JSON.stringify(detailsData)));
 }
-function subTaskInfoMock(taskId, taskType, callback) {
+export function subTaskInfoMock(taskId, taskType, callback) {
 	let n = 2;
 	if(taskType === 400){
 		n = 4;
@@ -285,7 +285,7 @@ function subTaskInfoMock(taskId, taskType, callback) {
 	callback( JSON.parse(JSON.stringify(data)));
 }
 
-function taskInfoMock(taskId, callback) {
+export function taskInfoMock(taskId, callback) {
 	callback( JSON.parse(JSON.stringify({
 		"name": "TrackML Particle Tracking Challenge",
 		"taskId": 666,
@@ -316,7 +316,7 @@ function taskInfoMock(taskId, callback) {
 	})));
 }
 
-function taskJoinMock(taskId, callback) {
+export function taskJoinMock(taskId, callback) {
 	callback( JSON.parse(JSON.stringify({
 		"result": true,
 		"reason": "some thing wrong" // 如果是true的话，那就是空的

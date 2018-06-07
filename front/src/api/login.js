@@ -1,7 +1,7 @@
 import {getUrl} from "./tool";
 
 export function login(email, password, userType, callback) {
-  validateMock(email, password, userType, callback)
+  validateFromServer(email, password, userType, callback)
 }
 
 function validateFromServer(email, password, userType, callback) {
