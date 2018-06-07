@@ -38,6 +38,9 @@ export function workerFinish(callback) {
 export function workerRank(callback) {
 	workerRankMock(callback);
 }
+export function workerRecommendation(callback) {
+	workerRecommendationMock(callback);
+}
 
 function getWorkerInfoFromServer(callback) {
 
@@ -218,7 +221,9 @@ export function workerChangesMock(callback) {
 	};
 	callback( JSON.parse(JSON.stringify(userChanges)));
 }
-
+export function workerRecommendationMock(callback) {
+	callback( JSON.parse(JSON.stringify(getFinishDataMock(6))));
+}
 function changeData(array) {
 	let arr = [];
 	for(let index in array){

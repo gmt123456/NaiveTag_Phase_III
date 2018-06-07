@@ -104,7 +104,7 @@ export function checkTaskJoin(taskId, callback) {
 //查看一级check任务下属小任务
 export function checkSubTaskInfo(taskId, taskType, callback) {
 
-	taskType = getTaskIdToServer(taskType);
+	var taskType = getTaskIdToServer(taskType);
 	subTaskInfoMock(taskId, taskType, callback);
 
 	// let url = 'staff/check/subTasks.html';
@@ -135,7 +135,7 @@ export function checkMyParticipation(taskId, taskState, callback) {
 //接受某个check小任务
 export function checkAcceptSubTask(taskId, subPartId, taskType, callback) {
 
-	taskType = getTaskIdToServer(taskType);
+	var taskType = getTaskIdToServer(taskType);
 	acceptSubTaskMock(taskId, subPartId, taskType, callback);
 
 	// let url = 'staff/check/subTask/accept.html';
@@ -165,5 +165,17 @@ export function checkFirstPicUrl(subPartId, callback) {
 }
 
 export function staffSubTaskDetailsInfo(taskId, subTaskId, taskType, callback) {
+
+	var taskType = getTaskIdToServer(taskType);
 	subTaskDetailsInfoMock(taskId, subTaskId, getTaskIdToServer(taskType), callback);
+
+	let url = 'staff/check/subTask/details.html';
+
+	$.get(getUrl(url), {
+		token: localStorage.token,
+		taskId: taskId,
+		subPartId: subPartId,
+	}, function (res) {
+		callback(JSON.parse(res));
+	});
 }

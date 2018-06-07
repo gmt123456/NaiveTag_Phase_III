@@ -10,7 +10,14 @@
             <div style="width: 900px;margin: auto;">
 
                 <el-tabs v-model="activeName3" type="card" @tab-click="handleClick" style="margin-top: 30px">
-                    <el-tab-pane label="Recommendation" name="Recommendation"></el-tab-pane>
+
+                    <el-tab-pane label="Recommendation" name="Recommendation">
+                        <task-list v-loading=false :taskListData=this.recommendationList style="text-align: left;"></task-list>
+                        <!--<infinite-loading @infinite="addRecommendationList" ref="infiniteLoading">-->
+                            <!--<span slot="no-more">No more tasks</span>-->
+                        <!--</infinite-loading>-->
+                    </el-tab-pane>
+
                     <el-tab-pane label="SearchResult" name="SearchResult">
                         <el-container>
                             <el-aside style="padding-bottom: 15px;text-align: left;width: auto;">
@@ -60,15 +67,17 @@
 
                             </el-aside>
                         </el-container>
+                        <div></div>
+                        <task-list v-loading=false :taskListData=this.searchList style="text-align: left;"></task-list>
+                        <infinite-loading @infinite="addSearchList" ref="infiniteLoading">
+                            <span slot="no-more">No more tasks</span>
+                        </infinite-loading>
                     </el-tab-pane>
+
                 </el-tabs>
 
-                <div></div>
-                <task-list v-loading=false :taskListData=this.searchList style="text-align: left;"></task-list>
 
-                <infinite-loading @infinite="addList" ref="infiniteLoading">
-                    <span slot="no-more">No more tasks</span>
-                </infinite-loading>
+
             </div>
         </div>
     </div>
@@ -78,16 +87,19 @@
 	import InfiniteLoading from 'vue-infinite-loading';
 	import taskList from "../taskList.vue";
     import {searchResult} from "../../../api/workerTaskInfo";
+    import {workerRecommendation} from "../../../api/workerInfo";
 
-    export default {
+	export default {
 		name: "recommendation",
 
         data(){
 			return {
 				step: 10,
-                begin: 0,
+                searchBegin: 0,
+                recommendationBegin: 0,
 				activeName3: "Recommendation",
 				searchList: [],
+                recommendationList: [],
 				valueAccept: true,
 				searchKey: "",
 				typeOptions: [{
@@ -159,45 +171,86 @@
             }
         },
 
+        created(){
+			this.getRecommendation();
+			console.log(this.recommendationList);
+        },
+
         mounted(){
 	        this.$emit('searchReady');
         },
 
         methods: {
+
+			getRecommendation(){
+				this.recommendationBegin = 0;
+				let that = this;
+				workerRecommendation(res =>{
+					that.recommendationList = res;
+                })
+            },
+
             search(){
+	            this.searchBegin = 0;
             	let that = this;
             	// console.log("this.typeValue: "+this.typeValue+" this.tagValue: "+this.tagValue+" this.sortValue: "+this.sortValue+" this.searchKey: "+this.searchKey+" this.valueAccept: "+this.valueAccept);
 	            searchResult(this.typeValue, this.tagValue, this.sortValue, 0, this.step, this.searchKey, this.valueAccept, res =>{
 	            	that.searchList = res;
-		            that.begin += that.step;
+		            that.searchBegin += that.step;
 	            })
             },
 
             searchByKey(key){
+	            this.searchBegin = 0;
 	            let that = this;
 	            console.log(key);
 	            searchResult(this.typeValue, this.tagValue, this.sortValue, 0, this.step, key, this.valueAccept, res =>{
 		            that.searchList = res;
-		            that.begin += that.step;
+		            that.searchBegin += that.step;
 	            })
             },
 
-	        addList($state){
+	        addSearchList($state){
 
 		        let that = this;
 		        // console.log("this.typeValue: "+this.typeValue+" this.tagValue: "+this.tagValue+" this.sortValue: "+this.sortValue+" this.searchKey: "+this.searchKey+" this.valueAccept: "+this.valueAccept);
 		        // that.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded');
-		        searchResult(this.typeValue, this.tagValue, this.sortValue, this.begin, this.step, this.searchKey, this.valueAccept, res =>{
-		        	console.log(this.begin);
-			        if(res.length === 0 ){
-				        $state.complete();
-                    }else{
-				        that.searchList = that.searchList.concat(res);
-				        that.begin += that.step;
-				        $state.loaded();
-                    }
+		        searchResult(this.typeValue, this.tagValue, this.sortValue, this.searchBegin, this.step, this.searchKey, this.valueAccept, res =>{
+                    setTimeout(() => {
+                        console.log(this.searchBegin);
+                        if(res.length === 0 ){
+                            $state.complete();
+                        }else{
+                            that.searchList = that.searchList.concat(res);
+                            that.searchBegin += that.step;
+                            $state.loaded();
+                        }
+                    }, 1000);
+
 		        })
             },
+
+	        addRecommendationList($state){
+		        this.recommendationBegin = 0;
+
+		        let that = this;
+		        // console.log("this.typeValue: "+this.typeValue+" this.tagValue: "+this.tagValue+" this.sortValue: "+this.sortValue+" this.searchKey: "+this.searchKey+" this.valueAccept: "+this.valueAccept);
+		        // that.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded');
+		        // searchResult(this.typeValue, this.tagValue, this.sortValue, this.recommendationBegin, this.step, this.searchKey, this.valueAccept, res =>{
+		        workerRecommendation(res =>{
+			        setTimeout(() => {
+				        console.log(this.recommendationBegin);
+				        if(res.length === 0 ){
+					        $state.complete();
+				        }else{
+					        that.recommendationList = that.recommendationList.concat(res);
+					        that.recommendationBegin += that.step;
+					        $state.loaded();
+				        }
+			        }, 1000);
+
+		        })
+	        },
 
 	        handleClick(){
 
