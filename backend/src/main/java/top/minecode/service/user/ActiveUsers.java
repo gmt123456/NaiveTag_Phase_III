@@ -80,8 +80,8 @@ public class ActiveUsers implements ActiveUserService {
         List<CacheItem> expiredStaff = staffCache.refresh();
         log.info("Active user|admin|staff list update");
         log.info("Expired user's list: " + expiredUsers.toString());
-        log.info("Expired user's list: " + expiredAdmin.toString());
-        log.info("Expired user's list: " + expiredStaff.toString());
+        log.info("Expired admin's list: " + expiredAdmin.toString());
+        log.info("Expired staff's list: " + expiredStaff.toString());
     }
 
     /**

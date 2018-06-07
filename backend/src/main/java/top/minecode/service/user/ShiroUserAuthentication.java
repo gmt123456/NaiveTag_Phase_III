@@ -14,7 +14,6 @@ import top.minecode.dao.log.AuthenticationLogDao;
 import top.minecode.dao.user.UserDao;
 import top.minecode.dao.worker.RankDao;
 import top.minecode.domain.user.UserType;
-import top.minecode.domain.utils.AuthenticationResultMessage;
 import top.minecode.domain.utils.ResultMessage;
 import top.minecode.po.auto.WorkerVectorPO;
 import top.minecode.po.worker.RankPO;
@@ -155,6 +154,7 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
     }
 
     private void insertWorkerVector(String email) {
+        // TODO: 2018/6/7 insert worker taste and view po
         WorkerVectorPO workerVectorPO = WorkerVectorPO.fromWorkerEmail(email);
         workerVectorDao.add(workerVectorPO);
     }

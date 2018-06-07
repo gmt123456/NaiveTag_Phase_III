@@ -28,6 +28,10 @@ public abstract class ResultMessage {
         return new AuthenticationResultMessage(null, SUCCESS, webToken);
     }
 
+    public static ResultMessage authenticationSuccess(String webToken, String userType) {
+        return new AuthenticationResultMessage(null, SUCCESS, webToken, userType);
+    }
+
     private static final String SUCCESS = "success";
     private static final String FAILURE = "failure";
     private static final String DEFAULT_FAILURE_MESSAGE = "Something is wrong";

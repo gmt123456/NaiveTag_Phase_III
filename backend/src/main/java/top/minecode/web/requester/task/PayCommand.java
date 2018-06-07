@@ -1,5 +1,8 @@
 package top.minecode.web.requester.task;
 
+import top.minecode.domain.task.PriorityOptions;
+import top.minecode.domain.task.TaskRequirement;
+
 /**
  * Created on 2018/5/26.
  * Description:
@@ -11,6 +14,24 @@ public class PayCommand {
     private double dollars;
     private double advertisementDollars;
     private String userEmail;
+    private PriorityOptions priorityOptions;
+    private String taskRequirement;
+
+    public String getTaskRequirement() {
+        return taskRequirement;
+    }
+
+    public void setTaskRequirement(String taskRequirement) {
+        this.taskRequirement = taskRequirement;
+    }
+
+    public PriorityOptions getPriorityOptions() {
+        return priorityOptions;
+    }
+
+    public void setPriorityOptions(PriorityOptions priorityOptions) {
+        this.priorityOptions = priorityOptions;
+    }
 
     public String getOrderId() {
         return orderId;
@@ -51,6 +72,7 @@ public class PayCommand {
                 ", dollars=" + dollars +
                 ", advertisementDollars=" + advertisementDollars +
                 ", userEmail='" + userEmail + '\'' +
+                ", priorityOptions=" + priorityOptions +
                 '}';
     }
 }

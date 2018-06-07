@@ -2,6 +2,7 @@ package top.minecode.dao.worker;
 
 import org.springframework.stereotype.Service;
 import top.minecode.dao.utils.CommonOperation;
+import top.minecode.domain.task.Task;
 import top.minecode.po.worker.FinishedTaskParticipationPO;
 import top.minecode.po.worker.OnGoingTaskParticipationPO;
 import top.minecode.po.worker.WorkerPO;
@@ -49,6 +50,15 @@ public class WorkerInfoDao {
         WorkerPO worker = getWorkerPOByEmail(email);
         List<Integer> onGoingParticipation = worker.getOnGoingTaskParticipation();
         return onGoingTaskParticipationHelper.getValuesInSpecificSet(onGoingParticipation, "id");
+    }
+
+    public List<Integer> getParticipatedTasks(String email) {
+        WorkerPO worker = getWorkerPOByEmail(email);
+        List<Integer> finishedParticipation = worker.getFinishedTaskParticipation();
+        List<Integer> onGoingParticipation = worker.getOnGoingTaskParticipation();
+        finishedParticipation.addAll(onGoingParticipation);
+
+        return finishedParticipation;
     }
 
     public boolean persistWorker(WorkerPO worker) {

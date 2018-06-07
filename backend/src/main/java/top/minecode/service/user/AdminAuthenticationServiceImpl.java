@@ -57,7 +57,7 @@ public class AdminAuthenticationServiceImpl implements AdminAuthenticationServic
             authenticator.authenticate(token);
             String webToken = activeUserService.addAdminOrStaff(username);
 
-            return ResultMessage.authenticationSuccess(webToken);
+            return ResultMessage.authenticationSuccess(webToken, adminDao.getUserType(username));
         } catch (AuthenticationException e) {
             log.warn("Admin authenticating failed");
             return ResultMessage.failure("Invalid username or password");

@@ -89,5 +89,4 @@ public class FinishedTaskParticipationPO implements Serializable {
     public double getStandardScoreChange() {  // 标准分变化，因为每个人标注的数量可能不同，一概而论可能不合适
         return scoreChange * 10 / acceptedPicAmount;
     }
-
 }
