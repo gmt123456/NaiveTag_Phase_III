@@ -7,10 +7,8 @@ import top.minecode.dao.auto.WorkerTasteDao;
 import top.minecode.dao.auto.WorkerVectorDao;
 import top.minecode.dao.worker.WorkerInfoDao;
 import top.minecode.dao.workertask.TaskDao;
-import top.minecode.domain.task.RankType;
+import top.minecode.domain.task.FeatureVector;
 import top.minecode.domain.task.Task;
-import top.minecode.domain.task.TaskTag;
-import top.minecode.domain.task.TaskType;
 import top.minecode.domain.utils.VectorHelper;
 import top.minecode.po.auto.TaskVectorPO;
 import top.minecode.po.auto.WorkerTastePO;
@@ -24,22 +22,26 @@ import java.util.stream.Collectors;
 /**
  * Created on 2018/5/19.
  * Description:
- *
  * @author iznauy
  */
 @Service
 public class TaskRecommendationService {
 
+    private static final int RECOMMENDATION_NUM = 10;
+
     private TaskVectorDao taskVectorDao;
-
     private WorkerVectorDao workerVectorDao;
-
+    private WorkerTasteDao tasteDao;
     private TaskDao taskDao;
-
     private WorkerInfoDao workerInfoDao;
 
     public WorkerInfoDao getWorkerInfoDao() {
         return workerInfoDao;
+    }
+
+    @Autowired
+    public void setTasteDao(WorkerTasteDao tasteDao) {
+        this.tasteDao = tasteDao;
     }
 
     @Autowired
@@ -102,7 +104,8 @@ public class TaskRecommendationService {
         Map<Integer, TaskPO> id2Task = adTasks.stream().collect(Collectors.toMap(TaskPO::getId, e -> e));
 
         // 根据用户能力获得的任务
-        List<Integer> taskIdsRankedByAbility = rankTasksByUserFeature(email).stream().filter(e -> !participatedTasks.contains(e))
+        List<Integer> taskIdsRankedByAbility = rankTasksByUserFeature(email).stream()
+                .filter(e -> !participatedTasks.contains(e))
                 .collect(Collectors.toList());
 
         if (taskIdsRankedByAbility.size() <= recommendAmount) // 假如任务比较少，那么就直接按照推广费来返回
@@ -119,7 +122,6 @@ public class TaskRecommendationService {
             accumulated += adTask.getAdRate();
             accumulatedAdRate.add(accumulated);
         }
-
 
         Random random = new Random();
 
@@ -151,4 +153,57 @@ public class TaskRecommendationService {
         return targets.stream().map(id2Task::get).map(Task::fromPO).collect(Collectors.toList());
     }
 
+    // New version recommendation
+    private List<Task> recommendation(String email) {
+        WorkerTastePO selfTastePO = tasteDao.get(email);
+        List<TaskPO> tasks = taskDao.getAll();
+
+        return null;
+    }
+
+    private List<Task> recommendate(String email) {
+
+        WorkerPO worker = workerInfoDao.getWorkerPOByEmail(email);
+
+        List<WorkerTastePO> tastePOS = tasteDao.getAll();
+        // Partition
+        List<WorkerTastePO> others = new ArrayList<>();
+        WorkerTastePO self = null;
+        for (WorkerTastePO tastePO : tastePOS) {
+            if (tastePO.getEmail().equals(email))
+                self = tastePO;
+            else
+                others.add(tastePO);
+        }
+
+        assert self != null;
+        FeatureVector selfFeatureVector = new FeatureVector(email, self.getVector());
+        // Add ability factor
+
+        Comparator<FeatureVector> comparator = Comparator.comparing(vector ->
+                VectorHelper.similarity(vector.getVector(), selfFeatureVector.getVector()));
+
+        // Use cosine similarity to sort todo consider whether to add worker view log vector
+        List<FeatureVector> otherVectors = others.stream()
+                .map(e -> new FeatureVector(e.getEmail(), e.getVector()))
+                .sorted(comparator)
+                .collect(Collectors.toList());
+
+        // Get top 10
+        List<FeatureVector> top = otherVectors.subList(0, 10);
+        List<WorkerPO> topWorkers = top.stream()
+                .map(vector -> workerInfoDao.getWorkerPOByEmail(vector.getIdentity()))
+                .limit(RECOMMENDATION_NUM)
+                .collect(Collectors.toList());
+
+        // Get recommendation just according to interests  todo add task's priority factor
+        List<Integer> participatedTasks = workerInfoDao.getParticipatedTasks(email);
+        List<Integer> target = topWorkers.stream().map(w -> workerInfoDao.getParticipatedTasks(w.getEmail()))
+                .flatMap(li -> {
+                    li.removeAll(participatedTasks);
+                    return li.stream();
+                }).distinct().collect(Collectors.toList());
+
+        return target.stream().map(e -> Task.fromPO(taskDao.getTaskById(e))).collect(Collectors.toList());
+    }
 }

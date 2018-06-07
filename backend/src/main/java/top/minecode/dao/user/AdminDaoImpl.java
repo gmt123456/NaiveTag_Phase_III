@@ -2,6 +2,7 @@ package top.minecode.dao.user;
 
 import org.springframework.stereotype.Repository;
 import top.minecode.dao.utils.CommonOperation;
+import top.minecode.domain.user.UserType;
 import top.minecode.domain.user.admin.AdminAuthority;
 import top.minecode.po.admin.AdminPO;
 import top.minecode.po.admin.StaffPO;
@@ -44,5 +45,15 @@ public class AdminDaoImpl implements AdminDao {
         // All new administrator will be assigned COMMON authority automatically
         AdminPO adminPO = new AdminPO(username, password, AdminAuthority.COMMON);
         return adminOperation.add(adminPO);
+    }
+
+    @Override
+    public String getUserType(String identity) {
+
+        AdminPO adminPO = adminOperation.getBySingleField("username", identity);
+        if (adminPO != null) {
+            return "admin";
+        }
+        return "staff";
     }
 }

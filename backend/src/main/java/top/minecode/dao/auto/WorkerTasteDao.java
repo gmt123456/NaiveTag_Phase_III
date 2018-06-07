@@ -30,4 +30,7 @@ public class WorkerTasteDao {
         return commonOperation.getAll();
     }
 
+    public WorkerTastePO get(String email) {
+        return commonOperation.getBySingleField("email", email);
+    }
 }

@@ -9,11 +9,11 @@ import top.minecode.dao.requester.info.RequesterInfoDao;
 import top.minecode.dao.requester.task.RequesterTaskDao;
 import top.minecode.dao.utils.CommonOperation;
 import top.minecode.dao.utils.ZipHelper;
+import top.minecode.domain.task.TaskRequirement;
 import top.minecode.domain.task.TaskState;
 import top.minecode.domain.task.requester.TaskCreationOptions;
 import top.minecode.domain.task.requester.TaskOrder;
 import top.minecode.domain.utils.ResultMessage;
-import top.minecode.po.auto.TaskVectorPO;
 import top.minecode.po.log.ReleaseTaskLogPO;
 import top.minecode.po.log.RequesterAccountLogPO;
 import top.minecode.po.task.SpecificTaskPO;
@@ -178,11 +178,14 @@ public class RequesterNewTaskServiceImpl implements RequesterNewTaskService {
         });
 
         // Insert task vector
-        TaskVectorPO vectorPO = TaskVectorPO.fromTaskPO(taskPO);
-        CommonOperation.template(session -> {
-            session.persist(vectorPO);
-            session.flush();
-        });
+//        TaskVectorPO vectorPO = TaskVectorPO.fromTaskPO(taskPO);
+//        CommonOperation.template(session -> {
+//            session.persist(vectorPO);
+//            session.flush();
+//        });
+
+        // Initialize task requirement
+        taskPO.setRequirement(TaskRequirement.valueOf(payCommand.getTaskRequirement().toUpperCase()));
 
         return ResultMessage.success();
     }

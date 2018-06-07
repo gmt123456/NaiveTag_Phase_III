@@ -14,4 +14,6 @@ public interface AdminDao {
     boolean addAdmin(String username, String password);
 
     boolean addStaff(String email, String password);
+
+    String getUserType(String identity);
 }

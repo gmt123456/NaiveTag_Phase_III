@@ -10,7 +10,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -82,5 +84,12 @@ public class WorkerTastePO implements Serializable {
 
     public void setTagClickTimes(Map<TaskTag, Double> tagClickTimes) {
         this.tagClickTimes = tagClickTimes;
+    }
+
+    public List<Double> getVector() {
+        List<Double> result = new ArrayList<>();
+        result.addAll(typeClickTimes.values());
+        result.addAll(tagClickTimes.values());
+        return result;
     }
 }

@@ -2,7 +2,7 @@ import {getUrl} from "./tool";
 
 
 export function getRequesterMain(token, callback) {
-  mockMain(token, callback)
+  RequesterMainFromServer(token, callback)
 }
 
 function RequesterMainFromServer(token, callback) {
@@ -12,7 +12,7 @@ function RequesterMainFromServer(token, callback) {
 }
 
 export function getAccountInfo(token, page, pageSize, callback) {
-  mockAccountInfo(token, page, pageSize, callback);
+  AccountInfoFromServer(token, page, pageSize, callback);
 }
 
 function AccountInfoFromServer(token, page, pageSize, callback) {
@@ -27,7 +27,7 @@ function AccountInfoFromServer(token, page, pageSize, callback) {
 }
 
 export function changeName(name, callback) {
-  mockChangeName(name, callback);
+  changeNameToServer(name, callback);
 }
 
 function changeNameToServer(name, callback) {
@@ -41,7 +41,7 @@ function changeNameToServer(name, callback) {
 }
 
 export function changePassword(oldPassword, newPassword, callback) {
-  mockChangePassword(oldPassword, newPassword, callback);
+  changePasswordToServer(oldPassword, newPassword, callback);
 }
 
 function changePasswordToServer(oldPassword, newPassword, callback) {
@@ -56,7 +56,7 @@ function changePasswordToServer(oldPassword, newPassword, callback) {
 }
 
 export function recharge(dollars, callback) {
-  mockChangeName(dollars, callback);
+  rechargeToServer(dollars, callback);
 }
 
 function rechargeToServer(dollars, callback) {
@@ -70,7 +70,7 @@ function rechargeToServer(dollars, callback) {
 }
 
 export function changeAvatar(url, callback) {
-  mockChangeName(url, callback);
+  changeAvatarToServer(url, callback);
 }
 
 function changeAvatarToServer(url, callback) {

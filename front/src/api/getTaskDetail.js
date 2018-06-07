@@ -1,7 +1,7 @@
 import {getUrl} from "./tool";
 
 export function getTaskSketch(taskId, callback) {
-  mockSketch(taskId, callback)
+  sketchFromServer(taskId, callback)
 }
 
 function sketchFromServer(taskId, callback) {
@@ -11,7 +11,7 @@ function sketchFromServer(taskId, callback) {
 }
 
 export function getParticipants(taskId, callback) {
-  mockParticipants(taskId, callback)
+  participantsFromServer(taskId, callback)
 }
 
 
@@ -21,7 +21,7 @@ function participantsFromServer(taskId,callback) {
 }
 
 export function getReadme(taskId, callback) {
-  mockReadme(taskId, callback)
+  readmeFromServer(taskId, callback)
 }
 
 function readmeFromServer(taskId,callback) {
@@ -32,7 +32,7 @@ function readmeFromServer(taskId,callback) {
 
 
 export function editReadme(taskId, content, callback) {
-  mockEdit(taskId, content, callback);
+  editReadmeFromServer(taskId, content, callback);
 }
 
 
@@ -43,7 +43,7 @@ function editReadmeFromServer(taskId,content,callback) {
 }
 
 export function getSubTask(taskId, callback) {
-  mockSubTask(taskId, callback);
+  subTaskFromServer(taskId, callback);
 }
 
 function subTaskFromServer(taskId,callback) {
