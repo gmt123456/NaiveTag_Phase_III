@@ -104,7 +104,7 @@ export function checkTaskJoin(taskId, callback) {
 //查看一级check任务下属小任务
 export function checkSubTaskInfo(taskId, taskType, callback) {
 
-	taskType = getTaskIdToServer(taskType);
+	var taskType = getTaskIdToServer(taskType);
 	// subTaskInfoMock(taskId, taskType, callback);
 
 	let url = 'staff/check/subTasks.html';
@@ -135,7 +135,7 @@ export function checkMyParticipation(taskId, taskState, callback) {
 //接受某个check小任务
 export function checkAcceptSubTask(taskId, subPartId, taskType, callback) {
 
-	taskType = getTaskIdToServer(taskType);
+	var taskType = getTaskIdToServer(taskType);
 	// acceptSubTaskMock(taskId, subPartId, taskType, callback);
 
 	let url = 'staff/check/subTask/accept.html';
