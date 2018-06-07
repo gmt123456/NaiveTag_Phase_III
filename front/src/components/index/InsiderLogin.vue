@@ -29,7 +29,11 @@
             insiderLogin(this.email,this.password,res=>{
               console.log(res.status);
               if (res.status==='success'){
-                this.$router.push('/makeNaiveTagGreatAgain/worker');
+                if (res.userType==='admin'){
+                  this.$router.push('/makeNaiveTagGreatAgain/worker');
+                } else {
+                  this.$.router.push('/staff/allCheck')
+                }
                 localStorage.token=res.token;
               } else {
                 this.$message(res.message);
