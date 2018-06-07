@@ -182,19 +182,19 @@
 	            })
             },
 
-	        addList(){
+	        addList($state){
 
-		        this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded');
 		        let that = this;
 		        // console.log("this.typeValue: "+this.typeValue+" this.tagValue: "+this.tagValue+" this.sortValue: "+this.sortValue+" this.searchKey: "+this.searchKey+" this.valueAccept: "+this.valueAccept);
 		        // that.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded');
 		        searchResult(this.typeValue, this.tagValue, this.sortValue, this.begin, this.step, this.searchKey, this.valueAccept, res =>{
 		        	console.log(this.begin);
 			        if(res.length === 0 ){
-				        that.$refs.infiniteLoading.$emit('$InfiniteLoading:complete');
+				        $state.complete();
                     }else{
 				        that.searchList = that.searchList.concat(res);
 				        that.begin += that.step;
+				        $state.loaded();
                     }
 		        })
             },

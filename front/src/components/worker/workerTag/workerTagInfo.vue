@@ -80,7 +80,7 @@
                         <div>
                             <el-button icon="el-icon-back" round size="mini" style="margin: 10px" @click="back">back</el-button>
                         </div>
-                        <div v-if="description" class="block center" style="padding: 20px 20px 0px 20px;">
+                        <div v-if="description" class="block center" style="padding: 20px 20px 0px 20px;justify-content:center;">
                             Description：{{description}}
                         </div>
 
@@ -140,7 +140,7 @@
 
                         </div>
 
-                        <div class="center" style="padding-bottom: 20px;">
+                        <div class="center" style="padding-bottom: 20px;justify-content:center;">
                             <el-button-group>
                                 <el-button type="primary" icon="el-icon-arrow-left" v-on:click="lastPic">Last one</el-button>
                                 <el-button type="primary" v-on:click="nextPic">Next one<i class="el-icon-arrow-right el-icon--right"></i></el-button>
@@ -760,7 +760,7 @@
 
     .center {
         display:flex;
-        justify-content:center;
+        /*justify-content:center;*/
         align-items:center;
     }
 
