@@ -15,28 +15,28 @@ export function workerSignOut(callback) {
 	})
 }
 export function workerInfo(callback) {
-	workerInfoMock(callback);
+	getWorkerInfoFromServer(callback);
 }
 export function workerChanges(callback) {
-	workerChangesMock(callback);
+	getWorkerChangesFromServer(callback);
 }
 export function workerEditUserName(userName, callback) {
-	workerEditUserNameMock(userName, callback);
+	editUserNameFromServer(userName, callback);
 }
 export function workerEditAvatar(avatar, callback) {
-	workerEditAvatarMock(avatar, callback);
+	editAvatarFromServer(avatar, callback);
 }
 export function workerEditPassword(oldPassword, newPassword, callback) {
-	workerEditPasswordMock(oldPassword, newPassword, callback);
+	editPasswordFromServer(oldPassword, newPassword, callback);
 }
 export function workerUnfinish(callback) {
-	workerUnfinishMock(callback);
+	getUnfinishFromServer(callback);
 }
 export function workerFinish(callback) {
-	workerFinishMock(callback);
+	getFinishFromServer(callback);
 }
 export function workerRank(callback) {
-	workerRankMock(callback);
+	getRankFromServer(callback);
 }
 
 function getWorkerInfoFromServer(callback) {

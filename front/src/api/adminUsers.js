@@ -1,7 +1,7 @@
 import {getUrl} from "./tool";
 
 export function getWorkers(page, pageSize, callback) {
-  mockWorkers(page, pageSize, callback);
+  getWorkersFromServer(page, pageSize, callback);
 }
 
 function getWorkersFromServer(page, pageSize, callback) {
@@ -14,7 +14,7 @@ function getWorkersFromServer(page, pageSize, callback) {
 }
 
 export function getRequester(page, pageSize, callback) {
-  mockRequester(page, pageSize, callback);
+  getRequesterFromServer(page, pageSize, callback);
 }
 
 function getRequesterFromServer(page, pageSize, callback) {
@@ -27,7 +27,7 @@ function getRequesterFromServer(page, pageSize, callback) {
 }
 
 export function changePassword(email, newPassword, callback) {
-  mockChangePassword(email, newPassword, callback);
+  changePasswordFromServer(email, newPassword, callback);
 }
 
 function changePasswordFromServer(email, newPassword, callback) {
@@ -41,7 +41,7 @@ function changePasswordFromServer(email, newPassword, callback) {
 }
 
 export function changeDollars(email, dollars, callback) {
-  mockChangeDollars(email, dollars, callback);
+  changeDollarsFromServer(email, dollars, callback);
 }
 
 function changeDollarsFromServer(email, dollars, callback) {
@@ -55,7 +55,7 @@ function changeDollarsFromServer(email, dollars, callback) {
 }
 
 export function searchUser(key, userType, page, pageSize, callback) {
-  mockSearch(key, userType, page, pageSize, callback);
+  searchUserFromServer(key, userType, page, pageSize, callback);
 }
 
 function searchUserFromServer(key, userType, page, pageSize, callback) {
@@ -70,7 +70,7 @@ function searchUserFromServer(key, userType, page, pageSize, callback) {
 }
 
 export function addAdmin(newAdminName, password, callback) {
-  mockAdd(newAdminName,password,callback)
+  addAdminToServer(newAdminName,password,callback)
 }
 
 function addAdminToServer(newAdminName, password, callback) {
@@ -84,7 +84,7 @@ function addAdminToServer(newAdminName, password, callback) {
 }
 
 export function addStuff(email, password, callback) {
-  mockAdd(email,password,callback);
+  addStuffToServer(email,password,callback);
 }
 
 function addStuffToServer(email,password,callback) {

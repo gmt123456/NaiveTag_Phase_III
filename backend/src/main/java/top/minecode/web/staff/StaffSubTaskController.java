@@ -44,7 +44,7 @@ public class StaffSubTaskController extends BaseController {
         }
     }
 
-    @RequestMapping(value = "/subTask/accept")
+    @RequestMapping(value = "/accept")
     @ResponseBody
     public String acceptSubTask(HttpServletRequest request, int taskId, int taskType, int subTaskId) {
         String staffEmail = getStaffEmail(request);
@@ -52,7 +52,7 @@ public class StaffSubTaskController extends BaseController {
                 subTaskId, TaskType.convert(taskType)));
     }
 
-    @RequestMapping(value = "/subTask/commit")
+    @RequestMapping(value = "/commit")
     @ResponseBody
     public String commitSubTask(HttpServletRequest request, int taskId, int subTaskId, int taskType) {
         String staffEmail = getStaffEmail(request);

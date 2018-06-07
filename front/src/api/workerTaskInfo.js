@@ -2,28 +2,28 @@ import {getUrl} from "./tool";
 import {getTaskIdToServer} from "./taskTypeName";
 
 export function taskInfo(taskId, callback) {
-	taskInfoMock(taskId, callback);
+	taskInfoFromServer(taskId, callback);
 }
 export function taskJoin(taskId, callback) {
-	taskJoinMock(taskId, callback);
+	taskJoinFromServer(taskId, callback);
 }
 export function subTaskInfo(taskId, taskType, callback) {
-	subTaskInfoMock(taskId, getTaskIdToServer(taskType), callback);
+	subTaskInfoFromServer(taskId, getTaskIdToServer(taskType), callback);
 }
 export function subTaskDetailsInfo(taskId, subTaskId, taskType, callback) {
-	subTaskDetailsInfoMock(taskId, subTaskId, getTaskIdToServer(taskType), callback);
+	subTaskDetailsInfoFromServer(taskId, subTaskId, getTaskIdToServer(taskType), callback);
 }
 export function acceptSubTask(taskId, subTaskId, taskType, callback) {
-	acceptSubTaskMock(taskId, subTaskId, getTaskIdToServer(taskType), callback);
+	acceptSubTaskFromServer(taskId, subTaskId, getTaskIdToServer(taskType), callback);
 }
 export function submitSubTask(taskId, subTaskId, taskType, callback) {
-	submitSubTaskMock(taskId, subTaskId, taskType, callback);
+	submitSubTaskFromServer(taskId, subTaskId, taskType, callback);
 }
 export function myParticipation(taskId, taskState, callback) {
-	myParticipationMock(taskId, taskState, callback);
+	myParticipationFromServer(taskId, taskState, callback);
 }
 export function searchResult(taskType, taskTag, rankType, begin, step, key, canAccept, callback) {
-	searchResultMock(taskType, taskTag, rankType, begin, step, key, canAccept, callback);
+	searchResultFromServer(taskType, taskTag, rankType, begin, step, key, canAccept, callback);
 }
 
 

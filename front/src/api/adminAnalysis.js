@@ -1,7 +1,7 @@
 import {getUrl} from "./tool";
 
 export function getActiveUser(callback) {
-  mockActiveUser(callback);
+  getActiveUserFromServer(callback);
 }
 
 function getActiveUserFromServer(callback) {
@@ -11,7 +11,7 @@ function getActiveUserFromServer(callback) {
 }
 
 export function getTotalUser(callback) {
-  mockSignUpUser(callback);
+  getTotalUserFromServer(callback);
 }
 
 function getTotalUserFromServer(callback) {
@@ -21,7 +21,7 @@ function getTotalUserFromServer(callback) {
 }
 
 export function getTasks(callback) {
-  mockTasks(callback);
+  getTasksFromServer(callback);
 }
 
 function getTasksFromServer(callback) {
