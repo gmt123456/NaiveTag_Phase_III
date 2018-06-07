@@ -75,6 +75,7 @@
     import {getUrl} from "../../../api/tool";
     import {checkMyParticipation} from "../../../api/staffTask";
     import {checkFirstPicUrl} from "../../../api/staffTask";
+    import {staffSubTaskDetailsInfo} from "../../../api/staffTask";
 
     export default {
 		name: "staffMyParticipation",
@@ -144,9 +145,20 @@
 	        },
 
 	        startTag(index){
-		        checkFirstPicUrl(this.myParticipationList[index].subPartId, res =>{
-			        this.$router.push({ name: 'staffCheck', params: { taskId: localStorage.firstLevelTaskId, subPartId: this.myParticipationList[index].subPartId, taskType: this.myParticipationList[index].taskType, picUrl: res}});
-                });
+				if(localStorage.taskState === 'check'){
+					checkFirstPicUrl(this.myParticipationList[index].subPartId, res =>{
+						this.$router.push({ name: 'staffCheck', params: { taskId: localStorage.firstLevelTaskId, subPartId: this.myParticipationList[index].subPartId, taskType: this.myParticipationList[index].taskType, picUrl: res}});
+					});
+                }
+		        else{
+					staffSubTaskDetailsInfo(localStorage.firstLevelTaskId, this.myParticipationList[index].subTaskId, this.myParticipationList[index].taskType, res =>{
+						let url;
+						if(res.unFinishedPicList && res.unFinishedPicList.length > 0){
+							url = res.unFinishedPicList[0];
+						}
+						this.$router.push({ name: 'staffTag', params: { taskId: localStorage.firstLevelTaskId, subPartId: this.myParticipationList[index].subPartId, taskType: this.myParticipationList[index].taskType, picUrl: url}});
+					});
+                }
 	        },
 
 	        beforeEnter: function (el) {
