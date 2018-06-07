@@ -32,11 +32,17 @@
 <script>
 
 	import tag from './staffTagInfo.vue'
-	import {taskInfo} from '../../../api/tagPage.js'
-	import {getLabelInfo} from '../../../api/tagPage.js'
-	import {save} from '../../../api/tagPic.js'
-	import {next} from '../../../api/tagPic.js'
-	import {previous} from '../../../api/tagPic.js'
+	// import {taskInfo} from '../../../api/tagPage.js'
+	// import {getLabelInfo} from '../../../api/tagPage.js'
+	// import {save} from '../../../api/tagPic.js'
+	// import {next} from '../../../api/tagPic.js'
+	// import {previous} from '../../../api/tagPic.js'
+
+    import {staffTaskInfo} from "../../../api/staffTag";
+	import {staffLabelInfo} from "../../../api/staffTag";
+	import {staffSave} from "../../../api/staffTag";
+	import {staffNext} from "../../../api/staffTag";
+	import {staffPrevious} from "../../../api/staffTag";
 	import {getUrl} from "../../../api/tool";
 
 	export default {
@@ -63,7 +69,7 @@
 
 			lastPic: function () {
 				this.saveData();
-				let result = previous(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, this.picUrl, res=> {
+				let result = staffPrevious(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, this.picUrl, res=> {
 					if(res.url){
 						this.tagPicReflash(res.url);
 					}else{
@@ -74,7 +80,7 @@
 
 			nextPic: function () {
 				this.saveData();
-				let result = next(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, this.picUrl, res=> {
+				let result = staffNext(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, this.picUrl, res=> {
 
 					if(res.url){
 						this.tagPicReflash(res.url);
@@ -86,14 +92,14 @@
 
 			saveData(){
 				var json = JSON.stringify(this.tagData);
-				let result = save(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, this.picUrl,json, res=> {
+				let result = staffSave(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, this.picUrl,json, res=> {
 
 				});
 			},
 
 			fetchTagData () {
 				this.picUrl = this.$route.params.picUrl;
-				let result = taskInfo(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType,  res=> {
+				let result = staffTaskInfo(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType,  res=> {
 
 					if(res.classes){
 						this.options = this.changeToOptions(res.classes);
@@ -110,7 +116,7 @@
 
 			fetchLabelDataByPicUrl(picUrl) {
 				let that = this;
-				let result = getLabelInfo(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, picUrl, res=> {
+				let result = staffLabelInfo(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, picUrl, res=> {
 					if(res){
 						that.tagData = res;
 					}else{
