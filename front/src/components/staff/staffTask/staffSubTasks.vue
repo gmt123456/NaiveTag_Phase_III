@@ -45,6 +45,7 @@
     import {checkAcceptSubTask} from "../../../api/staffTask";
     import {getUrl} from "../../../api/tool";
     import {checkSubTaskInfo} from "../../../api/staffTask";
+    import {staffAcceptSubTask} from "../../../api/staffTask";
 
     export default {
 	    name: "staffSubTasks",
@@ -100,14 +101,26 @@
 			        cancelButtonText: 'no',
 			        type: 'info'
 		        }).then(() => {
-			        checkAcceptSubTask(this.taskData.taskId, this.subTaskList[index].subPartId, this.taskData.taskTypes[parseInt(that.menuIndex)], res =>{
-				        if(res.result === true){
-					        that.$message.success("accept success! Good Luck~(￣▽￣)");
-					        that.subTaskList.splice(index,1);
-				        }else{
-					        that.$message.error("accept fail！（；´д｀）ゞ");
-				        }
-			        });
+		        	if(localStorage.taskState === 'check'){
+				        checkAcceptSubTask(this.taskData.taskId, this.subTaskList[index].subPartId, this.taskData.taskTypes[parseInt(that.menuIndex)], res =>{
+					        if(res.result === true){
+						        that.$message.success("accept success! Good Luck~(￣▽￣)");
+						        that.subTaskList.splice(index,1);
+					        }else{
+						        that.$message.error("accept fail！（；´д｀）ゞ");
+					        }
+				        });
+                    }else{
+				        staffAcceptSubTask(this.taskData.taskId, this.subTaskList[index].subPartId, this.taskData.taskTypes[parseInt(that.menuIndex)], res =>{
+					        if(res.result === true){
+						        that.$message.success("accept success! Good Luck~(￣▽￣)");
+						        that.subTaskList.splice(index,1);
+					        }else{
+						        that.$message.error("accept fail！（；´д｀）ゞ");
+					        }
+				        });
+                    }
+
 		        }).catch(() => {
 
 		        });

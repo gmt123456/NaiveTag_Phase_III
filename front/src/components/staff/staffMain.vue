@@ -1,25 +1,25 @@
 <template>
     <div id="staffMain">
-        <el-col :span="24"><div :style="{'background-color': getBackGroundColor(), 'min-height': '200px', 'overflow':'hidden'}">
+        <!--<el-col :span="24"><div :style="{'background-color': getBackGroundColor(), 'min-height': '200px', 'overflow':'hidden'}">-->
 
-        </div></el-col>
+        <!--</div></el-col>-->
 
-        <el-col :span="24"><div style="background-color: #f6f9fa;text-align: center;overflow:hidden;">
-            <div style="width: 900px;height: 40px;margin: auto;">
+        <!--<el-col :span="24"><div style="background-color: #f6f9fa;text-align: center;overflow:hidden;">-->
+            <!--<div style="width: 900px;height: 40px;margin: auto;">-->
 
-                <el-menu :default-active="$route.path" mode="horizontal" :router="true"
-                         style="height: 50px;position: relative;top: -10px;">
-                    <el-menu-item index="/staff/allCheck" style="height: 50px;">AllCheck</el-menu-item>
-                    <el-menu-item index="/staff/myCheck" style="height: 50px;">MyCheck</el-menu-item>
-                    <el-menu-item index="/staff/allTasks" style="height: 50px;">AllTasks</el-menu-item>
-                    <el-menu-item index="/staff/myTasks" style="height: 50px;">MyTasks</el-menu-item>
-                </el-menu>
+                <!--<el-menu :default-active="$route.path" mode="horizontal" :router="true"-->
+                         <!--style="height: 50px;position: relative;top: -10px;">-->
+                    <!--<el-menu-item index="/staff/allCheck" style="height: 50px;">AllCheck</el-menu-item>-->
+                    <!--<el-menu-item index="/staff/myCheck" style="height: 50px;">MyCheck</el-menu-item>-->
+                    <!--<el-menu-item index="/staff/allTasks" style="height: 50px;">AllTasks</el-menu-item>-->
+                    <!--<el-menu-item index="/staff/myTasks" style="height: 50px;">MyTasks</el-menu-item>-->
+                <!--</el-menu>-->
 
-            </div>
-        </div></el-col>
+            <!--</div>-->
+        <!--</div></el-col>-->
 
         <el-col>
-            <div style="width: 100%;background-color: #f6f9fa;">
+            <div style="width: 100%;background-color: #f6f9fa;padding-top: 30px;">
                 <div style="width: 900px;min-height: 740px;margin: auto;">
                     <router-view></router-view>
                 </div>

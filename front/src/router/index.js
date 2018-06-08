@@ -44,6 +44,7 @@ import StaffSubTask from '../components/staff/staffTask/staffSubTasks.vue'
 import StaffMyParticipation from '../components/staff/staffTask/staffMyParticipation.vue'
 import StaffCheck from '../components/staff/staffCheck/staffCheckPage.vue'
 import StaffTag from '../components/staff/staffTag/staffTagPage.vue'
+import StaffSubTaskDetails from '../components/staff/staffTask/staffSubTasksDetails.vue'
 
 import Introduction from '../components/index/Introduction.vue';
 
@@ -105,6 +106,7 @@ export default new Router({
           ]
         },
 
+	      {path: '/staffSubTaskDetails/:taskId/:subTaskId/:taskType', name: 'staffSubTaskDetails', component: StaffSubTaskDetails},
         {path: '/staffCheck/:taskId/:subPartId/:taskType/:picUrl', component: StaffCheck, name: 'staffCheck'},
         {path: '/staffTag/:taskId/:subPartId/:taskType/:picUrl', component: StaffTag, name: 'staffTag'},
       ]

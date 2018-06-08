@@ -49,6 +49,7 @@
                                         </div>
                                         <div v-if="!item.commitDate" class="center" style="float: right;position:relative;z-index: 2">
                                             <el-button type="text" style="padding: 0;" @click="startTag(index)">start</el-button>
+                                            <el-button v-if="isShowDetails()" type="primary" size="mini" style="margin-left: 10px;" @click="openDetails(index)">details</el-button>
                                         </div>
                                         <div>
                                             <el-progress v-if="item.process === 100" :percentage="100" status="success"></el-progress>
@@ -123,6 +124,14 @@
 
         methods: {
 
+			isShowDetails(){
+				if(localStorage.taskState === 'tag'){
+					return true;
+                }else{
+					return false;
+                }
+            },
+
 			getImgSrc(src){
 				return getUrl(src);
             },
@@ -133,7 +142,7 @@
 	        },
 
 	        openDetails(index){
-		        this.$router.push({name: 'subTaskDetails', params: {taskId: this.taskData.taskId, subPartId: this.myParticipationList[index].subPartId, taskType: this.myParticipationList[index].taskType}});
+		        this.$router.push({name: 'staffSubTaskDetails', params: {taskId: this.taskData.taskId, subTaskId: this.myParticipationList[index].subPartId, taskType: this.myParticipationList[index].taskType}});
 	        },
 
 	        fetchData(state){

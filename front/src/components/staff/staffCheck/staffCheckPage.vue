@@ -165,34 +165,5 @@
 </script>
 
 <style>
-    .back {
-        color: white;
-        padding-left: 10px;
-        background-color: transparent;
-        font-size: 14px;
-        border: none;
-        cursor: pointer;
-        cursor: hand;
-    }
 
-    .back:hover {
-        color: #336fff;
-    }
-
-    .logo {
-        text-align: center;
-        font-family: 'Caviar Dreams';
-        font-size: 36px;
-        color: white;
-    }
-
-    .center {
-        display:flex;
-        justify-content:center;
-        align-items:center;
-    }
-
-    .height {
-        height: 100%;
-    }
 </style>

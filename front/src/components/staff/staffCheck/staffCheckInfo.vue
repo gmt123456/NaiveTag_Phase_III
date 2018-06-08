@@ -80,7 +80,7 @@
                         <div>
                             <el-button icon="el-icon-back" round size="mini" style="margin: 10px" @click="back">back</el-button>
                         </div>
-                        <div v-if="description" class="block center" style="padding: 20px 20px 0px 20px;">
+                        <div v-if="description" class="block center" style="padding: 20px 20px 0px 20px;justify-content:center;">
                             Description：{{description}}
                         </div>
 
@@ -143,7 +143,7 @@
                         </div>
 
                         <!--最后的按钮-->
-                        <div class="center" style="padding-bottom: 20px;">
+                        <div class="center" style="padding-bottom: 20px;justify-content:center;">
                             <el-button type="danger" plain icon="el-icon-error" v-on:click="failPic" style="width: 100px;">Fail</el-button>
                             <el-button type="success" plain icon="el-icon-success" v-on:click="passPic" style="width: 100px;">Pass</el-button>
                         </div>
@@ -776,7 +776,7 @@
 
     .center {
         display:flex;
-        justify-content:center;
+        /*justify-content:center;*/
         align-items:center;
     }
 
