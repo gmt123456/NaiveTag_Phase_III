@@ -43,7 +43,7 @@
                                     <span>{{item.picAmount}}</span>
                                     <div class="center" style="margin-left: 150px;">
                                         <el-button type="text" style="padding: 0;" @click="startTag(index)">start</el-button>
-                                        <!--<el-button v-if="isShowDetails()" type="primary" size="mini" style="margin-left: 10px;" @click="openDetails(index)">details</el-button>-->
+                                        <el-button type="primary" size="mini" style="margin-left: 10px;" @click="openDetails(index)">details</el-button>
                                     </div>
                                 </div>
                             </el-card>
@@ -60,8 +60,7 @@
     import {getTaskName} from "../../../../api/taskTypeName";
     import {getUrl} from "../../../../api/tool";
     import {tagMyParticipation} from "../../../../api/staffTag";
-    import {checkFirstPicUrl} from "../../../../api/staffCheck";
-    // import {staffSubTaskDetailsInfo} from "../../../../api/staffTag";
+    import {tagSubTaskDetailsInfo} from "../../../../api/staffTag";
 
     export default {
 		name: "staffMyParticipation",
@@ -113,14 +112,6 @@
 
         methods: {
 
-			isShowDetails(){
-				if(localStorage.taskState === 'tag'){
-					return true;
-                }else{
-					return false;
-                }
-            },
-
 			getImgSrc(src){
 				return getUrl(src);
             },
@@ -131,7 +122,7 @@
 	        },
 
 	        openDetails(index){
-		        this.$router.push({name: 'staffSubTaskDetails', params: {taskId: this.taskData.taskId, subTaskId: this.myParticipationList[index].subPartId, taskType: this.myParticipationList[index].taskType}});
+		        this.$router.push({name: 'staffSubTaskDetails', params: {taskId: this.taskData.taskId, subTaskId: this.myParticipationList[index].subTaskId, taskType: this.myParticipationList[index].taskType}});
 	        },
 
 	        fetchData(state){
@@ -142,21 +133,16 @@
 	        },
 
 	        startTag(index){
-		        checkFirstPicUrl(this.myParticipationList[index].subPartId, res =>{
-			        this.$router.push({ name: 'staffCheck', params: { taskId: localStorage.firstLevelTaskId, subPartId: this.myParticipationList[index].subPartId, taskType: this.myParticipationList[index].taskType, picUrl: res}});
+		        // checkFirstPicUrl(this.myParticipationList[index].subTaskId, res =>{
+			     //    this.$router.push({ name: 'staffTag', params: { taskId: localStorage.firstLevelTaskId, subTaskId: this.myParticipationList[index].subTaskId, taskType: this.myParticipationList[index].taskType, picUrl: res}});
+		        // });
+		        tagSubTaskDetailsInfo(localStorage.firstLevelTaskId, this.myParticipationList[index].subTaskId, this.myParticipationList[index].taskType, res =>{
+			        let url;
+			        if(res.unFinishedPicList && res.unFinishedPicList.length > 0){
+				        url = res.unFinishedPicList[0];
+			        }
+			        this.$router.push({ name: 'staffTag', params: { taskId: localStorage.firstLevelTaskId, subTaskId: this.myParticipationList[index].subTaskId, taskType: this.myParticipationList[index].taskType, picUrl: url}});
 		        });
-                // if(localStorage.taskState === 'check'){
-					//
-                // }
-                // else{
-					// staffSubTaskDetailsInfo(localStorage.firstLevelTaskId, this.myParticipationList[index].subTaskId, this.myParticipationList[index].taskType, res =>{
-					// 	let url;
-					// 	if(res.unFinishedPicList && res.unFinishedPicList.length > 0){
-					// 		url = res.unFinishedPicList[0];
-					// 	}
-					// 	this.$router.push({ name: 'staffTag', params: { taskId: localStorage.firstLevelTaskId, subPartId: this.myParticipationList[index].subPartId, taskType: this.myParticipationList[index].taskType, picUrl: url}});
-					// });
-                // }
 	        },
 
 	        beforeEnter: function (el) {
