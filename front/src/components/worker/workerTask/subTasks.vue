@@ -92,6 +92,9 @@
             },
 
 	    	fetchData(index){
+	        	if(index){}else {
+	        		index = 0;
+                }
 	        	let that = this;
 			    subTaskInfo(this.taskData.taskId, this.taskData.taskTypes[index], res => {
 				    that.subTaskList = res;
