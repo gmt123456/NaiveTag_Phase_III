@@ -59,7 +59,7 @@
 <script>
     import {getTaskName} from "../../../../api/taskTypeName";
     import {getUrl} from "../../../../api/tool";
-    import {checkMyParticipation} from "../../../../api/staffCheck";
+    import {tagMyParticipation} from "../../../../api/staffTag";
     import {checkFirstPicUrl} from "../../../../api/staffCheck";
     // import {staffSubTaskDetailsInfo} from "../../../../api/staffTag";
 
@@ -136,7 +136,7 @@
 
 	        fetchData(state){
 				let that = this;
-		        checkMyParticipation(localStorage.firstLevelTaskId, state, res => {
+		        tagMyParticipation(localStorage.firstLevelTaskId, state, res => {
 			        that.myParticipationList = res;
 		        })
 	        },

@@ -42,9 +42,9 @@
 
                 <el-menu :default-active="$route.path" mode="horizontal" :router="true"
                          style="height: 50px;position: relative;top: -10px;" @select="handleSelect">
-                    <el-menu-item index="/staffFirstTask/staffOverview" style="height: 50px;">Overview</el-menu-item>
-                    <el-menu-item v-if="taskData.participated && taskData.participated === true" index="/staffFirstTask/staffSubtasks" style="height: 50px;">Tasks</el-menu-item>
-                    <el-menu-item v-if="taskData.participated && taskData.participated === true" index="/staffFirstTask/staffMyparticipation" style="height: 50px;">My Participation</el-menu-item>
+                    <el-menu-item index="/staffTagFirstTask/staffTagOverview" style="height: 50px;">Overview</el-menu-item>
+                    <el-menu-item v-if="taskData.participated && taskData.participated === true" index="/staffTagFirstTask/staffTagSubTasks" style="height: 50px;">Tasks</el-menu-item>
+                    <el-menu-item v-if="taskData.participated && taskData.participated === true" index="/staffTagFirstTask/staffMyParticipation" style="height: 50px;">My Participation</el-menu-item>
                     <!--<el-menu-item index="/worker/task" style="height: 50px;">Rank</el-menu-item>-->
                     <el-button v-if="taskData.participated && taskData.participated === true" type="success" disabled style="float: right;height: 40px;width: 150px;margin-top: 10px;">Already Joined</el-button>
                     <el-button v-else type="primary" style="float: right;height: 40px;width: 150px;margin-top: 10px;" @click="joinHandle">Join Assignment</el-button>
@@ -67,8 +67,8 @@
 </template>
 
 <script>
-    import {checkTaskInfo} from "../../../../api/staffCheck";
-    import {checkTaskJoin} from "../../../../api/staffCheck";
+    import {tagTaskInfo} from "../../../../api/staffTag";
+    import {tagTaskJoin} from "../../../../api/staffTag";
 
     export default {
 		name: "staffTaskPageI",
@@ -108,14 +108,14 @@
 
 			getTaskInfo(){
 				let that = this;
-				checkTaskInfo(localStorage.firstLevelTaskId, res => {
+				tagTaskInfo(localStorage.firstLevelTaskId, res => {
 					that.taskData = res;
                 })
             },
 
 	        joinHandle(){
 		        let that = this;
-		        checkTaskJoin(this.taskData.taskId, res => {
+		        tagTaskJoin(this.taskData.taskId, res => {
 		        	if(res.result === true){
 				        that.$message({
 					        message: 'join success! ψ(｀∇´)ψ',

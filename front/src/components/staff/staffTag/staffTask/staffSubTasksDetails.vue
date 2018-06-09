@@ -87,10 +87,9 @@
 
 <script>
 
-    import {staffSubTaskDetailsInfo} from "../../../../api/staffTag";
-    import {staffAcceptSubTask} from "../../../../api/staffTag";
-    import {checkAcceptSubTask} from "../../../../api/staffCheck";
-    import {staffCommitSubTask} from "../../../../api/staffTag";
+    import {tagSubTaskDetailsInfo} from "../../../../api/staffTag";
+    import {tagAcceptSubTask} from "../../../../api/staffTag";
+    import {tagCommitSubTask} from "../../../../api/staffTag";
 	import {getUrl} from "../../../../api/tool";
 
 	export default {
@@ -140,12 +139,12 @@
 			},
 
 			startTagByPicUrl(url){
-				this.$router.push({ name: 'staffTag', params: { taskId: localStorage.firstLevelTaskId, subPartId: this.$route.params.subTaskId, taskType: this.$route.params.taskType, picUrl: url}});
+				this.$router.push({ name: 'staffTag', params: { taskId: localStorage.firstLevelTaskId, subTaskId: this.$route.params.subTaskId, taskType: this.$route.params.taskType, picUrl: url}});
 			},
 
 			startTag(){
 				if(this.detailsData.unFinishedPicList && this.detailsData.unFinishedPicList.length > 0){
-					this.$router.push({ name: 'staffTag', params: { taskId: localStorage.firstLevelTaskId, subPartId: this.$route.params.subTaskId, taskType: this.$route.params.taskType, picUrl: this.detailsData.unFinishedPicList[0]}});
+					this.$router.push({ name: 'staffTag', params: { taskId: localStorage.firstLevelTaskId, subTaskId: this.$route.params.subTaskId, taskType: this.$route.params.taskType, picUrl: this.detailsData.unFinishedPicList[0]}});
 					console.log("subTaskId: "+this.$route.params.subTaskId+" taskType: "+this.$route.params.taskType);
 				}else{
 					console.log("no unFinishedPicList!")
@@ -156,7 +155,7 @@
 			accept(){
 				let that = this;
 				this.loadingAccept = true;
-				checkAcceptSubTask(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, res =>{
+				tagAcceptSubTask(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, res =>{
 					if(res.result === true){
 						that.$message.success("accept success! Good Luck~(￣▽￣)");
 						that.fetchData();
@@ -181,7 +180,7 @@
 			submit(){
 				this.loadingSubmit = true;
 				let that = this;
-				staffCommitSubTask(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, res =>{
+				tagCommitSubTask(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, res =>{
 					if(res.result === true){
 						that.$message.success("submit success! Well done!(￣▽￣)");
 						that.$router.push("/firstTask/myparticipation");
@@ -194,7 +193,7 @@
 
 			fetchData() {
 				let that = this;
-				staffSubTaskDetailsInfo(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, res =>{
+				tagSubTaskDetailsInfo(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, res =>{
 					that.detailsData = res;
 				});
 			},

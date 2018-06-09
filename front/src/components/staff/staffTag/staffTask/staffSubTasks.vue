@@ -42,9 +42,9 @@
 
 <script>
     import {getTaskName} from "../../../../api/taskTypeName";
-    import {checkAcceptSubTask} from "../../../../api/staffCheck";
+    import {tagAcceptSubTask} from "../../../../api/staffTag";
     import {getUrl} from "../../../../api/tool";
-    import {checkSubTaskInfo} from "../../../../api/staffCheck";
+    import {tagSubTaskInfo} from "../../../../api/staffTag";
     // import {staffAcceptSubTask} from "../../../../api/staffTag";
 
     export default {
@@ -88,7 +88,7 @@
 
 	    	fetchData(index){
 	        	let that = this;
-			    checkSubTaskInfo(this.taskData.taskId, this.taskData.taskTypes[index], res => {
+			    tagSubTaskInfo(this.taskData.taskId, this.taskData.taskTypes[index], res => {
 				    that.subTaskList = res;
 				    that.show = true;
                 })
@@ -101,7 +101,7 @@
 			        cancelButtonText: 'no',
 			        type: 'info'
 		        }).then(() => {
-			        checkAcceptSubTask(this.taskData.taskId, this.subTaskList[index].subPartId, this.taskData.taskTypes[parseInt(that.menuIndex)], res =>{
+			        tagAcceptSubTask(this.taskData.taskId, this.subTaskList[index].subTaskId, this.taskData.taskTypes[parseInt(that.menuIndex)], res =>{
 				        if(res.result === true){
 					        that.$message.success("accept success! Good Luck~(￣▽￣)");
 					        that.subTaskList.splice(index,1);
@@ -111,7 +111,7 @@
 			        });
                     // if(localStorage.taskState === 'check'){
                     // }else{
-				     //    staffAcceptSubTask(this.taskData.taskId, this.subTaskList[index].subPartId, this.taskData.taskTypes[parseInt(that.menuIndex)], res =>{
+				     //    staffAcceptSubTask(this.taskData.taskId, this.subTaskList[index].subTaskId, this.taskData.taskTypes[parseInt(that.menuIndex)], res =>{
 					 //        if(res.result === true){
 						//         that.$message.success("accept success! Good Luck~(￣▽￣)");
 						//         that.subTaskList.splice(index,1);

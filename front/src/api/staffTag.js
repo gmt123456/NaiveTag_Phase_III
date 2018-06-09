@@ -1,5 +1,6 @@
 import {getUrl} from "./tool";
 import {getTaskIdToServer} from "./taskTypeName";
+
 export function allTasks(callback) {
 
 	// workerUnfinishMock(callback);
@@ -32,6 +33,117 @@ export function myTasks(callback) {
 	})
 }
 
+//点开具体一级tag任务
+export function tagTaskInfo(taskId, callback) {
+
+	// taskInfoMock(taskId, callback);
+
+	let url = 'staff/task/main.html';
+
+	$.get(getUrl(url), {
+		taskId: taskId,
+		token: localStorage.token
+	}, function (res) {
+		callback(JSON.parse(res));
+	});
+}
+//接受一级tag任务
+export function tagTaskJoin(taskId, callback) {
+
+	// taskJoinMock(taskId, callback);
+
+	let url = 'staff/task/join.html';
+
+	$.get(getUrl(url), {
+		token: localStorage.token,
+		taskId: taskId
+	}, function (res) {
+		callback(JSON.parse(res));
+	});
+}
+//查看一级tag任务下属小任务
+export function tagSubTaskInfo(taskId, taskType, callback) {
+
+	// subTaskInfoMock(taskId, taskType, callback);
+
+	let url = 'staff/task/subTaskSet.html';
+
+	$.get(getUrl(url), {
+		token: localStorage.token,
+		taskId: taskId,
+		taskType: getTaskIdToServer(taskType),
+	}, function (res) {
+		callback(JSON.parse(res));
+	});
+}
+//查看参与的tag小任务
+export function tagMyParticipation(taskId, taskState, callback) {
+
+	// myParticipationMock(taskId, taskState, callback);
+
+	let url = 'staff/task/myParticipation.html';
+
+	$.get(getUrl(url), {
+		token: localStorage.token,
+		taskId: taskId,
+		subTaskState: taskState,
+	}, function (res) {
+		callback(JSON.parse(res));
+	});
+}
+//接受某个tag小任务
+export function tagAcceptSubTask(taskId, subTaskId, taskType, callback) {
+
+	// acceptSubTaskMock(taskId, subTaskId, taskType, callback);
+
+	let url = 'staff/subTask/accept.html';
+
+	$.get(getUrl(url), {
+		token: localStorage.token,
+		taskId: taskId,
+		subTaskId: subTaskId,
+		taskType: getTaskIdToServer(taskType),
+	}, function (res) {
+		callback(JSON.parse(res));
+	});
+}
+//某个tag小任务的详细信息
+export function tagSubTaskDetailsInfo(taskId, subTaskId, taskType, callback) {
+	// subTaskDetailsInfoMock(taskId, subTaskId, getTaskIdToServer(taskType), callback);
+
+	let url = 'staff/subTask/details.html';
+
+	$.get(getUrl(url), {
+		token: localStorage.token,
+		taskId: taskId,
+		subTaskId: subTaskId,
+		taskType: getTaskIdToServer(taskType),
+	}, function (res) {
+		callback(JSON.parse(res));
+	});
+}
+//提交某个tag小任务
+export function tagCommitSubTask(taskId, subTaskId, taskType, callback) {
+
+	// callback(JSON.parse(JSON.stringify({
+	// 	result: true,
+	// 	description: "xxxx",
+	// })));
+
+	let url = 'staff/subTask/commit.html';
+
+	$.get(getUrl(url), {
+		token: localStorage.token,
+		taskId: taskId,
+		subTaskId: subTaskId,
+		taskType: getTaskIdToServer(taskType),
+	}, function (res) {
+		callback(JSON.parse(res));
+	});
+}
+
+
+
 export function staffTaskInfo(taskId,subTaskId,taskType,callback) {
 
 	$.ajax({
@@ -50,6 +162,7 @@ export function staffTaskInfo(taskId,subTaskId,taskType,callback) {
 		// contentType:"application/x-www-form-urlencoded; charset=utf-8"
 	})
 }
+
 export function staffLabelInfo(taskId,subTaskId,taskType, picUrl, callback) {
 
 	$.ajax({
@@ -69,6 +182,7 @@ export function staffLabelInfo(taskId,subTaskId,taskType, picUrl, callback) {
 		// contentType:"application/x-www-form-urlencoded; charset=utf-8"
 	})
 }
+
 export function staffSave(taskId,subTaskId,taskType,picUrl,JSONObject,callback) {
 
 	$.ajax({
@@ -89,6 +203,7 @@ export function staffSave(taskId,subTaskId,taskType,picUrl,JSONObject,callback) 
 		// contentType:"application/x-www-form-urlencoded; charset=utf-8"
 	})
 }
+
 export function staffNext(taskId,subTaskId,taskType, picUrl, callback) {
 
 	$.ajax({
@@ -108,6 +223,7 @@ export function staffNext(taskId,subTaskId,taskType, picUrl, callback) {
 		// contentType:"application/x-www-form-urlencoded; charset=utf-8"
 	})
 }
+
 export function staffPrevious(taskId,subTaskId,taskType, picUrl, callback) {
 
 	$.ajax({
@@ -127,51 +243,4 @@ export function staffPrevious(taskId,subTaskId,taskType, picUrl, callback) {
 		// contentType:"application/x-www-form-urlencoded; charset=utf-8"
 	})
 }
-export function staffSubTaskDetailsInfo(taskId, subTaskId, taskType, callback) {
-	// subTaskDetailsInfoMock(taskId, subTaskId, getTaskIdToServer(taskType), callback);
 
-	let url = 'staff/subTask/details.html';
-
-	$.get(getUrl(url), {
-		token: localStorage.token,
-		taskId: taskId,
-		subTaskId: subTaskId,
-		taskType: getTaskIdToServer(taskType),
-	}, function (res) {
-		callback(JSON.parse(res));
-	});
-}
-
-export function staffAcceptSubTask(taskId, subTaskId, taskType, callback) {
-	// acceptSubTaskMock(taskId, subTaskId, getTaskIdToServer(taskType), callback);
-
-	let url = 'staff/subTask/accept.html';
-
-	$.get(getUrl(url), {
-		token: localStorage.token,
-		taskId: taskId,
-		subTaskId: subTaskId,
-		taskType: getTaskIdToServer(taskType),
-	}, function (res) {
-		callback(JSON.parse(res));
-	});
-}
-
-export function staffCommitSubTask(taskId, subTaskId, taskType, callback) {
-
-	// callback(JSON.parse(JSON.stringify({
-	// 	result: true,
-	// 	description: "xxxx",
-	// })));
-
-	let url = 'staff/subTask/commit.html';
-
-	$.get(getUrl(url), {
-		token: localStorage.token,
-		taskId: taskId,
-		subTaskId: subTaskId,
-		taskType: getTaskIdToServer(taskType),
-	}, function (res) {
-		callback(JSON.parse(res));
-	});
-}
