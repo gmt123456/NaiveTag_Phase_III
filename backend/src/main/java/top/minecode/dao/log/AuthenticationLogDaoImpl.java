@@ -17,8 +17,8 @@ import java.util.List;
 @Repository
 public class AuthenticationLogDaoImpl implements AuthenticationLogDao {
 
-    private CommonOperation<LoginLogPO> loginOperation = new CommonOperation<LoginLogPO>(LoginLogPO.class);
-    private CommonOperation<RegisterLogPO> registerOperation = new CommonOperation<RegisterLogPO>(RegisterLogPO.class);
+    private CommonOperation<LoginLogPO> loginOperation = new CommonOperation<>(LoginLogPO.class);
+    private CommonOperation<RegisterLogPO> registerOperation = new CommonOperation<>(RegisterLogPO.class);
 
     @Override
     public void recordLogin(String userEmail, Date loginTime, UserType userType) {
@@ -32,8 +32,8 @@ public class AuthenticationLogDaoImpl implements AuthenticationLogDao {
 
     @Override
     public LoginLogPO getLatestLoginRecord(String userEmail) {
-        String hql = "from LoginLogPO log where log.email=" + userEmail + " order by log.loginTime desc";
-        List<LoginLogPO> result = loginOperation.executeSQL(hql);
+        String hql = "from LoginLogPO log where log.userEmail=? order by log.loginTime desc";
+        List<LoginLogPO> result = loginOperation.executeSQL(LoginLogPO.class, hql, userEmail);
         if (result.size() <= 1)
             return null;
         return result.get(1);

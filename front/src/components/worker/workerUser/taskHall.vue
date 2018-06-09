@@ -107,22 +107,22 @@
 					label: 'All'
 				},{
 					value: 100,
-					label: 'Global_Input'
+					label: 'Global_Select'
 				},{
 					value: 101,
-					label: 'Global_Select'
+					label: 'Global_Input'
 				}, {
 					value: 200,
-					label: 'Single_Frame_Input'
-				},{
-					value: 201,
 					label: 'Single_Frame_Select'
 				},{
+					value: 201,
+					label: 'Single_Frame_Input'
+				},{
 					value: 300,
-					label: 'Multiple_Frame_Input'
+					label: 'Multiple_Frame_Select'
 				},{
 					value: 301,
-					label: 'Multiple_Frame_Select'
+					label: 'Multiple_Frame_Input'
 				},{
 					value: 400,
 					label: 'Area_Only'

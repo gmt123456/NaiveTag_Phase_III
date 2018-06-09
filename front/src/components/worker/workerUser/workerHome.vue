@@ -155,9 +155,23 @@
         	getChangesData(){
 		        let that = this;
 		        workerChanges(res => {
+		        	let newDollarChanges = [{
+		        		date: '2015-1-1',
+                        value: 0
+                    },{
+				        date: '2016-1-1',
+				        value: 0
+			        }].concat(res.dollarChanges);
+			        let newScoreChanges = [{
+				        date: '2015-1-1',
+				        value: 0
+			        },{
+				        date: '2016-1-1',
+				        value: 0
+			        }].concat(res.scoreChanges);
 			        that.userChanges.activity = that.getDataList(res.activity);
-			        that.userChanges.dollarChanges = that.getDataList(res.dollarChanges);
-			        that.userChanges.scoreChanges = that.getDataList(res.scoreChanges);
+			        that.userChanges.dollarChanges = that.getDataList(newDollarChanges);
+			        that.userChanges.scoreChanges = that.getDataList(newScoreChanges);
 
               that.drawCalendar();
               that.drawDollarChanges();
