@@ -259,12 +259,17 @@ public class CommonOperation<T> {
         }
     }
 
-    public static List getPage(int page, int pageSize, String hql) {
+    public static List getPage(int page, int pageSize, String hql, Object... params) {
         int start = (page - 1) * pageSize;
         int end = start + pageSize;
 
         return template(session -> {
             Query query = session.createQuery(hql);
+            if (params != null) {
+                for (int i = 0; i < params.length; i++) {
+                    query.setParameter(i, params[i]);
+                }
+            }
             query.setFirstResult(start);
             query.setMaxResults(end);
             //noinspection unchecked

@@ -9,16 +9,14 @@ import top.minecode.po.log.RequesterAccountLogPO;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * Created on 2018/5/23.
  * Description:
+ *
  * @author Liao
  */
 @Repository("accountLogDaoImpl")
@@ -49,38 +47,9 @@ public class AccountLogDaoImpl implements AccountLogDao {
 
     @Override
     public List<AccountLog> getLogs(String email, int page, int pageSize) {
-        // Calculate start and end of this page
-        List<RequesterAccountLogPO> accountLogPOs = getAccountLogPOS(email);
-        int pageLimit = accountLogPOs.size() / pageSize + 1;
-        if (page > pageLimit || accountLogPOs.isEmpty()) {
-            log.error("Page number is larger than max page number");
-            return Collections.emptyList();  // Unmodifiable list
-        }
-
-        int start = (page - 1) * pageSize;
-        int end = Math.min(start + pageSize - 1, accountLogPOs.size() - 1);
-
-        if (start == end) {
-            List<AccountLog> result = new ArrayList<>();
-            result.add(function.apply(accountLogPOs.get(end)));
-            return result;
-        }
-
-        return accountLogPOs.subList(start, end).stream().map(function).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<AccountLog> getLogs(String email) {
-        List<RequesterAccountLogPO> accountLogPOs = getAccountLogPOS(email);
-
-        return accountLogPOs.stream().map(function).collect(Collectors.toList());
-    }
-
-    private List<RequesterAccountLogPO> getAccountLogPOS(String email) {
-        RequesterAccountLogPO logPO = new RequesterAccountLogPO();
-        String hql = "from " + RequesterAccountLogPO.class.getSimpleName()
-                + " t where t.userEmail=? order by t.time desc";
-
-        return accountOperation.executeSQL(RequesterAccountLogPO.class, hql, email);
+        String hql = "select new top.minecode.domain.user.requester.AccountLog(t) from " +
+                " RequesterAccountLogPO t where t.userEmail=? order by t.time desc";
+        //noinspection unchecked
+        return (List<AccountLog>) CommonOperation.getPage(page, pageSize, hql, email);
     }
 }

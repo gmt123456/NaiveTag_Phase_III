@@ -1,8 +1,11 @@
 package top.minecode.domain.user.requester;
 
 import com.google.gson.*;
+import top.minecode.po.log.RequesterAccountLogPO;
 
 import java.lang.reflect.Type;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 /**
  * Created on 2018/5/23.
@@ -21,6 +24,15 @@ public class AccountLog {
         this.changeType = changeType;
         this.balance = balance;
         this.time = time;
+    }
+
+    public AccountLog(RequesterAccountLogPO logPO) {
+        change = logPO.getDollars();
+        changeType = logPO.getType().toString();
+        balance = logPO.getBalance();
+
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        time = format.format(logPO.getTime());
     }
 
     public static class AccountLogSerializer implements JsonSerializer<AccountLog> {

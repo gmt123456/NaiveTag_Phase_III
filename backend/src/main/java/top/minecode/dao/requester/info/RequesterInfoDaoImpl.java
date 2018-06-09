@@ -17,7 +17,9 @@ import top.minecode.po.requester.RequesterPO;
 import top.minecode.web.requester.info.ChangeCommand;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created on 2018/5/23.
@@ -53,8 +55,9 @@ public class RequesterInfoDaoImpl implements RequesterInfoDao {
 
         // Get latest login record for this user
         LoginLogPO latestLoginLogPO = authenticationLogDao.getLatestLoginRecord(email);
+        Date lastLoginTime = Optional.ofNullable(latestLoginLogPO).map(LoginLogPO::getLoginTime).orElse(null);
 
-        String signMsg = TimeMessageConverter.convertBoth(requesterPO.getJoinTime(), latestLoginLogPO.getLoginTime());
+        String signMsg = TimeMessageConverter.convertBoth(requesterPO.getJoinTime(), lastLoginTime);
         double dollars = requesterPO.getDollars();
 
         return new Requester(requesterPO, signMsg, dollars);

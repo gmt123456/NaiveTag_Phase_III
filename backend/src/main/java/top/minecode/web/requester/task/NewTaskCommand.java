@@ -2,6 +2,7 @@ package top.minecode.web.requester.task;
 
 import org.springframework.web.multipart.MultipartFile;
 import top.minecode.domain.task.TaskTag;
+import top.minecode.domain.task.TaskType;
 import top.minecode.domain.user.worker.Division;
 
 import java.time.LocalDate;
@@ -160,7 +161,9 @@ public class NewTaskCommand {
         }
 
         public double getPrizeLowerBound(int pictureNum) {
-            return type * pictureNum / 100;
+            TaskType type = TaskType.convert(this.type);
+            assert type != null;
+            return TaskType.getPrice(type) * pictureNum;
         }
     }
 }

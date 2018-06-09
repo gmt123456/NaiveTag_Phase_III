@@ -17,7 +17,5 @@ public interface AccountLogDao {
 
     void log(String email, double dollars, double balance, RequesterAccountLogPO.ChangeType changeType, Date date);
 
-    List<AccountLog> getLogs(String email);
-
     List<AccountLog> getLogs(String email, int page, int pageSize);
 }
