@@ -261,4 +261,32 @@ public class TaskPO implements Serializable {
     public void setPrizeRate(double prizeRate) {
         this.prizeRate = prizeRate;
     }
+
+    @Override
+    public String toString() {
+        return "TaskPO{" +
+                "id=" + id +
+                ", taskName='" + taskName + '\'' +
+                ", backgroundImage='" + backgroundImage + '\'' +
+                ", taskDescription='" + taskDescription + '\'' +
+                ", readme='" + readme + '\'' +
+                ", ownerEmail='" + ownerEmail + '\'' +
+                ", lowestDivision=" + lowestDivision +
+                ", totalDollars=" + totalDollars +
+                ", actualDollars=" + actualDollars +
+                ", adRate=" + adRate +
+                ", prizeRate=" + prizeRate +
+                ", cover='" + cover + '\'' +
+                ", beginDate=" + beginDate +
+                ", endDate=" + endDate +
+                ", settleTime=" + settleTime +
+                ", taskState=" + taskState +
+                ", taskTags=" + taskTags +
+                ", specificTasks=" + specificTasks +
+                ", resultFilePath='" + resultFilePath + '\'' +
+                ", picNum=" + picNum +
+                ", participators=" + participators +
+                ", requirement=" + requirement +
+                '}';
+    }
 }
