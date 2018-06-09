@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 /**
  * Created on 2018/5/27.
  * Description:
+ *
  * @author Liao
  */
 public class SimpleCache<V extends CacheItem> {
@@ -28,9 +29,10 @@ public class SimpleCache<V extends CacheItem> {
         Optional<Map.Entry<String, V>> record = map.entrySet()
                 .stream().filter(e -> e.getValue().equals(v)).findFirst();
 
-        // If already in the cache, return the key directly
-        if (record.isPresent())
+        // If already in the cache, return this key directly
+        if (record.isPresent()) {
             return record.get().getKey();
+        }
 
         // Add it to the map and return the key
         String key = keyFunction.apply(v);

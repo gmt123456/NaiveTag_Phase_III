@@ -12,6 +12,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import top.minecode.dao.utils.CommonOperation;
+import top.minecode.domain.user.admin.AdminAuthority;
+import top.minecode.po.admin.AdminPO;
+import top.minecode.service.util.Encryptor;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -30,6 +34,12 @@ public class AdminAuthenticationControllerTest {
     private AdminAuthenticationController controller;
     private MockMvc mockMvc;
     private String token;
+    private Encryptor encryptor;
+
+    @Autowired
+    public void setEncryptor(Encryptor encryptor) {
+        this.encryptor = encryptor;
+    }
 
     @Autowired
     public void setController(AdminAuthenticationController controller) {
@@ -40,6 +50,12 @@ public class AdminAuthenticationControllerTest {
     public void setUp() throws Exception {
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
 
+//        String username = "admin";
+//        String password = encryptor.encrypt(username, username);
+//        CommonOperation.template(session -> {
+//            session.persist(new AdminPO(username, password, AdminAuthority.SUPREME));
+//            session.flush();
+//        });
         // Login admin
         JsonParser parser = new JsonParser();
         String result = mockMvc.perform(get("/inside/login")
