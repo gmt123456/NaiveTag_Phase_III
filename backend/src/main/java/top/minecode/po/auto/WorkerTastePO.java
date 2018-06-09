@@ -92,12 +92,4 @@ public class WorkerTastePO implements Serializable {
         result.addAll(tagClickTimes.values());
         return result;
     }
-
-    public static List<Enum> getHeaders() {
-        List<Enum> result = new ArrayList<>();
-        Collections.addAll(result, t_100, t_101, t_200, t_201, t_300, t_301, t_400, t_401,
-                military, nature, sports, humanity, science, others);
-
-        return result;
-    }
 }
