@@ -259,4 +259,16 @@ public class CommonOperation<T> {
         }
     }
 
+    public static List getPage(int page, int pageSize, String hql) {
+        int start = (page - 1) * pageSize;
+        int end = start + pageSize;
+
+        return template(session -> {
+            Query query = session.createQuery(hql);
+            query.setFirstResult(start);
+            query.setMaxResults(end);
+            //noinspection unchecked
+            return query.list();
+        });
+    }
 }

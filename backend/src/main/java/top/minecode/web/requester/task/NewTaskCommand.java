@@ -1,6 +1,7 @@
 package top.minecode.web.requester.task;
 
 import org.springframework.web.multipart.MultipartFile;
+import top.minecode.domain.task.TaskRequirement;
 import top.minecode.domain.task.TaskTag;
 import top.minecode.domain.user.worker.Division;
 
@@ -24,6 +25,15 @@ public class NewTaskCommand {
     private String readme;
     private LocalDate deadline;
     private Division lowestDivision;
+    private String taskRequirement = TaskRequirement.COMMON.toString();
+
+    public String getTaskRequirement() {
+        return taskRequirement;
+    }
+
+    public void setTaskRequirement(String taskRequirement) {
+        this.taskRequirement = taskRequirement;
+    }
 
     public void setCover(String cover) {
         this.cover = cover;

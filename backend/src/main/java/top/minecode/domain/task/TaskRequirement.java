@@ -9,7 +9,7 @@ package top.minecode.domain.task;
 public enum TaskRequirement {
 
     COMMON(0.5, 0.5),
-    EFFICIENCY(0.8, 0.2),
+    SPEED(0.8, 0.2),
     QUALITY(0.2, 0.8);
 
     private static final double AD_RATE_FACTOR = 1.0;

@@ -155,6 +155,8 @@ public class TaskRecommendationService {
         WorkerTastePO selfTastePO = tasteDao.get(email);
         List<TaskPO> tasks = taskDao.getAll();
 
+        List<FeatureVector> taskVectors = tasks.stream().map(FeatureVector::fromTaskPO).collect(Collectors.toList());
+
         return null;
     }
 

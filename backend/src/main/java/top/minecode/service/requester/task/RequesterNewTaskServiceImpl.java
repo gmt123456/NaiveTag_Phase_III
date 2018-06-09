@@ -37,6 +37,7 @@ import java.util.zip.ZipFile;
 /**
  * Created on 2018/5/26.
  * Description:
+ *
  * @author Liao
  */
 @Service("requesterNewTaskServiceImpl")
@@ -109,6 +110,9 @@ public class RequesterNewTaskServiceImpl implements RequesterNewTaskService {
             int pictureNum = ZipHelper.countEntriesInZipFile(zipFile);
 
             taskPO.setPicNum(pictureNum);
+
+            // Initialize task requirement
+            taskPO.setRequirement(TaskRequirement.valueOf(newTaskCommand.getTaskRequirement().toUpperCase()));
 
             // Calculate lower bound of payment
             double paymentLowerBound = newTaskCommand.getTasks().stream()
@@ -183,9 +187,6 @@ public class RequesterNewTaskServiceImpl implements RequesterNewTaskService {
 //            session.persist(vectorPO);
 //            session.flush();
 //        });
-
-        // Initialize task requirement
-        taskPO.setRequirement(TaskRequirement.valueOf(payCommand.getTaskRequirement().toUpperCase()));
 
         return ResultMessage.success();
     }

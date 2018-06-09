@@ -53,7 +53,7 @@ public class WorkerVectorPO {
 
     public static WorkerVectorPO fromWorkerEmail(String email) {
         List<Double> vector = new ArrayList<>();
-        for (int i = 0; i < 16; i++) vector.add(0.0); // 8 + 6 + 1 + 1
+        for (int i = 0; i < 14; i++) vector.add(0.0); // 8(types) + 6(tags)
         return new WorkerVectorPO(email, vector);
     }
 

@@ -1,6 +1,8 @@
 package top.minecode.domain.task;
 
 import top.minecode.domain.utils.VectorHelper;
+import top.minecode.po.auto.TaskVectorPO;
+import top.minecode.po.auto.WorkerTastePO;
 import top.minecode.po.task.TaskPO;
 
 import java.util.ArrayList;
@@ -17,15 +19,9 @@ public class FeatureVector {
     private final List<Double> vector;
 
     public static FeatureVector fromTaskPO(TaskPO taskPO) {
-        List<TaskTag> taskTags = taskPO.getTaskTags();
-        TaskType taskType = taskPO.getSpecificTasks().keySet().iterator().next();  // Now there contains only one type in a task
+        List<Double> featureVector = TaskVectorPO.fromTaskPO(taskPO).getVector();
 
-
-        List<Double> featureVector = VectorHelper.zeros(TaskTag.values().length + TaskType.values().length);
-
-
-
-        return null;
+        return new FeatureVector(Integer.toString(taskPO.getId()), featureVector);
     }
 
     public FeatureVector(String identity, List<Double> vector) {
