@@ -29,6 +29,17 @@ public class WorkerAccountLogPO implements Serializable {
     @Enumerated(EnumType.STRING)
     private WorkerAccountChangeType type;
 
+    public WorkerAccountLogPO() {}
+
+    public WorkerAccountLogPO(String userEmail, double dollars,
+                              double balance, Date time, WorkerAccountChangeType type) {
+        this.userEmail = userEmail;
+        this.dollars = dollars;
+        this.balance = balance;
+        this.time = time;
+        this.type = type;
+    }
+
     public int getId() {
         return id;
     }

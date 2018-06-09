@@ -53,7 +53,9 @@ public class WorkerTaskBasicController extends BaseController{
     public String getMyParticipation(HttpServletRequest request, int taskId, int subTaskState) {
         String email = getUserEmail(request);
         SubTaskParticipationState state = SubTaskParticipationState.convert(subTaskState);
-        return WebConfig.getGson().toJson(basicService.getWorkerParticipation(email, taskId, state));
+        String result =  WebConfig.getGson().toJson(basicService.getWorkerParticipation(email, taskId, state));
+        System.out.println("result: " + result);
+        return result;
     }
 
 }

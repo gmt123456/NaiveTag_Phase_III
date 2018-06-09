@@ -14,6 +14,7 @@ import top.minecode.domain.task.SubTask;
 import top.minecode.domain.task.SubTaskState;
 import top.minecode.domain.task.TaskType;
 import top.minecode.domain.taskcheck.SubCheckTaskState;
+import top.minecode.po.log.WorkerAccountLogPO;
 import top.minecode.po.task.SubCheckTaskPO;
 import top.minecode.po.task.SubTaskPO;
 import top.minecode.po.task.TaskPO;
@@ -175,8 +176,13 @@ public class StaffSubTaskCheckService {
 
             subTaskParticipationPO.setEarnedDollars(earnedDollars);
 
+
             WorkerPO workerPO = workerInfoDao.getWorkerPOByEmail(email);
             workerPO.setDollars(workerPO.getDollars() + earnedDollars);
+
+
+            logDao.addWorkerAccountChangeLog(new WorkerAccountLogPO(email, earnedDollars, workerPO.getDollars(), new Date(),
+                    WorkerAccountLogPO.WorkerAccountChangeType.PAY));
 
             workerInfoDao.updateWorkPO(workerPO);
 

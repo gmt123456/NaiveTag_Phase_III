@@ -184,6 +184,12 @@ public class WorkerTaskBasicService {
             return null;
 
         // 上面是拿取所有子任务参与的id
+//
+//        List<SubTaskParticipationPO> subTaskParticipationPOS = subTaskDao
+//                .getSubTaskParticipationByIds(subTaskParticipation);
+//        for (SubTaskParticipationPO po: subTaskParticipationPOS) {
+//            System.out.println(po);
+//        }
 
         return subTaskDao.getSubTaskParticipationByIds(subTaskParticipation).stream()
                 .filter(e -> e.getState() == subTaskParticipationState).map(SubTaskParticipation::fromPO)
