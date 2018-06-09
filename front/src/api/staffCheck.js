@@ -12,7 +12,7 @@ export function checkTaskNextPicUrl(subPartId, callback) {
 		token: localStorage.token,
 		subPartId: subPartId,
 	}, function (res) {
-		callback(JSON.parse(res));
+		callback(res);
 	});
 }
 
@@ -53,6 +53,6 @@ export function checkTaskMark(subPartId, picUrl, accept, callback) {
 		url: picUrl,
 		accept: accept,
 	}, function (res) {
-		callback(JSON.parse(res));
+		callback(res);
 	});
 }

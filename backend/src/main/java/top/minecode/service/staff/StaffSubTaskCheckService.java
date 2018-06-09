@@ -119,7 +119,7 @@ public class StaffSubTaskCheckService {
             commit(subCheckTaskPO);
             return null;
         }
-        List<String> diff = allPics.stream().filter(markedPics::contains)
+        List<String> diff = allPics.stream().filter(e -> !markedPics.contains(e))
                 .collect(Collectors.toList());
         Random random = new Random();
         int index = random.nextInt(diff.size());
@@ -193,6 +193,7 @@ public class StaffSubTaskCheckService {
             subTask.setCurrentDoingWorker(null);
         }
 
+        checkDao.updateSubCheck(subCheckTaskPO);
         subTaskDao.updateSubTask(subTask);
         participationDao.updateSubTaskParticipation(subTaskParticipationPO);
 

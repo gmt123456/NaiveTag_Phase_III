@@ -1,5 +1,6 @@
 package top.minecode.domain.taskcheck;
 
+import top.minecode.domain.task.TaskType;
 import top.minecode.po.task.SubCheckTaskPO;
 
 /**
@@ -16,18 +17,21 @@ public class SubTaskCheck {
 
     private String cover;
 
+    private TaskType taskType;
+
     public static SubTaskCheck fromPO(SubCheckTaskPO po) {
-        return new SubTaskCheck(po.getSubPartId(), po.getPicAmount(), po.getCover());
+        return new SubTaskCheck(po.getSubPartId(), po.getPicAmount(), po.getCover(), po.getSubTaskType());
     }
 
 
     public SubTaskCheck() {
     }
 
-    public SubTaskCheck(int subPartId, int picAmount, String cover) {
+    public SubTaskCheck(int subPartId, int picAmount, String cover, TaskType taskType) {
         this.subPartId = subPartId;
         this.picAmount = picAmount;
         this.cover = cover;
+        this.taskType = taskType;
     }
 
     public int getSubPartId() {

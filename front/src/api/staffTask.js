@@ -160,7 +160,7 @@ export function checkFirstPicUrl(subPartId, callback) {
 		token: localStorage.token,
 		subPartId: subPartId,
 	}, function (res) {
-		callback(JSON.parse(res));
+		callback(res);
 	});
 }
 

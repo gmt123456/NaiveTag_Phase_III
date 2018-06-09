@@ -108,8 +108,9 @@ public class StaffTaskCheckService {
                 .filter(e -> e.getSubTaskType() == taskType).map(SubTaskCheck::fromPO).collect(Collectors.toList());
     }
 
-    public List<SubTaskCheck> getOnGoingSubTaskChecks(int taskId, String email, TaskType taskType) {
-        return checkDao.getSubChecks(taskId).stream().filter(e -> e.getSubTaskType() == taskType)
+    public List<SubTaskCheck> getOnGoingSubTaskChecks(int taskId, String email) {
+        List<SubCheckTaskPO> subCheckTaskPOS = checkDao.getSubChecks(taskId);
+        return checkDao.getSubChecks(taskId).stream()
                 .filter(e -> e.getCheckTaskState() == SubCheckTaskState.doing)
                 .filter(e -> e.getAcceptorEmail().equals(email))
                 .map(SubTaskCheck::fromPO)

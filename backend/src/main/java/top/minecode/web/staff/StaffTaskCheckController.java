@@ -77,10 +77,9 @@ public class StaffTaskCheckController extends BaseController {
 
     @RequestMapping(value = "/subTask/ongoing") // MY PARTICIPATION
     @ResponseBody
-    public String getMyUnfinishedSubTaskChecks(HttpServletRequest request, int taskId, int taskType) {
+    public String getMyUnfinishedSubTaskChecks(HttpServletRequest request, int taskId) {
         String email = getStaffEmail(request);
-        TaskType type = TaskType.convert(taskType);
-        return WebConfig.getGson().toJson(checkService.getOnGoingSubTaskChecks(taskId, email, type));
+        return WebConfig.getGson().toJson(checkService.getOnGoingSubTaskChecks(taskId, email));
     }
 
 

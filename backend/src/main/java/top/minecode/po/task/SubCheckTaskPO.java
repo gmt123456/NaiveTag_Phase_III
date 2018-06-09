@@ -165,4 +165,21 @@ public class SubCheckTaskPO {
     public void setAcceptorEmail(String acceptorEmail) {
         this.acceptorEmail = acceptorEmail;
     }
+
+    @Override
+    public String toString() {
+        return "SubCheckTaskPO{" +
+                "subPartId=" + subPartId +
+                ", taskId=" + taskId +
+                ", subTaskId=" + subTaskId +
+                ", subTaskType=" + subTaskType +
+                ", cover='" + cover + '\'' +
+                ", picAmount=" + picAmount +
+                ", sampledTags=" + sampledTags +
+                ", picAccept=" + picAccept +
+                ", checkTaskState=" + checkTaskState +
+                ", acceptorEmail='" + acceptorEmail + '\'' +
+                ", acceptRate=" + acceptRate +
+                '}';
+    }
 }

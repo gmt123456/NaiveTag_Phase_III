@@ -41,7 +41,7 @@
                                     </el-aside>
                                     <el-main style="background-color: white;">
                                         <div style="float: left;">
-                                            <div><el-tag size="mini">{{getTaskNameByID(item.taskType)}}</el-tag></div>
+                                            <!--<div><el-tag size="mini">{{getTaskNameByID(item.taskType)}}</el-tag></div>-->
                                             <i class="el-icon-picture-outline"></i>
                                             <!--<span style="color: gray;font-size: 14px;"></span>-->
                                             <span style="font-size: 14px">{{item.picCount}}</span>
@@ -51,14 +51,14 @@
                                             <el-button type="text" style="padding: 0;" @click="startTag(index)">start</el-button>
                                             <el-button v-if="isShowDetails()" type="primary" size="mini" style="margin-left: 10px;" @click="openDetails(index)">details</el-button>
                                         </div>
-                                        <div>
-                                            <el-progress v-if="item.process === 100" :percentage="100" status="success"></el-progress>
-                                            <el-progress v-else :percentage="item.process"></el-progress>
-                                        </div>
-                                        <div style="text-align: center;color: gray;font-size: 13px;width: 100%;float: bottom">
-                                            <div>expired: {{item.expiredDate}}</div>
-                                            <div v-if="item.commitDate" style="color: lightgrey">commit: {{item.commitDate}}</div>
-                                        </div>
+                                        <!--<div>-->
+                                            <!--<el-progress v-if="item.process === 100" :percentage="100" status="success"></el-progress>-->
+                                            <!--<el-progress v-else :percentage="item.process"></el-progress>-->
+                                        <!--</div>-->
+                                        <!--<div style="text-align: center;color: gray;font-size: 13px;width: 100%;float: bottom">-->
+                                            <!--<div>expired: {{item.expiredDate}}</div>-->
+                                            <!--<div v-if="item.commitDate" style="color: lightgrey">commit: {{item.commitDate}}</div>-->
+                                        <!--</div>-->
                                     </el-main>
                                 </el-container>
                             </el-card>
