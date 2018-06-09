@@ -80,7 +80,7 @@ public class AdministrateUserDaoImpl implements AdministrateUserDao {
     @Override
     public List<WorkerItem> getWorkers(int page, int pageSize) {
         String workerPOHql = "select new top.minecode.domain.admin.WorkerItem(t) " +
-                " from WorkerPO t order by t.Score desc";
+                " from WorkerPO t order by t.score desc";
 
         //noinspection unchecked
         return (List<WorkerItem>) getPage(page, pageSize, workerPOHql);

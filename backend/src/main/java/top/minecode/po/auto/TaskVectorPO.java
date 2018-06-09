@@ -38,8 +38,6 @@ public class TaskVectorPO {
 
         // 临时存储在一个列表里面，然后再转化成含有空格的字符串
         List<Double> vector = new ArrayList<>();
-        vector.add(1.0); // bias
-        vector.add(taskPO.getAdRate());
 
         List<TaskType> types = TaskType.getAll();
         Set<TaskType> taskTypes = taskPO.getSpecificTasks().keySet();

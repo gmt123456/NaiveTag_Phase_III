@@ -1,6 +1,7 @@
 package top.minecode.domain.task;
 
 import top.minecode.domain.utils.VectorHelper;
+import top.minecode.po.auto.WorkerTastePO;
 import top.minecode.po.task.TaskPO;
 
 import java.util.ArrayList;
@@ -21,9 +22,16 @@ public class FeatureVector {
         TaskType taskType = taskPO.getSpecificTasks().keySet().iterator().next();  // Now there contains only one type in a task
 
 
-        List<Double> featureVector = VectorHelper.zeros(TaskTag.values().length + TaskType.values().length);
+        List<Enum> headers = WorkerTastePO.getHeaders();
+        List<Double> featureVector = VectorHelper.zeros(headers.size());
 
-
+        for (int i = 0; i < headers.size(); i++) {
+            Enum header = headers.get(i);
+            //noinspection SuspiciousMethodCalls
+            if (taskTags.contains(header) || taskType.equals(header)) {
+                featureVector.set(i, 1.);
+            }
+        }
 
         return null;
     }

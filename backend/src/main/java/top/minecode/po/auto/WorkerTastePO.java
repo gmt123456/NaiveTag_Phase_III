@@ -10,10 +10,10 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static top.minecode.domain.task.TaskTag.*;
+import static top.minecode.domain.task.TaskType.*;
 
 /**
  * Created on 2018/5/26.
@@ -90,6 +90,14 @@ public class WorkerTastePO implements Serializable {
         List<Double> result = new ArrayList<>();
         result.addAll(typeClickTimes.values());
         result.addAll(tagClickTimes.values());
+        return result;
+    }
+
+    public static List<Enum> getHeaders() {
+        List<Enum> result = new ArrayList<>();
+        Collections.addAll(result, t_100, t_101, t_200, t_201, t_300, t_301, t_400, t_401,
+                military, nature, sports, humanity, science, others);
+
         return result;
     }
 }

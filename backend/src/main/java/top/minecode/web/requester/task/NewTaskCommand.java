@@ -24,6 +24,15 @@ public class NewTaskCommand {
     private String readme;
     private LocalDate deadline;
     private Division lowestDivision;
+    private String taskRequirement;
+
+    public String getTaskRequirement() {
+        return taskRequirement;
+    }
+
+    public void setTaskRequirement(String taskRequirement) {
+        this.taskRequirement = taskRequirement;
+    }
 
     public void setCover(String cover) {
         this.cover = cover;
