@@ -7,7 +7,7 @@
 
 <script>
 	import taskList from '../staffTaskList.vue';
-	import {myCheck} from "../../../api/staffTask";
+	import {myCheck} from "../../../api/staffCheck";
 
 	export default {
 		name: "staffMyCheck",
@@ -27,6 +27,7 @@
 
 			saveTaskState(){
 				localStorage.taskState = "check";
+				this.$router.push('/staffCheckFirstTask/staffCheckOverview');
 			},
 
 			fetchDataList(){

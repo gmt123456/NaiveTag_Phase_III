@@ -7,7 +7,7 @@
 
 <script>
 	import taskList from '../staffTaskList.vue';
-	import {allTasks} from "../../../api/staffTask";
+	import {allTasks} from "../../../api/staffTag";
 
 	export default {
 		name: "staffAllTasks",
@@ -27,6 +27,7 @@
 
 			saveTaskState(){
 				localStorage.taskState = "tag";
+				this.$router.push('/staffTagFirstTask/staffTagOverview');
 			},
 
 			fetchDataList(){
