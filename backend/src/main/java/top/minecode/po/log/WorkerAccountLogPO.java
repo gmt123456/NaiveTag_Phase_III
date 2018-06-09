@@ -93,4 +93,15 @@ public class WorkerAccountLogPO implements Serializable {
         PAY // 任务结算
     }
 
+    @Override
+    public String toString() {
+        return "WorkerAccountLogPO{" +
+                "id=" + id +
+                ", userEmail='" + userEmail + '\'' +
+                ", dollars=" + dollars +
+                ", balance=" + balance +
+                ", time=" + time +
+                ", type=" + type +
+                '}';
+    }
 }
