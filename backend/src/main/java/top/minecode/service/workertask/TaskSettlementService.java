@@ -17,6 +17,7 @@ import top.minecode.po.worker.FinishedTaskParticipationPO;
 import top.minecode.po.worker.OnGoingTaskParticipationPO;
 import top.minecode.po.worker.SubTaskParticipationPO;
 import top.minecode.po.worker.WorkerPO;
+import top.minecode.service.util.PathUtil;
 import top.minecode.web.common.WebConfig;
 
 import java.io.*;
@@ -81,6 +82,10 @@ public class TaskSettlementService {
 
 
         List<String> participators = taskPO.getParticipators();
+        System.out.println("所有的参与者为：");
+        for (String s: participators) {
+            System.out.println(s);
+        }
         List<WorkerPO> workers = infoDao.getListByEmails(participators);
 
         Map<String, WorkerPO> emailToWorker = workers.stream().collect(Collectors.toMap(WorkerPO::getEmail, e -> e));
@@ -185,7 +190,16 @@ public class TaskSettlementService {
             // 把ongoing 变成 finished
             OnGoingTaskParticipationPO onGoingPO = settlementDao.getOnGoingTaskParticipationPOByEmailAndTaskId(userEmail,
                     taskPO.getId());
-            currentWorker.getOnGoingTaskParticipation().remove(onGoingPO.getId()); // 从已经参与的任务的id集合中删掉
+            System.out.println(WebConfig.getGson().toJson(taskPO));
+            System.out.println(WebConfig.getGson().toJson(onGoingPO));
+     //       currentWorker.getOnGoingTaskParticipation().remove(onGoingPO.getId()); // 从已经参与的任务的id集合中删掉
+            List<Integer> onGoingTaskParticipationIds = currentWorker.getOnGoingTaskParticipation();
+            for (int t = 0; t < onGoingTaskParticipationIds.size(); t++) {
+                if (onGoingTaskParticipationIds.get(t) == onGoingPO.getId()) {
+                    onGoingTaskParticipationIds.remove(t);
+                    break;
+                }
+            }
 
             FinishedTaskParticipationPO finishedPO = new FinishedTaskParticipationPO();
             finishedPO.setParticipatedSubTaskResults(onGoingPO.getParticipatedSubTaskResultIds());
@@ -203,7 +217,7 @@ public class TaskSettlementService {
         TaskResult result = new TaskResult(new ArrayList<>(subResults.values()));
         String filePath = taskPO.getResultFilePath(); // 用来存储标注结果的文件
 
-        File resultFile = new File(filePath);
+        File resultFile = new File(PathUtil.getBasePath() + filePath);
 
         if (!resultFile.exists()) {
             if (!resultFile.createNewFile())
