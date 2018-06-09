@@ -12,10 +12,6 @@
                             <i class="el-icon-menu"></i>
                             <span slot="title">Description</span>
                         </el-menu-item>
-                        <el-menu-item index="about">
-                            <i class="el-icon-info"></i>
-                            <span slot="title">About me</span>
-                        </el-menu-item>
                     </el-menu>
                 </el-col>
                 <el-col :span="19">

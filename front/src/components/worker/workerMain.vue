@@ -49,11 +49,11 @@
                         <span style="color: darkgrey;font-size: 13px;">rank</span>
                         <p></p>
                         <img src="../../../static/dollar.png" width="15px">
-                        <span> {{userInfo.dollars}}</span>
+                        <span> {{userInfo.dollars.toFixed(2)}}</span>
                         <span style="color: darkgrey;font-size: 13px;">dollars</span>
                         <p></p>
                         <img src="../../../static/favorite.png" width="15px">
-                        <span> {{userInfo.score}}</span>
+                        <span> {{userInfo.score.toFixed(0)}}</span>
                         <span style="color: darkgrey;font-size: 13px;">score</span>
                     </el-aside>
 

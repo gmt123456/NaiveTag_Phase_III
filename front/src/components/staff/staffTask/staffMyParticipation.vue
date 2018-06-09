@@ -32,35 +32,20 @@
                                       v-on:before-enter="beforeEnter"
                                       v-on:enter="enter"
                                       name="fadeTask">
-                        <el-col :span="12" v-if="show" v-for="(item, index) in this.myParticipationList" :key="index" v-bind:data-index="index">
-                            <el-card class="task-block" :body-style="{ padding: '0px' }" shadow="hover" style="margin-bottom: 10px;margin-top: 10px;overflow: hidden;height: 120px;">
-                                <el-container>
-                                    <el-aside style="width: 120px;height: 120px;background-color: white">
-                                        <div v-bind:style="{width:'100%',height:'100%','background-image':'url('+getImgSrc(item.cover)+')','background-size':'cover','background-position':'50%'}"></div>
-                                        <!--<img :src="taskCover" width="90px" height="auto" style="margin: 10px;padding-left: 10px;overflow: hidden;">-->
-                                    </el-aside>
-                                    <el-main style="background-color: white;">
-                                        <div style="float: left;">
-                                            <!--<div><el-tag size="mini">{{getTaskNameByID(item.taskType)}}</el-tag></div>-->
-                                            <i class="el-icon-picture-outline"></i>
-                                            <!--<span style="color: gray;font-size: 14px;"></span>-->
-                                            <span style="font-size: 14px">{{item.picCount}}</span>
-                                            <span style="color: #6f7180;font-size: 15px;">{{item.picAmount}}</span>
-                                        </div>
-                                        <div v-if="!item.commitDate" class="center" style="float: right;position:relative;z-index: 2">
-                                            <el-button type="text" style="padding: 0;" @click="startTag(index)">start</el-button>
-                                            <el-button v-if="isShowDetails()" type="primary" size="mini" style="margin-left: 10px;" @click="openDetails(index)">details</el-button>
-                                        </div>
-                                        <!--<div>-->
-                                            <!--<el-progress v-if="item.process === 100" :percentage="100" status="success"></el-progress>-->
-                                            <!--<el-progress v-else :percentage="item.process"></el-progress>-->
-                                        <!--</div>-->
-                                        <!--<div style="text-align: center;color: gray;font-size: 13px;width: 100%;float: bottom">-->
-                                            <!--<div>expired: {{item.expiredDate}}</div>-->
-                                            <!--<div v-if="item.commitDate" style="color: lightgrey">commit: {{item.commitDate}}</div>-->
-                                        <!--</div>-->
-                                    </el-main>
-                                </el-container>
+                        <el-col :span="6" v-if="show" v-for="(item, index) in this.myParticipationList" :key="index" v-bind:data-index="index">
+                            <el-card :body-style="{ padding: '0px' }" style="margin: 0px;margin-top: 10px;margin-bottom: 10px;" shadow="hover">
+                                <div style="width: 100%;height: 134px;">
+                                    <div :style="{width: '100%', height: '100%', 'background-image': 'url('+getImgSrc(item.cover)+')', 'background-size': 'cover', 'background-position': '50%'}"></div>
+                                </div>
+                                <div style="padding: 10px;">
+                                    <i></i>
+                                    <span style="color: gray;font-size: 15px;">pics: </span>
+                                    <span>{{item.picAmount}}</span>
+                                    <div class="center" style="margin-left: 150px;">
+                                        <el-button type="text" style="padding: 0;" @click="startTag(index)">start</el-button>
+                                        <el-button v-if="isShowDetails()" type="primary" size="mini" style="margin-left: 10px;" @click="openDetails(index)">details</el-button>
+                                    </div>
+                                </div>
                             </el-card>
                         </el-col>
                     </transition-group>
