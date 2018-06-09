@@ -46,8 +46,8 @@
                     <el-menu-item v-if="taskData.participated && taskData.participated === true" index="/staffFirstTask/staffSubtasks" style="height: 50px;">Tasks</el-menu-item>
                     <el-menu-item v-if="taskData.participated && taskData.participated === true" index="/staffFirstTask/staffMyparticipation" style="height: 50px;">My Participation</el-menu-item>
                     <!--<el-menu-item index="/worker/task" style="height: 50px;">Rank</el-menu-item>-->
-                    <el-button v-else-if="taskData.participated && taskData.participated === true" type="success" disabled style="float: right;height: 40px;width: 150px;margin-top: 10px;">Already Joined</el-button>
-                    <el-button v-if="taskData.participated && taskData.participated === false" type="primary" style="float: right;height: 40px;width: 150px;margin-top: 10px;" @click="joinHandle">Join Assignment</el-button>
+                    <el-button v-if="taskData.participated && taskData.participated === true" type="success" disabled style="float: right;height: 40px;width: 150px;margin-top: 10px;">Already Joined</el-button>
+                    <el-button v-else type="primary" style="float: right;height: 40px;width: 150px;margin-top: 10px;" @click="joinHandle">Join Assignment</el-button>
                     <!--<el-button v-else type="info" disabled style="float: right;height: 40px;width: 150px;margin-top: 10px;">Cannot Joined</el-button>-->
                 </el-menu>
 

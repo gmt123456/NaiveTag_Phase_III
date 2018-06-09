@@ -101,7 +101,7 @@
 </template>
 
 <script>
-    import divisionPic from '../divisionPic.vue';
+    // import divisionPic from '../divisionPic.vue';
     import {getTaskName} from '../../../api/taskTypeName';
     import {getUrl} from "../../../api/tool";
     // import {taskInfo} from "../../../api/workerTaskInfo";
@@ -174,7 +174,7 @@
 		},
 
         components: {
-	        divisionPic,
+	        // divisionPic,
 	        // biscuits
         },
 
