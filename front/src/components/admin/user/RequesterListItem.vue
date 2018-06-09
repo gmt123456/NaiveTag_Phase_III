@@ -2,7 +2,7 @@
   <el-collapse-item >
     <div slot="title" style="display: flex">
       <el-col :span="2" :offset="2">
-        <img :src="requester.avatar" style="margin-top: 5px;height: 40px">
+        <img :src="getUrl(requester.avatar)" style="margin-top: 5px;height: 40px">
 
       </el-col>
       <el-col :span="13">
@@ -31,10 +31,16 @@
 <script>
   import ModifyDollars from "./ModifyDollars";
   import ModifyPassword from "./ModifyPassword";
+  import {getUrl} from "../../../api/tool";
   export default {
     name: "RequesterListItem",
     components: {ModifyPassword, ModifyDollars},
-    props: ['requester']
+    props: ['requester'],
+    methods:{
+      getUrl(url){
+        return getUrl(url);
+      }
+    }
   }
 </script>
 

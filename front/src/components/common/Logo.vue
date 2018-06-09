@@ -12,7 +12,7 @@
         let path=this.$route.path;
         if (path.includes('requester'))
           this.$router.push("/requester/about");
-        else if (!path.includes('makeNaiveTagGreat')&&path!=='/')
+        else if (!path.includes('makeNaiveTagGreat')&&path!== '/')
           this.$router.push("/about")
       }
     }
