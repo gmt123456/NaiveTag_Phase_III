@@ -16,7 +16,7 @@ public class DateAndValue {
 
     public DateAndValue(Date date, double value) {
         this.date = date;
-        this.value = value;
+        this.value = Math.ceil(value * 100) / 100;
     }
 
     public Date getDate() {
@@ -32,7 +32,7 @@ public class DateAndValue {
     }
 
     public void setValue(double value) {
-        this.value = value;
+        this.value = Math.ceil(value * 100) / 100;
     }
 
     public void setDate(Date date) {

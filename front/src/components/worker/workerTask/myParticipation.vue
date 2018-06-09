@@ -53,7 +53,7 @@
                                         </div>
                                         <div v-else class="center" style="float: right;color: #6f7180;font-size: 15px;padding-top: 5px;">
                                             <img src="../../../../static/dollar.png" width="15px"/>
-                                            {{item.earnedDollors.toFixed(2)}}
+                                            {{item.earnedDollars.toFixed(2)}}
                                             <span style="color: lightgrey;font-size: 12px;padding-left: 5px;">earned</span>
                                         </div>
                                         <div>

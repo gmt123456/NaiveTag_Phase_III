@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class WorkerRecentActivity {
 
-    private List<DateAndValue> dollarsChanges;
+    private List<DateAndValue> dollarChanges;
 
     private List<DateAndValue> scoreChanges;
 
@@ -23,17 +23,17 @@ public class WorkerRecentActivity {
 
     public WorkerRecentActivity(List<DateAndValue> dollarsChanges,
                                 List<DateAndValue> scoreChanges, List<DateAndValue> activity) {
-        this.dollarsChanges = dollarsChanges;
+        this.dollarChanges = dollarsChanges;
         this.scoreChanges = scoreChanges;
         this.activity = activity;
     }
 
     public List<DateAndValue> getDollarsChanges() {
-        return dollarsChanges;
+        return dollarChanges;
     }
 
     public void setDollarsChanges(List<DateAndValue> dollarsChanges) {
-        this.dollarsChanges = dollarsChanges;
+        this.dollarChanges = dollarsChanges;
     }
 
     public List<DateAndValue> getScoreChanges() {
