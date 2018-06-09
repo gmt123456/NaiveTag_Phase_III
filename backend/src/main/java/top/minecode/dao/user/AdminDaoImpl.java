@@ -50,7 +50,7 @@ public class AdminDaoImpl implements AdminDao {
     @Override
     public String getUserType(String identity) {
 
-        AdminPO adminPO = adminOperation.getBySingleField("username", identity);
+        AdminPO adminPO = adminOperation.getBySingleField("userName", identity);
         if (adminPO != null) {
             return "admin";
         }
