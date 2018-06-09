@@ -19,7 +19,7 @@ function AccountInfoFromServer(token, page, pageSize, callback) {
   $.get(getUrl("requester/userInfo/accountInfo.html"), {
       token: token,
       page: page,
-      size: 20,
+      pageSize: 20,
     },
     res => {
       callback(JSON.parse(res))

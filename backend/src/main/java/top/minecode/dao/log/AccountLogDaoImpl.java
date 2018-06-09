@@ -79,8 +79,8 @@ public class AccountLogDaoImpl implements AccountLogDao {
     private List<RequesterAccountLogPO> getAccountLogPOS(String email) {
         RequesterAccountLogPO logPO = new RequesterAccountLogPO();
         String hql = "from " + RequesterAccountLogPO.class.getSimpleName()
-                + " t where t.email=" + email + " order by t.time desc";
+                + " t where t.userEmail=? order by t.time desc";
 
-        return accountOperation.executeSQL(hql);
+        return accountOperation.executeSQL(RequesterAccountLogPO.class, hql, email);
     }
 }

@@ -2,7 +2,7 @@
   <el-collapse-item>
     <div slot="title" style="display: flex">
       <el-col :span="2" :offset="2">
-        <img :src="worker.avatar" style="margin-top: 5px;height: 40px">
+        <img :src="getUrl(worker.avatar)" style="margin-top: 5px;height: 40px">
 
       </el-col>
       <el-col :span="17">
@@ -35,10 +35,16 @@
   import DivisionPic from "../../worker/divisionPic";
   import ModifyDollars from "./ModifyDollars";
   import ModifyPassword from "./ModifyPassword";
+  import {getUrl} from "../../../api/tool";
   export default {
     name: "WorkerListItem",
     components:{ModifyPassword, ModifyDollars, DivisionPic},
-    props: ['worker']
+    props: ['worker'],
+    methods:{
+      getUrl(url){
+        return getUrl(url);
+      }
+    }
   }
 </script>
 
