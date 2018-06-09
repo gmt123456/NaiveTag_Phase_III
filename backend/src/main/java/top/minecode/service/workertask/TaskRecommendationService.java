@@ -67,9 +67,6 @@ public class TaskRecommendationService {
         this.workerVectorDao = workerVectorDao;
     }
 
-    public TaskVectorDao getTaskVectorDao() {
-        return taskVectorDao;
-    }
 
     @Autowired
     public void setTaskVectorDao(TaskVectorDao taskVectorDao) {

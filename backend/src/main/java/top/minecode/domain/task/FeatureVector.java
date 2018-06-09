@@ -22,6 +22,9 @@ public class FeatureVector {
 
 
         List<Double> featureVector = VectorHelper.zeros(TaskTag.values().length + TaskType.values().length);
+
+
+
         return null;
     }
 

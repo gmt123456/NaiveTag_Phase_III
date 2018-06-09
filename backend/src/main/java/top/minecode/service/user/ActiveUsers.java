@@ -12,6 +12,7 @@ import top.minecode.service.util.CacheItem;
 import top.minecode.service.util.SimpleCache;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 
@@ -100,6 +101,20 @@ public class ActiveUsers implements ActiveUserService {
         private ActiveUser(String identity) {
             super(EXPIRE_TIME);
             this.identity = identity;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            ActiveUser that = (ActiveUser) o;
+            return Objects.equals(identity, that.identity);
+        }
+
+        @Override
+        public int hashCode() {
+
+            return Objects.hash(identity);
         }
 
         @Override
