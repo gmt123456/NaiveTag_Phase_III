@@ -23,7 +23,7 @@
             <el-row :gutter="20">
                 <div v-if="myParticipationList.length === 0" class="center" style="width: 900px;justify-content:center;height: 410px;background-color: white;margin-left: 10px;">
                     <div style="display: block;text-align: center;">
-                        <img src="../../../../static/none.png" width="200px"/>
+                        <img src="../../../../../static/none.png" width="200px"/>
                     </div>
                 </div>
 
@@ -43,7 +43,7 @@
                                     <span>{{item.picAmount}}</span>
                                     <div class="center" style="margin-left: 150px;">
                                         <el-button type="text" style="padding: 0;" @click="startTag(index)">start</el-button>
-                                        <el-button v-if="isShowDetails()" type="primary" size="mini" style="margin-left: 10px;" @click="openDetails(index)">details</el-button>
+                                        <!--<el-button v-if="isShowDetails()" type="primary" size="mini" style="margin-left: 10px;" @click="openDetails(index)">details</el-button>-->
                                     </div>
                                 </div>
                             </el-card>
@@ -57,11 +57,11 @@
 </template>
 
 <script>
-    import {getTaskName} from "../../../api/taskTypeName";
-    import {getUrl} from "../../../api/tool";
-    import {checkMyParticipation} from "../../../api/staffCheck";
-    import {checkFirstPicUrl} from "../../../api/staffCheck";
-    import {staffSubTaskDetailsInfo} from "../../../api/staffTask";
+    import {getTaskName} from "../../../../api/taskTypeName";
+    import {getUrl} from "../../../../api/tool";
+    import {checkMyParticipation} from "../../../../api/staffCheck";
+    import {checkFirstPicUrl} from "../../../../api/staffCheck";
+    // import {staffSubTaskDetailsInfo} from "../../../../api/staffTag";
 
     export default {
 		name: "staffMyParticipation",
@@ -142,20 +142,21 @@
 	        },
 
 	        startTag(index){
-				if(localStorage.taskState === 'check'){
-					checkFirstPicUrl(this.myParticipationList[index].subPartId, res =>{
-						this.$router.push({ name: 'staffCheck', params: { taskId: localStorage.firstLevelTaskId, subPartId: this.myParticipationList[index].subPartId, taskType: this.myParticipationList[index].taskType, picUrl: res}});
-					});
-                }
-		        else{
-					staffSubTaskDetailsInfo(localStorage.firstLevelTaskId, this.myParticipationList[index].subTaskId, this.myParticipationList[index].taskType, res =>{
-						let url;
-						if(res.unFinishedPicList && res.unFinishedPicList.length > 0){
-							url = res.unFinishedPicList[0];
-						}
-						this.$router.push({ name: 'staffTag', params: { taskId: localStorage.firstLevelTaskId, subPartId: this.myParticipationList[index].subPartId, taskType: this.myParticipationList[index].taskType, picUrl: url}});
-					});
-                }
+		        checkFirstPicUrl(this.myParticipationList[index].subPartId, res =>{
+			        this.$router.push({ name: 'staffCheck', params: { taskId: localStorage.firstLevelTaskId, subPartId: this.myParticipationList[index].subPartId, taskType: this.myParticipationList[index].taskType, picUrl: res}});
+		        });
+                // if(localStorage.taskState === 'check'){
+					//
+                // }
+                // else{
+					// staffSubTaskDetailsInfo(localStorage.firstLevelTaskId, this.myParticipationList[index].subTaskId, this.myParticipationList[index].taskType, res =>{
+					// 	let url;
+					// 	if(res.unFinishedPicList && res.unFinishedPicList.length > 0){
+					// 		url = res.unFinishedPicList[0];
+					// 	}
+					// 	this.$router.push({ name: 'staffTag', params: { taskId: localStorage.firstLevelTaskId, subPartId: this.myParticipationList[index].subPartId, taskType: this.myParticipationList[index].taskType, picUrl: url}});
+					// });
+                // }
 	        },
 
 	        beforeEnter: function (el) {

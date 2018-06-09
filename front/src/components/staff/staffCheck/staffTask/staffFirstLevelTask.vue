@@ -17,7 +17,7 @@
 
                         <el-aside width="150px" height="170px" style="background-color: rgba(0,0,0,0.3);">
                             <div class="center" style="padding-bottom:20px;padding-top: 50px;">
-                                <img src="../../../../static/dollar_white.png" height="25px">
+                                <img src="../../../../../static/dollar_white.png" height="25px">
                                 <span style="color: white;font-weight: 500;font-size: 20px;">{{taskData.totalDollars.toFixed(2)}}</span>
                             </div>
                             <!--<div class="center" v-if="taskData.state === 'Finished'" style="padding-left: 3px;">-->
@@ -67,8 +67,8 @@
 </template>
 
 <script>
-    import {checkTaskInfo} from "../../../api/staffCheck";
-    import {checkTaskJoin} from "../../../api/staffCheck";
+    import {checkTaskInfo} from "../../../../api/staffCheck";
+    import {checkTaskJoin} from "../../../../api/staffCheck";
 
     export default {
 		name: "staffTaskPageI",

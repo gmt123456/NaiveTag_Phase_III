@@ -31,7 +31,7 @@
                                 <el-card  :body-style="{ padding: '3px' }" style="width: 400px;margin-top: 10px;padding-bottom: 10px;">
                                     <div>
                                         <div class="center" style="padding-bottom: 5px;">
-                                            <img src="../../../../static/sale-fill.png" width="20px"/>
+                                            <img src="../../../../../static/sale-fill.png" width="20px"/>
                                             <span style="color: darkgray;font-size: 13px;">Tags</span>
                                         </div>
                                         <el-tag v-if="show" size="small" v-for="(item, index) in taskData.taskTags" :key="index" type="success" style="margin-left: 6px;">{{item}}</el-tag>
@@ -40,7 +40,7 @@
                                 <el-card  :body-style="{ padding: '3px' }" style="width: 400px;margin-top: 10px;padding-bottom: 10px;">
                                     <div>
                                         <div class="center" style="padding-bottom: 5px;">
-                                            <img src="../../../../static/sale-fill.png" width="20px"/>
+                                            <img src="../../../../../static/sale-fill.png" width="20px"/>
                                             <span style="color: darkgray;font-size: 13px;">Types</span>
                                         </div>
                                         <el-tag v-if="show" size="small" v-for="(item, index) in taskData.taskTypes" :key="index" type="primary" style="margin-left: 6px;">{{getTaskNameByID(item)}}</el-tag>
@@ -62,21 +62,21 @@
                     <div v-else style="width: 100%;min-height: 420px;padding: 20px;">
                         <div v-if="taskData.participated && taskData.state === 'Finished'">
                             <div style="color: darkgray;padding-top: 10px;padding-bottom: 10px;" class="center"><span style="color: black;padding-right: 8px;font-weight: bold;">Score</span>changes through the task:
-                                <img src="../../../../static/favorite.png" width="15px" style="padding-left: 10px;"/>
+                                <img src="../../../../../static/favorite.png" width="15px" style="padding-left: 10px;"/>
                                 <span style="color: black;font-weight: normal;">{{taskData.earnedDollars.toFixed(2)}}</span>
                             </div>
                             <div style="color: darkgray;padding-top: 10px;padding-bottom: 10px;" class="center"><span style="color: black;padding-right: 8px;font-weight: bold;">Dollars</span>you earned from the task:
-                                <img src="../../../../static/dollar.png" width="15px" style="padding-left: 10px;"/>
+                                <img src="../../../../../static/dollar.png" width="15px" style="padding-left: 10px;"/>
                                 <span style="color: black;font-weight: normal;">{{taskData.earnedDollars.toFixed(2)}}</span>
                             </div>
                             <div style="color: darkgray;" class="center">
                                 <!--<biscuits v-bind:earned="this.taskData.earnedDollars" v-bind:rest="this.taskData.totalDollars - this.taskData.earnedDollars"></biscuits>-->
-                                <img src="../../../../static/background/bg_gif.gif"/>
+                                <img src="../../../../../static/background/bg_gif.gif"/>
                             </div>
                         </div>
                         <div v-else class="center" style="width: 650px;justify-content:center;height: 350px;">
                             <div style="display: block;text-align: center;">
-                                <img src="../../../../static/none.png" width="200px"/>
+                                <img src="../../../../../static/none.png" width="200px"/>
                                 <div v-if="taskData.participated && taskData.state === 'Going'" style="color: darkgray;font-size: 15px;">
                                     <div>You have joined it</div>
                                     <div>Please wait for the end of the whole Task!</div>
@@ -98,8 +98,8 @@
 
 <script>
     // import divisionPic from '../divisionPic.vue';
-    import {getTaskName} from '../../../api/taskTypeName';
-    import {getUrl} from "../../../api/tool";
+    import {getTaskName} from '../../../../api/taskTypeName';
+    import {getUrl} from "../../../../api/tool";
     // import {taskInfo} from "../../../api/workerTaskInfo";
 
     export default {

@@ -38,13 +38,19 @@ import StaffAllCheck from '../components/staff/staffHome/staffAllCheck.vue'
 import StaffMyCheck from '../components/staff/staffHome/staffMyCheck.vue'
 import StaffAllTasks from '../components/staff/staffHome/staffAllTasks.vue'
 import StaffMyTasks from '../components/staff/staffHome/staffMyTasks.vue'
-import StaffFirstLevelTask from '../components/staff/staffTask/staffFirstLevelTask.vue'
-import StaffOverview from '../components/staff/staffTask/staffOverview.vue'
-import StaffSubTask from '../components/staff/staffTask/staffSubTasks.vue'
-import StaffMyParticipation from '../components/staff/staffTask/staffMyParticipation.vue'
+
 import StaffCheck from '../components/staff/staffCheck/staffCheckPage.vue'
+import StaffCheckFirstLevelTask from '../components/staff/staffCheck/staffTask/staffFirstLevelTask.vue'
+import StaffCheckOverview from '../components/staff/staffCheck/staffTask/staffOverview.vue'
+import StaffCheckSubTask from '../components/staff/staffCheck/staffTask/staffSubTasks.vue'
+import StaffCheckMyParticipation from '../components/staff/staffCheck/staffTask/staffMyParticipation.vue'
+
 import StaffTag from '../components/staff/staffTag/staffTagPage.vue'
-import StaffSubTaskDetails from '../components/staff/staffTask/staffSubTasksDetails.vue'
+import StaffTagSubTaskDetails from '../components/staff/staffTag/staffTask/staffSubTasksDetails.vue'
+import StaffTagFirstLevelTask from '../components/staff/staffTag/staffTask/staffFirstLevelTask.vue'
+import StaffTagOverview from '../components/staff/staffTag/staffTask/staffOverview.vue'
+import StaffTagSubTask from '../components/staff/staffTag/staffTask/staffSubTasks.vue'
+import StaffTagMyParticipation from '../components/staff/staffTag/staffTask/staffMyParticipation.vue'
 
 import Introduction from '../components/index/Introduction.vue';
 
@@ -97,18 +103,26 @@ export default new Router({
 
           ]
         },
+	      {
+		      path: '/staffCheckFirstTask', component: StaffCheckFirstLevelTask,
+		      children: [
+			      {path: 'staffCheckOverview', component: StaffCheckOverview},
+			      {path: 'staffCheckSubTasks', component: StaffCheckSubTask},
+			      {path: 'staffCheckMyParticipation', component: StaffCheckMyParticipation},
+		      ]
+	      },
         {
-          path: '/staffFirstTask', component: StaffFirstLevelTask,
+          path: '/staffTagFirstTask', component: StaffTagFirstLevelTask,
           children: [
-            {path: 'staffOverview', component: StaffOverview},
-            {path: 'staffSubtasks', component: StaffSubTask},
-            {path: 'staffMyparticipation', component: StaffMyParticipation},
+            {path: 'staffTagOverview', component: StaffTagOverview},
+            {path: 'staffTagSubTasks', component: StaffTagSubTask},
+            {path: 'staffTagMyParticipation', component: StaffTagMyParticipation},
           ]
         },
 
-	      {path: '/staffSubTaskDetails/:taskId/:subTaskId/:taskType', name: 'staffSubTaskDetails', component: StaffSubTaskDetails},
+	      {path: '/staffSubTaskDetails/:taskId/:subTaskId/:taskType', name: 'staffSubTaskDetails', component: StaffTagSubTaskDetails},
         {path: '/staffCheck/:taskId/:subPartId/:taskType/:picUrl', component: StaffCheck, name: 'staffCheck'},
-        {path: '/staffTag/:taskId/:subPartId/:taskType/:picUrl', component: StaffTag, name: 'staffTag'},
+        {path: '/staffTag/:taskId/:subTaskId/:taskType/:picUrl', component: StaffTag, name: 'staffTag'},
       ]
     },
 

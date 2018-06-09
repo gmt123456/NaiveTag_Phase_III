@@ -132,109 +132,59 @@ export function checkFirstPicUrl(subPartId, callback) {
 	});
 }
 
-
-export function staffSubTaskDetailsInfo(taskId, subTaskId, taskType, callback) {
-	// subTaskDetailsInfoMock(taskId, subTaskId, getTaskIdToServer(taskType), callback);
-
-	let url = 'staff/subTask/details.html';
-
-	$.get(getUrl(url), {
-		token: localStorage.token,
-		taskId: taskId,
-		subTaskId: subTaskId,
-		taskType: getTaskIdToServer(taskType),
-	}, function (res) {
-		callback(JSON.parse(res));
-	});
-}
-
-export function staffAcceptSubTask(taskId, subTaskId, taskType, callback) {
-	// acceptSubTaskMock(taskId, subTaskId, getTaskIdToServer(taskType), callback);
-
-	let url = 'staff/subTask/accept.html';
-
-	$.get(getUrl(url), {
-		token: localStorage.token,
-		taskId: taskId,
-		subTaskId: subTaskId,
-		taskType: getTaskIdToServer(taskType),
-	}, function (res) {
-		callback(JSON.parse(res));
-	});
-}
-
-export function staffCommitSubTask(taskId, subTaskId, taskType, callback) {
-
-	// callback(JSON.parse(JSON.stringify({
-	// 	result: true,
-	// 	description: "xxxx",
-	// })));
-
-	let url = 'staff/subTask/commit.html';
-
-	$.get(getUrl(url), {
-		token: localStorage.token,
-		taskId: taskId,
-		subTaskId: subTaskId,
-		taskType: getTaskIdToServer(taskType),
-	}, function (res) {
-		callback(JSON.parse(res));
-	});
-}
-
 //访问某个check小任务的下一张图片
 export function checkTaskNextPicUrl(subPartId, callback) {
 
-  // callback("");
+	// callback("");
 
-  let url = 'staff/subCheck/more.html';
+	let url = 'staff/subCheck/more.html';
 
-  $.get(getUrl(url), {
-    token: localStorage.token,
-    subPartId: subPartId,
-  }, function (res) {
-    callback(res);
-  });
+	$.get(getUrl(url), {
+		token: localStorage.token,
+		subPartId: subPartId,
+	}, function (res) {
+		callback(res);
+	});
 }
 
 //获取图片的标注信息
 export function checkTaskLabelInfo(subPartId, picUrl, callback) {
 
-  // callback(JSON.parse(JSON.stringify({
-  // 	"label": "(○｀ 3′○)",
-  // 	"frames":[
-  // 	],
-  // 	"tagType":"t_101",
-  // 	//若能画，points必有
-  // 	"points":[
-  // 	],
-  // })));
+	// callback(JSON.parse(JSON.stringify({
+	// 	"label": "(○｀ 3′○)",
+	// 	"frames":[
+	// 	],
+	// 	"tagType":"t_101",
+	// 	//若能画，points必有
+	// 	"points":[
+	// 	],
+	// })));
 
-  let url = 'staff/subCheck/label.html';
+	let url = 'staff/subCheck/label.html';
 
-  $.get(getUrl(url), {
-    token: localStorage.token,
-    subPartId: subPartId,
-    url: picUrl,
-  }, function (res) {
-    callback(JSON.parse(res));
-  });
+	$.get(getUrl(url), {
+		token: localStorage.token,
+		subPartId: subPartId,
+		url: picUrl,
+	}, function (res) {
+		callback(JSON.parse(res));
+	});
 }
 
 //给标注结果评分
 export function checkTaskMark(subPartId, picUrl, accept, callback) {
 
-  // callback("ok");
+	// callback("ok");
 
-  let url = 'staff/subCheck/mark.html';
+	let url = 'staff/subCheck/mark.html';
 
-  $.get(getUrl(url), {
-    token: localStorage.token,
-    subPartId: subPartId,
-    url: picUrl,
-    accept: accept,
-  }, function (res) {
-    callback(res);
-  });
+	$.get(getUrl(url), {
+		token: localStorage.token,
+		subPartId: subPartId,
+		url: picUrl,
+		accept: accept,
+	}, function (res) {
+		callback(res);
+	});
 }
 

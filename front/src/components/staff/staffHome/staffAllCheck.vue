@@ -27,6 +27,7 @@
 
 			saveTaskState(){
 				localStorage.taskState = "check";
+				this.$router.push('/staffCheckFirstTask/staffCheckOverview');
             },
 
 			fetchDataList(){
