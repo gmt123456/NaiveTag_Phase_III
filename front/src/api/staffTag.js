@@ -6,7 +6,7 @@ export function allTasks(callback) {
 	// workerUnfinishMock(callback);
 
 	$.ajax({
-		url: getUrl('staff/check/index.html'),
+		url: getUrl('staff/task/index.html'),
 		type: 'GET',
 		data: {
 			'token': localStorage.token,
@@ -22,7 +22,7 @@ export function myTasks(callback) {
 	// workerUnfinishMock(callback);
 
 	$.ajax({
-		url: getUrl('staff/check/myParticipation.html'),
+		url: getUrl('staff/task/ongoing.html'),
 		type: 'GET',
 		data: {
 			'token': localStorage.token,

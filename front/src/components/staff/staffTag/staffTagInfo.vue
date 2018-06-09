@@ -394,7 +394,7 @@
 
 		methods: {
 			back(){
-				this.$router.push("/staffFirstTask/staffMyparticipation");
+				this.$router.push("/staffTagFirstTask/staffTagMyParticipation");
 			},
 
 			updatePic: function (picUrl) {
@@ -452,24 +452,24 @@
 			checkNext: function () {
 				if(this.isRectsTypeNoLabel){
 					if(this.frames.length === 0){
-						this.$message.error('请填写至少一个标注信息！');
+						this.$message.error('Please fill in at least one label information!');
 						return false;
 					}else if(this.frames[this.frames.length - 1].label){
 						return true;
 					}else{
-						this.$message.error('有标注信息未填写！');
+						this.$message.error('The label information is not filled in!');
 						return false;
 					}
 				}else{
 					if(!this.isRectsTypeNoLabel && this.getTagTypeNum != 400 && (this.labelSelect === null && this.labelInput.length === 0)){
-						this.$message.error('请填写标注信息！');
+						this.$message.error('Please fill in the label information!');
 						return false;
 					}
 					if(this.isCanvasType){
 						if(this.points && this.points.length > 0){
 							return true;
 						}else{
-							this.$message.error('请画出标注区域！');
+							this.$message.error('Please draw the marked area!');
 							return false;
 						}
 					}
@@ -593,7 +593,7 @@
 					this.endPoint.x = event.offsetX;
 					this.endPoint.y = event.offsetY;
 				}else{
-					this.$message.error('有标注信息未填写！');
+					this.$message.error('The label information is not filled in!');
 				}
 
 			},
