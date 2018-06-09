@@ -175,4 +175,25 @@ public class SubTaskParticipationPO implements Serializable {
     public void setEarnedDollars(double earnedDollars) {
         this.earnedDollars = earnedDollars;
     }
+
+    @Override
+    public String toString() {
+        return "SubTaskParticipationPO{" +
+                "id=" + id +
+                ", taskId=" + taskId +
+                ", subTaskId=" + subTaskId +
+                ", email='" + email + '\'' +
+                ", subTaskType=" + subTaskType +
+                ", cover='" + cover + '\'' +
+                ", picAmount=" + picAmount +
+                ", errorRate=" + errorRate +
+                ", accept=" + accept +
+                ", evaluated=" + evaluated +
+                ", earnedDollars=" + earnedDollars +
+                ", tags=" + tags +
+                ", state=" + state +
+                ", expiredDate=" + expiredDate +
+                ", commitDate=" + commitDate +
+                '}';
+    }
 }

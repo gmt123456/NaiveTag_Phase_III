@@ -47,7 +47,7 @@ public class SubTaskParticipation {
     public static SubTaskParticipation fromPO(SubTaskParticipationPO po) {
         System.out.println("SubTaskPart id : " + po.getSubTaskId());
         Double earnedDollars = null;
-        if (!po.isEvaluated())
+        if (po.isEvaluated())
             earnedDollars = po.getEarnedDollars();
         int process = po.getTags().keySet().size() / po.getPicAmount() * 100;
         return new SubTaskParticipation(po.getCover(), po.getExpiredDate(), po.getCommitDate(),
