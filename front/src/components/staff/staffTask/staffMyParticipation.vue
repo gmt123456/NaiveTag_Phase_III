@@ -59,8 +59,8 @@
 <script>
     import {getTaskName} from "../../../api/taskTypeName";
     import {getUrl} from "../../../api/tool";
-    import {checkMyParticipation} from "../../../api/staffTask";
-    import {checkFirstPicUrl} from "../../../api/staffTask";
+    import {checkMyParticipation} from "../../../api/staffCheck";
+    import {checkFirstPicUrl} from "../../../api/staffCheck";
     import {staffSubTaskDetailsInfo} from "../../../api/staffTask";
 
     export default {

@@ -42,10 +42,10 @@
 
 <script>
     import {getTaskName} from "../../../api/taskTypeName";
-    import {checkAcceptSubTask} from "../../../api/staffTask";
+    import {checkAcceptSubTask} from "../../../api/staffCheck";
     import {getUrl} from "../../../api/tool";
-    import {checkSubTaskInfo} from "../../../api/staffTask";
-    import {staffAcceptSubTask} from "../../../api/staffTask";
+    import {checkSubTaskInfo} from "../../../api/staffCheck";
+    import {staffAcceptSubTask} from "../../../api/staffCheck";
 
     export default {
 	    name: "staffSubTasks",

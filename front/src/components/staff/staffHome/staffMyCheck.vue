@@ -7,7 +7,7 @@
 
 <script>
 	import taskList from '../staffTaskList.vue';
-	import {myCheck} from "../../../api/staffTask";
+	import {myCheck} from "../../../api/staffCheck";
 
 	export default {
 		name: "staffMyCheck",

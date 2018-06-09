@@ -67,8 +67,8 @@
 </template>
 
 <script>
-    import {checkTaskInfo} from "../../../api/staffTask";
-    import {checkTaskJoin} from "../../../api/staffTask";
+    import {checkTaskInfo} from "../../../api/staffCheck";
+    import {checkTaskJoin} from "../../../api/staffCheck";
 
     export default {
 		name: "staffTaskPageI",

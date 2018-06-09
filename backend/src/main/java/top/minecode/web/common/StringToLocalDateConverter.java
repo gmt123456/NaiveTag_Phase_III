@@ -20,6 +20,6 @@ import java.util.Date;
 public class StringToLocalDateConverter implements Converter<String, LocalDate> {
     @Override
     public LocalDate convert(String s) {
-        return LocalDate.parse("2018-06-01");
+        return LocalDate.parse(s);
     }
 }

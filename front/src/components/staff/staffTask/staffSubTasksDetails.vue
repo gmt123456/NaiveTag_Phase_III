@@ -88,9 +88,9 @@
 <script>
 
     import {staffSubTaskDetailsInfo} from "../../../api/staffTask";
-    import {staffAcceptSubTask} from "../../../api/staffTask";
-    import {checkAcceptSubTask} from "../../../api/staffTask";
-    import {staffCommitSubTask} from "../../../api/staffTask";
+    import {staffAcceptSubTask} from "../../../api/staffCheck";
+    import {checkAcceptSubTask} from "../../../api/staffCheck";
+    import {staffCommitSubTask} from "../../../api/staffCheck";
 	import {getUrl} from "../../../api/tool";
 
 	export default {
