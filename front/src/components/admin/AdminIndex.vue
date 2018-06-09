@@ -116,30 +116,34 @@
       },
       handleAdd() {
         this.$refs['addForm'].validate((valid) => {
-          if (this.addStuffVisible) {
-            addStuff(this.username,this.password,res=>{
-              if (res.status==='success'){
-                this.dialogShow=false;
-                this.$message({
-                  type:'success',
-                  message:'Add stuff successfully'
-                })
-              } else {
-                this.$message.error(res.message);
-              }
-            });
-          } else if (this.addAdminVisible) {
-            addAdmin(this.username,this.password,res=>{
-              if (res.status==='success'){
-                this.dialogShow=false;
-                this.$message({
-                  type:'success',
-                  message:'Add admin successfully'
-                })
-              } else {
-                this.$message.error(res.message);
-              }
-            });
+          if (valid) {
+            if (this.addStuffVisible) {
+              console.log('stuff')
+              addStuff(this.addForm.username, this.addForm.password, res => {
+                if (res.status === 'success') {
+                  this.dialogShow = false;
+                  this.$message({
+                    type: 'success',
+                    message: 'Add stuff successfully'
+                  })
+                } else {
+                  this.$message.error(res.message);
+                }
+              });
+            } else if (this.addAdminVisible) {
+              console.log('admin')
+              addAdmin(this.addForm.username, this.addForm.password, res => {
+                if (res.status === 'success') {
+                  this.dialogShow = false;
+                  this.$message({
+                    type: 'success',
+                    message: 'Add admin successfully'
+                  })
+                } else {
+                  this.$message.error(res.message);
+                }
+              });
+            }
           }
         })
       }

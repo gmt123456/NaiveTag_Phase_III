@@ -74,7 +74,7 @@ export function addAdmin(newAdminName, password, callback) {
 }
 
 function addAdminToServer(newAdminName, password, callback) {
-  $.post(getUrl('inside/new/admin'), {
+  $.post(getUrl('inside/new/admin.html'), {
     token: localStorage.token,
     newAdminName: newAdminName,
     password: password
@@ -88,7 +88,8 @@ export function addStuff(email, password, callback) {
 }
 
 function addStuffToServer(email,password,callback) {
-  $.post(getUrl('admin/newStaff'), {
+  console.log('ADD')
+  $.post(getUrl('inside/new/staff.html'), {
     token: localStorage.token,
     email: email,
     password: password

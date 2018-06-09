@@ -15,7 +15,16 @@ function validateFromServer(email, password, userType, callback) {
 }
 
 export function insiderLogin(email, password, callback) {
-  mockInsider(email, password, callback)
+  insiderLoginFromServer(email, password, callback)
+}
+
+function insiderLoginFromServer(username,password,callback) {
+  $.get(getUrl('inside/login.html'), {
+    username: username,
+    password: password
+  }, function (result) {
+    callback(JSON.parse(result))
+  })
 }
 
 
