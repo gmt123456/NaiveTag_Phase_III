@@ -20,14 +20,14 @@
                                 <img src="../../../../static/dollar_white.png" height="25px">
                                 <span style="color: white;font-weight: 500;font-size: 20px;">{{taskData.totalDollars.toFixed(2)}}</span>
                             </div>
-                            <div class="center" v-if="taskData.state === 'Finished'" style="padding-left: 3px;">
-                                <img src="../../../../static/complete.png" height="20px">
-                                <span style="padding-left: 3px;color: white;font-weight: lighter;font-size: 14px;">Finished</span>
-                            </div>
-                            <div class="center" v-if="taskData.state === 'Going'" style="padding-left: 3px;">
-                                <img src="../../../../static/unfinished.png" height="20px">
-                                <span style="padding-left: 3px;color: white;font-weight: lighter;font-size: 14px;">Going</span>
-                            </div>
+                            <!--<div class="center" v-if="taskData.state === 'Finished'" style="padding-left: 3px;">-->
+                                <!--<img src="../../../../static/complete.png" height="20px">-->
+                                <!--<span style="padding-left: 3px;color: white;font-weight: lighter;font-size: 14px;">Finished</span>-->
+                            <!--</div>-->
+                            <!--<div class="center" v-if="taskData.state === 'Going'" style="padding-left: 3px;">-->
+                                <!--<img src="../../../../static/unfinished.png" height="20px">-->
+                                <!--<span style="padding-left: 3px;color: white;font-weight: lighter;font-size: 14px;">Going</span>-->
+                            <!--</div>-->
                         </el-aside>
 
                     </el-container>
@@ -46,9 +46,9 @@
                     <el-menu-item v-if="taskData.participated && taskData.participated === true" index="/staffFirstTask/staffSubtasks" style="height: 50px;">Tasks</el-menu-item>
                     <el-menu-item v-if="taskData.participated && taskData.participated === true" index="/staffFirstTask/staffMyparticipation" style="height: 50px;">My Participation</el-menu-item>
                     <!--<el-menu-item index="/worker/task" style="height: 50px;">Rank</el-menu-item>-->
-                    <el-button v-if="taskData.canAccept" type="primary" style="float: right;height: 40px;width: 150px;margin-top: 10px;" @click="joinHandle">Join Assignment</el-button>
-                    <el-button v-else-if="taskData.participated" type="success" disabled style="float: right;height: 40px;width: 150px;margin-top: 10px;">Already Joined</el-button>
-                    <el-button v-else type="info" disabled style="float: right;height: 40px;width: 150px;margin-top: 10px;">Cannot Joined</el-button>
+                    <el-button v-if="taskData.participated && taskData.participated === true" type="success" disabled style="float: right;height: 40px;width: 150px;margin-top: 10px;">Already Joined</el-button>
+                    <el-button v-else type="primary" style="float: right;height: 40px;width: 150px;margin-top: 10px;" @click="joinHandle">Join Assignment</el-button>
+                    <!--<el-button v-else type="info" disabled style="float: right;height: 40px;width: 150px;margin-top: 10px;">Cannot Joined</el-button>-->
                 </el-menu>
 
             </div>

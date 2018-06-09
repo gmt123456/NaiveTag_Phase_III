@@ -32,7 +32,7 @@
                 if (res.userType==='admin'){
                   this.$router.push('/makeNaiveTagGreatAgain/worker');
                 } else {
-                  this.$.router.push('/staff/allCheck')
+                  this.$router.push('/staff/allCheck')
                 }
                 localStorage.token=res.token;
               } else {

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import top.minecode.domain.utils.AuthenticationResultMessage;
 import top.minecode.service.user.AdminAuthenticationService;
 import top.minecode.web.common.BaseController;
 
@@ -17,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author Liao
  */
 @Controller
-@RequestMapping("inside")
+@RequestMapping("/inside")
 public class AdminAuthenticationController extends BaseController {
 
     private AdminAuthenticationService authenticationService;
@@ -36,7 +37,7 @@ public class AdminAuthenticationController extends BaseController {
     @RequestMapping("/login")
     @ResponseBody
     public String login(@RequestParam("username") String username, @RequestParam("password") String password) {
-        return gson.toJson(authenticationService.login(username, password));
+        return gson.toJson((AuthenticationResultMessage) authenticationService.login(username, password), AuthenticationResultMessage.class);
     }
 
     @RequestMapping("/new/admin")

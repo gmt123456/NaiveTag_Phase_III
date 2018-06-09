@@ -8,14 +8,14 @@
                         <span style="margin-left: 20px;color: white;">{{myParticipationList.length}} Assignments Matched</span>
                     </el-main>
                     <el-aside style="width: 150px;background-color: transparent;">
-                        <el-select v-model="value" placeholder="请选择" size="mini" @change="fetchData" style="margin-top: 13px;width: 100px;">
-                            <el-option
-                                    v-for="item in options"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                            </el-option>
-                        </el-select>
+                        <!--<el-select v-model="value" placeholder="请选择" size="mini" @change="fetchData" style="margin-top: 13px;width: 100px;">-->
+                            <!--<el-option-->
+                                    <!--v-for="item in options"-->
+                                    <!--:key="item.value"-->
+                                    <!--:label="item.label"-->
+                                    <!--:value="item.value">-->
+                            <!--</el-option>-->
+                        <!--</el-select>-->
                     </el-aside>
                 </el-container>
             </div>

@@ -78,10 +78,10 @@ public class StaffTaskCheckService {
     public TaskCheckSpecification getTaskSpecification(String email, int taskId) {
         TaskPO taskPO = taskDao.getTaskById(taskId);
         StaffPO staffPO = staffDao.getStaffByEmail(email);
-        TaskCheckSpecification specification = new TaskCheckSpecification(Task.fromPO(taskPO), false,
+        TaskCheckSpecification specification = new TaskCheckSpecification(Task.fromPO(taskPO), true,
                 taskPO.getReadme(), taskPO.getBackgroundImage());
         if(!staffPO.getParticipatedTaskEvaluations().keySet().contains(taskId))
-            specification.setParticipated(true);
+            specification.setParticipated(false);
         return specification;
     }
 
