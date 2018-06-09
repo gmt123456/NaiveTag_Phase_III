@@ -158,9 +158,15 @@
 		        	let newDollarChanges = [{
 		        		date: '2015-1-1',
                         value: 0
-                    }].concat(res.dollarChanges);
+                    },{
+				        date: '2016-1-1',
+				        value: 0
+			        }].concat(res.dollarChanges);
 			        let newScoreChanges = [{
 				        date: '2015-1-1',
+				        value: 0
+			        },{
+				        date: '2016-1-1',
 				        value: 0
 			        }].concat(res.scoreChanges);
 			        that.userChanges.activity = that.getDataList(res.activity);

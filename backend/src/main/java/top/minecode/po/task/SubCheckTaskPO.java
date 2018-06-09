@@ -65,7 +65,7 @@ public class SubCheckTaskPO {
         this.sampledTags = new HashMap<>();
         this.picAccept = new HashMap<>();
         this.checkTaskState = SubCheckTaskState.unaccepted;
-        if (requirement == TaskRequirement.EFFICIENCY) {
+        if (requirement == TaskRequirement.SPEED) {
             this.acceptRate = 0.6;
         } else if (requirement == TaskRequirement.COMMON) {
             this.acceptRate = 0.8;

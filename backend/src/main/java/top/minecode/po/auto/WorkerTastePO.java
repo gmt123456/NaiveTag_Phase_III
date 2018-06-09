@@ -10,10 +10,10 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static top.minecode.domain.task.TaskTag.*;
+import static top.minecode.domain.task.TaskType.*;
 
 /**
  * Created on 2018/5/26.

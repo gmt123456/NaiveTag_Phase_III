@@ -15,15 +15,6 @@ public class PayCommand {
     private double advertisementDollars;
     private String userEmail;
     private PriorityOptions priorityOptions;
-    private String taskRequirement;
-
-    public String getTaskRequirement() {
-        return taskRequirement;
-    }
-
-    public void setTaskRequirement(String taskRequirement) {
-        this.taskRequirement = taskRequirement;
-    }
 
     public PriorityOptions getPriorityOptions() {
         return priorityOptions;
