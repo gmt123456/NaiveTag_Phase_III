@@ -32,7 +32,7 @@
          <el-container>
            <el-aside>
            <div style="width: 100px; margin-top: 30px; margin-left: 80px">
-             <el-progress type="circle" :percentage="Number(taskSketch.process)*100" :width="120"></el-progress>
+             <el-progress type="circle" v-if="taskSketch.process!==undefined" :percentage="Number(taskSketch.process)*100" :width="120"></el-progress>
              <el-button v-bind:disabled="taskSketch.state!=='finished'" icon="el-icon-download" style="margin-top: 15px"> download</el-button>
            </div>
            </el-aside>
@@ -145,7 +145,6 @@
         })
       },
       handleReadmeSubmit: function () {
-        console.log('submit');
         this.$confirm('Your changes will be saved', 'prompt', {
           confirmButtonText: 'confirm',
           cancelButtonText: 'cancel',
@@ -194,6 +193,8 @@
       });
 
       getReadme(this.taskId, res => {
+        console.log('getReadMe');
+        console.log(res);
         this.readMe = res;
         this.editInput = res;
       });

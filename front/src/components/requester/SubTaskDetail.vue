@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-bottom: 100px">
+  <div style="margin-bottom: 100px" v-if="task">
     <div style="display: flex">
       <div style="width: 560px">
         <h3>Description</h3>

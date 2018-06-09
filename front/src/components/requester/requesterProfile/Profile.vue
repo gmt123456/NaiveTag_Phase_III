@@ -3,7 +3,7 @@
     <div class="top-container">
       <div class="bottom-container" style="width: 100%">
         <div class="top">
-          <img :src="main.avatar" style="width: 170px"/>
+          <img :src="getUrl(main.avatar)" style="width: 170px"/>
           <div class="text-container" style="margin-left: 30px">
             <div style="margin-top: 20px">
               <span style="font-weight: bold">{{main.name}} <el-button type="text" style="padding: 0;margin-left: 20px"
@@ -67,6 +67,7 @@
   import {changeName, getRequesterMain, recharge, changePassword} from "../../../api/requesterDetail";
   import AccountChangeList from "./AccountChangeList";
   import ImgWithLabel from "../ImgWithLabel";
+  import {getUrl} from "../../../api/tool";
 
   export default {
     name: "profile",
@@ -108,6 +109,9 @@
       }
     },
     methods: {
+      getUrl(url) {
+        return getUrl(url);
+      },
       resetForm() {
         this.passWordForm = {
           oldPassword: '',
@@ -122,6 +126,7 @@
             type: 'success',
             message: message
           });
+          this.refresh();
         } else {
           this.$message.error(res.message);
         }
@@ -136,7 +141,7 @@
           inputErrorMessage: 'The dollars should be a nonnegative value'
         }).then(({value}) => {
           recharge(value, res => {
-           this.callback(res, 'Recharge successfully!')
+            this.callback(res, 'Recharge successfully!')
           })
         });
       },
@@ -156,17 +161,21 @@
             changePassword(this.passWordForm.oldPassword, this.passWordForm.newPassword, res => {
               this.callback(res, 'Change password successfully!');
               if (res.status === 'success') {
-                  this.changePasswordVisible=false;
+                this.changePasswordVisible = false;
+                this.refresh();
               }
             })
           }
         })
+      },
+      refresh() {
+        getRequesterMain(localStorage.token, res => {
+          this.main = res;
+        })
       }
     },
     created: function () {
-      getRequesterMain(localStorage.token, res => {
-        this.main = res;
-      })
+      this.refresh();
     }
   }
 </script>

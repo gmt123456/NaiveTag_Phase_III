@@ -14,7 +14,7 @@
                                 <div style="color: white;font-weight: lighter;font-size: 14px;margin-top: 20px;">end at {{detailsData.endDate}}</div>
                             </el-main>
                             <el-aside style="background-color: rgba(0,0,0,0.3);height: 170px;overflow: hidden;width: 180px;">
-                                <img src="../../../../static/subtask.png" height="170px" width="auto"/>
+                                <img src="../../../../../static/subtask.png" height="170px" width="auto"/>
                             </el-aside>
 
                         </el-container>
@@ -87,11 +87,11 @@
 
 <script>
 
-    import {staffSubTaskDetailsInfo} from "../../../api/staffTask";
-    import {staffAcceptSubTask} from "../../../api/staffTask";
-    import {checkAcceptSubTask} from "../../../api/staffTask";
-    import {staffCommitSubTask} from "../../../api/staffTask";
-	import {getUrl} from "../../../api/tool";
+    import {staffSubTaskDetailsInfo} from "../../../../api/staffTag";
+    import {staffAcceptSubTask} from "../../../../api/staffTag";
+    import {checkAcceptSubTask} from "../../../../api/staffCheck";
+    import {staffCommitSubTask} from "../../../../api/staffTag";
+	import {getUrl} from "../../../../api/tool";
 
 	export default {
 
@@ -156,25 +156,25 @@
 			accept(){
 				let that = this;
 				this.loadingAccept = true;
-				if(localStorage.taskState === 'check'){
-					checkAcceptSubTask(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, res =>{
-						if(res.result === true){
-							that.$message.success("accept success! Good Luck~(￣▽￣)");
-							that.fetchData();
-						}else{
-							that.$message.error("accept fail！（；´д｀）ゞ");
-						}
-					});
-				}else{
-					staffAcceptSubTask(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, res =>{
-						if(res.result === true){
-							that.$message.success("accept success! Good Luck~(￣▽￣)");
-							that.fetchData();
-						}else{
-							that.$message.error("accept fail！（；´д｀）ゞ");
-						}
-					});
-                }
+				checkAcceptSubTask(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, res =>{
+					if(res.result === true){
+						that.$message.success("accept success! Good Luck~(￣▽￣)");
+						that.fetchData();
+					}else{
+						that.$message.error("accept fail！（；´д｀）ゞ");
+					}
+				});
+                // if(localStorage.taskState === 'check'){
+                // }else{
+					// staffAcceptSubTask(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, res =>{
+					// 	if(res.result === true){
+					// 		that.$message.success("accept success! Good Luck~(￣▽￣)");
+					// 		that.fetchData();
+					// 	}else{
+					// 		that.$message.error("accept fail！（；´д｀）ゞ");
+					// 	}
+					// });
+                // }
 				this.loadingAccept = false;
 			},
 

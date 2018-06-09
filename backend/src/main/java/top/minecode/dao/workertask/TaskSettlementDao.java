@@ -45,9 +45,11 @@ public class TaskSettlementDao {
 
     public List<TaskPO> getCanSettledTasks() {
         // 提前已经完成的任务或者到期的任务
-        String queryFinishedTasks = "select * from " + TaskPO.class.getName() + " t where t.taskState = " + TaskState.ON_GOING
-                + " and ((not exists(select * from " + SubTaskPO.class.getName() + " subT where subT.subTaskState <> "
-                + SubTaskState.FINISHED + ")) or t.endDate <= " + new Date().toString() +  ")";
+        java.sql.Date date = new java.sql.Date(new Date().getTime());
+        String queryFinishedTasks = "select t from " + TaskPO.class.getName() + " t where t.taskState = '" + TaskState.ON_GOING.toString()
+                + "' and ((not exists(select subT from " + SubTaskPO.class.getName() + " subT where subT.subTaskState <> "
+                + (1 + SubTaskState.FINISHED.ordinal()) + " and subT.taskId = t.id))) or t.endDate <= '" + date.toString() +  "')";
+        System.out.println(queryFinishedTasks);
         return taskHelper.executeSQL(queryFinishedTasks);
     }
 
@@ -56,7 +58,7 @@ public class TaskSettlementDao {
     }
 
     public OnGoingTaskParticipationPO getOnGoingTaskParticipationPOByEmailAndTaskId(String email, int taskId) {
-        String hql = "select * from " + OnGoingTaskParticipationPO.class.getName() + " t where t.taskId = " + taskId + " and "
+        String hql = "select t from " + OnGoingTaskParticipationPO.class.getName() + " t where t.taskId = " + taskId + " and "
                  + "t.userEmail = " + email;
         return onGoingTaskParticipationHelper.executeHQL(hql);
     }
@@ -82,8 +84,10 @@ public class TaskSettlementDao {
     }
 
     public List<SubTaskParticipationPO> getExpiredSubTaskParticipationPOS() {
-        String sql = "select * from " + SubTaskParticipationPO.class.getName() + " t where t.commitDate is null and t.expiredDate < "
-                + new Date().toString();
+        java.sql.Date date = new java.sql.Date(new Date().getTime());
+        String sql = "select t from " + SubTaskParticipationPO.class.getName() + " t where t.commitDate is null and t.expiredDate < '"
+                + date.toString() + "'";
+        System.out.println(sql);
         return subTaskParticipationHelper.executeSQL(sql);
     }
 
@@ -93,6 +97,14 @@ public class TaskSettlementDao {
 
     public List<SubTaskPO> getSubTasksByIds(List<Integer> ids) {
         return subTaskHelper.getListBySingleField("id", ids);
+    }
+
+    public static void main(String[] args) {
+        TaskSettlementDao settlementDao = new TaskSettlementDao();
+        List<SubTaskParticipationPO> expiredPart = settlementDao.getExpiredSubTaskParticipationPOS();
+        for (SubTaskParticipationPO po: expiredPart) {
+            System.out.println(po);
+        }
     }
 
 }

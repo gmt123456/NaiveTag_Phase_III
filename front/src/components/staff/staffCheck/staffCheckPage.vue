@@ -56,7 +56,7 @@
 					checkTaskNextPicUrl(that.$route.params.subPartId, res2=> {
 
 						if(res2.toString().length === 0){
-							that.$router.push("/staffFirstTask/staffMyparticipation");
+							that.$router.push("/staffCheckFirstTask/staffCheckMyParticipation");
 						}else{
 							that.tagPicReflash(res2);
 						}

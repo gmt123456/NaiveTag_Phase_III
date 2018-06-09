@@ -71,7 +71,7 @@ public class RequesterTaskController extends BaseController {
         return taskService.getReadme(taskId);
     }
 
-    @RequestMapping("/editReadMe")
+    @RequestMapping("/editReadme")
     @ResponseBody
     public String editReadMe(@RequestParam("readme") String readme, @RequestParam("taskId") int taskId) {
         return gson.toJson(taskService.editReadme(taskId, readme));
