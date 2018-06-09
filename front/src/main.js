@@ -18,7 +18,9 @@ window.jQuery = jQuery;
 
 
 window.onunload = function () {
-  localStorage.clear();
+  if (event.clientX > document.body.clientWidth && event.clientY < 0 || event.altKey) {
+    localStorage.clear();
+  }
 };
 
 router.beforeEach((to, from, next) => {

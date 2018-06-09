@@ -26,7 +26,9 @@ export function getReadme(taskId, callback) {
 
 function readmeFromServer(taskId,callback) {
   $.get(getUrl('requester/task/readme.html'), {taskId: taskId},
-    res => callback(JSON.parse(res)));
+    res => {
+      callback(res)
+    });
 
 }
 
@@ -37,7 +39,7 @@ export function editReadme(taskId, content, callback) {
 
 
 function editReadmeFromServer(taskId,content,callback) {
-  $.post(getUrl('requester/task/editReadme.html'), {taskId: taskId,content:content},
+  $.post(getUrl('requester/task/editReadme.html'), {taskId: taskId,readme:content},
     res => callback(JSON.parse(res)));
 
 }

@@ -36,6 +36,16 @@
           </el-select>
         </el-form-item>
 
+        <el-form-item label="Mode" class="colorful-label">
+          <el-select v-model="taskForm.taskRequirement">
+            <el-option v-for="(item,key) in defaultTaskRequirement"
+                       :value="item"
+                       :key="key">
+
+            </el-option>
+          </el-select>
+        </el-form-item>
+
         <el-form-item label="Task Cover" class="colorful-label">
           <el-button @click="uploadCover=true" class="upload-cover"
                      v-bind:style="{'background-image':'url('+taskForm.cover+')'}"></el-button>
@@ -140,7 +150,7 @@
       <div>
         <div style="text-align: center">
 
-          <p> <i class="el-icon-success" style="color: forestgreen" ></i> You have created the task successfully  </p>
+          <p><i class="el-icon-success" style="color: forestgreen"></i> You have created the task successfully </p>
         </div>
 
       </div>
@@ -213,6 +223,7 @@
         addSubTaskVisible: false,
         defaultDivisions: [],
         orderInfo: '',
+        defaultTaskRequirement: ['common', 'speed', 'quality'],
 
         taskForm: {
           tags: [],
@@ -223,6 +234,7 @@
           file: '',
           deadLine: '',
           lowestDivision: '',
+          taskRequirement: ''
         },
         orderForm: {
           status: String,
@@ -292,7 +304,7 @@
         if (this.$refs.taskForm) {
           this.$refs.taskForm.clearValidate();
         }
-        if(this.$refs.order){
+        if (this.$refs.order) {
           this.$refs.order.clearValidate();
         }
         this.activeIndex = 0;
@@ -306,9 +318,10 @@
           file: '',
           deadLine: '',
           lowestDivision: this.defaultDivisions[0],
+          taskRequirement: ''
         };
 
-        this.orderForm={
+        this.orderForm = {
           status: String,
           orderId: '',
           extractFee: 0,
@@ -350,17 +363,17 @@
         })
       },
       payOrder: function () {
-        let pointer =this;
+        let pointer = this;
         this.$refs.order.validate((valid) => {
           if (valid) {
             this.orderForm.status = "accept";
-            this.orderForm.orderId=this.orderInfo.orderId;
-            this.orderForm.dollars=Number(this.orderInfo.payLowerBound)+Number(this.orderForm.extractFee);
-            payOrder(this.orderForm,function(res){
-              if(res.status!=='success'){
+            this.orderForm.orderId = this.orderInfo.orderId;
+            this.orderForm.dollars = Number(this.orderInfo.payLowerBound) + Number(this.orderForm.extractFee);
+            payOrder(this.orderForm, function (res) {
+              if (res.status !== 'success') {
                 pointer.$message.error(res.message);
-              }else{
-                this.activeIndex=2;
+              } else {
+                pointer.activeIndex = 2;
               }
             })
           }

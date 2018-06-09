@@ -10,7 +10,7 @@
       </el-col>
       <el-col :span="6">
         <div style="float: right">
-          <span ><b>{{requester.tasksNum}} </b>tasks have been released</span>
+          <span ><b>{{requester.tasksNum}} </b>task(s) have been released</span>
         </div>
       </el-col>
     </div>

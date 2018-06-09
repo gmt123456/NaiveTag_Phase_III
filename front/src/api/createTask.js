@@ -13,27 +13,16 @@ export function payOrder(order, callback) {
 }
 
 function payToServer(order, callback) {
-  let formData = new FormData();
-  formData.append('token', localStorage.token);
-  formData.append('status', order.status);
-  formData.append('orderId', order.orderId);
-  formData.append('dollars', order.dollars);
-  formData.append('advertisementDollars', String(order.adFee));
+  $.get(getUrl('requester/new/pay.html'), {
+    token: localStorage.token,
+    status: order.status,
+    orderId: order.orderId,
+    dollars: order.dollars,
+    advertisementDollars: order.adFee
+  }, res => {
+    callback(JSON.parse(res));
+  });
 
-  console.log(localStorage.token);
-  console.log(order);
-
-
-  $.ajax({
-    url: getUrl('requester/new/pay.html'),
-    type: 'POST',
-    data: formData,
-    processData: false,
-    contentType: false,
-    success: function (res) {
-      callback(res);
-    }
-  })
 
 }
 
@@ -54,6 +43,7 @@ function submitTaskToServer(taskForm, callback) {
   formData.append('readme', taskForm.description);
   formData.append('deadline', taskForm.deadLine);
   formData.append('lowestDivision', taskForm.lowestDivision);
+  formData.append('taskRequirement', taskForm.taskRequirement);
 
   $.ajax({
     url: getUrl('requester/new/taskOrder.html'),
@@ -90,8 +80,8 @@ function mockDefaultInfo(callback) {
 }
 
 
-function getTaskInfoFromServer(callback){
-  $.get(getUrl('requester/new/info.html'),function(res){
+function getTaskInfoFromServer(callback) {
+  $.get(getUrl('requester/new/info.html'), function (res) {
     callback(JSON.parse(res));
   })
 }
