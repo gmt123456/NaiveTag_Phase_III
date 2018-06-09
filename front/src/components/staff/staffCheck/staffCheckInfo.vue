@@ -396,7 +396,7 @@
 
 		methods: {
 			back(){
-				this.$router.push("/staffFirstTask/staffMyparticipation");
+				this.$router.push("/staffCheckFirstTask/staffCheckMyParticipation");
 			},
 
 			updatePic: function (picUrl) {

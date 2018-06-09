@@ -131,7 +131,7 @@
 	        },
 
 	        openDetails(index){
-		        this.$router.push({name: 'staffSubTaskDetails', params: {taskId: this.taskData.taskId, subTaskId: this.myParticipationList[index].subPartId, taskType: this.myParticipationList[index].taskType}});
+		        this.$router.push({name: 'staffCheckSubTaskDetails', params: {taskId: this.taskData.taskId, subPartId: this.myParticipationList[index].subPartId, taskType: this.myParticipationList[index].taskType}});
 	        },
 
 	        fetchData(state){
