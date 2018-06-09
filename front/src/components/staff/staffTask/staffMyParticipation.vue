@@ -107,6 +107,10 @@
 			this.fetchData(0);
 		},
 
+        mounted() {
+	        this.show = true;
+        },
+
         methods: {
 
 			isShowDetails(){
@@ -134,7 +138,6 @@
 				let that = this;
 		        checkMyParticipation(localStorage.firstLevelTaskId, state, res => {
 			        that.myParticipationList = res;
-			        that.show = true;
 		        })
 	        },
 

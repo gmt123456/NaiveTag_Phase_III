@@ -126,6 +126,10 @@
 			this.fetchData(0);
 		},
 
+        mounted() {
+	        this.show = true;
+        },
+
         methods: {
 
 			getImgSrc(src){
@@ -145,7 +149,6 @@
 				let that = this;
 		        myParticipation(localStorage.firstLevelTaskId, state, res => {
 			        that.myParticipationList = res;
-			        that.show = true;
 		        })
 	        },
 
