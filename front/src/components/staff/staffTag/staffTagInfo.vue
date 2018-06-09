@@ -394,7 +394,9 @@
 
 		methods: {
 			back(){
-				this.$router.push("/staffTagFirstTask/staffTagMyParticipation");
+				this.$router.push({ name: 'staffSubTaskDetails', params: { taskId: localStorage.firstLevelTaskId, subTaskId: this.$route.params.subTaskId, taskType: this.$route.params.taskType}});
+
+				// this.$router.push("/staffTagFirstTask/staffTagMyParticipation");
 			},
 
 			updatePic: function (picUrl) {
