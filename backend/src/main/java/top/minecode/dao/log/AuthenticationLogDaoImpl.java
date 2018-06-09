@@ -35,7 +35,7 @@ public class AuthenticationLogDaoImpl implements AuthenticationLogDao {
         String hql = "from LoginLogPO log where log.userEmail=? order by log.loginTime desc";
         List<LoginLogPO> result = loginOperation.executeSQL(LoginLogPO.class, hql, userEmail);
         if (result.size() <= 1)
-            return null;
+            return result.get(0);
         return result.get(1);
     }
 }
