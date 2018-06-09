@@ -53,9 +53,9 @@
                             </div></el-col>
 
                             <el-col :span="24"><div style="width: 90%;">
-                                <div style="font-weight: bold;padding-top: 20px;padding-bottom: 10px;">Required Division</div>
-                                <division-pic v-bind:division="taskData.requiredDivision" size="100px" style="padding-left: 20px;"></division-pic>
-                                <div style="color: gray;font-size: 13px;display: inline;">{{"Your division needs to exceed the " + taskData.requiredDivision + " to get the job."}}</div>
+                                <!--<div style="font-weight: bold;padding-top: 20px;padding-bottom: 10px;">Required Division</div>-->
+                                <!--<division-pic v-bind:division="taskData.requiredDivision" size="100px" style="padding-left: 20px;"></division-pic>-->
+                                <!--<div style="color: gray;font-size: 13px;display: inline;">{{"Your division needs to exceed the " + taskData.requiredDivision + " to get the job."}}</div>-->
                                 <div style="font-weight: bold;padding-top: 20px;padding-bottom: 10px;">Description</div>
                                 <div style="color: gray;font-size: 14px;padding-bottom: 50px;">{{taskData.taskBackground}}</div>
                             </div></el-col>
