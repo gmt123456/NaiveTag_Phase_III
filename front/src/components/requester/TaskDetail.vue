@@ -1,6 +1,6 @@
 <template>
   <div style="min-width: 900px; max-width: 70%; margin: auto">
-    <div class="top" :style="{'background-image':'url('+taskSketch.backgroundImage+')'}">
+    <div class="top" :style="{'background-image':'url('+getUrl(taskSketch.backgroundImage)+')'}">
       <el-col :span="13" :offset="1" style="height: 170px">
         <div class="text-box" style="height: 100%">
           <h3>{{taskSketch.title}}</h3>
@@ -105,6 +105,7 @@
   import {convertTypeToString} from "../../api/taskType";
   import SubTaskDetail from "./SubTaskDetail";
   import ImgWithLabel from "./ImgWithLabel";
+  import {getUrl} from "../../api/tool";
 
   export default {
     name: "TaskDetail",
@@ -129,6 +130,9 @@
       }
     },
     methods: {
+      getUrl(url){
+        return getUrl(url);
+      },
       handleReadmeCancel: function () {
         this.$confirm('Your changes will be revoked', 'prompt', {
           confirmButtonText: 'confirm',

@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-col :span="4" :offset="1">
-      <img style="width: 60px; height: 60px" :src="contributor.avatar">
+      <img style="width: 60px; height: 60px" :src="getUrl(contributor.avatar)">
 
     </el-col>
     <el-col :span="6">
@@ -22,10 +22,16 @@
 <script>
   import DivisionPic from "../worker/divisionPic";
   import ImgWithLabel from "./ImgWithLabel";
+  import {getUrl} from "../../api/tool";
   export default {
     name: "ContributorItem",
     components: {ImgWithLabel,DivisionPic},
-    props:['contributor']
+    props:['contributor'],
+    methods:{
+      getUrl(url){
+        return getUrl(url);
+      },
+    }
   }
 </script>
 

@@ -38,7 +38,7 @@
                                     <div :style="{width: '100%', height: '100%', 'background-image': 'url('+getImgSrc(item.cover)+')', 'background-size': 'cover', 'background-position': '50%'}"></div>
                                 </div>
                                 <div style="padding: 10px;">
-                                    <i></i>
+                                    <i class="el-icon-picture-outline"></i>
                                     <span style="color: gray;font-size: 15px;">pics: </span>
                                     <span>{{item.picAmount}}</span>
                                     <div class="center" style="margin-left: 150px;">
@@ -107,6 +107,10 @@
 			this.fetchData(0);
 		},
 
+        mounted() {
+	        this.show = true;
+        },
+
         methods: {
 
 			isShowDetails(){
@@ -134,7 +138,6 @@
 				let that = this;
 		        checkMyParticipation(localStorage.firstLevelTaskId, state, res => {
 			        that.myParticipationList = res;
-			        that.show = true;
 		        })
 	        },
 

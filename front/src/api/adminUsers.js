@@ -5,12 +5,14 @@ export function getWorkers(page, pageSize, callback) {
 }
 
 function getWorkersFromServer(page, pageSize, callback) {
-  $.get(getUrl('admin/workers.html', {
+
+  $.get(getUrl('admin/workers.html'), {
     page: page,
     pageSize: pageSize
   }, res => {
+
     callback(JSON.parse(res));
-  }))
+  })
 }
 
 export function getRequester(page, pageSize, callback) {
