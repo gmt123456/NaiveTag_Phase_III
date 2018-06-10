@@ -2,21 +2,17 @@ package top.minecode.service.workertask;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import top.minecode.dao.worker.RankDao;
 import top.minecode.dao.worker.WorkerInfoDao;
 import top.minecode.dao.workertask.TaskSettlementDao;
 import top.minecode.domain.tag.SubTaskResult;
 import top.minecode.domain.tag.TaskResult;
-import top.minecode.domain.task.SubTask;
-import top.minecode.domain.task.SubTaskParticipationState;
-import top.minecode.domain.task.SubTaskState;
-import top.minecode.domain.task.TaskType;
+import top.minecode.domain.task.*;
 import top.minecode.domain.utils.Pair;
 import top.minecode.po.task.SubTaskPO;
 import top.minecode.po.task.TaskPO;
-import top.minecode.po.worker.FinishedTaskParticipationPO;
-import top.minecode.po.worker.OnGoingTaskParticipationPO;
-import top.minecode.po.worker.SubTaskParticipationPO;
-import top.minecode.po.worker.WorkerPO;
+import top.minecode.po.worker.*;
+import top.minecode.service.util.PathUtil;
 import top.minecode.web.common.WebConfig;
 
 import java.io.*;
@@ -35,6 +31,17 @@ public class TaskSettlementService {
     private WorkerInfoDao infoDao;
 
     private TaskSettlementDao settlementDao;
+
+    private RankDao rankDao;
+
+    public RankDao getRankDao() {
+        return rankDao;
+    }
+
+    @Autowired
+    public void setRankDao(RankDao rankDao) {
+        this.rankDao = rankDao;
+    }
 
     public WorkerInfoDao getInfoDao() {
         return infoDao;
@@ -60,10 +67,13 @@ public class TaskSettlementService {
         for (TaskPO taskPO: waitingForSettledTasks)
             settleTask(taskPO);
 
-        expireSubParts(); // 让子任务过期掉
+        boolean debug = true;
+
+        if (waitingForSettledTasks.size() > 0 || debug)
+            updateRank();
     }
 
-    private void expireSubParts() {
+    public void expireSubParts() {
         List<SubTaskParticipationPO> expiredParticipation = settlementDao.getExpiredSubTaskParticipationPOS();
         for (SubTaskParticipationPO po: expiredParticipation) {
             po.setState(SubTaskParticipationState.EXPIRED);
@@ -81,6 +91,10 @@ public class TaskSettlementService {
 
 
         List<String> participators = taskPO.getParticipators();
+        System.out.println("所有的参与者为：");
+        for (String s: participators) {
+            System.out.println(s);
+        }
         List<WorkerPO> workers = infoDao.getListByEmails(participators);
 
         Map<String, WorkerPO> emailToWorker = workers.stream().collect(Collectors.toMap(WorkerPO::getEmail, e -> e));
@@ -185,9 +199,20 @@ public class TaskSettlementService {
             // 把ongoing 变成 finished
             OnGoingTaskParticipationPO onGoingPO = settlementDao.getOnGoingTaskParticipationPOByEmailAndTaskId(userEmail,
                     taskPO.getId());
-            currentWorker.getOnGoingTaskParticipation().remove(onGoingPO.getId()); // 从已经参与的任务的id集合中删掉
+            System.out.println(WebConfig.getGson().toJson(taskPO));
+            System.out.println(WebConfig.getGson().toJson(onGoingPO));
+     //       currentWorker.getOnGoingTaskParticipation().remove(onGoingPO.getId()); // 从已经参与的任务的id集合中删掉
+            List<Integer> onGoingTaskParticipationIds = currentWorker.getOnGoingTaskParticipation();
+            for (int t = 0; t < onGoingTaskParticipationIds.size(); t++) {
+                if (onGoingTaskParticipationIds.get(t) == onGoingPO.getId()) {
+                    onGoingTaskParticipationIds.remove(t);
+                    break;
+                }
+            }
 
             FinishedTaskParticipationPO finishedPO = new FinishedTaskParticipationPO();
+            finishedPO.setTaskId(taskPO.getId());
+            finishedPO.setUserEmail(userEmail);
             finishedPO.setParticipatedSubTaskResults(onGoingPO.getParticipatedSubTaskResultIds());
             finishedPO.setAcceptedPicAmount(userInfo.r.r);
             finishedPO.setScoreChange(scoreChange);
@@ -203,7 +228,7 @@ public class TaskSettlementService {
         TaskResult result = new TaskResult(new ArrayList<>(subResults.values()));
         String filePath = taskPO.getResultFilePath(); // 用来存储标注结果的文件
 
-        File resultFile = new File(filePath);
+        File resultFile = new File(PathUtil.getBasePath() + filePath);
 
         if (!resultFile.exists()) {
             if (!resultFile.createNewFile())
@@ -214,11 +239,33 @@ public class TaskSettlementService {
         printWriter.write(WebConfig.getGson().toJson(result));
         printWriter.close(); // 写进了文件里面
 
+        taskPO.setTaskState(TaskState.FINISHED);
+
         // 保存在上述过程中发生了变更的po
         settlementDao.batchUpdateWorkerInfo(workers);
         settlementDao.updateTaskPO(taskPO);
         settlementDao.batchUpdateSubPart(subTaskParticipationPOS);
 
+    }
+
+    private void updateRank() {
+        List<RankPO> allRanks = rankDao.getAll();
+        List<WorkerPO> workers = infoDao.getAll();
+        Map<String, RankPO> emailToRank = allRanks.stream().collect(Collectors.toMap(RankPO::getUserEmail, e -> e));
+        workers.sort(Comparator.comparingDouble(WorkerPO::getScore));
+        for (int i = 0; i < workers.size(); i++) {
+            WorkerPO worker = workers.get(workers.size() - i - 1);
+            String email = worker.getEmail();
+            String avatar = worker.getAvatar();
+            double score = worker.getScore();
+            String userName = worker.getName();
+            RankPO rank = emailToRank.get(email);
+            rank.setAvatar(avatar);
+            rank.setRank(i + 1);
+            rank.setUserName(userName);
+            rank.setScore(score);
+        }
+        rankDao.batchUpdate(allRanks);
     }
 
 

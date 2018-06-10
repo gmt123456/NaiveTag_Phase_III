@@ -13,7 +13,10 @@
                     <el-menu-item index="/staff/allTasks" style="height: 55px;">AllTasks</el-menu-item>
                     <el-menu-item index="/staff/myTasks" style="height: 55px;">MyTasks</el-menu-item>
                 </el-menu>
-                <el-button type="text" style="color: lightgrey;margin: 15px;" @click="signOut">Sign out</el-button>
+                <div style="width: 322px;">
+
+                </div>
+                <el-button type="text" style="color: lightgrey;margin-left: 15px;" @click="signOut">Sign out</el-button>
             </div>
         </div></el-col>
 
@@ -46,9 +49,9 @@
 			        cancelButtonText: 'no',
 			        type: 'info'
 		        }).then(() => {
-			        workerSignOut(() => {
-			        	this.$router.push("/");
-			        })
+			        // workerSignOut(() => {
+			        	this.$router.push("/makeNaiveTagGreat");
+			        // })
 		        }).catch(() => {
 
 		        });

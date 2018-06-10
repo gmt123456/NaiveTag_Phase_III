@@ -83,9 +83,7 @@ public class WorkerInfoService {
     }
 
     public List<Rank> getRankTable() {
-        List<Rank> ranks = rankDao.getRanks().stream().map(Rank::convert).collect(Collectors.toList());
-        Collections.sort(ranks);
-        return ranks;
+        return rankDao.getRanks().stream().map(Rank::convert).collect(Collectors.toList());
     }
 
     public WorkerBasicInfo getBasicInfo(String email) {
@@ -116,6 +114,9 @@ public class WorkerInfoService {
 
     private List<DateAndValue> getDollarChanges(String email) {
         List<WorkerAccountLogPO> accountLogs = workerLogDao.getAccountLogByEmail(email);
+        System.out.println("获取dollars changes！");
+        for (WorkerAccountLogPO logPO: accountLogs)
+            System.out.println(logPO);
         List<DateAndValue> target = new ArrayList<>();
         for (WorkerAccountLogPO accountLog: accountLogs) {
             Date current = accountLog.getTime();

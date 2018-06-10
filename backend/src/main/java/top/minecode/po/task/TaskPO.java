@@ -86,6 +86,8 @@ public class TaskPO implements Serializable {
     }
 
     public void addActualDollars(double dollars) {
+        if (this.actualDollars == null)
+            actualDollars = 0.0;
         this.actualDollars += dollars;
     }
 

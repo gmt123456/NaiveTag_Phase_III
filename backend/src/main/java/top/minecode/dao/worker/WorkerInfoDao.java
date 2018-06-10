@@ -74,7 +74,7 @@ public class WorkerInfoDao {
     }
 
     public List<WorkerPO> getListByEmails(List<String> emails) {
-        return workerPOHelper.getListBySingleField("email", emails);
+        return workerPOHelper.getValuesInSpecificSet(emails, "email");
     }
 
     public List<WorkerCommitmentLog> getWorkerCommitment(String email) {
