@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created on 2018/5/16.
@@ -260,6 +261,19 @@ public class TaskPO implements Serializable {
 
     public void setPrizeRate(double prizeRate) {
         this.prizeRate = prizeRate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TaskPO taskPO = (TaskPO) o;
+        return id == taskPO.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override

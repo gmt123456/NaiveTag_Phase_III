@@ -1,13 +1,17 @@
 package top.minecode.dao.worker;
 
+import org.hibernate.Query;
 import org.springframework.stereotype.Service;
 import top.minecode.dao.utils.CommonOperation;
 import top.minecode.domain.task.Task;
+import top.minecode.domain.user.worker.WorkerCommitmentLog;
 import top.minecode.po.worker.FinishedTaskParticipationPO;
 import top.minecode.po.worker.OnGoingTaskParticipationPO;
 import top.minecode.po.worker.WorkerPO;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created on 2018/5/19.
@@ -73,5 +77,43 @@ public class WorkerInfoDao {
         return workerPOHelper.getListBySingleField("email", emails);
     }
 
+    public List<WorkerCommitmentLog> getWorkerCommitment(String email) {
+        String hql = "select new top.minecode.domain.user.worker.WorkerCommitmentLog( " +
+                " cast(count(t) as int), max(t.commitTime), t.taskId, p.joinTime) " +
+                " from TaskCommitmentLogPO t, JoinTaskLogPO p where t.userEmail=:mail " +
+                " and p.userEmail = p.userEmail and p.taskId=t.taskId group by t.taskId, p.joinTime";
 
+        return CommonOperation.template(session -> {
+            Query query = session.createQuery(hql);
+            query.setParameter("mail", email);
+            //noinspection unchecked
+            return (List<WorkerCommitmentLog>) query.list();
+        });
+    }
+
+    /**
+     *
+     * @param email worker's email
+     * @return worker's speed: commitment times per day
+     * @throws ArithmeticException if any worker's speed is Nan
+     */
+    private double getWorkerCommitmentSpeed(String email) {
+        List<WorkerCommitmentLog> commitmentLogs = getWorkerCommitment(email);
+        return commitmentLogs.stream().mapToDouble(WorkerCommitmentLog::getSpeed)
+                .average().orElseThrow(ArithmeticException::new);
+    }
+
+    public double getWorkerSpeedRankRate(String email) {
+        String hql = "select t.email from WorkerPO t where t.email<>?";
+        List<String> emails = CommonOperation.executeSQL(String.class, hql, email);
+
+        List<Double> otherSpeeds = emails.stream().map(this::getWorkerSpeedRankRate).sorted().collect(Collectors.toList());
+        double thisSpeed = getWorkerCommitmentSpeed(email);
+        for (int i = 0; i < otherSpeeds.size(); i++) {
+            if (thisSpeed < otherSpeeds.get(i))
+                return (i + 1) * 1. / (otherSpeeds.size() + 1);
+        }
+
+        return 1. / otherSpeeds.size();  // Means the first
+    }
 }

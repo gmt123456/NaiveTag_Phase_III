@@ -13,23 +13,17 @@ import java.util.List;
  * Description:
  * @author Liao
  */
-public class FeatureVector {
+public class FeatureVector<T> {
 
-    private final String identity;
+    private final T identity;
     private final List<Double> vector;
 
-    public static FeatureVector fromTaskPO(TaskPO taskPO) {
-        List<Double> featureVector = TaskVectorPO.fromTaskPO(taskPO).getVector();
-
-        return new FeatureVector(Integer.toString(taskPO.getId()), featureVector);
-    }
-
-    public FeatureVector(String identity, List<Double> vector) {
+    public FeatureVector(T identity, List<Double> vector) {
         this.identity = identity;
         this.vector = vector;
     }
 
-    public String getIdentity() {
+    public T getIdentity() {
         return identity;
     }
 
@@ -37,15 +31,4 @@ public class FeatureVector {
         return vector;
     }
 
-    public FeatureVector add(double weight, FeatureVector other, double otherWeight) {
-        if (vector.size() != other.vector.size() || !identity.equals(other.identity))
-            throw new IllegalArgumentException("Vector's size are not equal");
-
-        List<Double> newVector = new ArrayList<>();
-        for (int i = 0; i < vector.size(); i++) {
-            newVector.add(vector.get(i) * weight + other.vector.get(i) * otherWeight);
-        }
-
-        return new FeatureVector(identity, newVector);
-    }
 }

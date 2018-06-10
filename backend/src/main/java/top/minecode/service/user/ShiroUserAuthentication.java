@@ -9,12 +9,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import top.minecode.dao.auto.WorkerTasteDao;
 import top.minecode.dao.auto.WorkerVectorDao;
 import top.minecode.dao.log.AuthenticationLogDao;
 import top.minecode.dao.user.UserDao;
 import top.minecode.dao.worker.RankDao;
 import top.minecode.domain.user.UserType;
 import top.minecode.domain.utils.ResultMessage;
+import top.minecode.po.auto.WorkerTastePO;
 import top.minecode.po.auto.WorkerVectorPO;
 import top.minecode.po.worker.RankPO;
 import top.minecode.service.util.Encryptor;
@@ -43,6 +45,12 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
     private AuthenticationLogDao authenticationLogDao;
     private RankDao rankDao;
     private WorkerVectorDao workerVectorDao;
+    private WorkerTasteDao workerTasteDao;
+
+    @Autowired
+    public void setWorkerTasteDao(WorkerTasteDao workerTasteDao) {
+        this.workerTasteDao = workerTasteDao;
+    }
 
     @Autowired
     public void setWorkerVectorDao(WorkerVectorDao workerVectorDao) {
@@ -154,8 +162,10 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
     }
 
     private void insertWorkerVector(String email) {
-        // TODO: 2018/6/7 insert worker taste and view po
+
+        WorkerTastePO tastePO = new WorkerTastePO(email);
         WorkerVectorPO workerVectorPO = WorkerVectorPO.fromWorkerEmail(email);
         workerVectorDao.add(workerVectorPO);
+        workerTasteDao.addTastePO(tastePO);
     }
 }

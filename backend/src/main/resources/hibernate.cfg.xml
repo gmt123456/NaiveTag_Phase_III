@@ -17,39 +17,40 @@
         <property name="hibernate.id.new_generator_mappings">false</property>
         <property name="hbm2ddl.auto">update</property>
 
-        <mapping class="top.minecode.po.admin.AdminPO" />
+        <mapping class="top.minecode.po.admin.AdminPO"/>
 
-        <mapping class="top.minecode.po.requester.RequesterPO" />
+        <mapping class="top.minecode.po.requester.RequesterPO"/>
 
-        <mapping class="top.minecode.po.task.SpecificTaskPO" />
-        <mapping class="top.minecode.po.task.TaskPO" />
-        <mapping class="top.minecode.po.task.SubTaskPO" />
+        <mapping class="top.minecode.po.task.SpecificTaskPO"/>
+        <mapping class="top.minecode.po.task.TaskPO"/>
+        <mapping class="top.minecode.po.task.SubTaskPO"/>
 
-        <mapping class="top.minecode.po.log.RegisterLogPO" />
-        <mapping class="top.minecode.po.log.LoginLogPO" />
-        <mapping class="top.minecode.po.log.ReleaseTaskLogPO" />
-        <mapping class="top.minecode.po.log.RequesterAccountLogPO" />
-        <mapping class="top.minecode.po.log.TaskAccomplishmentLogPO" />
-        <mapping class="top.minecode.po.log.TaskCommitmentLogPO" />
-        <mapping class="top.minecode.po.log.WorkerAccountLogPO" />
-        <mapping class="top.minecode.po.log.WorkerSearchLogPO" />
-        <mapping class="top.minecode.po.log.WorkerViewLogPO" />
-        <mapping class="top.minecode.po.log.WorkerScoreChangeLogPO" />
+        <mapping class="top.minecode.po.log.RegisterLogPO"/>
+        <mapping class="top.minecode.po.log.LoginLogPO"/>
+        <mapping class="top.minecode.po.log.ReleaseTaskLogPO"/>
+        <mapping class="top.minecode.po.log.RequesterAccountLogPO"/>
+        <mapping class="top.minecode.po.log.TaskAccomplishmentLogPO"/>
+        <mapping class="top.minecode.po.log.TaskCommitmentLogPO"/>
+        <mapping class="top.minecode.po.log.WorkerAccountLogPO"/>
+        <mapping class="top.minecode.po.log.WorkerSearchLogPO"/>
+        <mapping class="top.minecode.po.log.WorkerViewLogPO"/>
+        <mapping class="top.minecode.po.log.WorkerScoreChangeLogPO"/>
+        <mapping class="top.minecode.po.log.JoinTaskLogPO"/>
         <mapping class="top.minecode.po.admin.StaffPO"/>
 
-        <mapping class="top.minecode.po.worker.WorkerPO" />
-        <mapping class="top.minecode.po.worker.RankPO" />
-        <mapping class="top.minecode.po.worker.FinishedTaskParticipationPO" />
-        <mapping class="top.minecode.po.worker.OnGoingTaskParticipationPO" />
-        <mapping class="top.minecode.po.worker.SubTaskParticipationPO" />
+        <mapping class="top.minecode.po.worker.WorkerPO"/>
+        <mapping class="top.minecode.po.worker.RankPO"/>
+        <mapping class="top.minecode.po.worker.FinishedTaskParticipationPO"/>
+        <mapping class="top.minecode.po.worker.OnGoingTaskParticipationPO"/>
+        <mapping class="top.minecode.po.worker.SubTaskParticipationPO"/>
 
-        <mapping class="top.minecode.po.auto.WorkerAbilityPO" />
-        <mapping class="top.minecode.po.auto.TaskVectorPO" />
-        <mapping class="top.minecode.po.auto.WorkerVectorPO" />
+        <mapping class="top.minecode.po.auto.WorkerAbilityPO"/>
+        <mapping class="top.minecode.po.auto.TaskVectorPO"/>
+        <mapping class="top.minecode.po.auto.WorkerVectorPO"/>
         <mapping class="top.minecode.po.auto.WorkerTastePO"/>
 
-        <mapping class="top.minecode.po.task.SubCheckTaskPO" />
-        <mapping class="top.minecode.po.task.CheckTaskPO" />
+        <mapping class="top.minecode.po.task.SubCheckTaskPO"/>
+        <mapping class="top.minecode.po.task.CheckTaskPO"/>
 
     </session-factory>
 

@@ -5,6 +5,7 @@ import top.minecode.po.task.TaskPO;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created on 2018/5/19.
@@ -135,5 +136,18 @@ public class Task {
         this.totalDollars = totalDollars;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return taskId == task.taskId &&
+                Objects.equals(name, task.name);
+    }
 
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(name, taskId);
+    }
 }

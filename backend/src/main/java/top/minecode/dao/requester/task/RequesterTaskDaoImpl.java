@@ -13,6 +13,7 @@ import top.minecode.domain.task.requester.RequesterSubTaskItem;
 import top.minecode.domain.task.requester.RequesterTaskDetails;
 import top.minecode.domain.task.requester.RequesterTaskItem;
 import top.minecode.domain.task.requester.TaskParticipant;
+import top.minecode.po.auto.TaskVectorPO;
 import top.minecode.po.task.SpecificTaskPO;
 import top.minecode.po.task.SubTaskPO;
 import top.minecode.po.task.TaskPO;
@@ -168,7 +169,21 @@ public class RequesterTaskDaoImpl implements RequesterTaskDao {
             specificTask.setSubTasks(subTaskPOS.stream().map(SubTaskPO::getId).collect(Collectors.toList()));
         }
 
+        insertVectors(taskPO);
+
         return CommonOperation.template(forEachUpdate(specificTaskPOS));
+    }
+
+    /**
+     * Insert task vector for intelligent module
+     * @param target target taskPO
+     */
+    private void insertVectors(TaskPO target) {
+        TaskVectorPO vectorPO = TaskVectorPO.fromTaskPO(target);
+        CommonOperation.template(session -> {
+            session.persist(vectorPO);
+            session.flush();
+        });
     }
 
     private double getTaskProcess(List<SubTaskState> states) {
