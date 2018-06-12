@@ -78,9 +78,8 @@ public class WorkerVectorCalculateService {
         for (WorkerVectorPO rawVector: rawWorkerVectors) {
             List<FinishedTaskParticipationPO> finishedTaskParticipation =
                     workerInfoDao.getFinishedTasks(rawVector.getEmail());
-            List<Pair<TaskVectorPO, Double>> values = finishedTaskParticipation
-                    .stream().map(e -> new Pair<>(id2TaskVector.get(e.getTaskId()),
-                            e.getStandardScoreChange()))
+            List<Pair<TaskVectorPO, Double>> values = finishedTaskParticipation.stream()
+                    .map(e -> new Pair<>(id2TaskVector.get(e.getTaskId()), e.getStandardScoreChange()))
                     .collect(Collectors.toList());
 
             resultVectors.add(calculateSingleWorkerVector(rawVector, values));
@@ -134,8 +133,8 @@ public class WorkerVectorCalculateService {
         int maxIterTimes = 100;
 
         List<Double> parameters = workerVector.getVector();
-        List<Double> targets = rawData.stream().map(e -> e.r).collect(Collectors.toList());
-        List<List<Double>> data = rawData.stream().map(e -> e.l.getVector()).collect(Collectors.toList());
+        List<Double> targets = rawData.stream().map(e -> e.r).collect(Collectors.toList());  // Label
+        List<List<Double>> data = rawData.stream().map(e -> e.l.getVector()).collect(Collectors.toList());  // Task Vector
 
         double preLoss = calcLoss(parameters, data, targets, norm);
         double loss;

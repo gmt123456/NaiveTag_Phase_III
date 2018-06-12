@@ -30,7 +30,8 @@ public class TaskVectorPO {
     @Fetch(FetchMode.SUBSELECT)
     private List<Double> vector;
 
-    public TaskVectorPO(){}
+    public TaskVectorPO() {
+    }
 
     public static TaskVectorPO fromTaskPO(TaskPO taskPO) {
         TaskVectorPO vectorPO = new TaskVectorPO();
@@ -44,7 +45,7 @@ public class TaskVectorPO {
 
         double typeNorm = taskTypes.size();
 
-        for (TaskType type: types)
+        for (TaskType type : types)
             if (taskTypes.contains(type)) {
                 vector.add(1.0 / typeNorm);
             } else {
@@ -56,7 +57,7 @@ public class TaskVectorPO {
 
         double tagNorm = taskTags.size();
 
-        for (TaskTag tag: tags)
+        for (TaskTag tag : tags)
             if (taskTags.contains(tag)) {
                 vector.add(1.0 / tagNorm);
             } else {

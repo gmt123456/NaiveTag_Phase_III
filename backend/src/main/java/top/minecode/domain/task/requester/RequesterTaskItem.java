@@ -1,5 +1,6 @@
 package top.minecode.domain.task.requester;
 
+import top.minecode.domain.task.TaskRequirement;
 import top.minecode.domain.task.TaskTag;
 import top.minecode.domain.user.worker.Division;
 import top.minecode.po.task.TaskPO;
@@ -25,6 +26,7 @@ public class RequesterTaskItem {
     private Division workerRequirement;
     private Date begin;
     private Date deadline;
+    private TaskRequirement taskRequirement;
 
     public RequesterTaskItem(TaskPO taskPO) {
         title = taskPO.getTaskName();
@@ -38,6 +40,7 @@ public class RequesterTaskItem {
         deadline = taskPO.getEndDate();
         workerRequirement = taskPO.getLowestDivision();
         taskId = taskPO.getId();
+        taskRequirement = taskPO.getRequirement();
     }
 
     public int getTaskId() {
@@ -98,6 +101,7 @@ public class RequesterTaskItem {
                 ", workerRequirement=" + workerRequirement +
                 ", begin=" + begin +
                 ", deadline=" + deadline +
+                ", taskRequirement=" + taskRequirement +
                 '}';
     }
 }

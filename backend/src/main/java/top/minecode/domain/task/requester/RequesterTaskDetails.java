@@ -1,5 +1,6 @@
 package top.minecode.domain.task.requester;
 
+import top.minecode.domain.task.TaskRequirement;
 import top.minecode.domain.task.TaskState;
 import top.minecode.domain.task.TaskTag;
 import top.minecode.domain.task.TaskType;
@@ -31,6 +32,7 @@ public class RequesterTaskDetails {
     private Date deadline;
     private String cover;
     private TaskState state;
+    private TaskRequirement taskRequirement;
 
 
     public RequesterTaskDetails(TaskPO taskPO, double process) {
@@ -46,6 +48,7 @@ public class RequesterTaskDetails {
         begin = taskPO.getBeginDate();
         state = taskPO.getTaskState();
         cover = taskPO.getCover();
+        taskRequirement = taskPO.getRequirement();
 
         types = new ArrayList<>(taskPO.getSpecificTasks().keySet());
         this.process = process;
@@ -81,6 +84,7 @@ public class RequesterTaskDetails {
                 ", deadline=" + deadline +
                 ", state=" + state +
                 ", cover=" + cover +
+                ", taskRequirement=" + taskRequirement +
                 '}';
     }
 }
