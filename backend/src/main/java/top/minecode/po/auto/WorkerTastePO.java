@@ -88,8 +88,20 @@ public class WorkerTastePO implements Serializable {
 
     public List<Double> getVector() {
         List<Double> result = new ArrayList<>();
-        result.addAll(typeClickTimes.values());
-        result.addAll(tagClickTimes.values());
+        result.add(typeClickTimes.get(TaskType.t_100));
+        result.add(typeClickTimes.get(TaskType.t_101));
+        result.add(typeClickTimes.get(TaskType.t_200));
+        result.add(typeClickTimes.get(TaskType.t_201));
+        result.add(typeClickTimes.get(TaskType.t_300));
+        result.add(typeClickTimes.get(TaskType.t_301));
+        result.add(typeClickTimes.get(TaskType.t_400));
+        result.add(typeClickTimes.get(TaskType.t_401));
+        result.add(tagClickTimes.get(TaskTag.military));
+        result.add(tagClickTimes.get(TaskTag.nature));
+        result.add(tagClickTimes.get(TaskTag.sports));
+        result.add(tagClickTimes.get(TaskTag.humanity));
+        result.add(tagClickTimes.get(TaskTag.science));
+        result.add(tagClickTimes.get(TaskTag.others));
         return result;
     }
 }
