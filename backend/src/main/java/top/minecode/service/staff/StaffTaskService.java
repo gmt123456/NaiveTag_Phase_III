@@ -3,14 +3,17 @@ package top.minecode.service.staff;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.minecode.dao.staff.StaffDao;
+import top.minecode.dao.workertask.SpecificTaskDao;
 import top.minecode.dao.workertask.SubTaskDao;
 import top.minecode.dao.workertask.TaskDao;
 import top.minecode.dao.workertask.TaskParticipationDao;
 import top.minecode.domain.task.*;
 import top.minecode.domain.user.worker.Division;
 import top.minecode.po.admin.StaffPO;
+import top.minecode.po.task.SpecificTaskPO;
 import top.minecode.po.task.TaskPO;
 import top.minecode.po.worker.OnGoingTaskParticipationPO;
+import top.minecode.po.worker.SubTaskParticipationPO;
 import top.minecode.service.workertask.WorkerTaskBasicService;
 
 import java.util.ArrayList;
@@ -31,15 +34,11 @@ public class StaffTaskService {
 
     private StaffDao staffDao;
 
+    private SpecificTaskDao specificTaskDao;
+
     private TaskParticipationDao participationDao;
 
-    private WorkerTaskBasicService workerTaskBasicService;
-
     private SubTaskDao subTaskDao;
-
-    public WorkerTaskBasicService getWorkerTaskBasicService() {
-        return workerTaskBasicService;
-    }
 
     public SubTaskDao getSubTaskDao() {
         return subTaskDao;
@@ -50,15 +49,20 @@ public class StaffTaskService {
         this.subTaskDao = subTaskDao;
     }
 
+    public SpecificTaskDao getSpecificTaskDao() {
+        return specificTaskDao;
+    }
+
     @Autowired
-    public void setWorkerTaskBasicService(WorkerTaskBasicService workerTaskBasicService) {
-        this.workerTaskBasicService = workerTaskBasicService;
+    public void setSpecificTaskDao(SpecificTaskDao specificTaskDao) {
+        this.specificTaskDao = specificTaskDao;
     }
 
     public TaskParticipationDao getParticipationDao() {
         return participationDao;
     }
 
+    @Autowired
     public void setParticipationDao(TaskParticipationDao participationDao) {
         this.participationDao = participationDao;
     }
@@ -110,7 +114,14 @@ public class StaffTaskService {
     }
 
     public List<SubTask> getAllSubTasks(String email, int taskId, TaskType taskType) {
-        return workerTaskBasicService.getAllSubTasks(email, taskId, taskType);
+        TaskPO taskPO = taskDao.getTaskById(taskId);
+        int specificTaskId = taskPO.getSpecificTasks().get(taskType);
+        SpecificTaskPO specificTaskPO = specificTaskDao.getSpecificTaskById(specificTaskId);
+        List<Integer> subTasksIds = specificTaskPO.getSubTasks(); // 获取到子任务的全部id
+
+        return subTaskDao.getSubTasksByIdList(subTasksIds).stream()
+                .filter(e -> e.getSubTaskState() == SubTaskState.COMMON).map(e -> SubTask.fromPO(e, taskId))
+                .collect(Collectors.toList());
     }
 
     public List<SubTaskParticipation> getWorkerParticipation(String email, int taskId, SubTaskParticipationState subTaskParticipationState) {
@@ -148,6 +159,7 @@ public class StaffTaskService {
         List<TaskPO> taskPOS = taskDao.getCriticalTasks();
         StaffPO staffPO = staffDao.getStaffByEmail(staffEmail);
         Set<Integer> participatedTasks = staffPO.getParticipatedTasks().keySet();
+        System.out.println(participatedTasks);
         return taskPOS.stream().filter(e -> !participatedTasks.contains(e.getId())).map(Task::fromPO)
                 .collect(Collectors.toList());
     }

@@ -6,7 +6,7 @@ import top.minecode.domain.task.TaskState;
 import top.minecode.po.task.TaskPO;
 
 import java.util.Calendar;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -42,12 +42,22 @@ public class TaskDao {
 
     public List<TaskPO> getCriticalTasks() {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
+        calendar.setTime(new java.util.Date());
         calendar.add(Calendar.DAY_OF_MONTH, 3);
-        Date date = calendar.getTime();
-        String hql = "select * from " + TaskPO.class.getName() + " t where t.taskState = " + TaskState.ON_GOING + " and t.endDate < "
-                + date.toString();
+        Date date = new Date(calendar.getTime().getTime());
+
+        String hql = "select t from " + TaskPO.class.getName() + " t where t.taskState = '" + TaskState.ON_GOING + "' and t.endDate < '"
+                + date.toString() + "'";
+        System.out.println(hql);
         return taskHelper.executeSQL(hql);
+    }
+
+    public static void main(String[] args) {
+        TaskDao dao = new TaskDao();
+        List<TaskPO> tasks = dao.getCriticalTasks();
+        for (TaskPO po: tasks) {
+            System.out.println(po);
+        }
     }
 
 }

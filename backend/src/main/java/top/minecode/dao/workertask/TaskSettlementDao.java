@@ -13,8 +13,10 @@ import top.minecode.po.worker.OnGoingTaskParticipationPO;
 import top.minecode.po.worker.SubTaskParticipationPO;
 import top.minecode.po.worker.WorkerPO;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created on 2018/6/4.
@@ -43,6 +45,8 @@ public class TaskSettlementDao {
     private CommonOperation<WorkerPO> workerHelper =
             new CommonOperation<>(WorkerPO.class);
 
+
+
     public List<TaskPO> getCanSettledTasks() {
         // 提前已经完成的任务或者到期的任务
         java.sql.Date date = new java.sql.Date(new Date().getTime());
@@ -50,7 +54,11 @@ public class TaskSettlementDao {
                 + "' and ((not exists(select subT from " + SubTaskPO.class.getName() + " subT where subT.subTaskState <> "
                 + (1 + SubTaskState.FINISHED.ordinal()) + " and subT.taskId = t.id))) or t.endDate <= '" + date.toString() +  "')";
         System.out.println(queryFinishedTasks);
-        return taskHelper.executeSQL(queryFinishedTasks);
+        List<TaskPO> pos = taskHelper.executeSQL(queryFinishedTasks);
+        for (TaskPO po: pos) {
+            System.out.println(pos);
+        }
+        return taskHelper.executeSQL(queryFinishedTasks).stream().filter(e -> e.getTaskState() == TaskState.ON_GOING).collect(Collectors.toList());
     }
 
     public List<SubTaskParticipationPO> getParticipationByTaskId(int taskId) {
@@ -59,7 +67,7 @@ public class TaskSettlementDao {
 
     public OnGoingTaskParticipationPO getOnGoingTaskParticipationPOByEmailAndTaskId(String email, int taskId) {
         String hql = "select t from " + OnGoingTaskParticipationPO.class.getName() + " t where t.taskId = " + taskId + " and "
-                 + "t.userEmail = " + email;
+                 + "t.userEmail = '" + email + "'";
         return onGoingTaskParticipationHelper.executeHQL(hql);
     }
 
@@ -96,7 +104,7 @@ public class TaskSettlementDao {
     }
 
     public List<SubTaskPO> getSubTasksByIds(List<Integer> ids) {
-        return subTaskHelper.getListBySingleField("id", ids);
+        return subTaskHelper.getValuesInSpecificSet(ids, "id");
     }
 
     public static void main(String[] args) {

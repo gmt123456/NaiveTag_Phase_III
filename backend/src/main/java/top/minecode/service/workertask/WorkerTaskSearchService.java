@@ -6,10 +6,7 @@ import org.springframework.stereotype.Service;
 import top.minecode.dao.log.WorkerLogDao;
 import top.minecode.dao.worker.WorkerInfoDao;
 import top.minecode.dao.workertask.TaskSearchDao;
-import top.minecode.domain.task.RankType;
-import top.minecode.domain.task.Task;
-import top.minecode.domain.task.TaskTag;
-import top.minecode.domain.task.TaskType;
+import top.minecode.domain.task.*;
 import top.minecode.domain.user.worker.Division;
 import top.minecode.domain.user.worker.Rank;
 import top.minecode.po.log.WorkerSearchLogPO;
@@ -76,7 +73,8 @@ public class WorkerTaskSearchService {
 
         recordSearchLog(email, taskType, taskTag, key, rankType); // record log
 
-        List<TaskPO> rawPOs = taskSearchDao.searchTasks(key);
+        List<TaskPO> rawPOs = taskSearchDao.searchTasks(key).stream().filter(e -> e.getTaskState() == TaskState.ON_GOING)
+                .collect(Collectors.toList());
 
         if (taskType != null) { // 根据任务类型筛选任务
             rawPOs = rawPOs.stream().filter(e -> e.getSpecificTasks().keySet().contains(taskType))
@@ -97,6 +95,10 @@ public class WorkerTaskSearchService {
         }
 
         List<TaskPO> sortedTaskPOs = sortTasks(rawPOs, rankType, key); // 进行黑心排序
+
+        for(int i = 0; i < sortedTaskPOs.size(); i++) {
+            System.out.print(sortedTaskPOs.get(i));
+        }
 
         List<Task> results = new ArrayList<>();
 

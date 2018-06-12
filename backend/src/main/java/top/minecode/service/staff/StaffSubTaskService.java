@@ -91,7 +91,9 @@ public class StaffSubTaskService {
         SubTaskPO subTaskPO = subTaskDao.getSubTaskById(subTaskId);
         if (subTaskPO == null || subTaskPO.getTaskType() != taskType || subTaskPO.getSubTaskState() != SubTaskState.COMMON)
             return new SubTaskAcceptResponse(false, SubTaskAcceptResponse.UN_KNOWN);
-        int taskParticipationId = staffPO.getParticipatedTaskEvaluations().get(taskId);
+        System.out.println(staffPO.getParticipatedTaskEvaluations());
+        System.out.println(staffPO.getParticipatedTaskEvaluations() == null);
+        int taskParticipationId = staffPO.getParticipatedTasks().get(taskId);
         OnGoingTaskParticipationPO onParticipationPO = participationDao.getOnGoingTaskParticipation(taskParticipationId);
 
         SubTaskParticipationPO participationPO = new SubTaskParticipationPO();

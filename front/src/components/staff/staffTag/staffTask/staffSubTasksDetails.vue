@@ -183,7 +183,7 @@
 				tagCommitSubTask(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType, res =>{
 					if(res.result === true){
 						that.$message.success("submit success! Well done!(￣▽￣)");
-						that.$router.push("/firstTask/myparticipation");
+						that.$router.push("/staffTagFirstTask/staffTagMyParticipation");
 					}else{
 						that.$message.error("submit fail！（；´д｀）ゞ");
 					}

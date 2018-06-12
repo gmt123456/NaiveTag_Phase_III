@@ -6,10 +6,7 @@ import top.minecode.dao.worker.WorkerInfoDao;
 import top.minecode.dao.workertask.TaskSettlementDao;
 import top.minecode.domain.tag.SubTaskResult;
 import top.minecode.domain.tag.TaskResult;
-import top.minecode.domain.task.SubTask;
-import top.minecode.domain.task.SubTaskParticipationState;
-import top.minecode.domain.task.SubTaskState;
-import top.minecode.domain.task.TaskType;
+import top.minecode.domain.task.*;
 import top.minecode.domain.utils.Pair;
 import top.minecode.po.task.SubTaskPO;
 import top.minecode.po.task.TaskPO;
@@ -202,6 +199,8 @@ public class TaskSettlementService {
             }
 
             FinishedTaskParticipationPO finishedPO = new FinishedTaskParticipationPO();
+            finishedPO.setTaskId(taskPO.getId());
+            finishedPO.setUserEmail(userEmail);
             finishedPO.setParticipatedSubTaskResults(onGoingPO.getParticipatedSubTaskResultIds());
             finishedPO.setAcceptedPicAmount(userInfo.r.r);
             finishedPO.setScoreChange(scoreChange);
@@ -227,6 +226,8 @@ public class TaskSettlementService {
         PrintWriter printWriter = new PrintWriter(bufferedOutputStream);
         printWriter.write(WebConfig.getGson().toJson(result));
         printWriter.close(); // 写进了文件里面
+
+        taskPO.setTaskState(TaskState.FINISHED);
 
         // 保存在上述过程中发生了变更的po
         settlementDao.batchUpdateWorkerInfo(workers);
