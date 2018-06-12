@@ -5,10 +5,12 @@ import org.springframework.stereotype.Service;
 import top.minecode.dao.utils.CommonOperation;
 import top.minecode.domain.task.Task;
 import top.minecode.domain.user.worker.WorkerCommitmentLog;
+import top.minecode.po.log.JoinTaskLogPO;
 import top.minecode.po.worker.FinishedTaskParticipationPO;
 import top.minecode.po.worker.OnGoingTaskParticipationPO;
 import top.minecode.po.worker.WorkerPO;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -115,5 +117,13 @@ public class WorkerInfoDao {
         }
 
         return 1. / otherSpeeds.size();  // Means the first
+    }
+
+    public void addJoinTaskLog(String email, int taskId) {
+        JoinTaskLogPO logPO = new JoinTaskLogPO(email, taskId, new Date());
+        CommonOperation.template(session -> {
+            session.persist(logPO);
+            session.flush();
+        });
     }
 }

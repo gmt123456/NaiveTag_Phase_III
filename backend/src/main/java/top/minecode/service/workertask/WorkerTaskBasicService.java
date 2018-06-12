@@ -120,6 +120,9 @@ public class WorkerTaskBasicService {
         worker.getOnGoingTaskParticipation().add(participation.getId());
         worker.getParticipatedTasks().add(taskId);
 
+        // Add new JoinTaskLogPO
+        workerInfoDao.addJoinTaskLog(email, taskId);
+
         workerInfoDao.updateWorkPO(worker);
 
         return new JoinTaskResponse(true, null);

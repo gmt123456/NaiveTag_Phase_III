@@ -24,6 +24,14 @@ public class JoinTaskLogPO implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date joinTime;
 
+    public JoinTaskLogPO() {}
+
+    public JoinTaskLogPO(String userEmail, int taskId, Date joinTime) {
+        this.userEmail = userEmail;
+        this.taskId = taskId;
+        this.joinTime = joinTime;
+    }
+
     public int getId() {
         return id;
     }
