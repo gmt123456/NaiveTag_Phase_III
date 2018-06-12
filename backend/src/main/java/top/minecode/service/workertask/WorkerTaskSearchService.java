@@ -96,10 +96,6 @@ public class WorkerTaskSearchService {
 
         List<TaskPO> sortedTaskPOs = sortTasks(rawPOs, rankType, key); // 进行黑心排序
 
-        for(int i = 0; i < sortedTaskPOs.size(); i++) {
-            System.out.print(sortedTaskPOs.get(i));
-        }
-
         List<Task> results = new ArrayList<>();
 
         for (int i = begin; i < begin + step && i < sortedTaskPOs.size(); i++) {

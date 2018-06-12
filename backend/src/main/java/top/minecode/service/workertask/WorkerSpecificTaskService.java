@@ -2,6 +2,7 @@ package top.minecode.service.workertask;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import top.minecode.dao.auto.WorkerTasteDao;
 import top.minecode.dao.log.WorkerLogDao;
 import top.minecode.dao.staff.TaskCheckDao;
 import top.minecode.dao.worker.WorkerInfoDao;
@@ -42,6 +43,17 @@ public class WorkerSpecificTaskService {
     private WorkerLogDao logDao;
 
     private TaskCheckDao checkDao;
+
+    private WorkerTasteDao tasteDao;
+
+    public WorkerTasteDao getTasteDao() {
+        return tasteDao;
+    }
+
+    @Autowired
+    public void setTasteDao(WorkerTasteDao tasteDao) {
+        this.tasteDao = tasteDao;
+    }
 
     public TaskCheckDao getCheckDao() {
         return checkDao;
@@ -102,14 +114,20 @@ public class WorkerSpecificTaskService {
         logDao.addViewLog(log);
     }
 
+    private void updateTaste(String email, Set<TaskTag> tags, Set<TaskType> types) {
+        tasteDao.addTypeClick(types, tags, email);
+    }
+
     public TaskSpecification getTaskDetail(String email, int taskId) {
 
         TaskPO taskPO = taskDao.getTaskById(taskId);
         boolean accepted = taskPO.getParticipators().stream().anyMatch(e -> e.equals(email));
         boolean canAccept = false;
 
-        if (!accepted)
+        if (!accepted) {
             addViewLog(email, taskId);
+            updateTaste(email, new HashSet<>(taskPO.getTaskTags()), taskPO.getSpecificTasks().keySet());
+        }
 
         TaskState state = taskPO.getTaskState();
         Division requiredDivision = taskPO.getLowestDivision();
