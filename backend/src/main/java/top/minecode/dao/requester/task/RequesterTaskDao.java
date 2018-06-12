@@ -1,5 +1,6 @@
 package top.minecode.dao.requester.task;
 
+import top.minecode.domain.task.TaskRequirement;
 import top.minecode.domain.task.TaskState;
 import top.minecode.domain.task.requester.RequesterSubTaskItem;
 import top.minecode.domain.task.requester.RequesterTaskItem;
@@ -49,4 +50,6 @@ public interface RequesterTaskDao {
     String getResultFilePath(int taskId);
 
     boolean addTask(TaskPO taskPO, List<SpecificTaskPO> specificTaskPOS, String pictureDir);
+
+    boolean changeRequirement(int taskId, TaskRequirement requirement);
 }

@@ -7,6 +7,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import top.minecode.dao.requester.task.RequesterTaskDao;
+import top.minecode.domain.task.TaskRequirement;
 import top.minecode.domain.task.TaskState;
 import top.minecode.domain.task.requester.*;
 import top.minecode.domain.utils.ResultMessage;
@@ -71,6 +72,14 @@ public class RequesterTaskInfoServiceImpl implements RequesterTaskInfoService {
         }
 
         return resultFilePath;
+    }
+
+    @Override
+    public ResultMessage changeTaskRequirement(int taskId, TaskRequirement requirement) {
+        if (taskDao.changeRequirement(taskId, requirement))
+            return ResultMessage.success();
+
+        return ResultMessage.failure();
     }
 
     @Override

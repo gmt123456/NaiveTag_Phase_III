@@ -1,5 +1,6 @@
 package top.minecode.service.requester.task;
 
+import top.minecode.domain.task.TaskRequirement;
 import top.minecode.domain.task.requester.RequesterSubTaskItem;
 import top.minecode.domain.task.requester.RequesterTaskDetails;
 import top.minecode.domain.task.requester.RequesterTaskItem;
@@ -81,5 +82,7 @@ public interface RequesterTaskInfoService {
      * @return list of sub-task information
      */
     List<RequesterSubTaskItem> getSubTasksInfo(int taskId);
+
+    ResultMessage changeTaskRequirement(int taskId, TaskRequirement requirement);
 
 }

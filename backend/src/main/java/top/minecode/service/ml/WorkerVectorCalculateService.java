@@ -1,5 +1,7 @@
 package top.minecode.service.ml;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.minecode.dao.auto.TaskVectorDao;
@@ -26,6 +28,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class WorkerVectorCalculateService {
+
+    private static Logger log = LoggerFactory.getLogger("WorkerVectorCalculateService");
 
     private WorkerVectorDao workerVectorDao;
 
@@ -63,6 +67,7 @@ public class WorkerVectorCalculateService {
     // 定时任务
     // 由于有一定的计算量，安排在每天一点钟进行
     public void calculateWorkerVectors() {
+        log.info("Begin calculate worker's vector");
         List<WorkerVectorPO> rawWorkerVectors = workerVectorDao.getAll();
 
         List<TaskVectorPO> taskVectors = taskVectorDao.getAll();
@@ -82,6 +87,7 @@ public class WorkerVectorCalculateService {
         }
 
         workerVectorDao.batchUpdate(resultVectors);
+        log.info("End calculate worker's vector");
     }
 
     private double calcLoss(List<Double> parameters, List<List<Double>> data, List<Double> targets, double norm) {

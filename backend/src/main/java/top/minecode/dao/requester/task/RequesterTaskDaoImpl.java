@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import top.minecode.dao.utils.CommonOperation;
 import top.minecode.dao.utils.ImageLists;
 import top.minecode.domain.task.SubTaskState;
+import top.minecode.domain.task.TaskRequirement;
 import top.minecode.domain.task.TaskState;
 import top.minecode.domain.task.TaskType;
 import top.minecode.domain.task.requester.RequesterSubTaskItem;
@@ -132,6 +133,13 @@ public class RequesterTaskDaoImpl implements RequesterTaskDao {
                         .setParameter("e", email)
                         .setParameter("s", state).list());
         return taskPOS.stream().map(RequesterTaskItem::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean changeRequirement(int taskId, TaskRequirement requirement) {
+        TaskPO target = taskOperation.getBySingleField("id", taskId);
+        target.setRequirement(requirement);
+        return taskOperation.update(target);
     }
 
     @Override

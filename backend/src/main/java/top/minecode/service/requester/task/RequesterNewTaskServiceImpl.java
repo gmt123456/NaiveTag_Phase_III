@@ -26,6 +26,7 @@ import top.minecode.web.requester.task.PayCommand;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -100,7 +101,6 @@ public class RequesterNewTaskServiceImpl implements RequesterNewTaskService {
             }
 
             // Set result file's path
-
             taskPO.setResultFilePath(PathUtil.getRequesterDataRec(email) +
                     getNameWithoutSuffix(randomFileName) + ".json");
 

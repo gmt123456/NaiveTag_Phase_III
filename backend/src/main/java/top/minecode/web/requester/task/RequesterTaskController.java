@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import top.minecode.domain.task.TaskRequirement;
 import top.minecode.domain.task.requester.RequesterSubTaskItem;
 import top.minecode.domain.task.requester.RequesterTaskDetails;
 import top.minecode.domain.task.requester.TaskParticipant;
@@ -92,5 +93,11 @@ public class RequesterTaskController extends BaseController {
     public String getSubTaskInfo(@RequestParam("taskId") int taskId) {
         List<RequesterSubTaskItem> subTasks = taskService.getSubTasksInfo(taskId);
         return gson.toJson(subTasks);
+    }
+
+    @RequestMapping("/changeTaskRequirement")
+    @ResponseBody
+    public String changeRequirement(@RequestParam("taskId") int taskId, @RequestParam("taskRequirement") String taskRequirement) {
+        return gson.toJson(taskService.changeTaskRequirement(taskId, TaskRequirement.valueOf(taskRequirement.toUpperCase())));
     }
 }
