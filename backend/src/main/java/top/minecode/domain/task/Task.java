@@ -31,6 +31,8 @@ public class Task {
 
     private double totalDollars;
 
+    private TaskRequirement taskRequirement;
+
     public Task(Task task) {
         this.name = task.name;
         this.taskId = task.taskId;
@@ -40,6 +42,7 @@ public class Task {
         this.taskTypes = task.taskTypes;
         this.endDate = task.endDate;
         this.totalDollars = task.totalDollars;
+        this.taskRequirement = task.taskRequirement;
     }
 
     public static Task fromPO(TaskPO po) {
@@ -51,7 +54,8 @@ public class Task {
         Date endDate = po.getEndDate();
         List<TaskType> taskTypes = new ArrayList<>(po.getSpecificTasks().keySet());
         double totalDollars = po.getTotalDollars();
-        return new Task(name, taskId, description, taskCover, taskTypes, endDate, taskTags, totalDollars);
+        TaskRequirement requirement = po.getRequirement();
+        return new Task(name, taskId, description, taskCover, taskTypes, endDate, taskTags, totalDollars, requirement);
     }
 
     public Task() {
@@ -61,7 +65,7 @@ public class Task {
 
     public Task(String name, int taskId, String taskDescription,
                 String taskCover, List<TaskType> taskTypes, Date endDate,
-                List<TaskTag> taskTags, double totalDollars) {
+                List<TaskTag> taskTags, double totalDollars, TaskRequirement requirement) {
         this.name = name;
         this.taskId = taskId;
         this.taskDescription = taskDescription;
@@ -70,6 +74,7 @@ public class Task {
         this.endDate = endDate;
         this.taskTags = taskTags;
         this.totalDollars = totalDollars;
+        this.taskRequirement = requirement;
     }
 
     public String getName() {
