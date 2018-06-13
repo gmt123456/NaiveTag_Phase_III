@@ -5,7 +5,7 @@
           <span class="title">{{this.title}}</span>
         </div>
       </el-col>
-      <el-col :offset="11" :span="4">
+      <el-col :offset="11" :span="6">
         <div class="button-group">
           <slot name="buttonGroup">
 
