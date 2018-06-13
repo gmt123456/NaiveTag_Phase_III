@@ -7,7 +7,15 @@
                     <!--<img :src="taskCover" width="90px" height="auto" style="margin: 10px;padding-left: 10px;overflow: hidden;">-->
                 </el-aside>
                 <el-main style="background-color: transparent;">
-                    <div style="font-weight: 800;font-size: 15px;">{{name}}</div>
+                    <div style="font-weight: 800;font-size: 15px;" class="center">
+                        <el-tooltip effect="dark" content="Urgent Task" placement="top">
+                            <img v-if="taskRequirement === 'SPEED'" src="../../../static/hurry.png" height="20px" style="padding-right: 5px;"/>
+                        </el-tooltip>
+                        <el-tooltip effect="dark" content="Quality Priority" placement="top">
+                            <img v-if="taskRequirement === 'QUALITY'" src="../../../static/quality_control_manager.png" height="20px" style="padding-right: 5px;"/>
+                        </el-tooltip>
+
+                        {{name}}</div>
                     <div style="color: #717478;font-size: 13px;">{{taskDescription}}</div>
                     <div style="text-align: left;">
                         <span v-for="(item,index) in taskType" style="color: dodgerblue;font-size: 13px;">{{getTaskNameByID(item)}}{{(index === taskType.length-1)? "":",\ "}}</span>
@@ -58,6 +66,7 @@
 			"endDate": String, // 任务截止的时间
 			"taskTag": Array, // 任务的一些标签信息，就是任务的主题
 
+            "taskRequirement": String,
 			"totalDollars": Number
 		},
 		name: "taskBlock",

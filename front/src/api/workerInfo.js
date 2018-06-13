@@ -39,9 +39,22 @@ export function workerRank(callback) {
 	getRankFromServer(callback);
 }
 export function workerRecommendation(callback) {
-	workerRecommendationMock(callback);
+	getWorkerRecommendationFromServer(callback);
 }
 
+
+
+
+function getWorkerRecommendationFromServer(callback) {
+
+	let url = 'worker/task/recommendation.html';
+
+	$.get(getUrl(url), {
+		token: localStorage.token
+	}, function (res) {
+		callback(JSON.parse(res));
+	});
+}
 function getWorkerInfoFromServer(callback) {
 
 	let url = 'worker/userInfo/main.html';
@@ -162,6 +175,7 @@ function getFinishDataMock(num) {
 			"taskType": ['t_401', 't_300'], // 这个一级任务中包含的任务的类型
 			"endDate": "2017-10-1", // 任务截止的时间
 			"taskTag": ["nature", "history"], // 任务的一些标签信息，就是任务的主题
+			"taskRequirement": "QUALITY",
 		})
 	}
 	return data;
