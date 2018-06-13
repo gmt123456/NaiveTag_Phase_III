@@ -6,7 +6,7 @@
           <logo></logo>
         </div>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="8" :offset="4" >
         <slot name="naviMenu">
         </slot>
       </el-col>

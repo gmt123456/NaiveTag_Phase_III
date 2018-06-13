@@ -39,16 +39,16 @@ public class WebStatisticDaoImpl implements WebStatisticDao {
     @Override
     public ChartData getActiveUserData() {
         // Collect total users' statistic
-        String hql = "select new map (t.loginTime as time, t.userType as type, count(t) as number)" +
+        String hql = "select new map (cast(t.loginTime as date) as time, t.userType as type, count(t) as number)" +
                 " from LoginLogPO t group by cast(t.loginTime as date), t.userType order by cast(t.loginTime as date)";
         List<Map> rawData = CommonOperation.executeSQL(Map.class, hql);
 
-        return processUserRawData(rawData, this::timestampToLocalDate);
+        return processUserRawData(rawData, d -> ((Date) d).toLocalDate());
     }
 
     @Override
     public ChartData getSignUpStatistic() {
-        String hql = "select new map (t.registerDate as time, t.userType as type, count(t) as number)" +
+        String hql = "select new map (cast(t.registerDate as date) as time, t.userType as type, count(t) as number)" +
                 " from RegisterLogPO t group by cast(t.registerDate as date), t.userType order by cast(t.registerDate as date)";
         List<Map> rawData = CommonOperation.executeSQL(Map.class, hql);
 
@@ -57,15 +57,15 @@ public class WebStatisticDaoImpl implements WebStatisticDao {
 
     @Override
     public ChartData getTasksData() {
-        String completeTaskHql = "select new map(t.accomplishDate as time, count(t) as number) " +
+        String completeTaskHql = "select new map(cast(t.accomplishDate as date) as time, count(t) as number) " +
                 " from TaskAccomplishmentLogPO t group by cast(t.accomplishDate as date) order" +
                 " by cast(t.accomplishDate as date)";
 
-        String commitTaskHql = "select new map(t.commitTime as time, count(t) as number) " +
+        String commitTaskHql = "select new map(cast(t.commitTime as date) as time, count(t) as number) " +
                 " from TaskCommitmentLogPO t group by cast(t.commitTime as date) order by " +
                 " cast(t.commitTime as date)";
 
-        String releaseTaskHql = "select new map(t.releaseDate as time, count(t) as number) " +
+        String releaseTaskHql = "select new map(cast(t.releaseDate as date) as time, count(t) as number) " +
                 " from ReleaseTaskLogPO t group by cast(t.releaseDate as date) order by " +
                 " cast(t.releaseDate as date)";
 
@@ -87,7 +87,7 @@ public class WebStatisticDaoImpl implements WebStatisticDao {
     }
 
     private LocalDate getTaskRawDataFirstDate(List<Map> taskRawData) {
-        return taskRawData.isEmpty() ? LocalDate.now() : timestampToLocalDate(taskRawData.get(0).get(TIME));
+        return taskRawData.isEmpty() ? LocalDate.now() : sqlDateToLocalDate(taskRawData.get(0).get(TIME));
     }
 
     private LocalDate getMinDate(LocalDate... localDates) {
@@ -115,7 +115,7 @@ public class WebStatisticDaoImpl implements WebStatisticDao {
         int intervalPointer = 0;
         List<Integer> value = zeros(dateInterval.size());
         for (Map dict : rawData) {
-            LocalDate currDicTime = timestampToLocalDate(dict.get(TIME));
+            LocalDate currDicTime = sqlDateToLocalDate(dict.get(TIME));
 
             LocalDate intervalTime = dateInterval.get(intervalPointer);
             while (!intervalTime.isEqual(currDicTime)) {
@@ -178,10 +178,9 @@ public class WebStatisticDaoImpl implements WebStatisticDao {
         return chartData;
     }
 
-    private LocalDate timestampToLocalDate(Object timestamp) {
-        java.util.Date date = (java.util.Date) timestamp;
-        ZoneId zoneId = ZoneId.systemDefault();
-        return date.toInstant().atZone(zoneId).toLocalDate();
+    private LocalDate sqlDateToLocalDate(Object localDate) {
+        java.sql.Date date = (java.sql.Date) localDate;
+        return date.toLocalDate();
     }
 
     private List<Integer> zeros(int size) {

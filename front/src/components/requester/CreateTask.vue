@@ -23,7 +23,8 @@
 
         <el-form-item label="Deadline" class="colorful-label" required prop="deadLine">
           <el-date-picker v-model="taskForm.deadLine"
-                          value-format="yyyy-MM-dd"></el-date-picker>
+                          value-format="yyyy-MM-dd"
+                          :picker-options="pickerOptions"></el-date-picker>
         </el-form-item>
 
         <el-form-item label="Lowest Division" class="colorful-label">
@@ -75,7 +76,7 @@
             <el-carousel-item v-for="(item,key) in taskForm.tasks" :key="key">
               <el-form label-position="left" label-width="150px" class="sub-task-card">
                 <el-form-item label="type">
-                  <span>{{ item.type }}</span>
+                  <span>{{ convertType(item.type) }}</span>
                   <el-button icon="el-icon-delete" class="delete-btn" @click="deleteSubTask(item)"></el-button>
                 </el-form-item>
                 <el-form-item label="description">
@@ -117,6 +118,9 @@
 
         <el-form :model="orderForm" label-width="160px" label-position="left"
                  ref="order" :rules="orderRules">
+          <el-form-item label="Base Fee">
+            {{Math.round(orderInfo.payLowerBound*100)/100}}
+          </el-form-item>
           <el-form-item label="Extract Fee" prop="extractFee">
             <el-input v-model="orderForm.extractFee"></el-input>
           </el-form-item>
@@ -137,16 +141,16 @@
         <div class="info">
           <p style=""> There are <b>{{orderInfo.pictureNum}}</b> pictures in your task</p>
 
-          <p> At least, your need to pay <b>{{orderInfo.payLowerBound}}</b> dollars </p>
+          <p> At least, your need to pay <b>{{Math.round(orderInfo.payLowerBound*100)/100}}</b> dollars </p>
 
-          <p><b>{{Number(orderInfo.payLowerBound)
-            +Number(orderForm.extractFee)}}</b> dollars will be paid to the workers</p>
+          <p><b>{{Math.round(orderInfo.payLowerBound*100)/100
+            +Math.round(Number(orderForm.extractFee)*100)/100}}</b> dollars will be paid to the workers</p>
           <p><b> {{orderForm.adFee}}</b> will donate to the <b>NaiveTag</b></p>
         </div>
       </div>
     </div>
 
-    <div v-if="activeIndex===2">
+    <div v-if="activeIndex===3">
       <div>
         <div style="text-align: center">
 
@@ -225,6 +229,12 @@
         orderInfo: '',
         defaultTaskRequirement: ['common', 'speed', 'quality'],
 
+        pickerOptions: {
+          disabledDate(time) {
+            return time.getTime() < Date.now()
+          }
+        },
+
         taskForm: {
           tags: [],
           cover: '',
@@ -234,7 +244,7 @@
           file: '',
           deadLine: '',
           lowestDivision: '',
-          taskRequirement: ''
+          taskRequirement: 'common'
         },
         orderForm: {
           status: String,
@@ -318,7 +328,7 @@
           file: '',
           deadLine: '',
           lowestDivision: this.defaultDivisions[0],
-          taskRequirement: ''
+          taskRequirement: 'common'
         };
 
         this.orderForm = {
@@ -373,7 +383,7 @@
               if (res.status !== 'success') {
                 pointer.$message.error(res.message);
               } else {
-                pointer.activeIndex = 2;
+                pointer.activeIndex = 3;
               }
             })
           }

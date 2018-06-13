@@ -1,5 +1,5 @@
 <template>
-  <el-collapse-item>
+  <el-collapse-item v-if="item[0]">
     <div slot="title" style="display: flex">
       <el-col :span="5">
         <div >
@@ -11,8 +11,8 @@
         <span>{{item[1]}}</span>
       </el-col>
       <el-col :span="3" style="float: right; text-align: right">
-        <span v-if="item[0].charAt(0)==='+'" class="positive">{{item[0]}}</span>
-        <span v-else class="negative">{{item[0]}}</span>
+        <span v-if="item[0]>0" class="positive">+{{Math.round(item[0]*100)/100}}</span>
+        <span v-else class="negative">{{Math.round(item[0]*100)/100}}</span>
       </el-col>
     </div>
     <div style="margin: auto">

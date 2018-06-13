@@ -18,7 +18,7 @@
       <el-form size="medium" label-width="90px" :inline="true" label-position="left"  class="worker-details">
         <el-form-item label="email">{{requester.email}}</el-form-item>
         <el-form-item label="dollars">
-          <span>{{requester.dollars}}   <modify-dollars :email="requester.email" style="margin-left: 30px"></modify-dollars> </span>
+          <span>{{Math.round(requester.dollars*100)/100}}   <modify-dollars :email="requester.email" style="margin-left: 30px"></modify-dollars> </span>
         </el-form-item>
         <el-form-item label="Joined at">{{requester.signupTime}}</el-form-item>
         <modify-password :email="requester.email"></modify-password>

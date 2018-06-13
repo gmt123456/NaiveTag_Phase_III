@@ -23,4 +23,9 @@ public class WorkerInfoDaoTest {
     public void testGetCommitmentLog() {
         System.out.println(workerInfoDao.getWorkerCommitment("frog@worker.com"));
     }
+
+    @Test
+    public void testGetRankRate() {
+        System.out.println(workerInfoDao.getWorkerSpeedRankRate("frog@worker.com"));
+    }
 }

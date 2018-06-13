@@ -44,7 +44,7 @@
               <span>at least</span>
             </div>
           </div>
-          <img-with-label url="/static/requester/金币.svg" :label="task.dollars"></img-with-label>
+          <img-with-label url="/static/requester/金币.svg" :label="Math.round(task.dollars*100)/100"></img-with-label>
         </div>
       </el-col>
 

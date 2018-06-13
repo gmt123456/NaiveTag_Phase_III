@@ -1,6 +1,6 @@
 <template>
   <div style="margin-bottom: 100px" v-if="task">
-    <div style="display: flex">
+    <div style="display: flow;width: 100%">
       <div style="width: 560px">
         <h3>Description</h3>
         <p>{{task.description}}</p>
@@ -48,7 +48,7 @@
 
   .process-box {
     float: right;
-    margin-left: 30px;
-    margin-top: 20px;
+    margin-right: 30px;
+    margin-top: -80px;
   }
 </style>

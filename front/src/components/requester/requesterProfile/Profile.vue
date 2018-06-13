@@ -2,7 +2,7 @@
   <div>
     <div class="top-container">
       <div class="bottom-container" style="width: 100%">
-        <div class="top">
+        <div class="profile-top">
           <img :src="getUrl(main.avatar)" style="width: 170px"/>
           <div class="text-container" style="margin-left: 30px">
             <div style="margin-top: 20px">
@@ -187,7 +187,7 @@
     margin: auto
   }
 
-  .top {
+  .profile-top {
     height: 170px;
     display: flex;
     width: 900px;
