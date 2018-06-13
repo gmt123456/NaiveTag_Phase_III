@@ -76,7 +76,7 @@
             <el-carousel-item v-for="(item,key) in taskForm.tasks" :key="key">
               <el-form label-position="left" label-width="150px" class="sub-task-card">
                 <el-form-item label="type">
-                  <span>{{ item.type }}</span>
+                  <span>{{ convertType(item.type) }}</span>
                   <el-button icon="el-icon-delete" class="delete-btn" @click="deleteSubTask(item)"></el-button>
                 </el-form-item>
                 <el-form-item label="description">
@@ -118,6 +118,9 @@
 
         <el-form :model="orderForm" label-width="160px" label-position="left"
                  ref="order" :rules="orderRules">
+          <el-form-item label="Base Fee">
+            {{Math.round(orderInfo.payLowerBound*100)/100}}
+          </el-form-item>
           <el-form-item label="Extract Fee" prop="extractFee">
             <el-input v-model="orderForm.extractFee"></el-input>
           </el-form-item>
@@ -147,7 +150,7 @@
       </div>
     </div>
 
-    <div v-if="activeIndex===2">
+    <div v-if="activeIndex===3">
       <div>
         <div style="text-align: center">
 
@@ -380,7 +383,7 @@
               if (res.status !== 'success') {
                 pointer.$message.error(res.message);
               } else {
-                pointer.activeIndex = 2;
+                pointer.activeIndex = 3;
               }
             })
           }

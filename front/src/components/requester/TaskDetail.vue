@@ -15,11 +15,11 @@
       </el-col>
 
     </div>
-    <el-card class="tag-box">
+    <el-card class="tag-box" >
       <el-aside>
         <span>Tags</span>
-      </el-aside>
-      <div class="tags">
+      </el-aside >
+      <div class="tags" >
         <el-tag type="info" v-for="(item,key) in taskSketch.tags" :key="key" class="tag">{{item}}</el-tag>
       </div>
     </el-card>
@@ -30,7 +30,7 @@
         <el-card style="margin-bottom: 40px">
 
          <el-container>
-           <el-aside>
+           <el-aside >
            <div style="width: 100px; margin-top: 30px; margin-left: 80px">
              <el-progress type="circle" v-if="taskSketch.process!==undefined" :percentage="Number(taskSketch.process)*100" :width="120"></el-progress>
              <el-button v-bind:disabled="taskSketch.state!=='finished'" icon="el-icon-download" style="margin-top: 15px"> download</el-button>
@@ -79,7 +79,7 @@
             </el-menu-item>
           </el-menu>
 
-          <div style="margin-left: 30px">
+          <div style="margin-left: 30px;width: 100%">
             <sub-task-detail :sub-task="activeSubTask" ref="subTaskDetail"></sub-task-detail>
           </div>
 
