@@ -36,8 +36,8 @@ public class FinishedTask extends Task {
 
     public FinishedTask(String name, int taskId, String taskDescription, String taskCover,
                         List<TaskType> taskTypes, Date endDate, List<TaskTag> taskTags,
-                        double totalDollars, double changeOfScore, double earnedDollars) {
-        super(name, taskId, taskDescription, taskCover, taskTypes, endDate, taskTags, totalDollars);
+                        double totalDollars, double changeOfScore, double earnedDollars, TaskRequirement requirement) {
+        super(name, taskId, taskDescription, taskCover, taskTypes, endDate, taskTags, totalDollars, requirement);
         this.changeOfScore = changeOfScore;
         this.earnedDollars = earnedDollars;
     }

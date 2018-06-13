@@ -50,8 +50,8 @@ public class TaskSpecification extends Task {
     public TaskSpecification(String name, int taskId, String taskDescription, String taskCover,
                              List<TaskType> taskTypes, Date endDate, List<TaskTag> taskTags, double totalDollars,
                              TaskState state, boolean participated, Division requiredDivision, String taskBackground,
-                             boolean canAccept, double earnedDollars, double scoreChange) {
-        super(name, taskId, taskDescription, taskCover, taskTypes, endDate, taskTags, totalDollars);
+                             boolean canAccept, double earnedDollars, double scoreChange, TaskRequirement requirement) {
+        super(name, taskId, taskDescription, taskCover, taskTypes, endDate, taskTags, totalDollars, requirement);
         this.state = state;
         this.participated = participated;
         this.requiredDivision = requiredDivision;
