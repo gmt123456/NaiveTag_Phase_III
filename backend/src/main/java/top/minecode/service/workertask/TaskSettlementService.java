@@ -2,6 +2,7 @@ package top.minecode.service.workertask;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import top.minecode.dao.log.WorkerLogDao;
 import top.minecode.dao.worker.RankDao;
 import top.minecode.dao.worker.WorkerInfoDao;
 import top.minecode.dao.workertask.TaskSettlementDao;
@@ -9,6 +10,8 @@ import top.minecode.domain.tag.SubTaskResult;
 import top.minecode.domain.tag.TaskResult;
 import top.minecode.domain.task.*;
 import top.minecode.domain.utils.Pair;
+import top.minecode.po.log.RequesterAccountLogPO;
+import top.minecode.po.log.WorkerScoreChangeLogPO;
 import top.minecode.po.task.SubTaskPO;
 import top.minecode.po.task.TaskPO;
 import top.minecode.po.worker.*;
@@ -33,6 +36,17 @@ public class TaskSettlementService {
     private TaskSettlementDao settlementDao;
 
     private RankDao rankDao;
+
+    private WorkerLogDao workerLogDao;
+
+    public WorkerLogDao getWorkerLogDao() {
+        return workerLogDao;
+    }
+
+    @Autowired
+    public void setWorkerLogDao(WorkerLogDao workerLogDao) {
+        this.workerLogDao = workerLogDao;
+    }
 
     public RankDao getRankDao() {
         return rankDao;
@@ -91,10 +105,10 @@ public class TaskSettlementService {
 
 
         List<String> participators = taskPO.getParticipators();
-        System.out.println("所有的参与者为：");
-        for (String s: participators) {
-            System.out.println(s);
-        }
+//        System.out.println("所有的参与者为：");
+//        for (String s: participators) {
+//            System.out.println(s);
+//        }
         List<WorkerPO> workers = infoDao.getListByEmails(participators);
 
         Map<String, WorkerPO> emailToWorker = workers.stream().collect(Collectors.toMap(WorkerPO::getEmail, e -> e));
@@ -192,16 +206,25 @@ public class TaskSettlementService {
             Pair<String, Pair<Double, Integer>> userInfo = userTaskInfo.get(i);
             String userEmail = userInfo.l;
             double standardScore = (2 * i + 1) / (participatedUserAmount * 2.0) * 6 - 3;
-            double scoreChange = standardScore * userInfo.r.r / 10;
+            double scoreChange = standardScore * userInfo.r.r;
             WorkerPO currentWorker = emailToWorker.get(userInfo.l);
             currentWorker.changeScore(scoreChange);
+
+            // 记录用户积分变化日志
+            WorkerScoreChangeLogPO changeLogPO = new WorkerScoreChangeLogPO();
+            changeLogPO.setTime(new Date());
+            changeLogPO.setCurrentChange(scoreChange);
+            changeLogPO.setCurrentScore(currentWorker.getScore());
+            changeLogPO.setUserEmail(userEmail);
+            workerLogDao.addScoreChangeLog(changeLogPO);
 
             // 把ongoing 变成 finished
             OnGoingTaskParticipationPO onGoingPO = settlementDao.getOnGoingTaskParticipationPOByEmailAndTaskId(userEmail,
                     taskPO.getId());
-            System.out.println(WebConfig.getGson().toJson(taskPO));
-            System.out.println(WebConfig.getGson().toJson(onGoingPO));
+//            System.out.println(WebConfig.getGson().toJson(taskPO));
+//            System.out.println(WebConfig.getGson().toJson(onGoingPO));
      //       currentWorker.getOnGoingTaskParticipation().remove(onGoingPO.getId()); // 从已经参与的任务的id集合中删掉
+
             List<Integer> onGoingTaskParticipationIds = currentWorker.getOnGoingTaskParticipation();
             for (int t = 0; t < onGoingTaskParticipationIds.size(); t++) {
                 if (onGoingTaskParticipationIds.get(t) == onGoingPO.getId()) {

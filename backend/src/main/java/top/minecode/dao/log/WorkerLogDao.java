@@ -53,6 +53,10 @@ public class WorkerLogDao {
         return workerScoreLogHelper.getListBySingleField("userEmail", email);
     }
 
+    public void addScoreChangeLog(WorkerScoreChangeLogPO logPO) {
+        workerScoreLogHelper.add(logPO);
+    }
+
     public void addSearchLog(WorkerSearchLogPO po) {
         workerSearchLogHelper.add(po);
     }
