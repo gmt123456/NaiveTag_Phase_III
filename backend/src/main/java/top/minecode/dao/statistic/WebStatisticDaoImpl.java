@@ -43,7 +43,7 @@ public class WebStatisticDaoImpl implements WebStatisticDao {
                 " from LoginLogPO t group by cast(t.loginTime as date), t.userType order by cast(t.loginTime as date)";
         List<Map> rawData = CommonOperation.executeSQL(Map.class, hql);
 
-        return processUserRawData(rawData, d -> ((Date) d).toLocalDate());
+        return processUserRawData(rawData, d -> ((Date) d).toLocalDate(), false);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class WebStatisticDaoImpl implements WebStatisticDao {
                 " from RegisterLogPO t group by cast(t.registerDate as date), t.userType order by cast(t.registerDate as date)";
         List<Map> rawData = CommonOperation.executeSQL(Map.class, hql);
 
-        return processUserRawData(rawData, d -> ((Date) d).toLocalDate());
+        return processUserRawData(rawData, d -> ((Date) d).toLocalDate(), true);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class WebStatisticDaoImpl implements WebStatisticDao {
 
         LocalDate start = getMinDate(getTaskRawDataFirstDate(commitTaskRawData),
                 getTaskRawDataFirstDate(completeTaskRawData), getTaskRawDataFirstDate(releaseTaskRawData));
-        List<LocalDate> dateInterval = getToNowInterval(start);
+        List<LocalDate> dateInterval = getToNowInterval(start.minusDays(1));
 
         ChartData chartData = new ChartData();
         chartData.addVector(TIME, formatLocalDateStrings(dateInterval));
@@ -130,7 +130,7 @@ public class WebStatisticDaoImpl implements WebStatisticDao {
         chartData.addVector(dataTypeName, value);
     }
 
-    private ChartData processUserRawData(List<Map> rawData, Function<Object, LocalDate> localDateFunction) {
+    private ChartData processUserRawData(List<Map> rawData, Function<Object, LocalDate> localDateFunction, boolean accumulate) {
 
 
         if (rawData.isEmpty()) {
@@ -139,10 +139,13 @@ public class WebStatisticDaoImpl implements WebStatisticDao {
 
         // Get time interval
         LocalDate start = localDateFunction.apply(rawData.get(0).get(TIME));
-        List<LocalDate> dateInterval = getToNowInterval(start);
+        List<LocalDate> dateInterval = getToNowInterval(start.minusDays(1));
 
         // Collect data
         int dateIntervalPointer = 0;
+        int workerAccumulate = 0;
+        int requesterAccumulate = 0;
+        int totalAccumulate = 0;
         List<Integer> totalValue = zeros(dateInterval.size());
         List<Integer> workerValue = zeros(dateInterval.size());
         List<Integer> requesterValue = zeros(dateInterval.size());
@@ -151,20 +154,34 @@ public class WebStatisticDaoImpl implements WebStatisticDao {
 
             LocalDate intervalTime = dateInterval.get(dateIntervalPointer);
             while (!intervalTime.isEqual(currDicTime)) {
+                if (accumulate) {
+                    workerValue.set(dateIntervalPointer, workerAccumulate);
+                    requesterValue.set(dateIntervalPointer, requesterAccumulate);
+                    totalValue.set(dateIntervalPointer, totalAccumulate);
+                }
                 intervalTime = dateInterval.get(++dateIntervalPointer);
             }
 
             // Set values
             UserType userType = (UserType) dict.get(USER_TYPE);
             int count = ((Long) dict.get(COUNT)).intValue();
+            totalAccumulate += count;
 
             if (userType == UserType.WORKER) {
+                workerAccumulate += count;
                 workerValue.set(dateIntervalPointer, count);
             } else if (userType == UserType.REQUESTER) {
+                requesterAccumulate += count;
                 requesterValue.set(dateIntervalPointer, count);
             }
 
             totalValue.set(dateIntervalPointer, totalValue.get(dateIntervalPointer) + count);
+
+            if (accumulate) {
+                workerValue.set(dateIntervalPointer, workerAccumulate);
+                requesterValue.set(dateIntervalPointer, requesterAccumulate);
+                totalValue.set(dateIntervalPointer, totalAccumulate);
+            }
         }
 
         // Format LocalDate
