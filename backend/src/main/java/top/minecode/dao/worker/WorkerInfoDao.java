@@ -101,7 +101,7 @@ public class WorkerInfoDao {
      */
     private double getWorkerCommitmentSpeed(String email) {
         List<WorkerCommitmentLog> commitmentLogs = getWorkerCommitment(email);
-        return commitmentLogs.stream().mapToDouble(WorkerCommitmentLog::getSpeed)
+        return commitmentLogs.size() == 0 ? 0.0 : commitmentLogs.stream().mapToDouble(WorkerCommitmentLog::getSpeed)
                 .average().orElseThrow(ArithmeticException::new);
     }
 
@@ -109,7 +109,7 @@ public class WorkerInfoDao {
         String hql = "select t.email from WorkerPO t where t.email<>?";
         List<String> emails = CommonOperation.executeSQL(String.class, hql, email);
 
-        List<Double> otherSpeeds = emails.stream().map(this::getWorkerSpeedRankRate).sorted().collect(Collectors.toList());
+        List<Double> otherSpeeds = emails.stream().map(this::getWorkerCommitmentSpeed).sorted().collect(Collectors.toList());
         double thisSpeed = getWorkerCommitmentSpeed(email);
         for (int i = 0; i < otherSpeeds.size(); i++) {
             if (thisSpeed < otherSpeeds.get(i))

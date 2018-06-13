@@ -21,7 +21,6 @@ public class WebConfig {
     static {
         gson = new GsonBuilder()
                 .serializeNulls()
-                .setPrettyPrinting()
                 .registerTypeAdapter(TagResult.class, new TagSerializer())
                 .registerTypeAdapter(TagResult.class, new TagDeserializer())
                 .registerTypeAdapter(DateAndValue.class, new DateAndValueSerializer())

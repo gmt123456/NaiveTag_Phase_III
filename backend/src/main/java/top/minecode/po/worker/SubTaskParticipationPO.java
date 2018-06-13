@@ -46,6 +46,7 @@ public class SubTaskParticipationPO implements Serializable {
 
     @ElementCollection(fetch = FetchType.EAGER, targetClass = String.class)
     @Fetch(FetchMode.SUBSELECT)
+    @Column(length = 2048)
     private Map<String, String> tags;
 
     private SubTaskParticipationState state;

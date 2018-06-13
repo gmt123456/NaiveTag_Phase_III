@@ -26,7 +26,7 @@
                                 <div style="padding: 10px;">
                                     <i class="el-icon-picture-outline"></i>
                                     <span style="color: gray;font-size: 15px;">pics: </span>
-                                    <span>{{item.picCount}}</span>
+                                    <span>{{item.picAmount}}</span>
                                     <div class="bottom clearfix center" style="margin-left: 150px;">
                                         <el-button type="text" style="padding: 0;" @click="open2(index)">accept</el-button>
                                     </div>

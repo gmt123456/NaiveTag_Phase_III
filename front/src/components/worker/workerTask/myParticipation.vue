@@ -51,9 +51,9 @@
                                             <el-button type="text" style="padding: 0;" @click="startTag(index)">start</el-button>
                                             <el-button type="primary" size="mini" style="margin-left: 10px;" @click="openDetails(index)">details</el-button>
                                         </div>
-                                        <div v-else class="center" style="float: right;color: #6f7180;font-size: 15px;padding-top: 5px;">
+                                        <div v-if="item.earnedDollars" class="center" style="float: right;color: #6f7180;font-size: 15px;padding-top: 5px;">
                                             <img src="../../../../static/dollar.png" width="15px"/>
-                                            {{item.earnedDollars.toFixed(2)}}
+                                            {{getEarnedDollars(item.earnedDollars)}}
                                             <span style="color: lightgrey;font-size: 12px;padding-left: 5px;">earned</span>
                                         </div>
                                         <div>
@@ -132,6 +132,14 @@
         },
 
         methods: {
+
+		  getEarnedDollars(earnedDollars){
+		    if(earnedDollars){
+		      return earnedDollars.toFixed(2);
+        }else{
+		      return 0.00;
+        }
+      },
 
 			getImgSrc(src){
 				return getUrl(src);
