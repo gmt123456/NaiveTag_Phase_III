@@ -204,7 +204,7 @@ public class TaskRecommendationService {
 
     private List<FeatureVector<TaskPO>> removeTask(List<FeatureVector<TaskPO>> unacceptedTasks,
                                                    Collection<TaskPO> toBeRemoved) {
-        return unacceptedTasks.stream().filter(v -> toBeRemoved.contains(v.getIdentity())).collect(Collectors.toList());
+        return unacceptedTasks.stream().filter(v -> !toBeRemoved.contains(v.getIdentity())).collect(Collectors.toList());
     }
 
     private List<TaskPO> recommendBy(List<FeatureVector<TaskPO>> unacceptedTasks,
