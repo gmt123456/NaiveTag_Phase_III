@@ -23,7 +23,8 @@
 
         <el-form-item label="Deadline" class="colorful-label" required prop="deadLine">
           <el-date-picker v-model="taskForm.deadLine"
-                          value-format="yyyy-MM-dd"></el-date-picker>
+                          value-format="yyyy-MM-dd"
+                          :picker-options="pickerOptions"></el-date-picker>
         </el-form-item>
 
         <el-form-item label="Lowest Division" class="colorful-label">
@@ -224,6 +225,12 @@
         defaultDivisions: [],
         orderInfo: '',
         defaultTaskRequirement: ['common', 'speed', 'quality'],
+
+        pickerOptions: {
+          disabledDate(time) {
+            return time.getTime() < Date.now()
+          }
+        },
 
         taskForm: {
           tags: [],
