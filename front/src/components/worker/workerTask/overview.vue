@@ -67,7 +67,7 @@
                         <div v-if="taskData.participated && taskData.state === 'FINISHED'">
                             <div style="color: darkgray;padding-top: 10px;padding-bottom: 10px;" class="center"><span style="color: black;padding-right: 8px;font-weight: bold;">Score</span>changes through the task:
                                 <img src="../../../../static/favorite.png" width="15px" style="padding-left: 10px;"/>
-                                <span style="color: black;font-weight: normal;">{{taskData.earnedDollars.toFixed(2)}}</span>
+                                <span style="color: black;font-weight: normal;">{{taskData.scoreChange.toFixed(2)}}</span>
                             </div>
                             <div style="color: darkgray;padding-top: 10px;padding-bottom: 10px;" class="center"><span style="color: black;padding-right: 8px;font-weight: bold;">Dollars</span>you earned from the task:
                                 <img src="../../../../static/dollar.png" width="15px" style="padding-left: 10px;"/>

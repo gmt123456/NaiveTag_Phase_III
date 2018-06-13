@@ -3,6 +3,7 @@ package top.minecode.service.ml;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import top.minecode.dao.auto.TaskVectorDao;
 import top.minecode.dao.auto.WorkerVectorDao;
@@ -15,6 +16,7 @@ import top.minecode.po.auto.WorkerVectorPO;
 import top.minecode.po.worker.FinishedTaskParticipationPO;
 import top.minecode.po.worker.WorkerPO;
 
+import javax.persistence.Column;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -81,9 +83,14 @@ public class WorkerVectorCalculateService {
             List<Pair<TaskVectorPO, Double>> values = finishedTaskParticipation.stream()
                     .map(e -> new Pair<>(id2TaskVector.get(e.getTaskId()), e.getStandardScoreChange()))
                     .collect(Collectors.toList());
-
-            resultVectors.add(calculateSingleWorkerVector(rawVector, values));
+            if (values.size() == 0)
+                resultVectors.add(rawVector);
+            else
+                resultVectors.add(calculateSingleWorkerVector(rawVector, values));
         }
+
+        for (WorkerVectorPO vectorPO: resultVectors)
+            System.out.println(vectorPO);
 
         workerVectorDao.batchUpdate(resultVectors);
         log.info("End calculate worker's vector");
@@ -92,6 +99,10 @@ public class WorkerVectorCalculateService {
     private double calcLoss(List<Double> parameters, List<List<Double>> data, List<Double> targets, double norm) {
         // \frac{1}{2} \lambda \theta^T \theta + \frac{1}{2} \sum_{i=1}^{n} (\theta^T x - y)^2
         int size = data.size();
+
+        if (size == 0)
+            return 0.0;
+
         double sums = 0.0;
         for (int i = 0; i < size; i++) {
             List<Double> x = data.get(i);
@@ -130,7 +141,7 @@ public class WorkerVectorCalculateService {
         double learningRate = 0.01; // hyper-parameters
         double errorBound = 1.1;
         double norm = 1.0;
-        int maxIterTimes = 100;
+        int maxIterTimes = 1000;
 
         List<Double> parameters = workerVector.getVector();
         List<Double> targets = rawData.stream().map(e -> e.r).collect(Collectors.toList());  // Label

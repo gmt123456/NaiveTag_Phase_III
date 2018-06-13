@@ -57,4 +57,11 @@ public class WorkerVectorPO {
         return new WorkerVectorPO(email, vector);
     }
 
+    @Override
+    public String toString() {
+        return "WorkerVectorPO{" +
+                "email='" + email + '\'' +
+                ", vector=" + vector +
+                '}';
+    }
 }

@@ -27,7 +27,7 @@
                                     <i class="el-icon-picture-outline"></i>
                                     <span style="color: gray;font-size: 15px;">pics: </span>
                                     <span>{{item.picCount}}</span>
-                                    <div class="bottom clearfix center" style="margin-left: 76px;">
+                                    <div class="bottom clearfix center" style="margin-left: 76px;" v-if="taskData.state === 'ON_GOING'">
                                         <el-button type="text" style="padding: 0;" @click="open2(index)">accept</el-button>
                                         <el-button type="primary" size="mini" style="margin-left: 10px;" @click="openDetails(index)">details</el-button>
                                     </div>

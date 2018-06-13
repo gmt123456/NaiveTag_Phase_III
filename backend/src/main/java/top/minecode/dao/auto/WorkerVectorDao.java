@@ -30,10 +30,7 @@ public class WorkerVectorDao {
 
     // 批量更新用户向量
     public void batchUpdate(List<WorkerVectorPO> workerVectorPOS) {
-        Session session = HibernateUtils.getCurrentSession();
-        for (WorkerVectorPO po: workerVectorPOS)
-            session.update(po);
-        session.close();
+        workerVectorHelper.batchUpdate(workerVectorPOS);
     }
 
     public WorkerVectorPO getVectorByEmail(String email) {

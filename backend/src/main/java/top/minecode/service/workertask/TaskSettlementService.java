@@ -3,15 +3,18 @@ package top.minecode.service.workertask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.minecode.dao.log.WorkerLogDao;
+import top.minecode.dao.requester.info.RequesterInfoDao;
 import top.minecode.dao.worker.RankDao;
 import top.minecode.dao.worker.WorkerInfoDao;
 import top.minecode.dao.workertask.TaskSettlementDao;
 import top.minecode.domain.tag.SubTaskResult;
 import top.minecode.domain.tag.TaskResult;
 import top.minecode.domain.task.*;
+import top.minecode.domain.user.requester.Requester;
 import top.minecode.domain.utils.Pair;
 import top.minecode.po.log.RequesterAccountLogPO;
 import top.minecode.po.log.WorkerScoreChangeLogPO;
+import top.minecode.po.requester.RequesterPO;
 import top.minecode.po.task.SubTaskPO;
 import top.minecode.po.task.TaskPO;
 import top.minecode.po.worker.*;
@@ -38,6 +41,17 @@ public class TaskSettlementService {
     private RankDao rankDao;
 
     private WorkerLogDao workerLogDao;
+
+    private RequesterInfoDao requesterInfoDao;
+
+    public RequesterInfoDao getRequesterInfoDao() {
+        return requesterInfoDao;
+    }
+
+    @Autowired
+    public void setRequesterInfoDao(RequesterInfoDao requesterInfoDao) {
+        this.requesterInfoDao = requesterInfoDao;
+    }
 
     public WorkerLogDao getWorkerLogDao() {
         return workerLogDao;
@@ -261,6 +275,10 @@ public class TaskSettlementService {
         PrintWriter printWriter = new PrintWriter(bufferedOutputStream);
         printWriter.write(WebConfig.getGson().toJson(result));
         printWriter.close(); // 写进了文件里面
+
+        String requesterEmail = taskPO.getOwnerEmail();
+        requesterInfoDao.updateAccount(requesterEmail, taskPO.getTotalDollars()
+                - taskPO.getActualDollars(), RequesterAccountLogPO.ChangeType.PAY_BACK);
 
         taskPO.setTaskState(TaskState.FINISHED);
 

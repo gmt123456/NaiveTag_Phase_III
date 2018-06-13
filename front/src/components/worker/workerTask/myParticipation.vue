@@ -47,7 +47,7 @@
                                             <span style="font-size: 14px">{{item.picCount}}</span>
                                             <span style="color: #6f7180;font-size: 15px;">{{item.picAmount}}</span>
                                         </div>
-                                        <div v-if="!item.commitDate" class="center" style="float: right;position:relative;z-index: 2">
+                                        <div v-if="!item.commitDate && taskData.state === 'ON_GOING'" class="center" style="float: right;position:relative;z-index: 2">
                                             <el-button type="text" style="padding: 0;" @click="startTag(index)">start</el-button>
                                             <el-button type="primary" size="mini" style="margin-left: 10px;" @click="openDetails(index)">details</el-button>
                                         </div>
