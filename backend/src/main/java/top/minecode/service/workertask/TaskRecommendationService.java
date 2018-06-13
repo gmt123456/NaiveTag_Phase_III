@@ -276,9 +276,18 @@ public class TaskRecommendationService {
         private double speed;
         private double quality;
 
+        /**
+         * Calculate proportion of speed-first task and
+         * quality-first task recommendation for a worker.
+         * Note that if there's only one worker in our
+         * system, this method will just treat him as the
+         * last one and recommend tasks all by interest.
+         * @param speedRankRate speed rank rate
+         * @param qualityRankRate quality rank rate
+         */
         private Proportion(double speedRankRate, double qualityRankRate) {
-            this.speed = speedRankRate * SPEED_LIMIT;
-            this.quality = qualityRankRate * QUALITY_LIMIT;
+            this.speed = (1 - speedRankRate) * SPEED_LIMIT;
+            this.quality = (1 - qualityRankRate) * QUALITY_LIMIT;
         }
 
 

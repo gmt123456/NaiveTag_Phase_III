@@ -116,7 +116,7 @@ public class WorkerInfoDao {
                 return (i + 1) * 1. / (otherSpeeds.size() + 1);
         }
 
-        return 1. / otherSpeeds.size();  // Means the first
+        return 1. / (otherSpeeds.size() + 1);  // Means the first
     }
 
     public void addJoinTaskLog(String email, int taskId) {
