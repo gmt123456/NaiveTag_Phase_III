@@ -41,6 +41,7 @@
                <el-form-item label="dollars">{{taskSketch.dollars}}</el-form-item>
                <el-form-item label="deadline">{{taskSketch.deadline}}</el-form-item>
                <el-form-item label="participants">{{taskSketch.participantsNum}}</el-form-item>
+               <el-form-item label="mode">{{taskSketch.taskRequirement}} <el-button type="text">change</el-button> </el-form-item>
              </el-form>
            </el-main>
          </el-container>

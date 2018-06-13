@@ -234,7 +234,7 @@
           file: '',
           deadLine: '',
           lowestDivision: '',
-          taskRequirement: ''
+          taskRequirement: 'common'
         },
         orderForm: {
           status: String,
@@ -318,7 +318,7 @@
           file: '',
           deadLine: '',
           lowestDivision: this.defaultDivisions[0],
-          taskRequirement: ''
+          taskRequirement: 'common'
         };
 
         this.orderForm = {
