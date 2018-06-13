@@ -137,10 +137,10 @@
         <div class="info">
           <p style=""> There are <b>{{orderInfo.pictureNum}}</b> pictures in your task</p>
 
-          <p> At least, your need to pay <b>{{orderInfo.payLowerBound}}</b> dollars </p>
+          <p> At least, your need to pay <b>{{Math.round(orderInfo.payLowerBound*100)/100}}</b> dollars </p>
 
-          <p><b>{{Number(orderInfo.payLowerBound)
-            +Number(orderForm.extractFee)}}</b> dollars will be paid to the workers</p>
+          <p><b>{{Math.round(orderInfo.payLowerBound*100)/100
+            +Math.round(Number(orderForm.extractFee)*100)/100}}</b> dollars will be paid to the workers</p>
           <p><b> {{orderForm.adFee}}</b> will donate to the <b>NaiveTag</b></p>
         </div>
       </div>
