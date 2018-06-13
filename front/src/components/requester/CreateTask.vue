@@ -23,7 +23,8 @@
 
         <el-form-item label="Deadline" class="colorful-label" required prop="deadLine">
           <el-date-picker v-model="taskForm.deadLine"
-                          value-format="yyyy-MM-dd"></el-date-picker>
+                          value-format="yyyy-MM-dd"
+                          :picker-options="pickerOptions"></el-date-picker>
         </el-form-item>
 
         <el-form-item label="Lowest Division" class="colorful-label">
@@ -137,10 +138,10 @@
         <div class="info">
           <p style=""> There are <b>{{orderInfo.pictureNum}}</b> pictures in your task</p>
 
-          <p> At least, your need to pay <b>{{orderInfo.payLowerBound}}</b> dollars </p>
+          <p> At least, your need to pay <b>{{Math.round(orderInfo.payLowerBound*100)/100}}</b> dollars </p>
 
-          <p><b>{{Number(orderInfo.payLowerBound)
-            +Number(orderForm.extractFee)}}</b> dollars will be paid to the workers</p>
+          <p><b>{{Math.round(orderInfo.payLowerBound*100)/100
+            +Math.round(Number(orderForm.extractFee)*100)/100}}</b> dollars will be paid to the workers</p>
           <p><b> {{orderForm.adFee}}</b> will donate to the <b>NaiveTag</b></p>
         </div>
       </div>
@@ -225,6 +226,12 @@
         orderInfo: '',
         defaultTaskRequirement: ['common', 'speed', 'quality'],
 
+        pickerOptions: {
+          disabledDate(time) {
+            return time.getTime() < Date.now()
+          }
+        },
+
         taskForm: {
           tags: [],
           cover: '',
@@ -234,7 +241,7 @@
           file: '',
           deadLine: '',
           lowestDivision: '',
-          taskRequirement: ''
+          taskRequirement: 'common'
         },
         orderForm: {
           status: String,
@@ -318,7 +325,7 @@
           file: '',
           deadLine: '',
           lowestDivision: this.defaultDivisions[0],
-          taskRequirement: ''
+          taskRequirement: 'common'
         };
 
         this.orderForm = {

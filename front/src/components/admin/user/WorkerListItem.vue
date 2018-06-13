@@ -16,10 +16,10 @@
       <el-form size="medium" label-width="90px" :inline="true" label-position="left"  class="worker-details">
         <el-form-item label="email">{{worker.email}}</el-form-item>
         <el-form-item label="dollars">
-          <span>{{worker.dollars}}  <modify-dollars :email="worker.email" style="padding-left: 30px"></modify-dollars> </span>
+          <span>{{Math.round(worker.dollars*100)/100}}  <modify-dollars :email="worker.email" style="padding-left: 30px"></modify-dollars> </span>
         </el-form-item>
 
-        <el-form-item label="score">{{worker.score}}</el-form-item>
+        <el-form-item label="score">{{Math.round(worker.score*100)/100}}</el-form-item>
         <el-form-item label="Joined at">{{worker.signupTime}}</el-form-item>
         <modify-password :email="worker.email"></modify-password>
 
