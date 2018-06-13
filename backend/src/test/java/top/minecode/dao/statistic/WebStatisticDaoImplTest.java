@@ -22,7 +22,7 @@ public class WebStatisticDaoImplTest {
 
     @Test
     public void test1() {
-        String hql = "select new map (t.loginTime as time, t.userType as type, count(t) as number)" +
+        String hql = "select new map (cast(t.loginTime as date), t.userType as type, count(t) as number)" +
                 " from LoginLogPO t group by cast(t.loginTime as date), t.userType order by cast(t.loginTime as date)";
 
         List<Map> result = CommonOperation.executeSQL(Map.class, hql);
