@@ -6,7 +6,7 @@
                 <div style="height: 30px;"></div>
                 <el-container>
 
-                    <el-aside width="170px" height="170px" style="background-color: #D3DCE6;">
+                    <el-aside width="170px" height="170px" style="background-color: #D3DCE6;background-color: #f6f9fa;color: #333;">
                         <transition name="fade">
                             <div v-if="isEditing" @click="changePicStart" style="font-size: 14px;color: white;width: 170px;height: 170px;z-index: 1;position: absolute;background-color:rgba(0,0,0,0.2);text-align: center;cursor: pointer;">
                                 <div style="padding-top: 66px;">Change your</div>
@@ -16,7 +16,7 @@
                         <img :src="getImage()" width="170px" height="170px">
                     </el-aside>
 
-                    <el-main>
+                    <el-main style="background-color: #f6f9fa;color: #333;">
 
                         <div style="position: absolute;">
                           <transition name="fade">
@@ -43,7 +43,7 @@
 
                     </el-main>
 
-                    <el-aside width="150px" height="170px" style="float: right;">
+                    <el-aside width="150px" height="170px" style="float: right;background-color: #f6f9fa;color: #333;">
                         <img src="../../../static/data.png" width="15px" style="padding-top: 34px;">
                         <span> {{userInfo.rank}}</span>
                         <span style="color: darkgrey;font-size: 13px;">rank</span>
@@ -57,7 +57,7 @@
                         <span style="color: darkgrey;font-size: 13px;">score</span>
                     </el-aside>
 
-                    <el-aside width="150px" class="left-border">
+                    <el-aside width="150px" class="left-border" style="background-color: #f6f9fa;color: #333;">
                         <division-pic v-bind:division="this.userInfo.division" size="148px"></division-pic>
                     </el-aside>
 
@@ -340,10 +340,6 @@
 
 <style>
 
-    input {
-        border: none;
-    }
-
     .bg-purple-dark {
         background: #99a9bf;
     }
@@ -379,27 +375,6 @@
         border-radius: 5px;
     }
 
-    .el-header, .el-footer {
-        /*background-color: #B3C0D1;*/
-        color: #333;
-        text-align: center;
-        /*line-height: 50px;*/
-    }
-
-    .el-aside {
-        /*background-color: #D3DCE6;*/
-        background-color: #f6f9fa;
-        color: #333;
-        /*text-align: center;*/
-        /*line-height: 200px;*/
-    }
-
-    .el-main {
-        background-color: #f6f9fa;
-        color: #333;
-        /*text-align: center;*/
-        /*line-height: 160px;*/
-    }
     .center {
         display: flex;
         /*justify-content:center;*/
