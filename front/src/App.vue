@@ -11,7 +11,7 @@ export default {
    $.ajaxSetup({
      error:function(request){
        if (request){
-          alert('@App.vue status:'+request.status);
+         this.$router.push('/');
        }
      }
    })

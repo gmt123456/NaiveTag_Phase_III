@@ -6,7 +6,7 @@
         <p>{{task.description}}</p>
       </div>
       <div class="process-box">
-        <el-progress type="circle" :percentage="Number(task.process)*100"></el-progress>
+        <el-progress type="circle" :percentage="Math.round(Number(task.process)*10000)/100"></el-progress>
       </div>
     </div>
 

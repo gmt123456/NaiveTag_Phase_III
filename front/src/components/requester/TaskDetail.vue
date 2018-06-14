@@ -15,11 +15,11 @@
       </el-col>
 
     </div>
-    <el-card class="tag-box" >
+    <el-card class="tag-box">
       <el-aside>
         <span>Tags</span>
-      </el-aside >
-      <div class="tags" >
+      </el-aside>
+      <div class="tags">
         <el-tag type="info" v-for="(item,key) in taskSketch.tags" :key="key" class="tag">{{item}}</el-tag>
       </div>
     </el-card>
@@ -29,23 +29,42 @@
       <el-tab-pane label="Overview">
         <el-card style="margin-bottom: 40px">
 
-         <el-container>
-           <el-aside >
-           <div style="width: 100px; margin-top: 30px; margin-left: 80px">
-             <el-progress type="circle" v-if="taskSketch.process!==undefined" :percentage="Number(taskSketch.process)*100" :width="120"></el-progress>
-             <el-button v-bind:disabled="taskSketch.state!=='finished'" icon="el-icon-download" style="margin-top: 15px"> download</el-button>
-           </div>
-           </el-aside>
-           <el-main>
-             <el-form label-position="left" label-width="150px">
-               <el-form-item label="Dollars">{{Math.round(taskSketch.dollars*100)/100}}</el-form-item>
-               <el-form-item label="Deadline">{{taskSketch.deadline}}</el-form-item>
-               <el-form-item label="Participants">{{taskSketch.participantsNum}}</el-form-item>
-               <el-form-item label="Mode">{{taskSketch.taskRequirement}} <el-button type="text" style="margin-left: 30px">change</el-button> </el-form-item>
-             </el-form>
-           </el-main>
-         </el-container>
+          <el-container>
+            <el-aside>
+              <div style="width: 100px; margin-top: 30px; margin-left: 80px">
+                <el-progress type="circle" v-if="taskSketch.process!==undefined"
+                             :percentage="Math.round(Number(taskSketch.process)*10000)/100" :width="120"></el-progress>
+                <el-button v-bind:disabled="taskSketch.state!=='finished'" icon="el-icon-download"
+                           style="margin-top: 15px" @click.prevent="exportResult"> download
+                </el-button>
+              </div>
+            </el-aside>
+            <el-main>
+              <el-form label-position="left" label-width="150px">
+                <el-form-item label="Dollars">{{Math.round(taskSketch.dollars*100)/100}}</el-form-item>
+                <el-form-item label="Deadline">{{taskSketch.deadline}}</el-form-item>
+                <el-form-item label="Participants">{{taskSketch.participantsNum}}</el-form-item>
+                <el-form-item label="Mode">{{taskSketch.taskRequirement.toLocaleLowerCase()}}
+                  <el-button type="text" style="margin-left: 30px" @click="changeModeVisible=true">Change</el-button>
+                </el-form-item>
+              </el-form>
+            </el-main>
+          </el-container>
         </el-card>
+
+        <el-dialog :visible.sync="changeModeVisible" width="400px" title="Change mode">
+          <el-form label-width="100px" label-position="left">
+            <el-form-item label="Mode" style="width: 100%">
+              <el-select v-model="taskRequirement" style="width: 100%;">
+                <el-option v-for="(item,key) in defaultTaskRequirement"
+                           :value="item"
+                           :key="key">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-button @click="changeMode" type="primary" style="width: 100%;">Confirm</el-button>
+          </el-form>
+        </el-dialog>
 
 
         <el-card style="margin-bottom: 40px">
@@ -101,7 +120,7 @@
 </template>
 
 <script>
-  import {editReadme, getParticipants, getReadme, getSubTask, getTaskSketch} from "../../api/getTaskDetail";
+  import {editReadme, getParticipants, getReadme, getSubTask, getTaskSketch,changeMode} from "../../api/getTaskDetail";
   import ContributorRank from "./ContributorRank";
   import {convertTypeToString} from "../../api/taskType";
   import SubTaskDetail from "./SubTaskDetail";
@@ -127,11 +146,26 @@
         list: ['asd', 'ad', 'fds'],
         workerList: [],
         subTasks: [],
-        activeIndex: String(0)
+        activeIndex: String(0),
+        changeModeVisible: false,
+        taskRequirement:'',
+        defaultTaskRequirement: ['common', 'speed', 'quality'],
       }
     },
     methods: {
-      getUrl(url){
+      exportResult() {
+        $.get(getUrl('requester/download.html'), {taskId: this.task.taskId}, res => {
+
+          let link = document.createElement('a')
+          link.style.display = 'none'
+          link.href = getUrl(res);
+          link.setAttribute('download','*');
+          document.body.appendChild(link);
+          link.click()
+
+        });
+      },
+      getUrl(url) {
         return getUrl(url);
       },
       handleReadmeCancel: function () {
@@ -175,31 +209,50 @@
 
       handleIndexChange: function (index, indexpath) {
         this.$refs.subTaskDetail.refresh(this.subTasks[Number(index)]);
+      },
+      changeMode:function () {
+          changeMode(this.taskId,this.taskRequirement,res=>{
+            if (res.status==='success'){
+              this.$message({
+                message:'Change mode successfully!',
+                type:'success'
+              });
+              this.changeModeVisible=false;
+              this.refresh();
+
+            }else {
+              this.$message(res.message);
+            }
+          })
+      },
+
+      refresh:function () {
+        getTaskSketch(this.taskId, res => {
+          this.taskSketch = res;
+          this.taskRequirement=res.taskRequirement.toLocaleLowerCase();
+
+        });
+
+        getParticipants(this.taskId, res => {
+          this.workerList = res;
+        });
+
+        getSubTask(this.taskId, res => {
+          this.subTasks = res;
+        });
+
+        getReadme(this.taskId, res => {
+          console.log('getReadMe');
+          console.log(res);
+          this.readMe = res;
+          this.editInput = res;
+        });
       }
 
     },
     created: function () {
       this.taskId = this.$route.params.taskId;
-      getTaskSketch(this.taskId, res => {
-        this.taskSketch = res;
-
-      });
-
-      getParticipants(this.taskId, res => {
-        this.workerList = res;
-      });
-
-      getSubTask(this.taskId, res => {
-        this.subTasks = res;
-      });
-
-      getReadme(this.taskId, res => {
-        console.log('getReadMe');
-        console.log(res);
-        this.readMe = res;
-        this.editInput = res;
-      });
-
+      this.refresh();
 
     }
   }
