@@ -21,6 +21,7 @@
              v-bind:picUrl="getPicUrl"
              v-bind:label="tagData.label"
              v-bind:description="description"
+             v-bind:recommendation="recommendation"
              :points.sync="tagData.points"
              :frames.sync="tagData.frames"
              @lastPic="lastPic"
@@ -48,6 +49,7 @@
         computed: {
             getPicUrl(){
                 return getUrl(this.picUrl);
+                // return (this.picUrl);
             }
         },
 
@@ -146,23 +148,24 @@
                 taskType: null,
                 description: "",
                 picUrl: "",
+                recommendation: [],
                 options: [
-//                    {
-//                    value: '0',
-//                    label: '黄金糕'
-//                }, {
-//                    value: '1',
-//                    label: '双皮奶'
-//                }, {
-//                    value: '2',
-//                    label: '蚵仔煎'
-//                }, {
-//                    value: '3',
-//                    label: '龙须面'
-//                }, {
-//                    value: '4',
-//                    label: '北京烤鸭'
-//                }
+                   // {
+                   // value: '0',
+                   // label: '黄金糕'
+                   // }, {
+                   //     value: '1',
+                   //     label: '双皮奶'
+                   // }, {
+                   //     value: '2',
+                   //     label: '蚵仔煎'
+                   // }, {
+                   //     value: '3',
+                   //     label: '龙须面'
+                   // }, {
+                   //     value: '4',
+                   //     label: '北京烤鸭'
+                   // }
                 ],
                 tagData: {
                     "label": null,

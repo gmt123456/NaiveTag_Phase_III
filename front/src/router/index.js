@@ -53,7 +53,6 @@ import StaffTagSubTask from '../components/staff/staffTag/staffTask/staffSubTask
 import StaffTagMyParticipation from '../components/staff/staffTag/staffTask/staffMyParticipation.vue'
 
 import Introduction from '../components/index/Introduction.vue';
-import test from '../components/test.vue';
 
 Vue.use(Router);
 
@@ -126,8 +125,6 @@ export default new Router({
         {path: '/staffTag/:taskId/:subTaskId/:taskType/:picUrl', component: StaffTag, name: 'staffTag'},
       ]
     },
-
-	  {path: '/test', component: test},
 
     {path: '/', component: Index},
     {path: '/login', component: Login},
