@@ -42,7 +42,7 @@
     },
     methods: {
       getAvatar() {
-        getAvatar('', res => {
+        getAvatar(localStorage.token, res => {
           this.avatarUrl = res;
         })
       },

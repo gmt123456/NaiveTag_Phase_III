@@ -122,7 +122,7 @@ public class ShiroUserAuthentication implements UserAuthenticationService {
 
         // Check duplicated
         if (userDao.getUser(email) != null)
-            return "Email already used";
+            return gson.toJson(ResultMessage.failure("Email already used"));
 
         // Assign an avatar randomly
         String avatar = ImageUtils.getRandomTaskCover();

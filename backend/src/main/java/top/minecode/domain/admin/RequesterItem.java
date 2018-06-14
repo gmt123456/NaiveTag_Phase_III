@@ -1,5 +1,6 @@
 package top.minecode.domain.admin;
 
+import org.jetbrains.annotations.NotNull;
 import top.minecode.po.requester.RequesterPO;
 
 import java.util.Date;
@@ -7,6 +8,7 @@ import java.util.Date;
 /**
  * Created on 2018/6/2.
  * Description:
+ *
  * @author Liao
  */
 public class RequesterItem {
@@ -25,6 +27,18 @@ public class RequesterItem {
         email = requesterPO.getEmail();
         signupTime = requesterPO.getJoinTime();
         this.tasksNum = tasksNum;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setTasksNum(int tasksNum) {
+        this.tasksNum = tasksNum;
+    }
+
+    public int getTasksNum() {
+        return tasksNum;
     }
 
     @Override

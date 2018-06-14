@@ -15,7 +15,7 @@ export function getParticipants(taskId, callback) {
 }
 
 
-function participantsFromServer(taskId,callback) {
+function participantsFromServer(taskId, callback) {
   $.get(getUrl('requester/task/participants.html'), {taskId: taskId},
     res => callback(JSON.parse(res)));
 }
@@ -24,12 +24,21 @@ export function getReadme(taskId, callback) {
   readmeFromServer(taskId, callback)
 }
 
-function readmeFromServer(taskId,callback) {
+function readmeFromServer(taskId, callback) {
   $.get(getUrl('requester/task/readme.html'), {taskId: taskId},
     res => {
       callback(res)
     });
 
+}
+
+export function changeMode(taskId, mode, callback) {
+  $.get(getUrl('requester/task/changeTaskRequirement.html'), {
+    taskId: taskId,
+    taskRequirement: mode
+  }, res => {
+    callback(JSON.parse(res));
+  })
 }
 
 
@@ -38,8 +47,8 @@ export function editReadme(taskId, content, callback) {
 }
 
 
-function editReadmeFromServer(taskId,content,callback) {
-  $.post(getUrl('requester/task/editReadme.html'), {taskId: taskId,readme:content},
+function editReadmeFromServer(taskId, content, callback) {
+  $.post(getUrl('requester/task/editReadme.html'), {taskId: taskId, readme: content},
     res => callback(JSON.parse(res)));
 
 }
@@ -48,7 +57,7 @@ export function getSubTask(taskId, callback) {
   subTaskFromServer(taskId, callback);
 }
 
-function subTaskFromServer(taskId,callback) {
+function subTaskFromServer(taskId, callback) {
   $.get(getUrl('requester/task/subtask.html'), {taskId: taskId},
     res => callback(JSON.parse(res)));
 
@@ -97,7 +106,7 @@ function mockSubTask(taskId, callback) {
       "type": "200",
       "process": 0.50,
       "participantsNum": 28,
-      "description":'mark the box in the picture with the box and labels',
+      "description": 'mark the box in the picture with the box and labels',
       "participants": [
         {
           "name": 'frog0',
@@ -189,7 +198,7 @@ function mockSketch(taskId, callback) {
     "timeInfo": "upload 2 months ago, 30 days to go",
     "deadline": "2018-5-12 23:59",
     "process": 0.86,
-    "state":'finished'
+    "state": 'finished'
   };
   callback(res);
 }

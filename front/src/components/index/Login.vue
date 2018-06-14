@@ -103,7 +103,7 @@
               }
             } else {
               this.$alert(res.message, '', {
-                confirmButtonText: '确定'
+                confirmButtonText: 'confirm'
               })
 
             }

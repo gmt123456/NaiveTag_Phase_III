@@ -55,6 +55,6 @@ public class AdministrateUserDaoImplTest {
 
     @Test
     public void testSearchRequester() {
-        System.out.println(administrateUserDao.searchRequester("frog@email", 1, 20));
+        System.out.println(administrateUserDao.searchRequester("frog", 1, 20));
     }
 }
