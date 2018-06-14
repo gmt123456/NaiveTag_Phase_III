@@ -112,13 +112,7 @@
                   }
 
                 } else {
-                  let message;
-                  switch (res.result) {
-                    case 'repeatedEmail':
-                      message = 'email is taken';
-                      break
-                  }
-                  this.$alert(message, '', {
+                  this.$alert(res.message, '', {
                     confirmButtonText: 'confirm'
                   })
                 }

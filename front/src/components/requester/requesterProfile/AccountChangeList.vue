@@ -4,7 +4,7 @@
       <account-change-item v-for="(item,key) in list"
                            :item="item" :key="key">
       </account-change-item>
-      <infinite-loading @infinite="infiniteHandle"></infinite-loading>
+      <infinite-loading @infinite="infiniteHandle" ref="infiniteLoading"></infinite-loading>
     </el-collapse>
   </div>
 
@@ -25,6 +25,13 @@
       }
     },
     methods: {
+      refresh(){
+        this.list=[];
+        this.page=0;
+        this.$nextTick(() => {
+          this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
+        });
+      },
       getData: function () {
         getAccountInfo(localStorage.token, this.page, res => {
           this.list = this.list.concat(res);

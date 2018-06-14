@@ -37,7 +37,7 @@
           <span>Account Change</span>
         </div>
         <div>
-          <account-change-list></account-change-list>
+          <account-change-list ref="accountList"></account-change-list>
         </div>
       </el-card>
     </div>
@@ -141,7 +141,8 @@
           inputErrorMessage: 'The dollars should be a nonnegative value'
         }).then(({value}) => {
           recharge(value, res => {
-            this.callback(res, 'Recharge successfully!')
+            this.callback(res, 'Recharge successfully!');
+            this.$refs.accountList.refresh();
           })
         });
       },

@@ -1,5 +1,7 @@
+
 export function getUrl(url) {
-    return 'http://localhost:8000/naive/'+url;
+    let baseUrl='http://localhost:8000/naive/';
+    return baseUrl+url;
 }
 
 export function deepClone(source){
