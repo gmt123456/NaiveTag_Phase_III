@@ -71,4 +71,15 @@ public class RankPO {
     public void setScore(double score) {
         this.score = score;
     }
+
+    @Override
+    public String toString() {
+        return "RankPO{" +
+                "userEmail='" + userEmail + '\'' +
+                ", userName='" + userName + '\'' +
+                ", score=" + score +
+                ", rank=" + rank +
+                ", avatar='" + avatar + '\'' +
+                '}';
+    }
 }

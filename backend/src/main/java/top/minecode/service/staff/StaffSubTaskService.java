@@ -142,6 +142,8 @@ public class StaffSubTaskService {
         participationPO.setErrorRate(0.0);
         participationPO.setEvaluated(true);
 
+        participationDao.updateSubTaskParticipation(participationPO);
+
         return new TaskCommitResponse(true);
 
     }

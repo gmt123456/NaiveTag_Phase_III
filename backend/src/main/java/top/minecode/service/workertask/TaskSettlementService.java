@@ -2,6 +2,7 @@ package top.minecode.service.workertask;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import top.minecode.dao.worker.RankDao;
 import top.minecode.dao.worker.WorkerInfoDao;
 import top.minecode.dao.workertask.TaskSettlementDao;
 import top.minecode.domain.tag.SubTaskResult;
@@ -10,10 +11,7 @@ import top.minecode.domain.task.*;
 import top.minecode.domain.utils.Pair;
 import top.minecode.po.task.SubTaskPO;
 import top.minecode.po.task.TaskPO;
-import top.minecode.po.worker.FinishedTaskParticipationPO;
-import top.minecode.po.worker.OnGoingTaskParticipationPO;
-import top.minecode.po.worker.SubTaskParticipationPO;
-import top.minecode.po.worker.WorkerPO;
+import top.minecode.po.worker.*;
 import top.minecode.service.util.PathUtil;
 import top.minecode.web.common.WebConfig;
 
@@ -33,6 +31,17 @@ public class TaskSettlementService {
     private WorkerInfoDao infoDao;
 
     private TaskSettlementDao settlementDao;
+
+    private RankDao rankDao;
+
+    public RankDao getRankDao() {
+        return rankDao;
+    }
+
+    @Autowired
+    public void setRankDao(RankDao rankDao) {
+        this.rankDao = rankDao;
+    }
 
     public WorkerInfoDao getInfoDao() {
         return infoDao;
@@ -58,10 +67,13 @@ public class TaskSettlementService {
         for (TaskPO taskPO: waitingForSettledTasks)
             settleTask(taskPO);
 
-        expireSubParts(); // 让子任务过期掉
+        boolean debug = true;
+
+        if (waitingForSettledTasks.size() > 0 || debug)
+            updateRank();
     }
 
-    private void expireSubParts() {
+    public void expireSubParts() {
         List<SubTaskParticipationPO> expiredParticipation = settlementDao.getExpiredSubTaskParticipationPOS();
         for (SubTaskParticipationPO po: expiredParticipation) {
             po.setState(SubTaskParticipationState.EXPIRED);
@@ -234,6 +246,26 @@ public class TaskSettlementService {
         settlementDao.updateTaskPO(taskPO);
         settlementDao.batchUpdateSubPart(subTaskParticipationPOS);
 
+    }
+
+    private void updateRank() {
+        List<RankPO> allRanks = rankDao.getAll();
+        List<WorkerPO> workers = infoDao.getAll();
+        Map<String, RankPO> emailToRank = allRanks.stream().collect(Collectors.toMap(RankPO::getUserEmail, e -> e));
+        workers.sort(Comparator.comparingDouble(WorkerPO::getScore));
+        for (int i = 0; i < workers.size(); i++) {
+            WorkerPO worker = workers.get(workers.size() - i - 1);
+            String email = worker.getEmail();
+            String avatar = worker.getAvatar();
+            double score = worker.getScore();
+            String userName = worker.getName();
+            RankPO rank = emailToRank.get(email);
+            rank.setAvatar(avatar);
+            rank.setRank(i + 1);
+            rank.setUserName(userName);
+            rank.setScore(score);
+        }
+        rankDao.batchUpdate(allRanks);
     }
 
 
