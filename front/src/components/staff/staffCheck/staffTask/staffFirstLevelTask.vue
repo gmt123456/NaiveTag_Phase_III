@@ -20,11 +20,11 @@
                                 <img src="../../../../../static/dollar_white.png" height="25px">
                                 <span style="color: white;font-weight: 500;font-size: 20px;">{{taskData.totalDollars.toFixed(2)}}</span>
                             </div>
-                            <!--<div class="center" v-if="taskData.state === 'Finished'" style="padding-left: 3px;">-->
+                            <!--<div class="center" v-if="taskData.state === 'FINISHED'" style="padding-left: 3px;">-->
                                 <!--<img src="../../../../static/complete.png" height="20px">-->
                                 <!--<span style="padding-left: 3px;color: white;font-weight: lighter;font-size: 14px;">Finished</span>-->
                             <!--</div>-->
-                            <!--<div class="center" v-if="taskData.state === 'Going'" style="padding-left: 3px;">-->
+                            <!--<div class="center" v-if="taskData.state === 'ON_GOING'" style="padding-left: 3px;">-->
                                 <!--<img src="../../../../static/unfinished.png" height="20px">-->
                                 <!--<span style="padding-left: 3px;color: white;font-weight: lighter;font-size: 14px;">Going</span>-->
                             <!--</div>-->

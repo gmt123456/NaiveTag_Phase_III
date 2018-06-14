@@ -64,7 +64,7 @@
 
 
                     <div v-else style="width: 100%;min-height: 420px;padding: 20px;">
-                        <div v-if="taskData.participated && taskData.state === 'Finished'">
+                        <div v-if="taskData.participated && taskData.state === 'FINISHED'">
                             <div style="color: darkgray;padding-top: 10px;padding-bottom: 10px;" class="center"><span style="color: black;padding-right: 8px;font-weight: bold;">Score</span>changes through the task:
                                 <img src="../../../../static/favorite.png" width="15px" style="padding-left: 10px;"/>
                                 <span style="color: black;font-weight: normal;">{{taskData.earnedDollars.toFixed(2)}}</span>
@@ -81,7 +81,7 @@
                         <div v-else class="center" style="width: 650px;justify-content:center;height: 350px;">
                             <div style="display: block;text-align: center;">
                                 <img src="../../../../static/none.png" width="200px"/>
-                                <div v-if="taskData.participated && taskData.state === 'Going'" style="color: darkgray;font-size: 15px;">
+                                <div v-if="taskData.participated && taskData.state === 'ON_GOING'" style="color: darkgray;font-size: 15px;">
                                     <div>You have joined it</div>
                                     <div>Please wait for the end of the whole Task!</div>
                                 </div>

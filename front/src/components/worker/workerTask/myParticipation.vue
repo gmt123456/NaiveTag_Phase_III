@@ -57,7 +57,8 @@
                                             <span style="color: lightgrey;font-size: 12px;padding-left: 5px;">earned</span>
                                         </div>
                                         <div>
-                                            <el-progress v-if="item.process === 100" :percentage="100" status="success"></el-progress>
+                                            <el-progress v-if="value === 2 && item.earnedDollars === 0" :percentage="100" status="exception"></el-progress>
+                                            <el-progress v-else-if="item.process === 100" :percentage="100" status="success"></el-progress>
                                             <el-progress v-else :percentage="item.process"></el-progress>
                                         </div>
                                         <div style="text-align: center;color: gray;font-size: 13px;width: 100%;float: bottom">
