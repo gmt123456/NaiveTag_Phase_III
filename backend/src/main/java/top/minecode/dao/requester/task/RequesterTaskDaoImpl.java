@@ -19,18 +19,20 @@ import top.minecode.po.task.SpecificTaskPO;
 import top.minecode.po.task.SubTaskPO;
 import top.minecode.po.task.TaskPO;
 import top.minecode.po.worker.WorkerPO;
+import top.minecode.service.util.HttpHelper;
 import top.minecode.service.util.PathUtil;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
  * Created on 2018/5/24.
  * Description:
+ *
  * @author Liao
  */
 
@@ -165,7 +167,7 @@ public class RequesterTaskDaoImpl implements RequesterTaskDao {
             // Create SubTaskPOS
             for (ImageLists.ImageList images : imageLists) {
                 SubTaskPO subTaskPO = new SubTaskPO(specificTask.getTaskType(),
-                        specificTask.getTaskDescription(), images.getSubImages(),
+                        specificTask.getTaskDescription(), images.getImages(),
                         specificTask.getId(), taskId);
                 subTaskPOS.add(subTaskPO);
             }
@@ -177,13 +179,64 @@ public class RequesterTaskDaoImpl implements RequesterTaskDao {
             specificTask.setSubTasks(subTaskPOS.stream().map(SubTaskPO::getId).collect(Collectors.toList()));
         }
 
+        // If it's global mark task, write images' path to
+        // a file so that a python process can access them
+        if (specificTasks.keySet().contains(TaskType.t_100)) {
+            String imagePathFile = writeImagesPath(imageLists, taskId);
+            String labelFile = writeLabels(specificTaskPOS, taskId);
+            Map<String, String> params = new HashMap<>();
+            params.put("taskId", taskId + "");
+            params.put("pic_path_file", imagePathFile);
+            params.put("target_labels_file_path", labelFile);
+
+            HttpHelper.send(PathUtil.getPythonServerPath(), HttpHelper.urlEncode(params));
+        }
         insertVectors(taskPO);
 
         return CommonOperation.template(forEachUpdate(specificTaskPOS));
     }
 
+    private String writeImagesPath(ImageLists imageLists, int taskId) {
+        List<String> images = new ArrayList<>();
+        for (ImageLists.ImageList imageList : imageLists)
+            imageList.getImages().stream()
+                    .map(PathUtil::convertToAbsolutePath)
+                    .forEach(images::add);
+
+        String fileName = taskId + "_images.txt";
+        writeFile(images, fileName);
+
+        return fileName;
+    }
+
+    private String writeLabels(List<SpecificTaskPO> specificTaskPOS, int taskId) {
+        List<String> labels = specificTaskPOS.stream()
+                .flatMap(p -> p.getLabels().stream())
+                .collect(Collectors.toList());
+
+        String fileName = taskId + "_label.txt";
+        writeFile(labels, fileName);
+
+        return fileName;
+    }
+
+    private void writeFile(List<String> content, String fileName) {
+        File dir = new File(PathUtil.getTaskSpecificationPath());
+        if (!dir.exists() && !dir.mkdirs())
+            log.error("Failed to make specification directory when write image's path");
+        File target = new File(dir, fileName);
+
+        try (PrintWriter writer = new PrintWriter(target)) {
+            content.forEach(writer::println);
+            writer.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Insert task vector for intelligent module
+     *
      * @param target target taskPO
      */
     private void insertVectors(TaskPO target) {

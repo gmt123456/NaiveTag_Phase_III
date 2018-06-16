@@ -1,13 +1,16 @@
 package top.minecode.dao.statistic;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import top.minecode.dao.requester.task.RequesterTaskDao;
 import top.minecode.dao.utils.CommonOperation;
 import top.minecode.domain.statistic.ChartData;
+import top.minecode.domain.statistic.RequesterTaskData;
 import top.minecode.domain.user.UserType;
+import top.minecode.po.task.TaskPO;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -21,6 +24,7 @@ import java.util.stream.Stream;
 /**
  * Created on 2018/6/1.
  * Description:
+ *
  * @author Liao
  */
 @Repository("webStatisticDaoImpl")
@@ -35,6 +39,14 @@ public class WebStatisticDaoImpl implements WebStatisticDao {
     private static final String DONE_NUMBER = "doneNumber";
     private static final String COMMIT_NUMBER = "commitNumber";
     private static final String RELEASE_NUMBER = "releaseNumber";
+
+    private RequesterTaskDao requesterTaskDao;
+    private CommonOperation<TaskPO> taskOperation = new CommonOperation<>(TaskPO.class);
+
+    @Autowired
+    public RequesterTaskDao getRequesterTaskDao() {
+        return requesterTaskDao;
+    }
 
     @Override
     public ChartData getActiveUserData() {
@@ -53,6 +65,29 @@ public class WebStatisticDaoImpl implements WebStatisticDao {
         List<Map> rawData = CommonOperation.executeSQL(Map.class, hql);
 
         return processUserRawData(rawData, d -> ((Date) d).toLocalDate(), true);
+    }
+
+    @Override
+    public ChartData getWorkerAbilityData(String email) {
+        return null;
+    }
+
+    @Override
+    public List<RequesterTaskData> getRequesterTaskData(String email) {
+        List<TaskPO> tasks = taskOperation.getListBySingleField("ownerEmail", email);
+        List<RequesterTaskData> result = new ArrayList<>();
+        for (TaskPO task : tasks) {
+            int participatedNum = requesterTaskDao.getTaskParticipants(task.getId()).size();
+            String hql = "select avg(t.errorRate) from SubTaskParticipationPO t where t.email=:mail and " +
+                    " t.taskId=:id";
+            double expectedErrorRate = CommonOperation.template(session ->
+                    (double) session.createQuery(hql)
+                            .setParameter("mail", email)
+                            .setParameter("id", task.getId())
+                            .iterate().next());
+//            RequesterTaskData data = new RequesterTaskData(task, participatedNum, expectedErrorRate)
+        }
+        return null;
     }
 
     @Override

@@ -72,7 +72,7 @@
                 <div v-bind:style="getBlocksStyle()" style="width: 100%;height: 100%;">
                   <el-col :span="17"><div style="width: 0px;height: 100%;border: 1px dotted transparent;" ></div></el-col>
                   <el-col :span="7">
-                    <div class="" style="min-height: 756px;margin-top: 40px;background-color: #cdcdcd">
+                    <div class="" style="min-height: 756px;margin-top: 40px;background-color: #2b2b2b">
 
                         <!--&lt;!&ndash;颜色选择器&ndash;&gt;-->
                         <!--<div v-if="isRectsTypeNoLabel" class="block center" style="padding-top: 20px;">-->

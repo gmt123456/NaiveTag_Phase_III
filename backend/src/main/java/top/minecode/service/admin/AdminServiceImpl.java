@@ -7,6 +7,7 @@ import top.minecode.dao.log.AccountLogDao;
 import top.minecode.dao.user.AdminDao;
 import top.minecode.domain.admin.RequesterItem;
 import top.minecode.domain.admin.WorkerItem;
+import top.minecode.domain.statistic.ChartData;
 import top.minecode.domain.utils.ResultMessage;
 import top.minecode.po.log.RequesterAccountLogPO;
 import top.minecode.service.util.Encryptor;
@@ -57,6 +58,16 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<WorkerItem> getWorkers(PageCommand pageCommand) {
         return administrateUserDao.getWorkers(pageCommand.getPage(), pageCommand.getPageSize());
+    }
+
+    @Override
+    public ChartData getWorkerStatistic(String email) {
+        return null;
+    }
+
+    @Override
+    public ChartData getRequesterStatistic(String email) {
+        return null;
     }
 
     @Override
