@@ -1,5 +1,6 @@
 package top.minecode.service.tag;
 
+import javafx.scene.layout.Pane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.minecode.dao.utils.DaoConfig;
@@ -15,7 +16,11 @@ import top.minecode.po.task.SpecificTaskPO;
 import top.minecode.po.task.SubTaskPO;
 import top.minecode.po.task.TaskPO;
 import top.minecode.po.worker.SubTaskParticipationPO;
+import top.minecode.service.util.HttpHelper;
+import top.minecode.service.util.PathUtil;
 
+import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -137,5 +142,14 @@ public class TagService {
             return null;
         return new TaskInfo(taskType, specificTaskPO
                 .getTaskDescription(), specificTaskPO.getLabels());
+    }
+
+    public String getRecommendationLabels(int taskId, String url) {
+        Map<String, String> params = new HashMap<>();
+        params.put("task_id", String.valueOf(taskId));
+        params.put("pic_path", url);
+        String serverUrl = PathUtil.getPythonServerPath();
+        String param = HttpHelper.urlEncode(params);
+        return HttpHelper.send(serverUrl, param);
     }
 }

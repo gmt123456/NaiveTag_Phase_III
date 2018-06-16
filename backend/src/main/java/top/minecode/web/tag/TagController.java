@@ -2,11 +2,13 @@ package top.minecode.web.tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import top.minecode.domain.tag.TagResult;
 import top.minecode.domain.task.TaskType;
 import top.minecode.service.tag.TagService;
+import top.minecode.service.util.HttpHelper;
 import top.minecode.web.common.BaseController;
 import top.minecode.web.common.WebConfig;
 
@@ -76,6 +78,12 @@ public class TagController extends BaseController {
             // notice the active user table
             return WebConfig.getGson().toJson(tagService.getTaskInformation(taskId, type));
 
+    }
+
+    @RequestMapping("/helper")
+    @ResponseBody
+    public String getRecommendationLabels(HttpServletRequest request, int taskId, String url) {
+        return tagService.getRecommendationLabels(taskId, url);
     }
 
 }
