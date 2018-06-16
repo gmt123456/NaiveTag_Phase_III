@@ -20,9 +20,9 @@ import java.util.Map;
  *
  * @author iznauy
  */
-public class Helper {
+class Helper {
 
-    public static void updateModel(SubTaskParticipationPO participationPO) {
+    static void updateModel(SubTaskParticipationPO participationPO) {
         if (participationPO.getSubTaskType() != TaskType.t_100)
             return;
         Map<String, String> tagResults = participationPO.getTags();
@@ -30,7 +30,7 @@ public class Helper {
         for (String logicalUrl: tagResults.keySet()) {
             GlobalLabelTagResult result = (GlobalLabelTagResult) WebConfig.getGson().fromJson(tagResults.get(logicalUrl), TagResult.class);
             String label = result.getLabel();
-            buffer.append(PathUtil.coverToAbsolutePath(logicalUrl))
+            buffer.append(PathUtil.convertToAbsolutePath(logicalUrl))
                     .append(" ")
                     .append(label)
                     .append("\n");
