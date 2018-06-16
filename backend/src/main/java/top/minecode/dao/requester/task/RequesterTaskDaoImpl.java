@@ -179,6 +179,11 @@ public class RequesterTaskDaoImpl implements RequesterTaskDao {
             specificTask.setSubTasks(subTaskPOS.stream().map(SubTaskPO::getId).collect(Collectors.toList()));
         }
 
+        insertVectors(taskPO);
+
+        if (!CommonOperation.template(forEachUpdate(specificTaskPOS)))
+            return false;
+
         // If it's global mark task, write images' path to
         // a file so that a python process can access them
         if (specificTasks.keySet().contains(TaskType.t_100)) {
@@ -191,9 +196,8 @@ public class RequesterTaskDaoImpl implements RequesterTaskDao {
 
             HttpHelper.send(PathUtil.getPythonServerPath(), HttpHelper.urlEncode(params));
         }
-        insertVectors(taskPO);
 
-        return CommonOperation.template(forEachUpdate(specificTaskPOS));
+        return true;
     }
 
     private String writeImagesPath(ImageLists imageLists, int taskId) {
@@ -204,9 +208,7 @@ public class RequesterTaskDaoImpl implements RequesterTaskDao {
                     .forEach(images::add);
 
         String fileName = taskId + "_images.txt";
-        writeFile(images, fileName);
-
-        return fileName;
+        return writeFile(images, fileName);
     }
 
     private String writeLabels(List<SpecificTaskPO> specificTaskPOS, int taskId) {
@@ -215,13 +217,11 @@ public class RequesterTaskDaoImpl implements RequesterTaskDao {
                 .collect(Collectors.toList());
 
         String fileName = taskId + "_label.txt";
-        writeFile(labels, fileName);
-
-        return fileName;
+        return writeFile(labels, fileName);
     }
 
-    private void writeFile(List<String> content, String fileName) {
-        File dir = new File(PathUtil.getTaskSpecificationPath());
+    private String writeFile(List<String> content, String fileName) {
+        File dir = new File(PathUtil.getBasePath() + PathUtil.getTaskSpecificationPath());
         if (!dir.exists() && !dir.mkdirs())
             log.error("Failed to make specification directory when write image's path");
         File target = new File(dir, fileName);
@@ -232,6 +232,8 @@ public class RequesterTaskDaoImpl implements RequesterTaskDao {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
+        return target.getPath();
     }
 
     /**

@@ -195,7 +195,7 @@ public class TaskRecommendationService {
                 .collect(Collectors.toList());
 
         // The keyExtractor is f -> 10. which means sampling from a uniform distribution
-        result.addAll(samplingBy(speedFirstTasks, f -> 10., proportion.getSpeedNum()));
+        result.addAll(recommendBy(speedFirstTasks, f -> 10., proportion.getSpeedNum()));
 
         return result.stream()
                 .sorted(Comparator.comparing(TaskPO::getAdRate).reversed())  // Ranking by adRate
