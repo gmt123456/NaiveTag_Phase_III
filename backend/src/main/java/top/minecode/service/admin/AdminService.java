@@ -2,6 +2,7 @@ package top.minecode.service.admin;
 
 import top.minecode.domain.admin.RequesterItem;
 import top.minecode.domain.admin.WorkerItem;
+import top.minecode.domain.statistic.ChartData;
 import top.minecode.domain.utils.ResultMessage;
 import top.minecode.web.admin.AdminChangeDollarsCommand;
 import top.minecode.web.admin.AdminChangePasswordCommand;
@@ -27,4 +28,8 @@ public interface AdminService {
     List<WorkerItem> getWorkers(PageCommand pageCommand);
 
     List<RequesterItem> getRequester(PageCommand pageCommand);
+
+    ChartData getWorkerStatistic(String email);
+
+    ChartData getRequesterStatistic(String email);
 }
