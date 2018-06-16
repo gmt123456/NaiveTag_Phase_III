@@ -212,7 +212,7 @@ public class TaskRecommendationService {
         // If the unaccepted tasks number is less than num,
         // then just sort these tasks by adRate and return
         int thresholdSize = (int) (unacceptedTasks.size() * RECOMMENDATION_THRESHOLD);
-        if (thresholdSize <= num)
+        if (num <= thresholdSize)
             return unacceptedTasks.stream().map(FeatureVector::getIdentity)
                     .sorted(Comparator.comparing(TaskPO::getAdRate))
                     .limit(num)
@@ -273,7 +273,7 @@ public class TaskRecommendationService {
         // Original proportion is 4:3:3 (interest:quality:speed)
         private static final double QUALITY_LIMIT = 0.3;
         private static final double SPEED_LIMIT = 0.3;
-        private static final int RECOMMENDATION_NUM = 5;
+        private static final int RECOMMENDATION_NUM = 10;
 
         private double speed;
         private double quality;
