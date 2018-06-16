@@ -20,9 +20,9 @@ import java.util.Map;
  *
  * @author iznauy
  */
-public class Helper {
+class Helper {
 
-    public static void updateModel(SubTaskParticipationPO participationPO) {
+    static void updateModel(SubTaskParticipationPO participationPO) {
         if (participationPO.getSubTaskType() != TaskType.t_100)
             return;
         Map<String, String> tagResults = participationPO.getTags();

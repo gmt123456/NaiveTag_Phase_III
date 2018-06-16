@@ -49,21 +49,21 @@ public class HttpHelper {
 
     public static String urlEncode(Map<String, String> dataItems) {
         StringBuffer buffer = null;
-        for (String key: dataItems.keySet()) {
-            if (buffer == null) {
-                buffer = new StringBuffer();
-                buffer.append(key).append("=").append(dataItems.get(key));
-            } else {
-                buffer.append("&").append(key).append("=").append(dataItems.get(key));
-            }
-        }
-        String result = "";
         try {
-            result = URLEncoder.encode(buffer != null ? buffer.toString(): "", "UTF-8");
+            for (String key : dataItems.keySet()) {
+                if (buffer == null) {
+                    buffer = new StringBuffer();
+                    buffer.append(URLEncoder.encode((key), "UTF-8")).append("=")
+                            .append(URLEncoder.encode(dataItems.get(key), "UTF-8"));
+                } else {
+                    buffer.append("&").append(URLEncoder.encode((key), "UTF-8"))
+                            .append("=").append(URLEncoder.encode(dataItems.get(key), "UTF-8"));
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return result;
+        return buffer == null ? "" : buffer.toString();
     }
 
 }
