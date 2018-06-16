@@ -185,7 +185,7 @@ public class RequesterTaskDaoImpl implements RequesterTaskDao {
             String imagePathFile = writeImagesPath(imageLists, taskId);
             String labelFile = writeLabels(specificTaskPOS, taskId);
             Map<String, String> params = new HashMap<>();
-            params.put("taskId", taskId + "");
+            params.put("task_id", taskId + "");
             params.put("pic_path_file", imagePathFile);
             params.put("target_labels_file_path", labelFile);
 
