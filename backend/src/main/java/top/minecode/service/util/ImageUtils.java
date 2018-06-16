@@ -3,6 +3,7 @@ package top.minecode.service.util;
 import org.apache.commons.io.FileUtils;
 import org.springframework.util.Base64Utils;
 
+import javax.activation.MimetypesFileTypeMap;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
@@ -21,6 +22,12 @@ public class ImageUtils {
     private static final String DEFAULT_TASK_BACKGROUND_PATH = PathUtil.getDefaultTaskBackgroundPath();
     private static final String[] DEFAULT_AVATARS = new String[]{"0.png", "1.png", "2.png", "3.png", "4.jpg"};
     private static final String[] DEFAULT_BACKGROUNDS = new String[]{"0.jpg", "1.jpg", "2.jpg"};
+
+    private static MimetypesFileTypeMap typeMap = new MimetypesFileTypeMap();
+
+    static {
+        typeMap.addMimeTypes("image png tif jpg jpeg bmp");
+    }
 
     /**
      * Save avatar's data as file and return the file's relative
@@ -73,6 +80,11 @@ public class ImageUtils {
         Random random = new Random();
 
         return DEFAULT_TASK_BACKGROUND_PATH + DEFAULT_BACKGROUNDS[random.nextInt(3)];
+    }
+
+    public static boolean isImageFile(File file) {
+        return typeMap.getContentType(file)
+                .substring(0, 5).equalsIgnoreCase("image");
     }
 
     private static String transferImageTo(String imageData, String path) throws IOException {

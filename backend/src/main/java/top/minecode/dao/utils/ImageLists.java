@@ -1,6 +1,7 @@
 package top.minecode.dao.utils;
 
 import org.jetbrains.annotations.NotNull;
+import top.minecode.service.util.ImageUtils;
 import top.minecode.service.util.PathUtil;
 
 import javax.activation.MimetypesFileTypeMap;
@@ -37,8 +38,7 @@ public class ImageLists implements Iterable<ImageLists.ImageList> {
     }
 
     private boolean isImageFile(Path file) {
-        String mimeType = new MimetypesFileTypeMap().getContentType(file.toFile());
-        return mimeType.substring(0, 5).equalsIgnoreCase("image");
+        return ImageUtils.isImageFile(file.toFile());
     }
 
     private String getRelativePath(Path path) {
