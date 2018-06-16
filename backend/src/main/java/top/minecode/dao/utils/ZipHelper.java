@@ -61,8 +61,11 @@ public class ZipHelper {
     }
 
     private static boolean isImageFile(String name) {
-        String mimeType = new MimetypesFileTypeMap().getContentType(name);
-        return mimeType.substring(0, 5).equalsIgnoreCase("image");
+        return true;
+//        MimetypesFileTypeMap mtftp = new MimetypesFileTypeMap();
+//        mtftp.addMimeTypes("image png tif jpg jpeg bmp");
+//        String mimeType = mtftp.getContentType(name);
+//        return mimeType.substring(0, 5).equalsIgnoreCase("image");
     }
 
     // Avoid unzip mac's hidden file
