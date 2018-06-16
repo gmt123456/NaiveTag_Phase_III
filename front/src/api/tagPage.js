@@ -38,3 +38,20 @@ export function getLabelInfo(taskId,subTaskId,taskType, picUrl, callback) {
         // contentType:"application/x-www-form-urlencoded; charset=utf-8"
     })
 }
+export function getRecommendation(taskId, picUrl, callback) {
+
+	$.ajax({
+		url: getUrl('worker/tag/helper.html'),
+		type: 'GET',
+		// xhrFields:{withCredentials:true},
+		data: {
+			'token': localStorage.token,
+			"taskId" : taskId,
+			"url" : picUrl
+		},
+		success: function(result){
+			callback(JSON.parse(result));
+		},
+		// contentType:"application/x-www-form-urlencoded; charset=utf-8"
+	})
+}

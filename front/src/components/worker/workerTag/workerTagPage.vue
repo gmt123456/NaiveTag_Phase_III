@@ -35,6 +35,7 @@
     import tag from './workerTagInfo.vue'
     import {taskInfo} from '../../../api/tagPage.js'
     import {getLabelInfo} from '../../../api/tagPage.js'
+    import {getRecommendation} from "../../../api/tagPage";
     import {save} from '../../../api/tagPic.js'
     import {next} from '../../../api/tagPic.js'
     import {previous} from '../../../api/tagPic.js'
@@ -95,6 +96,7 @@
 
             fetchTagData () {
                 this.picUrl = this.$route.params.picUrl;
+                let that = this;
                 let result = taskInfo(this.$route.params.taskId, this.$route.params.subTaskId, this.$route.params.taskType,  res=> {
 
                     if(res.classes){
@@ -106,8 +108,12 @@
                     if(res.description){
                         this.description = res.description;
                     }
+	                getRecommendation(that.$route.params.taskId, that.picUrl, res=>{
+		                that.recommendation = res;
+	                });
                     this.fetchLabelDataByPicUrl(this.$route.params.picUrl);
                 });
+
             },
 
             fetchLabelDataByPicUrl(picUrl) {
