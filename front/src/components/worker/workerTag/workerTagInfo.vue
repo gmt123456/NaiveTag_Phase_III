@@ -1,5 +1,5 @@
 <template>
-    <div id="tag" class="cannotselect">
+    <div id="tag" class="cannotselect" v-on:keyup.40="nextPic" tabindex="0">
         <el-row>
 
 
@@ -7,7 +7,7 @@
             <el-col :span="17"><div class="grid-content bg-purple">
                 <div style="padding: 10px;">
 
-                    <div style="padding: 10px;border: dashed;">
+                    <div style="padding: 10px;border: dotted;">
                         <div ref="divBlock" style="height: 650px;width: 100%;text-align: center;display:flex;justify-content:center;align-items:center;">
 
                             <div style="border: 1px solid gray;position: relative;display: inline-flex;">
@@ -68,9 +68,11 @@
 
 
             <!--右侧标注界面-->
-            <el-col :span="7"><div class="grid-content bg-purple-light">
-                <div v-bind:style="getBlocksStyle()">
-                    <div class="tagblocks">
+            <el-col :span="7"><div>
+                <div v-bind:style="getBlocksStyle()" style="width: 100%;height: 100%;">
+                  <el-col :span="17"><div style="width: 0px;height: 100%;border: 1px dotted transparent;" ></div></el-col>
+                  <el-col :span="7">
+                    <div class="" style="min-height: 756px;margin-top: 40px;background-color: #cdcdcd">
 
                         <!--&lt;!&ndash;颜色选择器&ndash;&gt;-->
                         <!--<div v-if="isRectsTypeNoLabel" class="block center" style="padding-top: 20px;">-->
@@ -80,17 +82,26 @@
                         <div>
                             <el-button icon="el-icon-back" round size="mini" style="margin: 10px" @click="back">back</el-button>
                         </div>
-                        <div v-if="description" class="block center" style="padding: 20px 20px 0px 20px;justify-content:center;">
-                            Description：{{description}}
+                        <div style="width: 100%;text-align: center;">
+                            <div v-if="description" class="center" style="text-align:left; font-weight: bold;color: white;padding: 10px;border-radius: 5px;width: 77%;margin: auto;">
+                                <div>
+                                    <span>Description:</span>
+                                    <div style="font-size: 13px;font-weight: normal;display: inline;">{{description}}</div>
+                                    <div v-if="recommendation && recommendation.length != 0">
+                                        <div style="font-size: 14px;margin-bottom: 5px;margin-top: 5px;">Maybe these...</div>
+                                        <el-tag v-for="item in recommendation" :key="item" style="margin-right: 5px;cursor: pointer;" @click.native="tagClick(item)">{{item}}</el-tag>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <!--标注块-->
-                        <div style="text-align: center;padding-top: 10px;padding-bottom: 10px">
+                        <div style="text-align: center;padding-bottom: 10px">
 
                             <!--输入框-->
                             <div v-if="isInputType">
                                 <div v-if="!isRectsTypeNoLabel">
-                                    <el-input v-model="labelInput" placeholder="Please input content" class="input" />
+                                    <el-input v-model="labelInput" placeholder="Please input content" class="input"/>
                                 </div>
                                 <div v-if="isRectsTypeNoLabel"
                                      v-for="(item, index) in frames"
@@ -142,12 +153,13 @@
 
                         <div class="center" style="padding-bottom: 20px;justify-content:center;">
                             <el-button-group>
-                                <el-button type="primary" icon="el-icon-arrow-left" v-on:click="lastPic">Last one</el-button>
-                                <el-button type="primary" v-on:click="nextPic">Next one<i class="el-icon-arrow-right el-icon--right"></i></el-button>
+                                <el-button type="primary" plain icon="el-icon-arrow-left" v-on:click="lastPic" style="width: 150px;">Last one</el-button>
+                                <el-button type="primary" v-on:click="nextPic" style="width: 150px;">Next one<i class="el-icon-arrow-right el-icon--right"></i></el-button>
                             </el-button-group>
                         </div>
 
                     </div>
+                  </el-col>
                 </div>
             </div></el-col>
 
@@ -208,7 +220,7 @@
             points: Array,
             options: Array,
             description: String,
-
+	        recommendation: Array,
             picUrl: String
         },
 
@@ -393,6 +405,19 @@
         },
 
         methods: {
+
+	        tagClick(item){
+	        	console.log(item);
+	        	let that = this;
+		        for(let index in this.options){
+			        if(this.options[index].label === item){
+				        that.labelSelect = index;
+				        console.log(that.labelSelect);
+				        break;
+			        }
+		        }
+            },
+
 	        back(){
             this.$router.push({ name: 'subTaskDetails', params: { taskId: localStorage.firstLevelTaskId, subTaskId: this.$route.params.subTaskId, taskType: this.$route.params.taskType}});
           },
@@ -705,7 +730,6 @@
                     position:'absolute',
                     left: '0px',
                     top: '10px',
-                    width: '95%',
                 }
             }
 
@@ -735,15 +759,22 @@
         -moz-user-select: none;
         -khtml-user-select: none;
         user-select: none;
+        border: none;
+        outline: none;
+    }
+    .cannotselect :focus{
+        border: none;
+        outline: none;
     }
 
     .tagblocks {
-        width: 20%;
-        border-radius: 10px 10px 10px 10px;
-        background-color: #eeeeee;
-        margin-top: 50px;
-        margin-left:auto;
-        margin-right:0px;
+        width: 380px;
+        min-height: 750px;
+        /*border-radius: 10px 10px 10px 10px;*/
+        /*background-color: #6f7180;*/
+        margin-top: 40px;
+        /*margin-left:auto;*/
+        /*margin-right:30px;*/
         text-align: left;
     }
 

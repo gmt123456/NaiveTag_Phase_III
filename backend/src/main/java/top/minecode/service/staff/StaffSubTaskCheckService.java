@@ -9,6 +9,7 @@ import top.minecode.dao.worker.WorkerInfoDao;
 import top.minecode.dao.workertask.SubTaskDao;
 import top.minecode.dao.workertask.TaskDao;
 import top.minecode.dao.workertask.TaskParticipationDao;
+import top.minecode.domain.tag.GlobalLabelTagResult;
 import top.minecode.domain.tag.TagResult;
 import top.minecode.domain.task.SubTask;
 import top.minecode.domain.task.SubTaskState;
@@ -20,8 +21,13 @@ import top.minecode.po.task.SubTaskPO;
 import top.minecode.po.task.TaskPO;
 import top.minecode.po.worker.SubTaskParticipationPO;
 import top.minecode.po.worker.WorkerPO;
+import top.minecode.service.util.HttpHelper;
+import top.minecode.service.util.PathUtil;
 import top.minecode.web.common.WebConfig;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -138,6 +144,44 @@ public class StaffSubTaskCheckService {
         checkDao.updateSubCheck(subCheckTaskPO);
     }
 
+    private void updateModel(SubTaskParticipationPO participationPO) {
+        if (participationPO.getSubTaskType() != TaskType.t_100)
+            return;
+        Map<String, String> tagResults = participationPO.getTags();
+        StringBuilder buffer = new StringBuilder();
+        for (String logicalUrl: tagResults.keySet()) {
+            GlobalLabelTagResult result = (GlobalLabelTagResult)WebConfig.getGson().fromJson(tagResults.get(logicalUrl), TagResult.class);
+            String label = result.getLabel();
+            buffer.append(PathUtil.coverToAbsolutePath(logicalUrl))
+                    .append(" ")
+                    .append(label)
+                    .append("\n");
+        }
+        String content = buffer.toString();
+        try {
+            String filePath = PathUtil.getBasePath() + PathUtil.getSubTaskResultPath()
+                    + participationPO.getId() + "_" + participationPO.getSubTaskId() + ".txt";
+            File resultFile = new File(filePath);
+            File parentFile = resultFile.getParentFile();
+            if (!parentFile.exists())
+                parentFile.mkdir();
+            resultFile.createNewFile();
+            PrintWriter writer = new PrintWriter(new FileOutputStream(resultFile));
+            writer.write(content);
+
+            Map<String, String> params = new HashMap<>();
+            params.put("task_id", String.valueOf(participationPO.getTaskId()));
+            params.put("tag_file_path", filePath);
+
+            String url = PathUtil.getPythonServerPath();
+            String param = HttpHelper.urlEncode(params);
+            HttpHelper.send(url, param);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void commit(SubCheckTaskPO subCheckTaskPO) {
         subCheckTaskPO.setCheckTaskState(SubCheckTaskState.finished);
         Map<String, Boolean> resultMap = subCheckTaskPO.getPicAccept();
@@ -180,6 +224,7 @@ public class StaffSubTaskCheckService {
             WorkerPO workerPO = workerInfoDao.getWorkerPOByEmail(email);
             workerPO.setDollars(workerPO.getDollars() + earnedDollars);
 
+            updateModel(subTaskParticipationPO);
 
             logDao.addWorkerAccountChangeLog(new WorkerAccountLogPO(email, earnedDollars, workerPO.getDollars(), new Date(),
                     WorkerAccountLogPO.WorkerAccountChangeType.PAY));
@@ -204,4 +249,5 @@ public class StaffSubTaskCheckService {
         participationDao.updateSubTaskParticipation(subTaskParticipationPO);
 
     }
+
 }
