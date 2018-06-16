@@ -60,7 +60,7 @@ public class TagController extends BaseController {
         String userEmail = getUserEmail(request);
         TaskType type = TaskType.convert(taskType);
         TagResult result = tagService.getLabelInformation(userEmail, taskId, subTaskId, type, url);
-        return WebConfig.getGson().toJson(result);
+        return WebConfig.getGson().toJson(result, TagResult.class);
     }
 
     @RequestMapping("/previous")

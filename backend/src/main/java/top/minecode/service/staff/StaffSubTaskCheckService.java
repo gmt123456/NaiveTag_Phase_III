@@ -160,7 +160,7 @@ public class StaffSubTaskCheckService {
         String content = buffer.toString();
         try {
             String filePath = PathUtil.getBasePath() + PathUtil.getSubTaskResultPath()
-                    + participationPO.getId() + "_" + participationPO.getSubTaskId() + ".txt"
+                    + participationPO.getId() + "_" + participationPO.getSubTaskId() + ".txt";
             File resultFile = new File(filePath);
             File parentFile = resultFile.getParentFile();
             if (!parentFile.exists())

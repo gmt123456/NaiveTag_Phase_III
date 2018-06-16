@@ -55,7 +55,8 @@ public class StaffTagController extends BaseController {
         TaskType type = TaskType.convert(taskType);
         String staffEmail = getStaffEmail(request);
         TagResult result = tagService.getLabelInformation(staffEmail, taskId, subTaskId, type, url);
-        return WebConfig.getGson().toJson(result);
+
+        return WebConfig.getGson().toJson(result, TagResult.class);
     }
 
     @RequestMapping("/previous")

@@ -27,12 +27,12 @@ public class TaskSettlementController {
         this.settlementService = settlementService;
     }
 
-    @Scheduled(cron = "0/30 * * * * ?")
+    @Scheduled(cron = "0 0 0 * * ?")
     public void settleTasks() throws IOException {
         settlementService.settleTasks();
     }
 
-    @Scheduled(cron = "0 * * * * ?")
+    @Scheduled(cron = "0 0 0 * * ?")
     public void expiredSubTasks() throws IOException {
         settlementService.expireSubParts();
     }

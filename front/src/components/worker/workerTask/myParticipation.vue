@@ -166,8 +166,11 @@
 			        let url;
 		        	if(res.unFinishedPicList && res.unFinishedPicList.length > 0){
 		        		url = res.unFinishedPicList[0];
-                    }
-			        this.$router.push({ name: 'workerTag', params: { taskId: localStorage.firstLevelTaskId, subTaskId: this.myParticipationList[index].subTaskId, taskType: this.myParticipationList[index].taskType, picUrl: url}});
+                this.$router.push({ name: 'workerTag', params: { taskId: localStorage.firstLevelTaskId, subTaskId: this.myParticipationList[index].subTaskId, taskType: this.myParticipationList[index].taskType, picUrl: url}});
+
+              }else{
+		        	  this.$message.warning("there is no more unfinished pictures here, you can submit it!");
+              }
                 });
 	        },
 

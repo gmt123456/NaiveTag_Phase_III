@@ -7,7 +7,7 @@
             <el-col :span="17"><div class="grid-content bg-purple">
                 <div style="padding: 10px;">
 
-                    <div style="padding: 10px;border: dashed;">
+                    <div style="padding: 10px;border: dotted;">
                         <div ref="divBlock" style="height: 650px;width: 100%;text-align: center;display:flex;justify-content:center;align-items:center;">
 
                             <div style="border: 1px solid gray;position: relative;display: inline-flex;">
@@ -70,7 +70,9 @@
             <!--右侧标注界面-->
             <el-col :span="7"><div>
                 <div v-bind:style="getBlocksStyle()" style="width: 100%;height: 100%;">
-                    <div class="tagblocks" style="border: 1px solid;">
+                  <el-col :span="17"><div style="width: 0px;height: 100%;border: 1px dotted transparent;" ></div></el-col>
+                  <el-col :span="7">
+                    <div class="" style="min-height: 756px;margin-top: 40px;background-color: #cdcdcd">
 
                         <!--&lt;!&ndash;颜色选择器&ndash;&gt;-->
                         <!--<div v-if="isRectsTypeNoLabel" class="block center" style="padding-top: 20px;">-->
@@ -81,11 +83,11 @@
                             <el-button icon="el-icon-back" round size="mini" style="margin: 10px" @click="back">back</el-button>
                         </div>
                         <div style="width: 100%;text-align: center;">
-                            <div v-if="description" class="center" style="text-align:left; font-weight: bold;color: #6f7180;background-color: white;padding: 10px;border-radius: 5px;width: 74%;margin: auto;">
+                            <div v-if="description" class="center" style="text-align:left; font-weight: bold;color: white;padding: 10px;border-radius: 5px;width: 77%;margin: auto;">
                                 <div>
                                     <span>Description:</span>
                                     <div style="font-size: 13px;font-weight: normal;display: inline;">{{description}}</div>
-                                    <div v-if="recommendation">
+                                    <div v-if="recommendation && recommendation.length != 0">
                                         <div style="font-size: 14px;margin-bottom: 5px;margin-top: 5px;">Maybe these...</div>
                                         <el-tag v-for="item in recommendation" :key="item" style="margin-right: 5px;cursor: pointer;" @click.native="tagClick(item)">{{item}}</el-tag>
                                     </div>
@@ -151,12 +153,13 @@
 
                         <div class="center" style="padding-bottom: 20px;justify-content:center;">
                             <el-button-group>
-                                <el-button type="primary" icon="el-icon-arrow-left" v-on:click="lastPic" style="width: 150px;">Last one</el-button>
+                                <el-button type="primary" plain icon="el-icon-arrow-left" v-on:click="lastPic" style="width: 150px;">Last one</el-button>
                                 <el-button type="primary" v-on:click="nextPic" style="width: 150px;">Next one<i class="el-icon-arrow-right el-icon--right"></i></el-button>
                             </el-button-group>
                         </div>
 
                     </div>
+                  </el-col>
                 </div>
             </div></el-col>
 
@@ -766,12 +769,12 @@
 
     .tagblocks {
         width: 380px;
-        min-height: 100%;
+        min-height: 750px;
         /*border-radius: 10px 10px 10px 10px;*/
         /*background-color: #6f7180;*/
-        /*margin-top: 50px;*/
-        margin-left:auto;
-        margin-right:30px;
+        margin-top: 40px;
+        /*margin-left:auto;*/
+        /*margin-right:30px;*/
         text-align: left;
     }
 

@@ -125,9 +125,9 @@
                             "points":[
                             ],
                         };
-
                       that.tagData.tagType =  ""+that.taskType;
                     }
+                  // console.log(that.tagData);
                 });
             },
 
