@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import top.minecode.domain.admin.RequesterItem;
 import top.minecode.domain.admin.WorkerItem;
@@ -78,5 +79,21 @@ public class UserInformationController extends BaseController {
     public String changeDollars(HttpServletRequest request, AdminChangeDollarsCommand changeDollarsCommand) {
         ResultMessage resultMessage = adminService.changeDollars(getAdmin(request), changeDollarsCommand);
         return gson.toJson(resultMessage);
+    }
+
+    @RequestMapping("/workerDetails")
+    @ResponseBody
+    public String getWorkerStatistic(HttpServletRequest request, @RequestParam("email") String email) {
+        String admin = getAdmin(request);
+
+        return null;
+    }
+
+    @RequestMapping("requesterDetails")
+    @ResponseBody
+    public String getRequesterDetails(HttpServletRequest request, @RequestParam("email") String email) {
+        String admin = getAdmin(request);
+
+        return null;
     }
 }

@@ -155,4 +155,19 @@ public class Task {
 
         return Objects.hash(name, taskId);
     }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "name='" + name + '\'' +
+                ", taskId=" + taskId +
+                ", taskDescription='" + taskDescription + '\'' +
+                ", taskCover='" + taskCover + '\'' +
+                ", taskTypes=" + taskTypes +
+                ", endDate=" + endDate +
+                ", taskTags=" + taskTags +
+                ", totalDollars=" + totalDollars +
+                ", taskRequirement=" + taskRequirement +
+                '}';
+    }
 }
