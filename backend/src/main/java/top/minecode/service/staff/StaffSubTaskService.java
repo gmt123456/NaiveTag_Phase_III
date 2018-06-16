@@ -144,6 +144,8 @@ public class StaffSubTaskService {
 
         participationDao.updateSubTaskParticipation(participationPO);
 
+        Helper.updateModel(participationPO);
+
         return new TaskCommitResponse(true);
 
     }

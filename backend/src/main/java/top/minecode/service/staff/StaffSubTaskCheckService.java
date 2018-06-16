@@ -144,43 +144,6 @@ public class StaffSubTaskCheckService {
         checkDao.updateSubCheck(subCheckTaskPO);
     }
 
-    private void updateModel(SubTaskParticipationPO participationPO) {
-        if (participationPO.getSubTaskType() != TaskType.t_100)
-            return;
-        Map<String, String> tagResults = participationPO.getTags();
-        StringBuilder buffer = new StringBuilder();
-        for (String logicalUrl: tagResults.keySet()) {
-            GlobalLabelTagResult result = (GlobalLabelTagResult)WebConfig.getGson().fromJson(tagResults.get(logicalUrl), TagResult.class);
-            String label = result.getLabel();
-            buffer.append(PathUtil.coverToAbsolutePath(logicalUrl))
-                    .append(" ")
-                    .append(label)
-                    .append("\n");
-        }
-        String content = buffer.toString();
-        try {
-            String filePath = PathUtil.getBasePath() + PathUtil.getSubTaskResultPath()
-                    + participationPO.getId() + "_" + participationPO.getSubTaskId() + ".txt";
-            File resultFile = new File(filePath);
-            File parentFile = resultFile.getParentFile();
-            if (!parentFile.exists())
-                parentFile.mkdir();
-            resultFile.createNewFile();
-            PrintWriter writer = new PrintWriter(new FileOutputStream(resultFile));
-            writer.write(content);
-
-            Map<String, String> params = new HashMap<>();
-            params.put("task_id", String.valueOf(participationPO.getTaskId()));
-            params.put("tag_file_path", filePath);
-
-            String url = PathUtil.getPythonServerPath();
-            String param = HttpHelper.urlEncode(params);
-            HttpHelper.send(url, param);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     private void commit(SubCheckTaskPO subCheckTaskPO) {
         subCheckTaskPO.setCheckTaskState(SubCheckTaskState.finished);
@@ -224,7 +187,7 @@ public class StaffSubTaskCheckService {
             WorkerPO workerPO = workerInfoDao.getWorkerPOByEmail(email);
             workerPO.setDollars(workerPO.getDollars() + earnedDollars);
 
-            updateModel(subTaskParticipationPO);
+            Helper.updateModel(subTaskParticipationPO);
 
             logDao.addWorkerAccountChangeLog(new WorkerAccountLogPO(email, earnedDollars, workerPO.getDollars(), new Date(),
                     WorkerAccountLogPO.WorkerAccountChangeType.PAY));

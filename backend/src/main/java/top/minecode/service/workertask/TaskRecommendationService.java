@@ -303,4 +303,5 @@ public class TaskRecommendationService {
             return (int) quality * RECOMMENDATION_NUM;
         }
     }
+
 }
