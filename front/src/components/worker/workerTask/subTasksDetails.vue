@@ -4,11 +4,16 @@
 
             <div style="width: 900px;height: 170px;margin: auto;">
                 <div style="height: 30px;"></div>
-                <div v-bind:style="{width:'100%',height:'100%','background-image':'url('+backgroundImg+')','background-size':'cover','background-position':'50%'}">
+                <div v-bind:style="{width:'100%',height:'100%','background-image':'url('+backgroundImg+')','background-size':'cover','background-position':'50%'}" @mousemove="showBack = true" @mouseout="showBack = false">
                     <transition name="slide-fade">
                         <el-container v-if="show" v-bind:style="{width:'100%',height:'100%'}" >
 
                             <el-main style="background-color: rgba(0,0,0,0.3);padding-left: 30px;">
+                                <div style="width: 500px;height: 130px;position: absolute;z-index: 1;border: 1px dotted;" class="center">
+                                    <transition name="back-slide-fade">
+                                        <el-button v-if="showBack" icon="el-icon-arrow-left" circle @click="back"></el-button>
+                                    </transition>
+                                </div>
                                 <div style="color: white;font-weight: 800;font-size: 20px;margin-top: 10px;">{{detailsData.taskName}}</div>
                                 <div style="color: white;font-weight: lighter;font-size: 17px;margin-top: 5px;">{{detailsData.taskDescription}}</div>
                                 <div style="color: white;font-weight: lighter;font-size: 14px;margin-top: 20px;">end at {{detailsData.endDate}}</div>
@@ -95,6 +100,7 @@
 		name: "subTasksDetails",
         data(){
 			return {
+				showBack:false,
 				lengthN: 4,
                 loadingAccept: false,
                 loadingSubmit: false,
@@ -129,6 +135,10 @@
         },
 
         methods: {
+
+			back() {
+				this.$router.push("/firstTask/myparticipation");
+			},
 
 	        getImgSrc(src){
 		        return getUrl(src);
@@ -244,5 +254,15 @@
     .slide-fade-enter {
         transform: translateY(170px);
     }
+
+
+    .back-slide-fade-enter-active, .back-slide-fade-leave-active {
+        transition: all 400ms;
+    }
+    .back-slide-fade-enter, .back-slide-fade-leave-to {
+        transform: translateX(-50px);
+        opacity: 0;
+    }
+
 
 </style>
