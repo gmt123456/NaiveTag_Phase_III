@@ -16,6 +16,13 @@ import java.util.zip.ZipFile;
  */
 public class ZipHelper {
 
+    private static MimetypesFileTypeMap typeMap;
+
+    static {
+        typeMap = new MimetypesFileTypeMap();
+        typeMap.addMimeTypes("image png tif jpg jpeg bmp");
+    }
+
     public static int countEntriesInZipFile(final ZipFile zipFile) throws IOException {
         int count = 0;
         final Enumeration<? extends ZipEntry> entries = zipFile.entries();
@@ -61,7 +68,7 @@ public class ZipHelper {
     }
 
     private static boolean isImageFile(String name) {
-        String mimeType = new MimetypesFileTypeMap().getContentType(name);
+        String mimeType = typeMap.getContentType(name);
         return mimeType.substring(0, 5).equalsIgnoreCase("image");
     }
 
