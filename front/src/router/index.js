@@ -14,7 +14,8 @@ import SubTaskDetails from '../components/worker/workerTask/subTasksDetails.vue'
 import FirstLevelTask from '../components/worker/workerTask/firstLevelTask.vue'
 import Overview from '../components/worker/workerTask/overview.vue'
 import MyParticipation from '../components/worker/workerTask/myParticipation.vue'
-import TaskHall from '../components/worker/workerUser/taskHall.vue'
+import SearchResult from '../components/worker/workerUser/workerSearch.vue'
+import Recommendation from '../components/worker/workerUser/workerRecommendation.vue'
 import Index from '../components/index/Index.vue'
 import RequesterIndex from '../components/requester/RequesterIndex.vue'
 import RequesterHome from '../components/requester/Home.vue'
@@ -84,7 +85,8 @@ export default new Router({
           ]
         },
         {path: '/subTaskDetails/:taskId/:subTaskId/:taskType', name: 'subTaskDetails', component: SubTaskDetails},
-        {path: '/taskHall', component: TaskHall},
+        {path: '/searchResult', component: SearchResult},
+	      {path: '/recommendation', component: Recommendation},
         {path: '/about', component: Introduction},
 
         {path: '/tag/:taskId/:subTaskId/:taskType/:picUrl', component: WorkerTag, name: 'workerTag'},

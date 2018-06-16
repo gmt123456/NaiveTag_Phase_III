@@ -3,15 +3,15 @@
         <el-col :span="24"><div style="background-color: #47494d;height: 50px;justify-content:center;overflow: hidden;" class="center">
             <div style="width: 900px;" class="center">
                 <logo style="display: inline"></logo>
-                <el-input placeholder="Search assignments" v-model="searchKey" size="mini" style="width: 225px;margin-left: 20px;" clearable @keyup.enter.native="search">
+                <el-input placeholder="Search assignments" v-model="searchKey" size="mini" style="width: 200px;margin-left: 20px;" clearable @keyup.enter.native="search">
                     <el-button slot="append" icon="el-icon-search" size="mini" @click="search"></el-button>
                 </el-input>
                 <el-menu :default-active="$route.path" mode="horizontal" :router="true"
                          background-color="#47494d"
                          text-color="lightgray"
                          active-text-color="#1B9CFC"
-                         style="height: 55px;position: relative;top: -2px;margin-left: 26px;">
-                    <el-menu-item index="/taskHall" style="height: 55px;">TaskHall</el-menu-item>
+                         style="height: 55px;position: relative;top: -2px;margin-left: 0px;">
+                    <el-menu-item index="/recommendation" style="height: 55px;">Recommend</el-menu-item>
                     <el-menu-item index="/worker/home" style="height: 55px;">Home</el-menu-item>
                     <el-menu-item index="/worker/unfinish" style="height: 55px;">Unfinish</el-menu-item>
                     <el-menu-item index="/worker/finish" style="height: 55px;">Finish</el-menu-item>
@@ -48,7 +48,7 @@
 				if(this.searchReady){
 					this.$refs.search.searchByKey(this.searchKey);
                 }else{
-					this.$router.push("/taskHall");
+					this.$router.push("/searchResult");
                 }
 
             },
