@@ -209,7 +209,7 @@ public class RequesterTaskDaoImpl implements RequesterTaskDao {
         File file = new File(imageDir);
 
         String fileName = taskId + "_images.txt";
-        return writeFile(Arrays.asList(file.list()), fileName);
+        return writeFile(Arrays.asList(file.list()).stream().map(e -> file.getAbsolutePath() + File.separator + e).collect(Collectors.toList()), fileName);
     }
 
     private String writeLabels(List<SpecificTaskPO> specificTaskPOS, int taskId) {
