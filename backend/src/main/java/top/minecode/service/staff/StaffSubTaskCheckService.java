@@ -11,7 +11,6 @@ import top.minecode.dao.workertask.TaskDao;
 import top.minecode.dao.workertask.TaskParticipationDao;
 import top.minecode.domain.tag.GlobalLabelTagResult;
 import top.minecode.domain.tag.TagResult;
-import top.minecode.domain.task.SubTask;
 import top.minecode.domain.task.SubTaskState;
 import top.minecode.domain.task.TaskType;
 import top.minecode.domain.taskcheck.SubCheckTaskState;
@@ -152,7 +151,7 @@ public class StaffSubTaskCheckService {
         for (String logicalUrl: tagResults.keySet()) {
             GlobalLabelTagResult result = (GlobalLabelTagResult)WebConfig.getGson().fromJson(tagResults.get(logicalUrl), TagResult.class);
             String label = result.getLabel();
-            buffer.append(PathUtil.coverToAbsolutePath(logicalUrl))
+            buffer.append(PathUtil.convertToAbsolutePath(logicalUrl))
                     .append(" ")
                     .append(label)
                     .append("\n");

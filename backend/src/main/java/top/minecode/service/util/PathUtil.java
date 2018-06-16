@@ -15,7 +15,7 @@ public class PathUtil {
         return rawString.substring(0, rawString.length() - 16);
     }
 
-    public static String coverToAbsolutePath(String logicalPath) {
+    public static String convertToAbsolutePath(String logicalPath) {
         return getBasePath() + logicalPath;
     }
 

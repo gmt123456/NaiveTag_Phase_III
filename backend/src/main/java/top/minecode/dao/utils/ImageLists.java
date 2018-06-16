@@ -82,7 +82,7 @@ public class ImageLists implements Iterable<ImageLists.ImageList> {
             this.subImages = images.subList(i, j);
         }
 
-        public List<String> getSubImages() {
+        public List<String> getImages() {
             return subImages;
         }
 

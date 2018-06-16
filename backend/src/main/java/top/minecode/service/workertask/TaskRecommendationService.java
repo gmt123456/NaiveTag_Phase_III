@@ -234,10 +234,11 @@ public class TaskRecommendationService {
         List<Double> valueSections = new ArrayList<>();
         double accumulation = 0.;
         for (FeatureVector<TaskPO> task : tasks) {
-            double score = scoreFunction.apply(task);
+            double score = scoreFunction.apply(task) + 1;  // Plus one means a Laplace smoothing
             accumulation += score;
             valueSections.add(accumulation);
         }
+        valueSections.add(accumulation);
 
         // Choosing from the section
         Random random = new Random();
@@ -248,6 +249,7 @@ public class TaskRecommendationService {
                 double sectionLimit = valueSections.get(j);
                 if (randomValue <= sectionLimit) {  // May also be '<'
                     result.add(tasks.get(j).getIdentity());
+                    break;
                 }
             }
         } while (result.size() != num);
@@ -271,7 +273,7 @@ public class TaskRecommendationService {
         // Original proportion is 4:3:3 (interest:quality:speed)
         private static final double QUALITY_LIMIT = 0.3;
         private static final double SPEED_LIMIT = 0.3;
-        private static final int RECOMMENDATION_NUM = 10;
+        private static final int RECOMMENDATION_NUM = 5;
 
         private double speed;
         private double quality;
