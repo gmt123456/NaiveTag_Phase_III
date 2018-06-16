@@ -54,6 +54,6 @@ public class RankDao {
     public double getScoreRankRate(String email) {
         RankPO rank = getRankPOByEmail(email);
         int size = rankHelper.getAll().size();
-        return (size - rank.getRank()) * 1. / size;
+        return rank.getRank() * 1. / size;
     }
 }

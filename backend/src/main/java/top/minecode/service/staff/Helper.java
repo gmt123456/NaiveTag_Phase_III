@@ -30,7 +30,7 @@ public class Helper {
         for (String logicalUrl: tagResults.keySet()) {
             GlobalLabelTagResult result = (GlobalLabelTagResult) WebConfig.getGson().fromJson(tagResults.get(logicalUrl), TagResult.class);
             String label = result.getLabel();
-            buffer.append(PathUtil.coverToAbsolutePath(logicalUrl))
+            buffer.append(PathUtil.convertToAbsolutePath(logicalUrl))
                     .append(" ")
                     .append(label)
                     .append("\n");
