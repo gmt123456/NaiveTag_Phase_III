@@ -187,7 +187,7 @@ public class RequesterTaskDaoImpl implements RequesterTaskDao {
         // If it's global mark task, write images' path to
         // a file so that a python process can access them
         if (specificTasks.keySet().contains(TaskType.t_100)) {
-            String imagePathFile = writeImagesPath(imageLists, taskId);
+            String imagePathFile = writeImagesPath(pictureDir, taskId);
             String labelFile = writeLabels(specificTaskPOS, taskId);
             Map<String, String> params = new HashMap<>();
             params.put("task_id", taskId + "");
@@ -200,15 +200,16 @@ public class RequesterTaskDaoImpl implements RequesterTaskDao {
         return true;
     }
 
-    private String writeImagesPath(ImageLists imageLists, int taskId) {
-        List<String> images = new ArrayList<>();
-        for (ImageLists.ImageList imageList : imageLists)
-            imageList.getImages().stream()
-                    .map(PathUtil::convertToAbsolutePath)
-                    .forEach(images::add);
+    private String writeImagesPath(String imageDir, int taskId) {
+//        List<String> images = new ArrayList<>();
+//        for (ImageLists.ImageList imageList : imageLists)
+//            imageList.getImages().stream()
+//                    .map(PathUtil::convertToAbsolutePath)
+//                    .forEach(images::add);
+        File file = new File(imageDir);
 
         String fileName = taskId + "_images.txt";
-        return writeFile(images, fileName);
+        return writeFile(Arrays.asList(file.list()), fileName);
     }
 
     private String writeLabels(List<SpecificTaskPO> specificTaskPOS, int taskId) {
