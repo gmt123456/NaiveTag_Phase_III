@@ -163,19 +163,19 @@
 
 		mounted: function() {
 			this.$nextTick(function () {
-				this.picWidth = this.$refs.image.getBoundingClientRect().width;
-				this.picHeight = this.$refs.image.getBoundingClientRect().height;
+				// this.picWidth = this.$refs.image.getBoundingClientRect().width;
+				// this.picHeight = this.$refs.image.getBoundingClientRect().height;
 				this.ctx = this.$refs.canvas.getContext('2d');
 
 				if(this.points && (this.points.length > 0)){
 					this.drawPolygon();
 				}
 
-				this.updatePic(this.picUrl);
 			})
 		},
 
 		created: function(){
+			this.updatePic(this.picUrl);
 			if(this.label){
 				this.updateLabel();
 			}
@@ -408,37 +408,43 @@
 //                    newImg.src = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1489486509807&di=22213343ba71ad6436b561b5df999ff7&imgtype=0&src=http%3A%2F%2Fa0.att.hudong.com%2F77%2F31%2F20300542906611142174319458811.jpg'
 //                }
 				newImg.onload = () => { // 图片加载成功后把地址给原来的img
-					this.picWidth = this.$refs.image.getBoundingClientRect().width;
-					this.picHeight = this.$refs.image.getBoundingClientRect().height;
-					if(this.picWidth > this.$refs.divBlock.getBoundingClientRect().width){
-						this.picWidthStyle = this.$refs.divBlock.getBoundingClientRect().width+'px';
-						this.picWidth = this.$refs.divBlock.getBoundingClientRect().width;
+					let changewidth = true;
+					let changeheight = true;
+					let divWidth = this.$refs.divBlock.getBoundingClientRect().width;
+					let divHeight = this.$refs.divBlock.getBoundingClientRect().height;
+					// console.log(newImg.width);
+					// console.log(divWidth);
+					this.picWidth = newImg.width;
+					this.picHeight = newImg.height;
+					if(this.picWidth > divWidth){
+						this.picWidthStyle = divWidth+'px';
+						this.picWidth = divWidth;
+					}else if(this.picWidth < 120){
+						this.picWidthStyle = '120px';
+						this.picWidth = 120;
+					}else{
+						changewidth = false;
 					}
-					if(this.picHeight > this.$refs.divBlock.getBoundingClientRect().height){
-						this.picHeightStyle = this.$refs.divBlock.getBoundingClientRect().height+'px';
-						this.picHeight = this.$refs.divBlock.getBoundingClientRect().height;
+					if(this.picHeight > divHeight){
+						this.picHeightStyle = divHeight+'px';
+						this.picHeight = divHeight;
+					}else if(this.picHeight < 120){
+						this.picHeightStyle = '120px';
+						this.picHeight = 120;
+					}else{
+						changeheight = false;
+					}
+
+					if(changewidth || changeheight){
+						if(newImg.width / newImg.height > divWidth / divHeight){
+							this.picHeight = (newImg.height / newImg.width) * divWidth;
+							this.picHeightStyle = this.picHeight+"px";
+						}else{
+							this.picWidth = (newImg.width / newImg.height) * divHeight;
+							this.picWidthStyle = this.picHeight+"px";
+						}
 					}
 				};
-			},
-
-			updateLabel: function () {
-				if(!this.isRectsTypeNoLabel && this.getTagTypeNum!=400){
-					if(this.isInputType){
-						this.labelInput = this.label;
-						if(this.labelInput === null){
-							this.labelInput = "";
-						}
-					}
-					if(this.isSelectType){
-						for(var index in this.options){
-							if(this.options[index].label === this.label){
-								this.labelSelect = index;
-								return;
-							}
-						}
-						this.labelSelect = null;
-					}
-				}
 			},
 
 			checkDraw: function () {

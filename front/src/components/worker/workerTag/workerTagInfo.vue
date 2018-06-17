@@ -7,8 +7,8 @@
             <el-col :span="17"><div class="grid-content bg-purple">
                 <div style="padding: 10px;">
 
-                    <div style="padding: 10px;border: dotted;">
-                        <div ref="divBlock" style="height: 650px;width: 100%;text-align: center;display:flex;justify-content:center;align-items:center;">
+                    <div style="padding: 10px;border: dashed gray;width: 1030px;">
+                        <div ref="divBlock" style="height: 650px;width: 1030px;text-align: center;display:flex;justify-content:center;align-items:center;">
 
                             <div style="border: 1px solid gray;position: relative;display: inline-flex;">
 
@@ -70,96 +70,102 @@
             <!--右侧标注界面-->
             <el-col :span="7"><div>
                 <div v-bind:style="getBlocksStyle()" style="width: 100%;height: 100%;">
-                  <el-col :span="17"><div style="width: 0px;height: 100%;border: 1px dotted transparent;" ></div></el-col>
-                  <el-col :span="7">
-                    <div class="" style="min-height: 756px;margin-top: 40px;background-color: #2b2b2b">
+                  <!--<el-col :span="17"><div style="width: 0px;height: 100%;border: 1px dotted transparent;" ></div></el-col>-->
+                  <!--<el-col :span="7">-->
+                    <el-container style="width: 100%;min-height: 100%;">
+                        <el-aside style="width: 1074px;height: 0px;"></el-aside>
+                        <el-main style="padding: 0;min-height: 100%;border: 1px darkblue">
+                            <div class="" style="min-height: 710px;margin-top: 50px;background-color: #2b2b2b">
 
-                        <!--&lt;!&ndash;颜色选择器&ndash;&gt;-->
-                        <!--<div v-if="isRectsTypeNoLabel" class="block center" style="padding-top: 20px;">-->
-                            <!--<span class="demonstration">颜色</span>-->
-                            <!--<el-color-picker v-model="rectColor"></el-color-picker>-->
-                        <!--</div>-->
-                        <div>
-                            <el-button icon="el-icon-back" round size="mini" style="margin: 10px" @click="back">back</el-button>
-                        </div>
-                        <div style="width: 100%;text-align: center;">
-                            <div v-if="description" class="center" style="text-align:left; font-weight: bold;color: white;padding: 10px;border-radius: 5px;width: 77%;margin: auto;">
+                                <!--&lt;!&ndash;颜色选择器&ndash;&gt;-->
+                                <!--<div v-if="isRectsTypeNoLabel" class="block center" style="padding-top: 20px;">-->
+                                <!--<span class="demonstration">颜色</span>-->
+                                <!--<el-color-picker v-model="rectColor"></el-color-picker>-->
+                                <!--</div>-->
                                 <div>
-                                    <span>Description:</span>
-                                    <div style="font-size: 13px;font-weight: normal;display: inline;">{{description}}</div>
-                                    <div v-if="recommendation && recommendation.length != 0">
-                                        <div style="font-size: 14px;margin-bottom: 5px;margin-top: 5px;">Maybe these...</div>
-                                        <el-tag v-for="item in recommendation" :key="item" style="margin-right: 5px;cursor: pointer;" @click.native="tagClick(item)">{{item}}</el-tag>
+                                    <el-button icon="el-icon-back" round size="mini" style="margin: 10px" @click="back">back</el-button>
+                                </div>
+                                <div style="width: 100%;text-align: center;">
+                                    <div v-if="description" class="center" style="text-align:left; font-weight: bold;color: white;padding: 10px;border-radius: 5px;width: 77%;margin: auto;">
+                                        <div>
+                                            <span>Description:</span>
+                                            <div style="font-size: 13px;font-weight: normal;display: inline;">{{description}}</div>
+                                            <div v-if="recommendation && recommendation.length != 0">
+                                                <div style="font-size: 14px;margin-bottom: 5px;margin-top: 5px;">Maybe these...</div>
+                                                <el-tag v-for="item in recommendation" :key="item" style="margin-right: 5px;cursor: pointer;" @click.native="tagClick(item)">{{item}}</el-tag>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+
+                                <!--标注块-->
+                                <div style="text-align: center;padding-bottom: 10px">
+
+                                    <!--输入框-->
+                                    <div v-if="isInputType">
+                                        <div v-if="!isRectsTypeNoLabel">
+                                            <el-input v-model="labelInput" placeholder="Please input content" class="input"/>
+                                        </div>
+                                        <div v-if="isRectsTypeNoLabel"
+                                             v-for="(item, index) in frames"
+                                             v-bind="item"
+                                             v-bind:index="index"
+                                             v-bind:key="item.id">
+                                            <span v-if="isMoreThanOne">{{index + 1}}：</span>
+                                            <el-input v-model="item.label" placeholder="Please input content" class="input" @change="changeInputValue($event,index)"></el-input>
+                                            <el-button type="danger" icon="el-icon-delete" circle
+                                                       v-on:click="deleteFramesItem(index)"></el-button>
+                                        </div>
+                                    </div>
+
+
+                                    <!--选择框-->
+                                    <div v-if="isSelectType">
+                                        <div v-if="!isRectsTypeNoLabel">
+                                            <el-select v-model="labelSelect" filterable placeholder="Please choose" class="select">
+                                                <el-option
+                                                        v-for="item in options"
+                                                        :key="item.value"
+                                                        :label="item.label"
+                                                        :value="item.value">
+                                                </el-option>
+                                            </el-select>
+                                        </div>
+                                        <div v-if="isRectsTypeNoLabel"
+                                             v-for="(item, index) in frames"
+                                             v-bind="item"
+                                             v-bind:index="index"
+                                             v-bind:key="item.id"
+                                             v-on:remove="frames.splice(index, 1)">
+                                            <span v-if="isMoreThanOne">{{index + 1}}：</span>
+                                            <el-select v-model="item.label" filterable placeholder="Please choose" class="select" @change="changeSelectValue($event,index)">
+                                                <el-option
+                                                        v-for="item in options"
+                                                        :key="item.value"
+                                                        :label="item.label"
+                                                        :value="item.value">
+                                                </el-option>
+                                            </el-select>
+                                            <el-button type="danger" icon="el-icon-delete" circle
+                                                       v-on:click="deleteFramesItem(index)" />
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="center" style="padding-bottom: 20px;justify-content:center;">
+                                    <el-button-group>
+                                        <el-button type="primary" plain icon="el-icon-arrow-left" v-on:click="lastPic" style="width: 150px;">Last one</el-button>
+                                        <el-button type="primary" v-on:click="nextPic" style="width: 150px;">Next one<i class="el-icon-arrow-right el-icon--right"></i></el-button>
+                                    </el-button-group>
+                                </div>
+
                             </div>
-                        </div>
+                        </el-main>
+                    </el-container>
 
-                        <!--标注块-->
-                        <div style="text-align: center;padding-bottom: 10px">
-
-                            <!--输入框-->
-                            <div v-if="isInputType">
-                                <div v-if="!isRectsTypeNoLabel">
-                                    <el-input v-model="labelInput" placeholder="Please input content" class="input"/>
-                                </div>
-                                <div v-if="isRectsTypeNoLabel"
-                                     v-for="(item, index) in frames"
-                                     v-bind="item"
-                                     v-bind:index="index"
-                                     v-bind:key="item.id">
-                                    <span v-if="isMoreThanOne">{{index + 1}}：</span>
-                                    <el-input v-model="item.label" placeholder="Please input content" class="input" @change="changeInputValue($event,index)"></el-input>
-                                    <el-button type="danger" icon="el-icon-delete" circle
-                                               v-on:click="deleteFramesItem(index)"></el-button>
-                                </div>
-                            </div>
-
-
-                            <!--选择框-->
-                            <div v-if="isSelectType">
-                                <div v-if="!isRectsTypeNoLabel">
-                                    <el-select v-model="labelSelect" filterable placeholder="Please choose" class="select">
-                                        <el-option
-                                                v-for="item in options"
-                                                :key="item.value"
-                                                :label="item.label"
-                                                :value="item.value">
-                                        </el-option>
-                                    </el-select>
-                                </div>
-                                <div v-if="isRectsTypeNoLabel"
-                                     v-for="(item, index) in frames"
-                                     v-bind="item"
-                                     v-bind:index="index"
-                                     v-bind:key="item.id"
-                                     v-on:remove="frames.splice(index, 1)">
-                                    <span v-if="isMoreThanOne">{{index + 1}}：</span>
-                                    <el-select v-model="item.label" filterable placeholder="Please choose" class="select" @change="changeSelectValue($event,index)">
-                                        <el-option
-                                                v-for="item in options"
-                                                :key="item.value"
-                                                :label="item.label"
-                                                :value="item.value">
-                                        </el-option>
-                                    </el-select>
-                                    <el-button type="danger" icon="el-icon-delete" circle
-                                               v-on:click="deleteFramesItem(index)" />
-                                </div>
-                            </div>
-
-
-                        </div>
-
-                        <div class="center" style="padding-bottom: 20px;justify-content:center;">
-                            <el-button-group>
-                                <el-button type="primary" plain icon="el-icon-arrow-left" v-on:click="lastPic" style="width: 150px;">Last one</el-button>
-                                <el-button type="primary" v-on:click="nextPic" style="width: 150px;">Next one<i class="el-icon-arrow-right el-icon--right"></i></el-button>
-                            </el-button-group>
-                        </div>
-
-                    </div>
-                  </el-col>
+                  <!--</el-col>-->
                 </div>
             </div></el-col>
 
@@ -175,19 +181,19 @@
 
         mounted: function() {
            this.$nextTick(function () {
-               this.picWidth = this.$refs.image.getBoundingClientRect().width;
-               this.picHeight = this.$refs.image.getBoundingClientRect().height;
+               // this.picWidth = this.$refs.image.getBoundingClientRect().width;
+               // this.picHeight = this.$refs.image.getBoundingClientRect().height;
                this.ctx = this.$refs.canvas.getContext('2d');
 
                if(this.points && (this.points.length > 0)){
                    this.drawPolygon();
                }
 
-               this.updatePic(this.picUrl);
            })
         },
 
         created: function(){
+	        this.updatePic(this.picUrl);
             if(this.label){
                 this.updateLabel();
             }
@@ -431,15 +437,41 @@
 //                    newImg.src = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1489486509807&di=22213343ba71ad6436b561b5df999ff7&imgtype=0&src=http%3A%2F%2Fa0.att.hudong.com%2F77%2F31%2F20300542906611142174319458811.jpg'
 //                }
                 newImg.onload = () => { // 图片加载成功后把地址给原来的img
-                    this.picWidth = this.$refs.image.getBoundingClientRect().width;
-                    this.picHeight = this.$refs.image.getBoundingClientRect().height;
-                    if(this.picWidth > this.$refs.divBlock.getBoundingClientRect().width){
-                        this.picWidthStyle = this.$refs.divBlock.getBoundingClientRect().width+'px';
-                        this.picWidth = this.$refs.divBlock.getBoundingClientRect().width;
+                	let changewidth = true;
+                	let changeheight = true;
+                	let divWidth = this.$refs.divBlock.getBoundingClientRect().width;
+                	let divHeight = this.$refs.divBlock.getBoundingClientRect().height;
+                	// console.log(newImg.width);
+                	// console.log(divWidth);
+                    this.picWidth = newImg.width;
+                    this.picHeight = newImg.height;
+                    if(this.picWidth > divWidth){
+                        this.picWidthStyle = divWidth+'px';
+                        this.picWidth = divWidth;
+                    }else if(this.picWidth < 120){
+	                    this.picWidthStyle = '120px';
+	                    this.picWidth = 120;
+                    }else{
+                    	changewidth = false;
                     }
-                    if(this.picHeight > this.$refs.divBlock.getBoundingClientRect().height){
-                        this.picHeightStyle = this.$refs.divBlock.getBoundingClientRect().height+'px';
-                        this.picHeight = this.$refs.divBlock.getBoundingClientRect().height;
+                    if(this.picHeight > divHeight){
+                        this.picHeightStyle = divHeight+'px';
+                        this.picHeight = divHeight;
+                    }else if(this.picHeight < 120){
+	                    this.picHeightStyle = '120px';
+	                    this.picHeight = 120;
+                    }else{
+                    	changeheight = false;
+                    }
+
+                    if(changewidth || changeheight){
+                    	if(newImg.width / newImg.height > divWidth / divHeight){
+                    		this.picHeight = (newImg.height / newImg.width) * divWidth;
+		                    this.picHeightStyle = this.picHeight+"px";
+                        }else{
+		                    this.picWidth = (newImg.width / newImg.height) * divHeight;
+		                    this.picWidthStyle = this.picHeight+"px";
+                        }
                     }
                 };
             },
@@ -729,7 +761,8 @@
                     'z-index': zIndex + 1,
                     position:'absolute',
                     left: '0px',
-                    top: '10px',
+                    top: '0px',
+                    // paddingTop: '10px',
                 }
             }
 
@@ -745,14 +778,14 @@
         padding-top: 5px;
         padding-bottom: 5px;
         display: inline-block;
-        width: 65%;
+        width: 60%;
     }
 
     .select {
         padding-top: 5px;
         padding-bottom: 5px;
         display: inline-block;
-        width: 65%;
+        width: 60%;
     }
 
     .cannotselect {
