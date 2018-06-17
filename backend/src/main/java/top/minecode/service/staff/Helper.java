@@ -47,6 +47,8 @@ class Helper {
             PrintWriter writer = new PrintWriter(new FileOutputStream(resultFile));
             writer.write(content);
 
+            writer.close();
+
             Map<String, String> params = new HashMap<>();
             params.put("task_id", String.valueOf(participationPO.getTaskId()));
             params.put("tag_file_path", filePath);
