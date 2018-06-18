@@ -163,12 +163,19 @@ public class TaskRecommendationService {
     public List<Task> getTaskRecommendations(String email) {
 
         List<TaskPO> tasks = taskDao.getAll();
-        List<Integer> participatedTasks = workerInfoDao.getParticipatedTasks(email);
+
+        WorkerPO workerPO = workerInfoDao.getWorkerPOByEmail(email);
+
+        List<Integer> participatedTasks = workerPO.getParticipatedTasks();
+
+        System.out.println(participatedTasks);
 
         List<FeatureVector<TaskPO>> unacceptedTasks = tasks.stream()
                 .filter(taskPO -> !participatedTasks.contains(taskPO.getId()))
                 .map(po -> new FeatureVector<>(po, TaskVectorPO.fromTaskPO(po).getVector()))
                 .collect(Collectors.toList());
+
+        System.out.println(unacceptedTasks.size());
 
         Proportion proportion = getProportion(email);
 

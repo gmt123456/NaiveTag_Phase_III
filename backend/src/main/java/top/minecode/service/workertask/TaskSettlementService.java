@@ -222,7 +222,9 @@ public class TaskSettlementService {
         for (int i = 0; i < participatedUserAmount; i++) {
             Pair<String, Pair<Double, Integer>> userInfo = userTaskInfo.get(i);
             String userEmail = userInfo.l;
-            double standardScore = (2 * i + 1) / (participatedUserAmount * 2.0) * 6 - 3;
+            System.out.println(participatedUserAmount);
+            double standardScore = - (2 * i + 1) / (participatedUserAmount * 2.0) * 6 + 3;
+            System.out.println(standardScore);
             double scoreChange = standardScore * userInfo.r.r;
             WorkerPO currentWorker = emailToWorker.get(userInfo.l);
             currentWorker.changeScore(scoreChange);
