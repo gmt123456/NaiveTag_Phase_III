@@ -10,11 +10,11 @@
                     <div style="font-weight: 800;font-size: 15px;">{{name}}</div>
                     <div style="color: #717478;font-size: 13px;">{{taskDescription}}</div>
                     <div style="text-align: left;">
-                        <span v-for="(item,index) in taskType" style="color: dodgerblue;font-size: 13px;">{{getTaskNameByID(item)}}{{(index === taskType.length-1)? "":",\ "}}</span>
+                        <span v-for="(item,index) in taskTypes" style="color: dodgerblue;font-size: 13px;">{{getTaskNameByID(item)}}{{(index === taskTypes.length-1)? "":",\ "}}</span>
                         <div class="center">
                             <span style="color: #bfbfbf;font-size: 13px;padding-right: 5px;">end at {{endDate}} ·</span>
                             <img src="../../../static/sale-fill.png" width="15px" style="padding-right: 3px;"/>
-                            <span v-for="(theme,index) in taskTag" style="color: #bfbfbf;font-size: 13px;padding-right: 2px;">{{theme}}{{(index === taskTag.length-1)? "":","}}</span>
+                            <span v-for="(theme,index) in taskTags" style="color: #bfbfbf;font-size: 13px;padding-right: 2px;">{{theme}}{{(index === taskTags.length-1)? "":","}}</span>
                         </div>
                     </div>
 
@@ -54,9 +54,9 @@
 			"taskCover": String, // 一个url，表示任务的封面，以固定的尺寸显示！
 			"earnedDollors": Number, // 2位小数，表示挣来的钱数
 			"changeOfScore": Number, // 做的这个任务引起的积分变化，可正可负
-			"taskType": Array, // 这个一级任务中包含的任务的类型
+			"taskTypes": Array, // 这个一级任务中包含的任务的类型
 			"endDate": String, // 任务截止的时间
-			"taskTag": Array, // 任务的一些标签信息，就是任务的主题
+			"taskTags": Array, // 任务的一些标签信息，就是任务的主题
 
 			"totalDollars": Number
 		},
