@@ -154,6 +154,7 @@
 	        search(){
 		        this.searchBegin = 0;
 		        let that = this;
+		        console.log("workersearch");
 		        // console.log("this.typeValue: "+this.typeValue+" this.tagValue: "+this.tagValue+" this.sortValue: "+this.sortValue+" this.searchKey: "+this.searchKey+" this.valueAccept: "+this.valueAccept);
 		        searchResult(this.typeValue, this.tagValue, this.sortValue, 0, this.step, this.searchKey, this.valueAccept, res =>{
 			        that.searchList = res;
