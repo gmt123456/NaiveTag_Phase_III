@@ -15,8 +15,8 @@
         <property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
         <property name="show_sql">false</property>
         <property name="hibernate.id.new_generator_mappings">false</property>
-        <property name="hbm2ddl.auto">update</property>
-        <!--<property name="hibernate.hbm2ddl.import_files">import.sql</property>-->
+        <property name="hbm2ddl.auto">create</property>
+        <property name="hibernate.hbm2ddl.import_files">import.sql</property>
 
         <mapping class="top.minecode.po.admin.AdminPO"/>
 

@@ -1,6 +1,6 @@
 -- insert administrator, requester with some money, worker
 insert into AdminPO values ('admin','SUPREME','3fed7a346e430ea4c2aa10250928f4de');
-# insert into RequesterPO values ('frogR@mail.com','defaultImage/covers/2.png',1000000,'2018-06-09 14:05:01','frog','ae217fc8b657e233f3207e05afb0ba21');
+insert into RequesterPO values ('frogR@mail.com','defaultImage/covers/2.png',1000000,'2018-06-09 14:05:01','frog','ae217fc8b657e233f3207e05afb0ba21');
 # insert into WorkerPO values ('workerA@mail.com', '/defaultImage/covers/0.png', 20000.0, '2018-06-09 13:30:20', 'naive', 'whatever', 4000);
 # insert into WorkerPO values ('workerB@mail.com', '/defaultImage/covers/0.png', 20000.0, '2018-06-09 13:30:20', 'naive', 'whatever', 1000);
 # insert into WorkerPO values ('workerC@mail.com', '/defaultImage/covers/0.png', 20000.0, '2018-06-09 13:30:20', 'naive', 'whatever', 200);
