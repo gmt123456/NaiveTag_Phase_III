@@ -18,14 +18,15 @@
           <el-menu-item index="/makeNaiveTagGreatAgain/analysis/totalUser">Enrollment</el-menu-item>
           <el-menu-item index="/makeNaiveTagGreatAgain/analysis/task">Task</el-menu-item>
           <el-menu-item index="/makeNaiveTagGreatAgain/analysis/worker">Worker</el-menu-item>
-          <el-menu-item index="/makeNaiveTagGreatAgain/analysis/dollars">Dollar</el-menu-item>
+          <el-menu-item index="/makeNaiveTagGreatAgain/analysis/dollars">Dollars</el-menu-item>
         </el-submenu>
         <div style="position: absolute;bottom: 10px;width: 200px">
-          <img src="/static/logout.png" class="admin-logout" @click="logout"/>
+            <el-button type="text" style="color: lightgrey;margin: 15px;" @click="logout">Sign out</el-button>
+          <!--<img src="/static/logout.png" class="admin-logout" @click="logout"/>-->
         </div>
         <el-button class="menu-button" @click="function() {dialogShow=true;addAdminVisible=true;}">Add Admin
         </el-button>
-        <el-button class="menu-button" @click="function() {dialogShow=true; addStuffVisible=true;}">Add Stuff
+        <el-button class="menu-button" @click="function() {dialogShow=true; addStuffVisible=true;}">Add Staff
         </el-button>
       </el-menu>
 
@@ -38,7 +39,7 @@
 
     <el-dialog :visible.sync="dialogShow" width="450px" @close="reset">
       <span v-if="addAdminVisible" slot="title">Create An Administrator Account</span>
-      <span v-else slot="title">Create An Stuff Account</span>
+      <span v-else slot="title">Create An Staff Account</span>
       <el-form :model="addForm" :rules="rule" ref="addForm" label-width="100px" label-position="left">
         <el-form-item v-if="addAdminVisible" label="username" prop="username">
           <el-input v-model="addForm.username"></el-input>
