@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import top.minecode.domain.task.TaskState;
 import top.minecode.domain.task.requester.RequesterTaskItem;
 import top.minecode.domain.task.requester.RequesterTaskDetails;
 import top.minecode.domain.user.requester.AccountLog;
@@ -74,6 +75,7 @@ public class GsonFactoryTest {
         taskPO.setBeginDate(new Date());
         taskPO.setParticipators(new ArrayList<>());
         taskPO.setSpecificTasks(new HashMap<>());
+        taskPO.setTaskState(TaskState.ON_GOING);
         Instant instant = Instant.now().plusSeconds(12345122);
         taskPO.setEndDate(Date.from(instant));
 

@@ -21,6 +21,6 @@ public class TaskRecommendationServiceTest {
 
     @Test
     public void getTaskRecommendations() {
-        System.out.println(recommendationService.getTaskRecommendations("workerA@mail.com"));
+        System.out.println(recommendationService.getTaskRecommendations("w1@mail.com"));
     }
 }

@@ -113,7 +113,7 @@ public class UserInformationControllerTest {
 
     @Test
     public void changePwd() throws Exception {
-        String result = mockMvc.perform(get("/admin/login")
+        String result = mockMvc.perform(get("/inside/login")
                 .param("username", "admin")
                 .param("password", "admin")
                 .accept(MediaType.ALL))
@@ -135,7 +135,7 @@ public class UserInformationControllerTest {
 
     @Test
     public void changeDollars() throws Exception {
-        String result = mockMvc.perform(get("/admin/login")
+        String result = mockMvc.perform(get("/inside/login")
                 .param("username", "admin")
                 .param("password", "admin")
                 .accept(MediaType.ALL))
@@ -153,16 +153,5 @@ public class UserInformationControllerTest {
                 .accept(MediaType.ALL))
                 .andDo(print())
                 .andExpect(status().isOk());
-    }
-
-    @Test
-    @Ignore
-    public void test() {
-        CommonOperation.template(session -> {
-            AdminPO admin = new AdminPO("admin",
-                    encryptor.encrypt("admin", "admin"), AdminAuthority.SUPREME);
-            session.persist(admin);
-            session.flush();
-        });
     }
 }

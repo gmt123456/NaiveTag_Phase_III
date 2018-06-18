@@ -1,12 +1,13 @@
 package top.minecode.dao.utils;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.util.FileSystemUtils;
-import top.minecode.service.util.PathUtil;
 
 import java.io.File;
 import java.util.zip.ZipFile;
@@ -23,22 +24,26 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = "classpath*:naive*")
 public class ZipHelperTest {
 
-    private String path = "C:\\Users\\liao\\Desktop\\14_5464.zip";
+    private File file;
+
+    @Before
+    public void setUp() throws Exception {
+        file = new ClassPathResource("dataset.zip").getFile();
+    }
 
     @Test
     public void countEntriesInZipFile() throws Exception{
 
-        ZipFile zipFile = new ZipFile(path);
-        System.out.println(path);
-        assertEquals(6, ZipHelper.countEntriesInZipFile(zipFile));
+        ZipFile zipFile = new ZipFile(file);
+        System.out.println(file);
+        assertEquals(75, ZipHelper.countEntriesInZipFile(zipFile));
     }
 
     @Test
     public void unZipDataSet() throws Exception{
-        File target = new File(path);
-        String name = target.getName().substring(0, target.getName().lastIndexOf("."));
-        File dest = new File(target.getParentFile(), name);
-        ZipHelper.unZipDataSet(path, dest.getPath());
+        String name = file.getName().substring(0, file.getName().lastIndexOf("."));
+        File dest = new File(file.getParentFile(), name);
+        ZipHelper.unZipDataSet(file.getPath(), dest.getPath());
 
         FileSystemUtils.deleteRecursively(dest);
     }

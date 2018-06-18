@@ -9,6 +9,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.format.Formatter;
 import org.springframework.format.support.FormattingConversionService;
 import org.springframework.http.MediaType;
@@ -107,8 +108,8 @@ public class RequesterNewTaskServiceImplTest {
                 new FileInputStream(new File(CLASS_PATH, "newtask.json")))).getAsJsonObject();
 
         // Create multipart file
-        InputStream inputStream = new FileInputStream("C:\\Users\\liao\\Desktop\\14_5464.zip");
-        MockMultipartFile data = new MockMultipartFile("dataset", "14_5464.zip", MediaType.ALL_VALUE, inputStream);
+        InputStream inputStream = new ClassPathResource("dataset.zip").getInputStream();
+        MockMultipartFile data = new MockMultipartFile("dataset", "dataset.zip", MediaType.ALL_VALUE, inputStream);
 
         // Create request
         MockMultipartHttpServletRequestBuilder builder = fileUpload("/requester/new/taskOrder").file(data);

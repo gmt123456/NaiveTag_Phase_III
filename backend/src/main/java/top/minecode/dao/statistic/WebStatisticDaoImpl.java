@@ -133,7 +133,7 @@ public class WebStatisticDaoImpl implements WebStatisticDao {
             LocalDate currDicTime = sqlDateToLocalDate(dict.get(TIME));
 
             LocalDate intervalTime = dateInterval.get(intervalPointer);
-            while (!intervalTime.isEqual(currDicTime)) {
+            while (intervalTime.isBefore(currDicTime)) {
                 intervalTime = dateInterval.get(++intervalPointer);
             }
 
