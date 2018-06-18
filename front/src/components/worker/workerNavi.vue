@@ -45,6 +45,7 @@
 
         methods: {
 			search(){
+			  console.log("navi search ");
 				if(this.searchReady){
 					this.$refs.search.searchByKey(this.searchKey);
                 }else{
