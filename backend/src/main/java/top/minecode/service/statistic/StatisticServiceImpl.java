@@ -171,8 +171,21 @@ public class StatisticServiceImpl implements StatisticService {
                 .sorted(Comparator.comparing(Entry::getKey))
                 .map(e -> countAcceptTimes(e.getValue()))
                 .collect(Collectors.toList());
-        result.addVector("acceptedTasks", acceptedTasks);
 
+        result.addVector("acceptedTasks", transpose(acceptedTasks));
+
+        return result;
+    }
+
+    private List<long[]> transpose(List<long[]> m) {
+        List<long[]> result = new ArrayList<>();
+        for (int i = 0; i < m.get(0).length; i++) {
+            long[] array = new long[m.size()];
+            for (int j = 0; j < m.size(); j++) {
+                array[j] = m.get(j)[i];
+            }
+            result.add(array);
+        }
         return result;
     }
 

@@ -22,7 +22,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @ContextConfiguration(locations = {"classpath*:naive*"})
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
 public class WebStatisticControllerTest {
 
     private WebStatisticController statisticController;

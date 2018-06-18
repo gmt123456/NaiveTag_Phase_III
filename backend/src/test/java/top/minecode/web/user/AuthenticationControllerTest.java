@@ -25,7 +25,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath*:naive*")
-@WebAppConfiguration
 public class AuthenticationControllerTest {
 
     private AuthenticationController controller;

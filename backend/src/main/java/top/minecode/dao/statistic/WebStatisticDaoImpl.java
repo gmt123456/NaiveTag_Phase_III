@@ -74,7 +74,7 @@ public class WebStatisticDaoImpl implements WebStatisticDao {
     @Override
     public List<ParticipationData> getParticipationData() {
         String hql = "select new top.minecode.domain.statistic.ParticipationData(t, s.taskType) " +
-                " from SubTaskParticipationPO t, SpecificTaskPO s where t.subTaskId=s.id";
+                " from SubTaskParticipationPO t, SubTaskPO s where t.subTaskId=s.id";
 
         return CommonOperation.executeSQL(ParticipationData.class, hql);
     }
