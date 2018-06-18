@@ -147,7 +147,7 @@ public class TagService {
     public String getRecommendationLabels(int taskId, String url) {
         Map<String, String> params = new HashMap<>();
         params.put("task_id", String.valueOf(taskId));
-        params.put("pic_path", url);
+        params.put("pic_path", PathUtil.convertToAbsolutePath(url));
         String serverUrl = PathUtil.getPythonServerPath();
         String param = HttpHelper.urlEncode(params);
         return HttpHelper.send(serverUrl, param);

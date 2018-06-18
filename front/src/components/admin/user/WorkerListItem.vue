@@ -5,8 +5,11 @@
         <img :src="getUrl(worker.avatar)" style="margin-top: 5px;height: 40px">
 
       </el-col>
-      <el-col :span="17">
+      <el-col :span="5">
         <span style="font-weight: bold">{{worker.name}}</span>
+      </el-col>
+      <el-col :span="12">
+        <span>{{worker.email}}</span>
       </el-col>
       <el-col :span="4">
         <division-pic :division="worker.division" size="50px"></division-pic>
@@ -14,13 +17,11 @@
     </div>
     <div style="margin: 20px">
       <el-form size="medium" label-width="90px" :inline="true" label-position="left"  class="worker-details">
-        <el-form-item label="email">{{worker.email}}</el-form-item>
-        <el-form-item label="dollars">
+        <el-form-item label="Score">{{Math.round(worker.score*100)/100}}</el-form-item>
+        <el-form-item label="Joined at">{{worker.signupTime}}</el-form-item>
+        <el-form-item label="Dollars">
           <span>{{Math.round(worker.dollars*100)/100}}  <modify-dollars :email="worker.email" style="padding-left: 30px"></modify-dollars> </span>
         </el-form-item>
-
-        <el-form-item label="score">{{Math.round(worker.score*100)/100}}</el-form-item>
-        <el-form-item label="Joined at">{{worker.signupTime}}</el-form-item>
         <modify-password :email="worker.email"></modify-password>
 
       </el-form>

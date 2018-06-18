@@ -1,6 +1,7 @@
 <template>
-   <div style="height: 100%;margin-top: 5%">
+   <div style="height: 100%">
      <h2 style="text-align: center">{{title}}</h2>
+     <!--<p v-if="sub" style="text-align: right;margin-right: 20%;font-size>{{sub}}</p>-->
      <div :id=this.uniqueId style="width: 70%;height: 60%;margin-left: auto;margin-right: auto;margin-top: 30px">
      </div>
    </div>
@@ -16,7 +17,7 @@
 
   export default {
     name: "lineChart",
-    props: ['title', 'xData', 'seriesData', 'seriesName', 'uniqueId'],
+    props: ['title', 'xData', 'seriesData', 'seriesName', 'uniqueId','sub'],
     watch: {
       seriesData: {
         handler: function () {
@@ -36,7 +37,7 @@
     methods: {
       drawLineChart: function () {
 
-        let color = ['#8e44ad', '#e67e22', '#3498db', '#e74c3c']
+        let color =['#87CEFA','#78a355','#fcaf17' ,'#B3E4A1','#d71345','#3498db','#E8B3E6', '#FF7F50'];
         let lineChart = this.$echarts.init(document.getElementById(this.uniqueId));
         let option = {
 
@@ -135,7 +136,7 @@
           seriesItem.name = this.seriesName[i];
           seriesItem.type = 'line';
           option.legend.data.push(seriesItem.name);
-          seriesItem.smooth=0.3;
+          seriesItem.smooth=0.1 ;
           seriesItem.data = this.seriesData[i];
           seriesItem.itemStyle = {
             normal: {

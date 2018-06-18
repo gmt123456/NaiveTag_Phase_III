@@ -19,7 +19,7 @@
       <el-aside>
         <span>Tags</span>
       </el-aside>
-      <div class="tags">
+      <div class="tags" >
         <el-tag type="info" v-for="(item,key) in taskSketch.tags" :key="key" class="tag">{{item}}</el-tag>
       </div>
     </el-card>
@@ -120,7 +120,7 @@
 </template>
 
 <script>
-  import {editReadme, getParticipants, getReadme, getSubTask, getTaskSketch,changeMode} from "../../api/getTaskDetail";
+  import {editReadme, getParticipants, getReadme, getSubTask, getTaskSketch, changeMode} from "../../api/getTaskDetail";
   import ContributorRank from "./ContributorRank";
   import {convertTypeToString} from "../../api/taskType";
   import SubTaskDetail from "./SubTaskDetail";
@@ -148,18 +148,18 @@
         subTasks: [],
         activeIndex: String(0),
         changeModeVisible: false,
-        taskRequirement:'',
+        taskRequirement: '',
         defaultTaskRequirement: ['common', 'speed', 'quality'],
       }
     },
     methods: {
       exportResult() {
-        $.get(getUrl('requester/download.html'), {taskId: this.task.taskId}, res => {
+        $.get(getUrl('requester/task/download.html'), {taskId: this.taskId}, res => {
 
           let link = document.createElement('a')
           link.style.display = 'none'
           link.href = getUrl(res);
-          link.setAttribute('download','*');
+          link.setAttribute('download', '*');
           document.body.appendChild(link);
           link.click()
 
@@ -210,26 +210,26 @@
       handleIndexChange: function (index, indexpath) {
         this.$refs.subTaskDetail.refresh(this.subTasks[Number(index)]);
       },
-      changeMode:function () {
-          changeMode(this.taskId,this.taskRequirement,res=>{
-            if (res.status==='success'){
-              this.$message({
-                message:'Change mode successfully!',
-                type:'success'
-              });
-              this.changeModeVisible=false;
-              this.refresh();
+      changeMode: function () {
+        changeMode(this.taskId, this.taskRequirement, res => {
+          if (res.status === 'success') {
+            this.$message({
+              message: 'Change mode successfully!',
+              type: 'success'
+            });
+            this.changeModeVisible = false;
+            this.refresh();
 
-            }else {
-              this.$message(res.message);
-            }
-          })
+          } else {
+            this.$message(res.message);
+          }
+        })
       },
 
-      refresh:function () {
+      refresh: function () {
         getTaskSketch(this.taskId, res => {
           this.taskSketch = res;
-          this.taskRequirement=res.taskRequirement.toLocaleLowerCase();
+          this.taskRequirement = res.taskRequirement.toLocaleLowerCase();
 
         });
 
@@ -251,7 +251,10 @@
 
     },
     created: function () {
-      this.taskId = this.$route.params.taskId;
+      if (this.$route.params.taskId) {
+        localStorage.taskId = this.$route.params.taskId;
+      }
+      this.taskId = localStorage.taskId;
       this.refresh();
 
     }
