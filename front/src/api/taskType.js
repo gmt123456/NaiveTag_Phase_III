@@ -16,6 +16,16 @@ export function needLabel(type) {
   return type.charAt(2) !== '1' && type.indexOf('4') === -1;
 }
 
+export function getTypes() {
+  let types = getAllTypes();
+  let res=[];
+  for (let key in types){
+    res.push(types[key].label);
+  }
+
+  return res;
+}
+
 
 export function getAllTypes() {
 

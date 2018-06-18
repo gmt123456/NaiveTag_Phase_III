@@ -32,6 +32,9 @@ import AdminStuff from '../components/admin/user/AdminStuff.vue'
 import ActiveUser from '../components/admin/analysis/ActiveUser.vue'
 import TotalUser from '../components/admin/analysis/TotalUser.vue'
 import TaskAnalysis from '../components/admin/analysis/Task.vue'
+import WorkerAnalysis from  '../components/admin/analysis/Worker.vue'
+import AnalysisIndex from '../components/admin/analysis/AnalysisIndex.vue'
+import DollarsAnalysis from '../components/admin/analysis/Dollars.vue'
 
 import StaffNavi from '../components/staff/staffNavi.vue'
 import StaffMain from '../components/staff/staffMain.vue'
@@ -157,9 +160,16 @@ export default new Router({
         {path: 'requester', component: AdminRequester},
         {path: 'admin', component: AdminAdmin},
         {path: 'stuff', component: AdminStuff},
-        {path: 'activeUser', component: ActiveUser},
-        {path: 'totalUser', component: TotalUser},
-        {path: 'task', component: TaskAnalysis}
+        {path:'analysis',component:AnalysisIndex,
+          children:[
+            {path: 'activeUser', component: ActiveUser},
+            {path: 'totalUser', component: TotalUser},
+            {path: 'task', component: TaskAnalysis},
+            {path:'worker',component:WorkerAnalysis},
+            {path:'dollars',component:DollarsAnalysis}
+          ]},
+
+
       ]
     },
     {path: '/aboutUs', component: Introduction},

@@ -1,12 +1,12 @@
 <template>
-  <div style="width: 100%;display: flex">
-    <div>
+  <div style="width: 100%;display: flex; height: 100%">
+    <div style="position: relative;">
       <el-menu default-active="/makeNaiveTagGreatAgain/workers"
                background-color="#545c64"
                text-color="#fff"
                active-text-color="#ffd04b"
                :router="true"
-               style="width: 200px;height: calc(100vh);position: relative;">
+               style="width: 200px;height: calc(100vh);position: fixed;">
         <el-submenu index="0">
           <span slot="title">User</span>
           <el-menu-item index="/makeNaiveTagGreatAgain/worker">Worker</el-menu-item>
@@ -14,9 +14,11 @@
         </el-submenu>
         <el-submenu index="2">
           <span slot="title">Analysis</span>
-          <el-menu-item index="/makeNaiveTagGreatAgain/activeUser">Active User</el-menu-item>
-          <el-menu-item index="/makeNaiveTagGreatAgain/totalUser">Enrollment</el-menu-item>
-          <el-menu-item index="/makeNaiveTagGreatAgain/task">Task</el-menu-item>
+          <el-menu-item index="/makeNaiveTagGreatAgain/analysis/activeUser">Active User</el-menu-item>
+          <el-menu-item index="/makeNaiveTagGreatAgain/analysis/totalUser">Enrollment</el-menu-item>
+          <el-menu-item index="/makeNaiveTagGreatAgain/analysis/task">Task</el-menu-item>
+          <el-menu-item index="/makeNaiveTagGreatAgain/analysis/worker">Worker</el-menu-item>
+          <el-menu-item index="/makeNaiveTagGreatAgain/analysis/dollars">Dollar</el-menu-item>
         </el-submenu>
         <div style="position: absolute;bottom: 10px;width: 200px">
           <img src="/static/logout.png" class="admin-logout" @click="logout"/>
@@ -28,6 +30,11 @@
       </el-menu>
 
     </div>
+
+    <div style="width: 100%;margin-left:200px; height: calc(93vh)">
+      <router-view></router-view>
+    </div>
+
 
     <el-dialog :visible.sync="dialogShow" width="450px" @close="reset">
       <span v-if="addAdminVisible" slot="title">Create An Administrator Account</span>
@@ -45,11 +52,6 @@
       </el-form>
       <el-button type="primary" style="width: 100%" @click="handleAdd">confirm</el-button>
     </el-dialog>
-
-
-    <div style="margin-top: 20px;width: 100%;display: inline">
-      <router-view></router-view>
-    </div>
   </div>
 </template>
 

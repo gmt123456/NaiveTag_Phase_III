@@ -22,7 +22,7 @@
     },
     created: function () {
       getTotalUser(res => {
-        this.seriesData.push(res.userData, res.workerData, res.requesterData);
+        this.seriesData.push(res.totalData, res.workerData, res.requesterData);
         this.seriesName.push('Total Enrollment', 'Worker Enrollment', 'Requester Enrollment');
         this.time = res.time;
       })
