@@ -56,14 +56,14 @@
               }
             })
 
-            getWorkerQuality(res=>{
-              this.radarData.push(res);
-              this.radarSeriesName.push('Quality');
-              getWorkerSpeed(r=>{
-                this.radarData.push(r);
-                this.radarSeriesName.push('Speed');
-              })
-            });
+            // getWorkerQuality(res=>{
+            //   this.radarData.push(res);
+            //   this.radarSeriesName.push('Quality');
+            //   getWorkerSpeed(r=>{
+            //     this.radarData.push(r);
+            //     this.radarSeriesName.push('Speed');
+            //   })
+            // });
 
             getWorkerEvaluation(res=>{
             this.data1.push(res.tagError);
