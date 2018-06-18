@@ -44,7 +44,7 @@
                          style="height: 50px;position: relative;top: -10px;" @select="handleSelect">
                     <el-menu-item index="/firstTask/overview" style="height: 50px;">Overview</el-menu-item>
                     <el-menu-item v-if="taskData.participated && taskData.participated === true && taskData.state === 'ON_GOING'" index="/firstTask/subtasks" style="height: 50px;">Tasks</el-menu-item>
-                    <el-menu-item v-if="taskData.participated && taskData.participated === true" index="/firstTask/myparticipation" style="height: 50px;">My Participation</el-menu-item>
+                    <el-menu-item v-if="taskData.participated && taskData.participated === true && taskData.state === 'ON_GOING'" index="/firstTask/myparticipation" style="height: 50px;">My Participation</el-menu-item>
                     <!--<el-menu-item index="/worker/task" style="height: 50px;">Rank</el-menu-item>-->
                     <el-button v-if="taskData.canAccept" type="primary" style="float: right;height: 40px;width: 150px;margin-top: 10px;" @click="joinHandle">Join Assignment</el-button>
                     <el-button v-else-if="taskData.participated" type="success" disabled style="float: right;height: 40px;width: 150px;margin-top: 10px;">Already Joined</el-button>
