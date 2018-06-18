@@ -22,6 +22,13 @@ public class TaskAccomplishmentLogPO implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date accomplishDate;
 
+    public TaskAccomplishmentLogPO() {}
+
+    public TaskAccomplishmentLogPO(int taskId, Date accomplishDate) {
+        this.taskId = taskId;
+        this.accomplishDate = accomplishDate;
+    }
+
     public int getId() {
         return id;
     }

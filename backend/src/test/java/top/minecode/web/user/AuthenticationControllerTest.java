@@ -92,7 +92,7 @@ public class AuthenticationControllerTest {
     }
 
     @Test
-    public void signup() throws Exception {
+        public void signup() throws Exception {
         mockMvc.perform(post("/signup")
                 .param("name", "frog")
                 .param("email", "frogR@mail.com")

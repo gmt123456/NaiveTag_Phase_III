@@ -199,6 +199,15 @@ public class WebStatisticDaoImpl implements WebStatisticDao {
             }
         }
 
+        if (accumulate) {
+            do {
+                workerValue.set(dateIntervalPointer, workerAccumulate);
+                requesterValue.set(dateIntervalPointer, requesterAccumulate);
+                totalValue.set(dateIntervalPointer, totalAccumulate);
+                dateIntervalPointer++;
+            } while (dateIntervalPointer < dateInterval.size());
+        }
+
         // Format LocalDate
         List<String> datesString = DateUtils.formatLocalDateStrings(dateInterval);
 

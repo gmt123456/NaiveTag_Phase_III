@@ -1,9 +1,12 @@
 package top.minecode.service.workertask;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.minecode.dao.log.WorkerLogDao;
 import top.minecode.dao.requester.info.RequesterInfoDao;
+import top.minecode.dao.utils.CommonOperation;
 import top.minecode.dao.worker.RankDao;
 import top.minecode.dao.worker.WorkerInfoDao;
 import top.minecode.dao.workertask.TaskSettlementDao;
@@ -13,6 +16,7 @@ import top.minecode.domain.task.*;
 import top.minecode.domain.user.requester.Requester;
 import top.minecode.domain.utils.Pair;
 import top.minecode.po.log.RequesterAccountLogPO;
+import top.minecode.po.log.TaskAccomplishmentLogPO;
 import top.minecode.po.log.WorkerScoreChangeLogPO;
 import top.minecode.po.requester.RequesterPO;
 import top.minecode.po.task.SubTaskPO;
@@ -33,6 +37,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class TaskSettlementService {
+
+    private static Logger log = LoggerFactory.getLogger("TaskSettlement");
 
     private WorkerInfoDao infoDao;
 
@@ -290,6 +296,17 @@ public class TaskSettlementService {
         settlementDao.batchUpdateWorkerInfo(workers);
         settlementDao.updateTaskPO(taskPO);
         settlementDao.batchUpdateSubPart(subTaskParticipationPOS);
+
+        try {
+            TaskAccomplishmentLogPO logPO = new TaskAccomplishmentLogPO(taskPO.getId(), new Date());
+            CommonOperation.template(session -> {
+                session.persist(logPO);
+                session.flush();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("Add accomplishment log failed");
+        }
 
     }
 
