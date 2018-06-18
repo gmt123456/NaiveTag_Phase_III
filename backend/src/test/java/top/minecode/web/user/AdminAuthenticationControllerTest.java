@@ -28,18 +28,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath*:naive*")
-@WebAppConfiguration
 public class AdminAuthenticationControllerTest {
 
     private AdminAuthenticationController controller;
     private MockMvc mockMvc;
     private String token;
-    private Encryptor encryptor;
-
-    @Autowired
-    public void setEncryptor(Encryptor encryptor) {
-        this.encryptor = encryptor;
-    }
 
     @Autowired
     public void setController(AdminAuthenticationController controller) {

@@ -52,7 +52,7 @@
                 </el-container>
                 <div></div>
                 <task-list v-loading=false :taskListData=this.searchList style="text-align: left;"></task-list>
-                <infinite-loading @infinite="addSearchList" ref="infiniteLoading">
+                <infinite-loading v-if="showLoading" @infinite="addSearchList" ref="infiniteLoading">
                     <span slot="no-more">No more tasks</span>
                 </infinite-loading>
             </div>
@@ -76,6 +76,7 @@
 				searchList: [],
 				searchKey: "",
 				valueAccept: true,
+				showLoading: false,
 				typeOptions: [{
 					value: 0,
 					label: 'All'
@@ -169,6 +170,7 @@
 		        searchResult(this.typeValue, this.tagValue, this.sortValue, 0, this.step, key, this.valueAccept, res =>{
 			        that.searchList = res;
 			        that.searchBegin += that.step;
+			        that.showLoading = true;
 		        })
 	        },
 

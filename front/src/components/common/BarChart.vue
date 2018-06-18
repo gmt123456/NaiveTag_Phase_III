@@ -18,7 +18,7 @@
     name: "BarChart",
     props: ['title', 'name', 'data', 'uniqueId','xData'],
     watch: {
-      seriesData: {
+      data: {
         handler: function () {
           console.log(this.data)
           this.drawLineChart();
