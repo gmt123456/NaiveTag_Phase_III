@@ -18,6 +18,10 @@ public class WorkerCommitmentLog {
         this.joinTime = joinTime;
     }
 
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
     public int getTaskId() {
         return taskId;
     }

@@ -30,7 +30,11 @@ public class VectorHelper {
         return new ArrayList<>(Collections.nCopies(dim, 0.));
     }
 
-    private static double norm(List<Double> vector) {
+    public static List<Integer> intZeros(int dim) {
+        return new ArrayList<>(Collections.nCopies(dim, 0));
+    }
+
+    public static double norm(List<Double> vector) {
         return Math.sqrt(vector.stream().mapToDouble(e -> e * e).sum());
     }
 }

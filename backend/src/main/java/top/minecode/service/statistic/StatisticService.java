@@ -14,4 +14,14 @@ public interface StatisticService {
     ChartData getSignUpUserStatistic();
 
     ChartData getTasksStatistic();
+
+    ChartData getWorkerDistribution();
+
+    ChartData getTaskPieChart();
+
+    ChartData getTaskEvaluation();
+
+    ChartData getWorkerEvaluation();
+
+    ChartData getDollarStatistic();
 }

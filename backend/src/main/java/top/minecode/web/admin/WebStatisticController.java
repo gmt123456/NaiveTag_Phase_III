@@ -47,4 +47,35 @@ public class WebStatisticController {
     public String tasksStatistic() {
         return gson.toJson(statisticService.getTasksStatistic());
     }
+
+
+    @RequestMapping("/workerDistribution")
+    @ResponseBody
+    public String getWorkerDistribution() {
+        return gson.toJson(statisticService.getWorkerDistribution());
+    }
+
+    @RequestMapping("/workerEvaluation")
+    @ResponseBody
+    public String getWorkerEvaluation() {
+        return gson.toJson(statisticService.getWorkerEvaluation());
+    }
+
+    @RequestMapping("/taskEvaluation")
+    @ResponseBody
+    public String getTaskEvaluation() {
+        return gson.toJson(statisticService.getTaskEvaluation());
+    }
+
+    @RequestMapping("/dollars")
+    @ResponseBody
+    public String getDollarStatistic() {
+        return gson.toJson(statisticService.getDollarStatistic());
+    }
+
+    @RequestMapping("/taskPieChart")
+    @ResponseBody
+    public String getTaskPieChart() {
+        return gson.toJson(statisticService.getTaskPieChart());
+    }
 }

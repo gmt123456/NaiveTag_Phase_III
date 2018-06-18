@@ -5,8 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import static org.junit.Assert.*;
+import top.minecode.domain.task.TaskType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath*:naive*")
@@ -27,5 +26,10 @@ public class WorkerInfoDaoTest {
     @Test
     public void testGetRankRate() {
         System.out.println(workerInfoDao.getWorkerSpeedRankRate("frog@worker.com"));
+    }
+
+    @Test
+    public void testGetSpeedInPictures() {
+        System.out.println(workerInfoDao.getWorkerSpeedInPictures("frog@worker.com", TaskType.t_301));
     }
 }

@@ -3,16 +3,20 @@ package top.minecode.dao.worker;
 import org.hibernate.Query;
 import org.springframework.stereotype.Service;
 import top.minecode.dao.utils.CommonOperation;
-import top.minecode.domain.task.Task;
+import top.minecode.domain.task.TaskType;
 import top.minecode.domain.user.worker.WorkerCommitmentLog;
 import top.minecode.po.log.JoinTaskLogPO;
+import top.minecode.po.task.SubTaskPO;
+import top.minecode.po.task.TaskPO;
 import top.minecode.po.worker.FinishedTaskParticipationPO;
 import top.minecode.po.worker.OnGoingTaskParticipationPO;
 import top.minecode.po.worker.WorkerPO;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -31,6 +35,7 @@ public class WorkerInfoDao {
 
     private CommonOperation<OnGoingTaskParticipationPO> onGoingTaskParticipationHelper =
             new CommonOperation<>(OnGoingTaskParticipationPO.class.getName());
+    private CommonOperation<TaskPO> taskOperation = new CommonOperation<>(TaskPO.class);
 
 
     public WorkerPO getWorkerPOByEmail(String email) {
@@ -93,8 +98,91 @@ public class WorkerInfoDao {
         });
     }
 
+    public List<Double> getWorkerCommitmentSpeed() {
+        return getAll().stream().map(e -> getWorkerCommitmentSpeed(e.getEmail())).collect(Collectors.toList());
+    }
+
+    public Map<TaskType, Double> getWorkerSpeedInPicturesByTaskType() {
+        List<WorkerPO> workers = getAll();
+        List<TaskType> taskTypes = TaskType.getAll();
+
+        Function<TaskType, Double> expectedSpeedFunction =
+                t -> workers.stream().mapToDouble(e -> getWorkerSpeedInPictures(e.getEmail(), t))
+                        .average().orElse(0.);
+        return taskTypes.stream().collect(Collectors.toMap(Function.identity(), expectedSpeedFunction));
+    }
+
+    public Map<String, Double> getWorkerSpeedInPictures() {
+        List<WorkerPO> workers = getAll();
+        return workers.stream().collect(Collectors.toMap(WorkerPO::getEmail,
+                w -> getWorkerSpeedInPictures(w.getEmail())));
+    }
+
+    private double getWorkerSpeedInPictures(String email) {
+        String hql = "select new map(t.taskId as taskId, s.id as subTaskId)" +
+                " from TaskCommitmentLogPO t, SubTaskPO s where t.userEmail=:mail";
+
+        List<Map> queryResult = CommonOperation.template(session -> {
+            Query query = session.createQuery(hql);
+            query.setParameter("mail", email);
+            //noinspection unchecked
+            return (List<Map>) query.list();
+        });
+
+        Map<Integer, Integer> picNumMap = transformListMap(queryResult);
+
+        List<WorkerCommitmentLog> logs = getWorkerCommitment(email);
+        logs.forEach(log -> log.setNumber(picNumMap.get(log.getTaskId()).intValue()));
+
+        return logs.size() == 0 ? 0. : logs.stream().mapToDouble(WorkerCommitmentLog::getSpeed)
+                .average().orElseThrow(ArithmeticException::new);
+    }
+
+    // Return speed in pictures per day
+    public double getWorkerSpeedInPictures(String email, TaskType taskType) {
+        String hql = "select new map(t.taskId as taskId, s.id as subTaskId)" +
+                " from TaskCommitmentLogPO t, SubTaskPO s where s.taskType=:type " +
+                " and t.userEmail=:mail";
+
+        List<Map> queryResult = CommonOperation.template(session -> {
+            Query query = session.createQuery(hql);
+            query.setParameter("mail", email)
+                    .setParameter("type", taskType);
+            //noinspection unchecked
+            return (List<Map>) query.list();
+        });
+
+        // Change pictureNumMap to a HashMap
+        Map<Integer, Integer> picNumMap = transformListMap(queryResult);
+
+        // Transform to WorkerCommitmentLog
+        List<WorkerCommitmentLog> logs = getWorkerCommitment(email)
+                .stream().filter(log -> isTaskType(log.getTaskId(), taskType))
+                .collect(Collectors.toList());
+        logs.forEach(log -> log.setNumber(picNumMap.get(log.getTaskId()).intValue()));
+
+        return logs.size() == 0 ? 0. : logs.stream().mapToDouble(WorkerCommitmentLog::getSpeed)
+                .average().orElseThrow(ArithmeticException::new);
+    }
+
+    private Map<Integer, Integer> transformListMap(List<Map> queryResult) {
+        Map<Integer, Integer> picNumMap = new HashMap<>();
+        CommonOperation<SubTaskPO> subTaskOperation = new CommonOperation<>(SubTaskPO.class);
+        for (Map data : queryResult) {
+            int picNum = subTaskOperation
+                    .getBySingleField("id", data.get("subTaskId")).getPicList().size();
+            int taskId = (int) data.get("taskId");
+            picNumMap.merge(taskId, picNum, (a, b) -> a + b);
+        }
+        return picNumMap;
+    }
+
+    private boolean isTaskType(int taskId, TaskType taskType) {
+        TaskPO taskPO = taskOperation.getBySingleField("id", taskId);
+        return taskPO.getSpecificTasks().keySet().contains(taskType);
+    }
+
     /**
-     *
      * @param email worker's email
      * @return worker's speed: commitment times per day
      * @throws ArithmeticException if any worker's speed is Nan

@@ -1,9 +1,11 @@
 package top.minecode.dao.statistic;
 
 import top.minecode.domain.statistic.ChartData;
-import top.minecode.domain.statistic.RequesterTaskData;
+import top.minecode.domain.statistic.ParticipationData;
+import top.minecode.po.worker.FinishedTaskParticipationPO;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created on 2018/6/1.
@@ -16,9 +18,9 @@ public interface WebStatisticDao {
 
     ChartData getSignUpStatistic();
 
+    List<ParticipationData> getParticipationData();
+
     ChartData getTasksData();
 
-    ChartData getWorkerAbilityData(String email);
-
-    List<RequesterTaskData> getRequesterTaskData(String email);
+    Map<Integer, List<FinishedTaskParticipationPO>> getFinishedTaskParticipationData();
 }

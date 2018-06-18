@@ -27,6 +27,7 @@ public class GsonFactory {
                 .registerTypeAdapter(RequesterTaskItem.class, taskItemSerializer())
                 .registerTypeAdapter(RequesterTaskDetails.class, taskDetailsJsonSerializer())
                 .registerTypeAdapter(ChartData.class, chartDataJsonSerializer())
+                .setPrettyPrinting()
                 .serializeNulls();
         gson = builder.create();
     }
@@ -73,13 +74,19 @@ public class GsonFactory {
 
     private static JsonSerializer<ChartData> chartDataJsonSerializer() {
         return (chartData, type, jsonSerializationContext) -> {
-            JsonArray data = jsonSerializationContext.serialize(chartData.getVectors()).getAsJsonArray();
+            JsonArray vectors = jsonSerializationContext.serialize(chartData.getVectors()).getAsJsonArray();
+            JsonArray fields = jsonSerializationContext.serialize(chartData.getFields()).getAsJsonArray();
             JsonObject result = new JsonObject();
 
-            for (JsonElement element : data) {
+            for (JsonElement element : vectors) {
                 // This object represent a vector of ChartData
                 JsonObject vector = element.getAsJsonObject();
                 result.add(vector.get("name").getAsString(), vector.get("values").getAsJsonArray());
+            }
+
+            for (JsonElement element : fields) {
+                JsonObject field = element.getAsJsonObject();
+                result.add(field.get("name").getAsString(), field.get("value"));
             }
 
             return result;

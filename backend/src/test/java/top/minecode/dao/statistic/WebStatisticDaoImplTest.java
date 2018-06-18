@@ -8,8 +8,6 @@ import top.minecode.dao.utils.GsonFactory;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
-
 /**
  * Created on 2018/6/1.
  * Description:
@@ -43,5 +41,10 @@ public class WebStatisticDaoImplTest {
     @Test
     public void testGetTaskData() {
         System.out.println(gson.toJson(webStatisticDao.getTasksData()));
+    }
+
+    @Test
+    public void testGetParticipation() {
+        System.out.println(webStatisticDao.getParticipationData());
     }
 }

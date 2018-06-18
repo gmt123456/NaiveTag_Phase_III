@@ -5,21 +5,21 @@ import org.springframework.stereotype.Repository;
 import top.minecode.dao.requester.task.RequesterTaskDao;
 import top.minecode.dao.utils.CommonOperation;
 import top.minecode.domain.statistic.ChartData;
-import top.minecode.domain.statistic.RequesterTaskData;
+import top.minecode.domain.statistic.ParticipationData;
 import top.minecode.domain.user.UserType;
+import top.minecode.domain.utils.DateUtils;
 import top.minecode.po.task.TaskPO;
+import top.minecode.po.worker.FinishedTaskParticipationPO;
+import top.minecode.po.worker.SubTaskParticipationPO;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created on 2018/6/1.
@@ -42,6 +42,10 @@ public class WebStatisticDaoImpl implements WebStatisticDao {
 
     private RequesterTaskDao requesterTaskDao;
     private CommonOperation<TaskPO> taskOperation = new CommonOperation<>(TaskPO.class);
+    private CommonOperation<FinishedTaskParticipationPO> finishedTaskParticipationOperation =
+            new CommonOperation<>(FinishedTaskParticipationPO.class);
+    private CommonOperation<SubTaskParticipationPO> participationOperation =
+            new CommonOperation<>(SubTaskParticipationPO.class);
 
     @Autowired
     public RequesterTaskDao getRequesterTaskDao() {
@@ -68,26 +72,17 @@ public class WebStatisticDaoImpl implements WebStatisticDao {
     }
 
     @Override
-    public ChartData getWorkerAbilityData(String email) {
-        return null;
+    public List<ParticipationData> getParticipationData() {
+        String hql = "select new top.minecode.domain.statistic.ParticipationData(t, s.taskType) " +
+                " from SubTaskParticipationPO t, SpecificTaskPO s where t.subTaskId=s.id";
+
+        return CommonOperation.executeSQL(ParticipationData.class, hql);
     }
 
     @Override
-    public List<RequesterTaskData> getRequesterTaskData(String email) {
-        List<TaskPO> tasks = taskOperation.getListBySingleField("ownerEmail", email);
-        List<RequesterTaskData> result = new ArrayList<>();
-        for (TaskPO task : tasks) {
-            int participatedNum = requesterTaskDao.getTaskParticipants(task.getId()).size();
-            String hql = "select avg(t.errorRate) from SubTaskParticipationPO t where t.email=:mail and " +
-                    " t.taskId=:id";
-            double expectedErrorRate = CommonOperation.template(session ->
-                    (double) session.createQuery(hql)
-                            .setParameter("mail", email)
-                            .setParameter("id", task.getId())
-                            .iterate().next());
-//            RequesterTaskData data = new RequesterTaskData(task, participatedNum, expectedErrorRate)
-        }
-        return null;
+    public Map<Integer, List<FinishedTaskParticipationPO>> getFinishedTaskParticipationData() {
+        return finishedTaskParticipationOperation.getAll().stream()
+                .collect(Collectors.groupingBy(FinishedTaskParticipationPO::getTaskId));
     }
 
     @Override
@@ -108,12 +103,12 @@ public class WebStatisticDaoImpl implements WebStatisticDao {
         List<Map> commitTaskRawData = CommonOperation.executeSQL(Map.class, commitTaskHql);
         List<Map> releaseTaskRawData = CommonOperation.executeSQL(Map.class, releaseTaskHql);
 
-        LocalDate start = getMinDate(getTaskRawDataFirstDate(commitTaskRawData),
+        LocalDate start = DateUtils.min(getTaskRawDataFirstDate(commitTaskRawData),
                 getTaskRawDataFirstDate(completeTaskRawData), getTaskRawDataFirstDate(releaseTaskRawData));
-        List<LocalDate> dateInterval = getToNowInterval(start.minusDays(1));
+        List<LocalDate> dateInterval = DateUtils.getToNowInterval(start.minusDays(1));
 
         ChartData chartData = new ChartData();
-        chartData.addVector(TIME, formatLocalDateStrings(dateInterval));
+        chartData.addVector(TIME, DateUtils.formatLocalDateStrings(dateInterval));
         processTaskRawData(completeTaskRawData, DONE_NUMBER, chartData, dateInterval);
         processTaskRawData(commitTaskRawData, COMMIT_NUMBER, chartData, dateInterval);
         processTaskRawData(releaseTaskRawData, RELEASE_NUMBER, chartData, dateInterval);
@@ -123,21 +118,6 @@ public class WebStatisticDaoImpl implements WebStatisticDao {
 
     private LocalDate getTaskRawDataFirstDate(List<Map> taskRawData) {
         return taskRawData.isEmpty() ? LocalDate.now() : sqlDateToLocalDate(taskRawData.get(0).get(TIME));
-    }
-
-    private LocalDate getMinDate(LocalDate... localDates) {
-        // If not empty, find the minimum date
-        if (localDates != null) {
-            LocalDate min = LocalDate.MAX;
-            for (LocalDate curr : localDates) {
-                if (curr.isBefore(min))
-                    min = curr;
-            }
-            return min;
-        }
-
-        // If empty, just return now
-        return LocalDate.now();
     }
 
     private void processTaskRawData(List<Map> rawData, String dataTypeName, ChartData chartData, List<LocalDate> dateInterval) {
@@ -169,12 +149,12 @@ public class WebStatisticDaoImpl implements WebStatisticDao {
 
 
         if (rawData.isEmpty()) {
-            return emptyChart(TIME, TOTAL_DATA, WORKER_DATA, REQUESTER_DATA);
+            return ChartData.emptyChart(TIME, TOTAL_DATA, WORKER_DATA, REQUESTER_DATA);
         }
 
         // Get time interval
         LocalDate start = localDateFunction.apply(rawData.get(0).get(TIME));
-        List<LocalDate> dateInterval = getToNowInterval(start.minusDays(1));
+        List<LocalDate> dateInterval = DateUtils.getToNowInterval(start.minusDays(1));
 
         // Collect data
         int dateIntervalPointer = 0;
@@ -220,7 +200,7 @@ public class WebStatisticDaoImpl implements WebStatisticDao {
         }
 
         // Format LocalDate
-        List<String> datesString = formatLocalDateStrings(dateInterval);
+        List<String> datesString = DateUtils.formatLocalDateStrings(dateInterval);
 
         ChartData chartData = new ChartData();
         chartData.addVector(TIME, datesString);
@@ -237,28 +217,5 @@ public class WebStatisticDaoImpl implements WebStatisticDao {
 
     private List<Integer> zeros(int size) {
         return new ArrayList<>(Collections.nCopies(size, 0));
-    }
-
-    private ChartData emptyChart(String... headers) {
-        ChartData chartData = new ChartData();
-        if (headers != null) {
-            for (String s : headers)
-                chartData.addEmptyVector(s);
-        }
-
-        return chartData;
-    }
-
-    private List<LocalDate> getToNowInterval(LocalDate start) {
-        LocalDate end = LocalDate.now().plusDays(1);
-        return Stream.iterate(start, d -> d.plusDays(1))
-                .limit(ChronoUnit.DAYS.between(start, end))
-                .collect(Collectors.toList());
-    }
-
-    private List<String> formatLocalDateStrings(List<LocalDate> localDates) {
-        // Get time list
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        return localDates.stream().map(formatter::format).collect(Collectors.toList());
     }
 }
