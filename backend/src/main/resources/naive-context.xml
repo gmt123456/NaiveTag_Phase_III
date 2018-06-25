@@ -102,7 +102,5 @@
                         fixed-delay="60000" initial-delay="1000"/>
         <task:scheduled ref="activeUsers" method="refresh"
                         fixed-delay="60000" initial-delay="1000"/>
-        <task:scheduled ref="workerVectorCalculateService" method="calculateWorkerVectors"
-                        cron="0 0 12 * * ?"/>
     </task:scheduled-tasks>
 </beans>
