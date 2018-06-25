@@ -4,7 +4,6 @@
     <div style="min-width: 900px; max-width: 70%; margin: auto">
       <banner title="Task List">
         <div slot="buttonGroup">
-          <el-button class="my-button">Learn More</el-button>
           <el-button class="my-button" @click="createTaskVisible=true">New Task</el-button>
         </div>
       </banner>
