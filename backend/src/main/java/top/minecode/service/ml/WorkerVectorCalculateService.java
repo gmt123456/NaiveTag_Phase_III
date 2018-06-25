@@ -3,6 +3,7 @@ package top.minecode.service.ml;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import top.minecode.dao.auto.TaskVectorDao;
 import top.minecode.dao.auto.WorkerVectorDao;
@@ -15,6 +16,7 @@ import top.minecode.po.auto.WorkerVectorPO;
 import top.minecode.po.worker.FinishedTaskParticipationPO;
 import top.minecode.po.worker.WorkerPO;
 
+import javax.persistence.Column;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -66,6 +68,7 @@ public class WorkerVectorCalculateService {
 
     // 定时任务
     // 由于有一定的计算量，安排在每天一点钟进行
+    @Scheduled(cron = "0/30 * * * * ?")
     public void calculateWorkerVectors() {
         log.info("Begin calculate worker's vector");
         List<WorkerVectorPO> rawWorkerVectors = workerVectorDao.getAll();
